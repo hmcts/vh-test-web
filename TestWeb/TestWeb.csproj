@@ -7,7 +7,8 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <UserSecretsId>a7b48686-45a2-45b2-81e6-f1f9aac606fa</UserSecretsId>
@@ -47,7 +48,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TestWeb.Common\TestWeb.Common.csproj" />
     <ProjectReference Include="..\TestWeb.Contracts\TestWeb.Contracts.csproj" />
-    <ProjectReference Include="..\TestWeb.Services\TestWeb.Services.csproj" />
     <ProjectReference Include="..\TestWeb.TestApi.Client\TestWeb.TestApi.Client.csproj" />
   </ItemGroup>
 

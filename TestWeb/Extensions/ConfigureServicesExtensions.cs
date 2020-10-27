@@ -80,7 +80,6 @@ namespace TestWeb.Extensions
             var container = services.BuildServiceProvider();
             var servicesConfiguration = container.GetService<IOptions<HearingServicesConfiguration>>().Value;
 
-
             services.AddHttpClient<ITestApiClient, TestApiClient>()
                 .AddHttpMessageHandler<TestApiTokenHandler>()
                 .AddTypedClient(httpClient => BuildTestApiClient(httpClient, servicesConfiguration));
@@ -140,8 +139,7 @@ namespace TestWeb.Extensions
             return serviceCollection;
         }
 
-        private static ITestApiClient BuildTestApiClient(HttpClient httpClient,
-            HearingServicesConfiguration servicesConfiguration)
+        private static ITestApiClient BuildTestApiClient(HttpClient httpClient, HearingServicesConfiguration servicesConfiguration)
         {
             return new TestApiClient(httpClient) { BaseUrl = servicesConfiguration.TestApiUrl, ReadResponseAsString = true };
         }
