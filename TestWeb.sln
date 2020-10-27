@@ -5,15 +5,21 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb", "TestWeb\TestWeb.csproj", "{DC9AF8A1-ED46-4DEC-ABD2-636674EA64B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.Contracts", "TestWeb.Contracts\TestWeb.Contracts.csproj", "{0AB3465B-0038-46F5-ADF6-75840FE39C8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb.Contracts", "TestWeb.Contracts\TestWeb.Contracts.csproj", "{0AB3465B-0038-46F5-ADF6-75840FE39C8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.Services.Generator", "TestWeb.Services.Generator\TestWeb.Services.Generator.csproj", "{1A034BB0-5739-42EC-B4C5-ECAD12383C7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb.Services.Generator", "TestWeb.Services.Generator\TestWeb.Services.Generator.csproj", "{1A034BB0-5739-42EC-B4C5-ECAD12383C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.Services", "TestWeb.Services\TestWeb.Services.csproj", "{752C394A-119B-4B9C-B8DC-07D292275BD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb.Services", "TestWeb.Services\TestWeb.Services.csproj", "{752C394A-119B-4B9C-B8DC-07D292275BD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.Common", "TestWeb.Common\TestWeb.Common.csproj", "{4B0FA916-9367-408F-9176-81BC4880CEBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb.Common", "TestWeb.Common\TestWeb.Common.csproj", "{4B0FA916-9367-408F-9176-81BC4880CEBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.TestApi.Client", "TestWeb.TestApi.Client\TestWeb.TestApi.Client.csproj", "{4A247E2E-7726-49D6-9B71-7E598E2FF6F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb.TestApi.Client", "TestWeb.TestApi.Client\TestWeb.TestApi.Client.csproj", "{4A247E2E-7726-49D6-9B71-7E598E2FF6F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{69282BE8-8792-407B-8468-DE58E390AEE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.UnitTests", "TestWeb.UnitTests\TestWeb.UnitTests.csproj", "{10798979-AA9C-4C4D-938C-7416080C910E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb.AcceptanceTests", "TestWeb.AcceptanceTests\TestWeb.AcceptanceTests.csproj", "{7A905416-E9AA-4728-855B-81C3D7F30688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +51,21 @@ Global
 		{4A247E2E-7726-49D6-9B71-7E598E2FF6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A247E2E-7726-49D6-9B71-7E598E2FF6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A247E2E-7726-49D6-9B71-7E598E2FF6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10798979-AA9C-4C4D-938C-7416080C910E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10798979-AA9C-4C4D-938C-7416080C910E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10798979-AA9C-4C4D-938C-7416080C910E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10798979-AA9C-4C4D-938C-7416080C910E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A905416-E9AA-4728-855B-81C3D7F30688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A905416-E9AA-4728-855B-81C3D7F30688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A905416-E9AA-4728-855B-81C3D7F30688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A905416-E9AA-4728-855B-81C3D7F30688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10798979-AA9C-4C4D-938C-7416080C910E} = {69282BE8-8792-407B-8468-DE58E390AEE2}
+		{7A905416-E9AA-4728-855B-81C3D7F30688} = {69282BE8-8792-407B-8468-DE58E390AEE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D210300-A9CE-4804-B1C8-44ED1B026DBA}
