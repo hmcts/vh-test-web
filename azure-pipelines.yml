@@ -42,30 +42,11 @@ parameters:
     - name: testSettings
       type: object
       default:
-          - name: ConnectionStrings:SignalR
-            value: signalr-connection-str
-            secret: true
-
           # VhServices
-          - name: VhServices:VideoApiUrl
-            value: $(video_api_url)
-          - name: VhServices:VideoApiResourceId
-            value: vh-video-api-identifieruris
-            secret: true
-          - name: VhServices:UserApiUrl
-            value: $(user_api_url)
-          - name: VhServices:UserApiResourceId
-            value: vh-user-api-identifieruris
-            secret: true
           - name: VhServices:TestApiUrl
             value: $(test_api_url)
           - name: VhServices:TestApiResourceId
             value: vh-test-api-identifieruris
-            secret: true
-          - name: VhServices:BookingsApiUrl
-            value: $(bookings_api_url)
-          - name: VhServices:BookingsApiResourceId
-            value: vh-bookings-api-identifieruris
             secret: true
 
           # AzureAd
@@ -73,24 +54,13 @@ parameters:
             value: tenantid
             secret: true
           - name: AzureAd:ClientId
-            value: vh-video-web-appid
+            value: vh-test-web-appid
             secret: true
           - name: AzureAd:ClientSecret
-            value: vh-video-web-key
-            secret: true
-          - name: AzureAd:VhVideoApiResourceId
-            value: vh-video-web-identifieruris
+            value: vh-test-web-key
             secret: true
 
           # Testing
-          - name: Testing:TestClientId
-            value: vh-admin-web-appid
-            secret: true
-          - name: Testing:TestClientSecret
-            value: vh-admin-web-key
-            secret: true
-          - name: Testing:TestUsernameStem
-            value: $(TestUserSecrets:TestUsernameStem)
           - name: Testing:TestUserPassword
             value: $(TestUserSecrets:TestApiUserPassword)
 
@@ -110,48 +80,34 @@ parameters:
           - name: Saucelabs:RealDeviceApiKey
             value: $(RealDeviceApiKey)
 
-          # WowzaConfiguration
-          - name: WowzaConfiguration:StorageAccountName
-            value: $(wowza_storageAccountName)
-          - name: WowzaConfiguration:StorageAccountKey
-            value: $(wowza_storageAccountKey)
-          - name: WowzaConfiguration:StorageContainerName
-            value: $(wowza_storageContainerName)
-
     - name: appSettings
       type: object
       default:
           - name: ApplicationInsights:InstrumentationKey
             value: vh-core-infra-AppInsightsKey
             secret: true
-          - name: ConnectionStrings:SignalR
-            value: signalr-connection-str
-            secret: true
 
           # AzureAd
           - name: AzureAd:ClientId
-            value: vh-video-web-appid
+            value: vh-test-web-appid
             secret: true
           - name: AzureAd:ClientSecret
-            value: vh-video-web-key
+            value: vh-test-web-key
             secret: true
           - name: AzureAd:PostLogoutRedirectUri
             slot:
                 deployment:
-                    value: $(video_web_url)logout
+                    value: $(test_web_url)logout
                 active:
-                    value: $(video_web_url)logout
+                    value: $(test_web_url)logout
           - name: AzureAd:RedirectUri
             slot:
                 deployment:
-                    value: $(video_web_url)home
+                    value: $(test_web_url)home
                 active:
-                    value: $(video_web_url)home
+                    value: $(test_web_url)home
           - name: AzureAd:TenantId
             value: tenantid
-            secret: true
-          - name: AzureAd:VhVideoWebResourceId
-            value: vh-video-web-identifieruris
             secret: true
 
           # Kinly
@@ -163,30 +119,18 @@ parameters:
             value: $(SelfTestApiKey)
 
           # VhServices
-          - name: VhServices:BookingsApiResourceId
-            value: vh-bookings-api-identifieruris
+          - name: VhServices:TestApiResourceId
+            value: vh-test-api-identifieruris
             secret: true
-          - name: VhServices:BookingsApiUrl
-            value: $(bookings_api_url)
-          - name: VhServices:UserApiResourceId
-            value: vh-user-api-identifieruris
-            secret: true
-          - name: VhServices:UserApiUrl
-            value: $(user_api_url)
-          - name: VhServices:VideoApiResourceId
-            value: vh-video-api-identifieruris
-            secret: true
-          - name: VhServices:VideoApiUrl
-            value: $(video_api_url)
+          - name: VhServices:TestApiUrl
+            value: $(test_api_url)
 
 variables:
     - group: vh-domains-and-urls
     - group: vh-apps-settings-generic
-    - group: vh-video-web
+    - group: vh-test-web
     - group: vh-preview
-    - group: vh test users
     - group: Saucelabs
-    - group: vh-wowza-dev
     - group: KinlyConfiguration_Test
 
 trigger:
@@ -221,8 +165,8 @@ resources:
 extends:
     template: stages\dotnet-package.yml@templates
     parameters:
-        coreProjectPath: VideoWeb/VideoWeb
-        nodeProjectPath: VideoWeb/VideoWeb/ClientApp
+        coreProjectPath: TestWeb/TestWeb
+        nodeProjectPath: TestWeb/TestWeb/ClientApp
         PackageApp: ${{ parameters.PackageApp }}
         PackageAcceptanceTests: ${{ parameters.PackageACTests }}
         packageManagers:
@@ -230,11 +174,11 @@ extends:
             - npm
         Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}
         testParameters:
-            coreProjectPath: VideoWeb/VideoWeb
-            nodeProjectPath: VideoWeb/VideoWeb/ClientApp
+            coreProjectPath: TestWeb/TestWeb
+            nodeProjectPath: TestWeb/TestWeb/ClientApp
             RunNode: true
-            unitTestProjectPath: VideoWeb/VideoWeb.UnitTests
-            integTestProjectPath: VideoWeb/VideoWeb.IntegrationTests
+            unitTestProjectPath: TestWeb/TestWeb.UnitTests
+            integTestProjectPath: TestWeb/TestWeb.IntegrationTests
             secrets_KeyVault: $(pr_Secret_KeyVault)
             secrets_Subscription: $(pr_Secret_Subscription)
             RunUnitTests: ${{ parameters.RunUnitTests }}
@@ -247,23 +191,23 @@ extends:
                         value: ${{ setting.value }}
                         secret: ${{ setting.secret }}
             coverletCoverageExclusions:
-                - '[VideoWeb]VideoWeb.ConfigureServicesExtensions'
-                - '[VideoWeb]VideoWeb.Program'
-                - '[VideoWeb]VideoWeb.Startup'
-                - '[*]VideoWeb.Common.*'
-                - '[*]VideoWeb.Extensions.*'
-                - '[*]VideoWeb.Pages.*'
-                - '[*]VideoWeb.Swagger.*'
-                - '[*]VideoWeb.Views.*'
-                - '[*]VideoWeb.UnitTests.*'
-                - '[*]VideoWeb.Services.*'
+                - '[TestWeb]TestWeb.ConfigureServicesExtensions'
+                - '[TestWeb]TestWeb.Program'
+                - '[TestWeb]TestWeb.Startup'
+                - '[*]TestWeb.Common.*'
+                - '[*]TestWeb.Extensions.*'
+                - '[*]TestWeb.Pages.*'
+                - '[*]TestWeb.Swagger.*'
+                - '[*]TestWeb.Views.*'
+                - '[*]TestWeb.UnitTests.*'
+                - '[*]TestWeb.Services.*'
                 - '[*]Testing.Common.*'
             sonarCloud_ExtraProperties: |
-                sonar.exclusions=**/node_modules/**,**/*.spec.ts, *.spec.ts, **/ClientApp/src/*, **/ClientApp/coverage/**/**, **/ConfigureServicesExtensions.cs, **/Startup.cs, **/Program.cs, **/Testing.Common/**, **/VideoWeb.UnitTests/**, **/VideoWeb.Common/**, **/VideoWeb/Swagger/**, **/VideoWeb/Extensions/**, **/ClientApp/src/scripts/*.js
+                sonar.exclusions=**/node_modules/**,**/*.spec.ts, *.spec.ts, **/ClientApp/src/*, **/ClientApp/coverage/**/**, **/ConfigureServicesExtensions.cs, **/Startup.cs, **/Program.cs, **/Testing.Common/**, **/TestWeb.UnitTests/**, **/TestWeb.Common/**, **/TestWeb/Swagger/**, **/TestWeb/Extensions/**, **/ClientApp/src/scripts/*.js
                 sonar.typescript.exclusions=**/node_modules/**,**/typings.d.ts,**/main.ts,**/environments/environment*.ts,**/*routing.module.ts,**/api-client.ts
-                sonar.coverage.exclusions= **/Testing.Common/**, VideoWeb/Views/*, VideoWeb/Pages/*, VideoWeb.AcceptanceTests/*, **/VideoWeb.Services/**, **/ClientApp/src/scripts/*.js, **/ClientApp/src/app/testing/**, **/ClientApp/src/app/vh-officer/helper.ts, **/ClientApp/src/app/services/events.service.ts, **/ClientApp/src/app/send-video-events/send-video-events.component.ts, **/ClientApp/src/app/services/api/video-web.service.ts, **/ClientApp/src/app/waiting-space/analogue-clock/analogue-clock.component.ts
+                sonar.coverage.exclusions= **/Testing.Common/**, TestWeb/Views/*, TestWeb/Pages/*, TestWeb.AcceptanceTests/*, **/TestWeb.Services/**, **/ClientApp/src/scripts/*.js, **/ClientApp/src/app/testing/**, **/ClientApp/src/app/vh-officer/helper.ts, **/ClientApp/src/app/services/events.service.ts, **/ClientApp/src/app/send-video-events/send-video-events.component.ts, **/ClientApp/src/app/services/api/video-web.service.ts, **/ClientApp/src/app/waiting-space/analogue-clock/analogue-clock.component.ts
                 sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
-                sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/VideoWeb/VideoWeb/ClientApp/coverage/lcov.info
+                sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/TestWeb/TestWeb/ClientApp/coverage/lcov.info
             StrykerBreak: 75
         ACTest: ${{ parameters.RunACTests }}
         releaseParameters:
@@ -271,30 +215,19 @@ extends:
             subscription: $(pr_Subscription)
             secrets_KeyVault: $(pr_Secret_KeyVault)
             secrets_Subscription: $(pr_Secret_Subscription)
-            devOpsResource: vh_video_web
+            devOpsResource: vh_test_web
             deploymentSlot: production
-            appName: vh-video-web-$(environment)
-            resourceGroup: vh-video-web-$(environment)
+            appName: vh-test-web-$(environment)
+            resourceGroup: vh-test-web-$(environment)
             appSettings: ${{ parameters.appSettings }}
             testCaseFilter: TestCategory=smoketest
-            dependentApps:
-                - name: vh-user-api-$(environment)
-                  resourceGroup: vh-user-api-$(environment)
-                  healthEndpoint: $(user_api_url)healthcheck/health
-                - name: vh-bookings-api-$(environment)
-                  resourceGroup: vh-bookings-api-$(environment)
-                  healthEndpoint: $(bookings_api_url)healthcheck/health
-                - name: vh-video-api-$(environment)
-                  resourceGroup: vh-video-api-$(environment)
-                  healthEndpoint: $(video_api_url)healthcheck/health
+            dependentApps:             
                 - name: vh-test-api-$(environment)
                   resourceGroup: vh-test-api-$(environment)
                   healthEndpoint: $(test_api_url)health/health
             acceptanceTestSettings:
-                - name: VhServices:VideoWebApiUrl
-                  value: $(video_web_url)
-                - name: VhServices:VideoWebUrl
-                  value: $(video_web_url)
+                - name: VhServices:TestWebUrl
+                  value: $(test_web_url)
                 - ${{ each setting in parameters.testSettings }}:
                       - name: ${{ setting.name }}
                         value: ${{ setting.value }}
