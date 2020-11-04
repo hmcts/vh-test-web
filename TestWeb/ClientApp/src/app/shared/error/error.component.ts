@@ -1,7 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { EventsService } from 'src/app/services/events.service';
 import { PageTrackerService } from 'src/app/services/page-tracker.service';
 import { SessionStorage } from 'src/app/services/session-storage';
 import { ErrorMessage } from '../models/error-message';
@@ -11,7 +10,6 @@ import { ErrorMessage } from '../models/error-message';
     templateUrl: './error.component.html'
 })
 export class ErrorComponent implements OnInit, OnDestroy {
-    returnTimeout: NodeJS.Timer;
     subscription: Subscription;
 
     private readonly CALL_TIMEOUT = 30000;
@@ -24,7 +22,7 @@ export class ErrorComponent implements OnInit, OnDestroy {
     connectionError: boolean;
     showReconnect: boolean;
 
-    constructor(private router: Router, private pageTracker: PageTrackerService, private eventsService: EventsService) {
+    constructor(private router: Router, private pageTracker: PageTrackerService) {
         this.browserRefresh = false;
         this.subscription = this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -33,14 +31,11 @@ export class ErrorComponent implements OnInit, OnDestroy {
 
             if (this.browserRefresh) {
                 this.goBack();
-            } else {
-                this.startGoBackTimer();
             }
         });
     }
 
     ngOnInit(): void {
-        this.eventsService.stop();
         this.connectionError = this.getErrorMessage();
     }
 
@@ -48,17 +43,8 @@ export class ErrorComponent implements OnInit, OnDestroy {
         this.reconnect();
     }
 
-    private startGoBackTimer(): void {
-        this.returnTimeout = setTimeout(async () => {
-            if (!this.connectionError) {
-                this.goBack();
-            }
-        }, this.CALL_TIMEOUT);
-    }
-
     @HostListener('window:beforeunload')
     ngOnDestroy(): void {
-        clearTimeout(this.returnTimeout);
         this.subscription.unsubscribe();
     }
 

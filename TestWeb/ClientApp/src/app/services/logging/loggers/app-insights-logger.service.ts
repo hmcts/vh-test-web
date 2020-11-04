@@ -15,6 +15,7 @@ export class AppInsightsLoggerService implements LogAdapter {
     appInsights: ApplicationInsights;
 
     constructor(configService: ConfigService, router: Router, adalService: AdalService) {
+        console.log('init app insights');
         this.router = router;
         this.setupAppInsights(configService, adalService).then(() => {
             this.trackNavigation();
@@ -31,7 +32,7 @@ export class AppInsightsLoggerService implements LogAdapter {
         });
         this.appInsights.loadAppInsights();
         this.appInsights.addTelemetryInitializer((envelope: ITelemetryItem) => {
-            envelope.tags['ai.cloud.role'] = 'vh-video-web';
+            envelope.tags['ai.cloud.role'] = 'vh-test-web';
             envelope.tags['ai.user.id'] = adalService.userInfo.userName.toLowerCase();
         });
     }

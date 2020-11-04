@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './security/auth.guard';
-import { pageUrls } from './shared/page-url.constants';
 import { environment } from 'src/environments/environment';
-import { CreateHearingComponent } from "./create-hearing/create-hearing.component";
+import { CreateHearingComponent } from './create-hearing/create-hearing.component';
+import { pageUrls } from './shared/page-url.constants';
 
 export const routes: Routes = [
-    { path: '', redirectTo: `${pageUrls.Home}`, pathMatch: 'full' },
+    { path: '', redirectTo: `${pageUrls.CreateHearings}`, pathMatch: 'full' },
+    { path: pageUrls.Home, redirectTo: `${pageUrls.CreateHearings}`, pathMatch: 'full' },
     { path: `${pageUrls.CreateHearings}`, component: CreateHearingComponent },
-    { path: '**', redirectTo: `${pageUrls.NotFound}`, pathMatch: 'full', canActivate: [AuthGuard] }
+    { path: '**', redirectTo: `${pageUrls.NotFound}`, pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -16,7 +16,7 @@ import { SharedRoutingModule } from './shared-routing.module';
         ErrorComponent,
         NotFoundComponent
     ],
-    providers: [WindowScrolling, ScreenHelper],
+    providers: [],
     exports: [
         HeaderComponent,
         FooterComponent,

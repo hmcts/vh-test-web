@@ -6,7 +6,7 @@ import { SessionStorage } from '../session-storage';
 @Injectable()
 export class ConfigService {
     clientSettings: ClientSettingsResponse;
-    private SETTINGS_KEY = 'vh.client.settings';
+    private SETTINGS_KEY = 'vh.test.client.settings';
     private readonly clientSettingCache: SessionStorage<ClientSettingsResponse>;
     private httpClient: HttpClient;
 

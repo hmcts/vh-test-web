@@ -1,6 +1,18 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+  <app-header class="govuk-!-display-none-print" [loggedIn]="loggedIn"></app-header>
+
+  <div class="govuk-width-container" id="master-container">
+    <main
+      #maincontent
+      class="govuk-main-wrapper app-width-container--wide"
+      id="main-content"
+      role="main"
+      tabindex="-1"
+      [ngClass]="!loggedIn ? 'pad-unactivated-router' : ''"
+    >
+      <router-outlet></router-outlet>
+    </main>
   </div>
+
+  <app-footer class="govuk-!-display-none-print"></app-footer>
 </body>
