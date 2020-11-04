@@ -5,10 +5,19 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "ng build --prod",
     "build:ssr": "ng run TestWeb:server:dev",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "test": "ng test --code-coverage",
+    "test-once": "ng test --watch=false --code-coverage",
+    "test-once-ci": "ng test --browsers=ChromeHeadlessNoPrompt --watch=false --code-coverage",
+    "lint": "ng lint && npm run prettify",
+    "prettify": "run-script-os",
+    "prettify:nix": "npx prettier -c 'src/app/**/*.*'",
+    "prettify:default": "npx prettier -c \"src\\app\\**\\*.*\"",
+    "prettify-fix": "run-script-os",
+    "prettify-fix:nix": "npx prettier --write 'src/app/**/*.*'",
+    "prettify-fix:default": "npx prettier --write \"src\\app\\**\\*.*\"",
+    "update-api-client": "nswag run"
   },
   "private": true,
   "dependencies": {
@@ -23,12 +32,17 @@
     "@angular/platform-server": "10.2.0",
     "@angular/router": "10.2.0",
     "@nguniversal/module-map-ngfactory-loader": "8.2.6",
+    "@hmcts/frontend": "^0.0.41-alpha",
+    "@microsoft/applicationinsights-web": "^2.5.9",
+    "adal-angular4": "^3.0.16",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.5.3",
+    "classlist.js": "^1.1.20150312",
     "core-js": "^3.6.5",
-    "jquery": "^3.5.1",
+    "govuk-frontend": "^3.9.1",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
+    "run-script-os": "^1.1.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -43,18 +57,23 @@
     "@types/node": "^12.19.2",
     "codelyzer": "^5.2.2",
     "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~5.0.0",
+    "jasmine-spec-reporter": "~5.0.2",
     "karma": "^5.2.3",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.4",
-    "typescript": "4.0.5"
+    "karma-junit-reporter": "^2.0.1",
+    "ng-bullet": "^1.0.3",
+    "typescript": "~4.0.3",
+    "nswag": "^13.8.2",
+    "prettier": "^2.1.2",
+    "puppeteer": "^5.3.1"
   },
   "optionalDependencies": {
     "node-sass": "^4.12.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.4.1",
-    "tslint": "~6.1.0"
+    "tslint": "~6.1.3"
   }
 }

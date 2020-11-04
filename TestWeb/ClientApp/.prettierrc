@@ -1,0 +1,17 @@
+{
+    "trailingComma": "none",
+    "singleQuote": true,
+    "printWidth": 140,
+    "tabWidth": 4,
+    "arrowParens": "avoid",
+    "htmlWhitespaceSensitivity": "css",
+    "overrides": [
+        {
+            "files": ["*.html", "*.scss", "*.json"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ],
+    "endOfLine": "auto"
+}
