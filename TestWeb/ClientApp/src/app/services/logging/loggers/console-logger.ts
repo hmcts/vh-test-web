@@ -1,3 +1,4 @@
+// tslint:disable: no-console
 import { LogAdapter } from '../log-adapter';
 import { Injectable } from '@angular/core';
 

@@ -1,6 +1,6 @@
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClientSettingsResponse } from '../clients/api-client';
-import { HttpClient, HttpBackend } from '@angular/common/http';
 import { SessionStorage } from '../session-storage';
 
 @Injectable()

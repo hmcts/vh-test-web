@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdalService } from 'adal-angular4';
 import { ConfigService } from './services/api/config.service';
+import { ErrorService } from './services/error.service';
 import { LocationService } from './services/location.service';
+import { Logger } from './services/logging/logger-base';
 import { pageUrls } from './shared/page-url.constants';
 
 @Component({
@@ -10,19 +12,23 @@ import { pageUrls } from './shared/page-url.constants';
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
+    private readonly loggerPrefix = '[App] -';
     loggedIn: boolean;
 
     constructor(
         private adalService: AdalService,
         private configService: ConfigService,
         private router: Router,
-        private locationService: LocationService
+        private locationService: LocationService,
+        private errorService: ErrorService,
+        private logger: Logger
     ) {
         this.loggedIn = false;
         this.initAuthentication();
     }
 
     ngOnInit() {
+        this.logger.debug(`${this.loggerPrefix} Starting app. Checking Auth`, this.configService.getClientSettings());
         this.checkAuth();
     }
 
@@ -47,12 +53,16 @@ export class AppComponent implements OnInit {
                 this.router.navigate([`/${pageUrls.Login}`], { queryParams: { returnUrl: currentUrl } });
                 return;
             }
+            const isVHQA = (this.adalService.userInfo.profile.roles as string[]).includes('VHQA');
+            if (!isVHQA) {
+                this.errorService.goToUnauthorised();
+            }
         }
     }
 
     logOut() {
-      this.loggedIn = false;
-      sessionStorage.clear();
-      this.adalService.logOut();
-  }
+        this.loggedIn = false;
+        sessionStorage.clear();
+        this.adalService.logOut();
+    }
 }

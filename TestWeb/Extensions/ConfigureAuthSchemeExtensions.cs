@@ -28,7 +28,7 @@ namespace TestWeb.Extensions
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddPolicyScheme(JwtBearerDefaults.AuthenticationScheme, SchemeName, options => options.ForwardDefaultSelector = context => SchemeName)
+                // .AddPolicyScheme(JwtBearerDefaults.AuthenticationScheme, "Handler", options => options.ForwardDefaultSelector = context => SchemeName)
                 .AddJwtBearer(SchemeName, options =>
                 {
                     options.Authority = securitySettings.Authority;
