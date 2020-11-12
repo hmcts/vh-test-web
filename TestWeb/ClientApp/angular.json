@@ -27,15 +27,15 @@
                 "glob": "*",
                 "input": "node_modules/govuk-frontend/govuk/assets/fonts",
                 "output": "assets/fonts/"
+              },
+              {
+                "glob": "*",
+                "input": "node_modules/govuk-frontend/govuk/assets/images",
+                "output": "assets/images/"
               }
             ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/govuk-frontend/govuk/all.js"
-            ]
+            "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css", "src/styles.scss"],
+            "scripts": ["node_modules/govuk-frontend/govuk/all.js"]
           },
           "configurations": {
             "production": {
@@ -87,7 +87,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [ "src/styles.scss" ],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "assets": [
               "src/assets",

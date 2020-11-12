@@ -53,11 +53,17 @@ export class AppComponent implements OnInit {
                 this.router.navigate([`/${pageUrls.Login}`], { queryParams: { returnUrl: currentUrl } });
                 return;
             }
-            const isVHQA = (this.adalService.userInfo.profile.roles as string[]).includes('VHQA');
-            if (!isVHQA) {
+            if (!this.isUserAVhQA()) {
                 this.errorService.goToUnauthorised();
             }
         }
+    }
+
+    isUserAVhQA(): boolean {
+        if (this.adalService.userInfo.profile.roles) {
+            return (this.adalService.userInfo.profile.roles as string[]).includes('VHQA');
+        }
+        return false;
     }
 
     logOut() {
