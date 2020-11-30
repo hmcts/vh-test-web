@@ -17,15 +17,14 @@ namespace TestWeb.Controllers
         private readonly AzureAdConfiguration _azureAdConfiguration;
         private readonly HearingServicesConfiguration _servicesConfiguration;
 
-        public ConfigSettingsController(IOptions<AzureAdConfiguration> azureAdConfiguration,
-            IOptions<HearingServicesConfiguration> servicesConfiguration)
+        public ConfigSettingsController(IOptions<AzureAdConfiguration> azureAdConfiguration, IOptions<HearingServicesConfiguration> servicesConfiguration)
         {
             _azureAdConfiguration = azureAdConfiguration.Value;
             _servicesConfiguration = servicesConfiguration.Value;
         }
 
         /// <summary>
-        /// GetClientConfigurationSettings the configuration settings for client
+        /// Get the configuration settings for client
         /// </summary>
         /// <returns></returns>
         [HttpGet]

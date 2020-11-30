@@ -5,8 +5,7 @@ namespace TestWeb.Mappings
 {
     public static class ClientSettingsResponseMapper
     {
-        public static ClientSettingsResponse MapAppConfigurationToResponseModel(AzureAdConfiguration azureAdConfiguration,
-            HearingServicesConfiguration servicesConfiguration)
+        public static ClientSettingsResponse MapAppConfigurationToResponseModel(AzureAdConfiguration azureAdConfiguration, HearingServicesConfiguration servicesConfiguration)
         {
             return new ClientSettingsResponse
             {

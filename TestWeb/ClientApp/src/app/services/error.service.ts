@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ErrorMessage } from '../shared/models/error-message';
-import { pageUrls } from '../shared/page-url.constants';
+import { PageUrls } from '../shared/page-url.constants';
 import { ApiException } from './clients/api-client';
 import { Logger } from './logging/logger-base';
 import { SessionStorage } from './session-storage';
@@ -45,7 +45,7 @@ export class ErrorService {
         const swaggerError: ApiException = error;
         if (swaggerError.status === 401) {
             this.logger.warn('[ErrorService] - Unauthorised request. Returning back home.');
-            this.router.navigate([pageUrls.Home]);
+            this.router.navigate([PageUrls.Home]);
             return true;
         }
         return false;
@@ -53,17 +53,17 @@ export class ErrorService {
 
     goToUnauthorised() {
         this.logger.warn('[ErrorService] - Going to unauthorised page.');
-        this.router.navigate([pageUrls.Unauthorised]);
+        this.router.navigate([PageUrls.Unauthorised]);
     }
 
     goToNotFound() {
         this.logger.warn('[ErrorService] - Going to not found page.');
-        this.router.navigate([pageUrls.NotFound]);
+        this.router.navigate([PageUrls.NotFound]);
     }
 
     goToServiceError(title: string, body: string = null, showReconnect = true) {
         this.saveToSession(title, body, showReconnect);
-        this.router.navigate([pageUrls.ServiceError]);
+        this.router.navigate([PageUrls.ServiceError]);
     }
 
     private saveToSession(title: string, body: string, showReconnect = true): void {

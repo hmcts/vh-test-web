@@ -5,7 +5,7 @@ import { ConfigService } from './services/api/config.service';
 import { ErrorService } from './services/error.service';
 import { LocationService } from './services/location.service';
 import { Logger } from './services/logging/logger-base';
-import { pageUrls } from './shared/page-url.constants';
+import { PageUrls } from './shared/page-url.constants';
 
 @Component({
     selector: 'app-root',
@@ -46,11 +46,11 @@ export class AppComponent implements OnInit {
 
     async checkAuth(): Promise<void> {
         const currentUrl = this.locationService.getCurrentUrl();
-        if (this.locationService.getCurrentPathName() !== `/${pageUrls.Logout}`) {
+        if (this.locationService.getCurrentPathName() !== `/${PageUrls.Logout}`) {
             this.adalService.handleWindowCallback();
             this.loggedIn = this.adalService.userInfo.authenticated;
             if (!this.loggedIn) {
-                this.router.navigate([`/${pageUrls.Login}`], { queryParams: { returnUrl: currentUrl } });
+                this.router.navigate([`/${PageUrls.Login}`], { queryParams: { returnUrl: currentUrl } });
                 return;
             }
             if (!this.isUserAVhQA()) {
