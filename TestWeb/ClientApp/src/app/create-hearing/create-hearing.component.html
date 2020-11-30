@@ -2,4 +2,235 @@
 
   <h1 class="govuk-heading-l">Create a hearing</h1>
 
+  <form [formGroup]="form" class="govuk-form-group" (ngSubmit)="saveBooking()">
+
+    <div>
+      <label class="govuk-label govuk-!-width-one-half" for="testTypeDropdown"> Test type </label>
+      <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-half"  formControlName="testTypeDropdown">
+        <option *ngFor="let testType of testTypes" [ngValue]="testType">
+          {{ testType }}
+        </option>
+      </select>
+    </div>
+
+    <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
+      <label class="govuk-label govuk-!-width-one-quarter" for="hearingDate"> Date of hearing </label>
+      <input
+        id="hearingDate"
+        class="govuk-input govuk-!-width-one-quarter"
+        type="date"
+        formControlName="hearingDate"
+        required
+        placeholder="e.g. 30/02/2021"
+        min="{{ today | date: 'yyyy-MM-dd' }}"
+        (blur)="resetPastTimeOnBlur()"
+      />
+      <div *ngIf="hearingDateInvalid" class="alert alert-danger">
+        <span id="hearingDate-error" class="govuk-error-message"> Please enter a date in the future </span>
+      </div>
+    </div>
+
+    <div
+      [ngClass]="
+        hearingStartTimeHourInvalid || hearingStartTimeMinuteInvalid || isStartHoursInPast || isStartMinutesInPast
+          ? 'govuk-form-group--error'
+          : 'govuk-form-group'
+      "
+    >
+      <label class="govuk-label govuk-!-width-one-half" for="hearingStartTime"> Hearing start time (use the 24 hour clock) </label>
+      <fieldset class="govuk-fieldset" aria-describedby="hearingStartTimeHour" role="group">
+        <legend></legend>
+        <div class="govuk-date-input">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-2"
+                id="hearingStartTimeHour"
+                name="hearingStartTimeHour"
+                type="number"
+                min="0"
+                max="23"
+                placeholder="HH"
+                formControlName="hearingStartTimeHour"
+                title="hearingStartTimeHour"
+                aria-label="hearingStartTimeHour"
+                aria-labelledby="hearingStartTimeHour"
+                (blur)="startHoursInPast()"
+              />
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-2 minutes"
+                id="hearingStartTimeMinute"
+                name="hearingStartTimeMinute"
+                type="number"
+                min="1"
+                max="59"
+                placeholder="MM"
+                title="hearingStartTimeMinute"
+                formControlName="hearingStartTimeMinute"
+                aria-label="hearingStartTimeMinute"
+                aria-labelledby="hearingStartTimeMinute"
+                (blur)="startMinutesInPast()"
+              />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div *ngIf="hearingStartTimeHourInvalid" class="alert alert-danger">
+        <span id="hearingStartTimeHour-error" class="govuk-error-message"> Provide a value for start hour between 0 and 23 </span>
+      </div>
+      <div *ngIf="hearingStartTimeMinuteInvalid" class="alert alert-danger">
+        <span id="hearingStartTimeMinute-error" class="govuk-error-message"> Provide a value for start minutes between 0 and 59 </span>
+      </div>
+      <div *ngIf="isStartMinutesInPast || isStartHoursInPast" class="alert alert-danger">
+        <span id="hearingTime-error" class="govuk-error-message"> Please enter a time in the future </span>
+      </div>
+    </div>
+
+    <div class="govuk-checkboxes__item">
+      <input
+        class="govuk-checkboxes__input"
+        id="questionnaireNotRequiredCheckBox"
+        name="questionnaireNotRequiredCheckBox"
+        type="checkbox"
+        [checked]="defaultQuestionnaireNotRequired"
+        formControlName="questionnaireNotRequiredCheckBox"
+      />
+      <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
+    </div>
+
+    <div class="govuk-checkboxes__item">
+      <input
+        class="govuk-checkboxes__input"
+        id="audioRecordingRequiredCheckBox"
+        name="audioRecordingRequiredCheckBox"
+        type="checkbox"
+        [checked]="defaultAudioRecordingRequired"
+        formControlName="audioRecordingRequiredCheckBox"
+      />
+      <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recoring required </label>
+    </div>
+
+    <div [ngClass]="individualsInvalid || representativesInvalid || observersInvalid || panelMembersInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
+      <label class="govuk-label govuk-!-width-one-half" for="participants"> Individuals, Representatives, Observers, Panel Members</label>
+      <fieldset class="govuk-fieldset" aria-describedby="individuals" role="group">
+        <legend></legend>
+        <div class="govuk-date-input">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-2"
+                id="individualsTextfield"
+                name="individualsTextfield"
+                type="number"
+                placeholder="1"
+                min="1"
+                max="20"
+                title="individualsTextfield"
+                formControlName="individualsTextfield"
+                aria-label="individualsTextfield"
+                aria-labelledby="individualsTextfield"
+                [required]='true'
+              />
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-2"
+                id="representativesTextfield"
+                name="representativesTextfield"
+                type="number"
+                placeholder="1"
+                min="0"
+                max="20"
+                title="representativesTextfield"
+                formControlName="representativesTextfield"
+                aria-label="representativesTextfield"
+                aria-labelledby="representativesTextfield"
+                [required]="true"
+              />
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-2"
+                id="observersTextfield"
+                name="observersTextfield"
+                type="number"
+                placeholder="0"
+                min="0"
+                max="20"
+                title="observersTextfield"
+                formControlName="observersTextfield"
+                aria-label="observersTextfield"
+                aria-labelledby="observersTextfield"
+                [required]="true"
+              />
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-2"
+                id="panelMembersTextfield"
+                name="panelMembersTextfield"
+                type="number"
+                placeholder="0"
+                min="0"
+                max="20"
+                title="panelMembersTextfield"
+                formControlName="panelMembersTextfield"
+                aria-label="panelMembersTextfield"
+                aria-labelledby="panelMembersTextfield"
+                [required]="true"
+              />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div *ngIf="individualsInvalid" class="alert alert-danger">
+        <span id="individualsInvalid-error" class="govuk-error-message"> Provide a value for the number of individual participants between 1 and 20 </span>
+      </div>
+      <div *ngIf="representativesInvalid" class="alert alert-danger">
+        <span id="representativesInvalid-error" class="govuk-error-message"> Provide a value for he number of representative participants between 0 and 20 </span>
+      </div>
+      <div *ngIf="observersInvalid" class="alert alert-danger">
+        <span id="observersInvalid-error" class="govuk-error-message"> Provide a value for he number of observer participants between 0 and 20 </span>
+      </div>
+      <div *ngIf="panelMembersInvalid" class="alert alert-danger">
+        <span id="panelMembersInvalid-error" class="govuk-error-message"> Provide a value for he number of panel member participants between 0 and 20 </span>
+      </div>
+    </div>
+
+    <div>
+      <label class="govuk-label govuk-!-width-one-half" for="quantityDropdown"> Number of hearings </label>
+      <select id="quantityDropdown" class="govuk-select govuk-!-width-one-half"  formControlName="quantityDropdown">
+        <option *ngFor="let number of numbers" [ngValue]="number">
+          {{ number }}
+        </option>
+      </select>
+    </div>
+
+    <div class="govuk-!-padding-bottom-2"></div>
+
+    <div class="sk-top">
+      <button
+        id="bookButton"
+        class="govuk-button vh-mr25"
+        data-module="govuk-button"
+        (click)="saveBooking()"
+        alt="Book hearing and view hearing details"
+        [disabled]="bookingsSaving"
+      >
+        {{ buttonAction }}
+      </button>
+    </div>
+
+  </form>
+
 </div>

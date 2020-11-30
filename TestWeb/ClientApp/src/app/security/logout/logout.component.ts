@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { AdalService } from 'adal-angular4';
-import { pageUrls } from 'src/app/shared/page-url.constants';
+import { PageUrls } from 'src/app/shared/page-url.constants';
 
 @Component({
     selector: 'app-logout',
@@ -8,7 +8,7 @@ import { pageUrls } from 'src/app/shared/page-url.constants';
 })
 @Injectable()
 export class LogoutComponent implements OnInit {
-    readonly loginPath = `../${pageUrls.Login}`;
+    readonly loginPath = `../${PageUrls.Login}`;
     constructor(private adalSvc: AdalService) {
     }
 

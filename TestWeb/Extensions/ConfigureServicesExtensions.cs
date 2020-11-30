@@ -33,7 +33,7 @@ namespace TestWeb.Extensions
 
             serviceCollection.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web App API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web", Version = "v1" });
                 c.AddFluentValidationRules();
                 c.IncludeXmlComments(xmlPath);
                 c.IncludeXmlComments(contractsXmlPath);

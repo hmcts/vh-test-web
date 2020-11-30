@@ -14,6 +14,7 @@ import { LoggerService, LOG_ADAPTER } from './services/logging/logger.service';
 import { ConsoleLogger } from './services/logging/loggers/console-logger';
 import { PageTrackerService } from './services/page-tracker.service';
 import { SharedModule } from './shared/shared.module';
+import { DatePipe } from '@angular/common';
 
 export function getSettings(configService: ConfigService) {
     return () => {
@@ -41,6 +42,7 @@ export function getSettings(configService: ConfigService) {
         AdalGuard,
         { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
         ConfigService,
+        DatePipe,
         PageTrackerService
     ],
     bootstrap: [AppComponent]

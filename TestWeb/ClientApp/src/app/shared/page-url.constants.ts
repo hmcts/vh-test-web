@@ -1,12 +1,13 @@
-export const pageUrls = {
-    // shared
+export const PageUrls = {
+    // Shared
     Home: 'home',
-    // on-the-day
+    // Creating Bookings
     CreateHearings: 'create-hearings',
+    Summary: 'summary',
     Users: 'allocate-users',
     DeleteHearings: 'delete-hearings',
     Events: 'events',
-    // security
+    // Security
     Login: 'login',
     Logout: 'logout',
     // Errors
