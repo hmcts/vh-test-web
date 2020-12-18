@@ -29,11 +29,12 @@ namespace TestWeb.Controllers
         /// <returns>Error if fails, otherwise OK status</returns>
         [HttpGet("health")]
         [SwaggerOperation(OperationId = "CheckServiceHealth")]
-        [ProducesResponseType(typeof(HealthResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(HealthResponse), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(HealthCheckResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HealthCheckResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> HealthAsync()
         {
             var response = new HealthCheckResponse { AppVersion = GetApplicationVersion() };
+
             try
             {
                 await _testApiClient.CheckServiceHealthAsync();

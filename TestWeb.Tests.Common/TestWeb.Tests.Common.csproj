@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.4" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TestWeb.TestApi.Client\TestWeb.TestApi.Client.csproj" />

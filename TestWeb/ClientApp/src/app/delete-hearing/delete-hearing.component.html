@@ -1,0 +1,63 @@
+<div class="govuk-grid-row">
+
+  <ngx-spinner></ngx-spinner>
+
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Delete hearings</h1>
+    <p>Use this page to delete hearings and any confirmed conferences associated with the hearing.</p>
+  </div>
+
+  <form [formGroup]="form" class="govuk-form-group">
+
+    <div class="govuk-grid-column-one-half">
+      <div [ngClass]="caseNameInvalid || caseNameNotContainingTest ? 'govuk-form-group--error' : 'govuk-form-group'">
+        <label class="govuk-label govuk-!-width-full extra-bottom-margin" for="caseNameTextfield"> Case name </label>
+        <input
+          id="caseNameTextfield"
+          placeholder="e.g. 'Manual Test Case 1"
+          class="govuk-input govuk-!-width-full"
+          type="text"
+          formControlName="caseNameTextfield"
+          required
+          (blur)="caseNameOnBlur()"
+        />
+        <div *ngIf="caseNameInvalid" class="alert alert-danger">
+          <span id="caseName-error" class="govuk-error-message"> Please enter a case name </span>
+        </div>
+        <div *ngIf="caseNameNotContainingTest" class="alert alert-danger">
+          <span id="caseNameNotContainingTest-error" class="govuk-error-message"> Please enter a case name with the word 'Test' included </span>
+        </div>
+      </div>
+
+      <div class="govuk-grid-column-one-half no-left-margin">
+        <button
+          id="deleteButton"
+          class="govuk-button vh-mr25"
+          data-module="govuk-button"
+          (click)="deleteHearings()"
+          alt="Delete hearings"
+          [disabled]="disableDeleteButton"
+        >
+          {{ buttonAction }}
+        </button>
+      </div>
+    </div>
+
+    <div class="govuk-grid-column-one-half">
+      <div id="results-hint" class="govuk-hint">
+        <h4 class="govuk-heading-s">Results</h4>
+      </div>
+      <textarea
+        class="govuk-textarea textarea-small-text"
+        id="resultsTextfield"
+        name="resultsTextfield"
+        rows="3"
+        aria-describedby="results-hint"
+        [value]="resultsOutput"
+        disabled>
+      </textarea>
+    </div>
+
+  </form>
+
+</div>

@@ -34,5 +34,10 @@
         /// The application insight instrumentation key
         /// </summary>
         public string AppInsightsInstrumentationKey { get; set; }
+
+        /// <summary>
+        /// The Authority
+        /// </summary>
+        public string Authority { get; set; }
     }
 }

@@ -10,7 +10,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
 using TestWeb.Common;
 using TestWeb.Common.Configuration;
 using TestWeb.Common.Security;
@@ -34,7 +33,6 @@ namespace TestWeb.Extensions
             serviceCollection.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web", Version = "v1" });
-                c.AddFluentValidationRules();
                 c.IncludeXmlComments(xmlPath);
                 c.IncludeXmlComments(contractsXmlPath);
                 c.EnableAnnotations();
@@ -67,15 +65,15 @@ namespace TestWeb.Extensions
 
         public static IServiceCollection AddCustomTypes(this IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddMemoryCache();
-
             services.AddSingleton<ITelemetryInitializer, RequestVhTelemetry>();
-
             services.AddTransient<TestApiTokenHandler>();
-
             services.AddScoped<ITokenProvider, TokenProvider>();
             services.AddScoped<ICustomJwtTokenProvider, CustomJwtTokenProvider>();
             services.AddScoped<IHashGenerator, HashGenerator>();
+            services.AddScoped<AzureAdConfiguration>();
+            services.AddScoped<HearingServicesConfiguration>();
 
             var container = services.BuildServiceProvider();
             var servicesConfiguration = container.GetService<IOptions<HearingServicesConfiguration>>().Value;

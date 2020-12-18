@@ -15,6 +15,7 @@ namespace TestWeb.Mappings
                 PostLogoutRedirectUri = azureAdConfiguration.PostLogoutRedirectUri,
                 TestApiUrl = servicesConfiguration.TestApiUrl,
                 AppInsightsInstrumentationKey = azureAdConfiguration.ApplicationInsights.InstrumentationKey,
+                Authority = azureAdConfiguration.Authority
             };
         }
 

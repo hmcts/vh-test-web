@@ -1,10 +1,13 @@
 import { Application } from 'src/app/services/clients/api-client';
+import { HearingData } from './data/hearing-data';
 import { UserModel } from './user.model';
 
 export class HearingModel {
   constructor() {
     this.application = Application.VideoWeb;
+    this.case_type = HearingData.CaseType;
     this.users = [];
+    this.venue = HearingData.Venue;
   }
 
   application: Application | undefined;

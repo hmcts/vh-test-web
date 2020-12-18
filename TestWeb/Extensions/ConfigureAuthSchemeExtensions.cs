@@ -13,6 +13,7 @@ namespace TestWeb.Extensions
     public static class ConfigureAuthSchemeExtensions
     {
         private static string SchemeName => "Default";
+
         public static void RegisterAuthSchemes(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var policy = new AuthorizationPolicyBuilder()
@@ -28,10 +29,10 @@ namespace TestWeb.Extensions
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                // .AddPolicyScheme(JwtBearerDefaults.AuthenticationScheme, "Handler", options => options.ForwardDefaultSelector = context => SchemeName)
+                .AddPolicyScheme(JwtBearerDefaults.AuthenticationScheme, SchemeName, options => options.ForwardDefaultSelector = context => SchemeName)
                 .AddJwtBearer(SchemeName, options =>
                 {
-                    options.Authority = securitySettings.Authority;
+                    options.Authority = securitySettings.Authority + securitySettings.TenantId;
                     options.TokenValidationParameters.ValidateLifetime = true;
                     options.Audience = securitySettings.ClientId;
                     options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using TestWeb.Mappings;
 using TestWeb.Tests.Common.Builders;
+using TestWeb.Tests.Common.Builders.Models;
 
 namespace TestWeb.UnitTests.Mappings
 {

@@ -1,0 +1,24 @@
+.suffixes {
+  width: 40%;
+}
+
+.numberInputs {
+  text-align: center;
+}
+
+.govuk-form-group {
+  margin-bottom: 1.5em;
+}
+
+.bigger-margin-bottom {
+  margin-bottom: 2em;
+}
+
+.no-left-margin {
+  margin-left: 0%;
+  padding-left: 0%;
+}
+
+.textarea-small-text {
+  font-size: smaller;
+}

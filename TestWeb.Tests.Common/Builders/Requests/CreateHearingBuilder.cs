@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TestWeb.TestApi.Client;
+using TestWeb.Tests.Common.Builders.Models;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Requests

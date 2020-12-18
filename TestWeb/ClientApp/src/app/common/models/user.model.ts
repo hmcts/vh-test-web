@@ -1,9 +1,10 @@
-import { Application, TestType, UserType } from "src/app/services/clients/api-client";
+import { Application, TestType, UserType } from 'src/app/services/clients/api-client';
+import { UserData } from './data/user-data';
 
 export class UserModel {
   constructor() {
-    this.application = Application.VideoWeb;
-    this.is_prod_user = false;
+    this.application = UserData.Application;
+    this.is_prod_user = UserData.IsProdUser;
   }
 
   username: string | undefined;

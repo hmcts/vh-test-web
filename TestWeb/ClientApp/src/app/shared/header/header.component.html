@@ -22,12 +22,30 @@
       <nav class="hmcts-header__navigation" aria-label="Account navigation">
         <ul class="hmcts-header__navigation-list">
           <li *ngIf="loggedIn" class="hmcts-header__navigation-item">
-            <a class="govuk-header__link" href="/logout">
+            <a class="govuk-header__link" href="/logout" >
               Sign out
             </a>
           </li>
         </ul>
       </nav>
     </div>
+
+    <nav class="hmcts-primary-navigation" aria-label="Primary navigation">
+      <div class="hmcts-primary-navigation__container">
+        <ul *ngIf="loggedIn" id="navigation" style="display: inline-block" class="hmcts-primary-navigation__list" aria-label="Top Level Navigation">
+          <li class="hmcts-primary-navigation__item" *ngFor="let topItem of topMenuItems; index as i">
+            <a
+              class="vh-primary-navigation__link"
+              [attr.id]="'topItem' + i"
+              href="javascript:void(0)"
+              (click)="navigateToSelectedMenuItem(i)"
+              [class.vh-primary-navigation__link_active]="topItem?.active"
+            >
+              {{ topItem.name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
   </div>
 </header>

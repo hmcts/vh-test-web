@@ -8,7 +8,6 @@ using Moq;
 using NUnit.Framework;
 using TestWeb.Controllers;
 using TestWeb.TestApi.Client;
-using TestWeb.Tests.Common.Builders;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Builders.Responses;
 using TestWeb.Tests.Common.Data;

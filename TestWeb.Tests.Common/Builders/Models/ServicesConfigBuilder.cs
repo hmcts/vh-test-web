@@ -1,7 +1,7 @@
 ﻿using TestWeb.Common.Configuration;
 using TestWeb.Tests.Common.Data;
 
-namespace TestWeb.Tests.Common.Builders
+namespace TestWeb.Tests.Common.Builders.Models
 {
     public class ServicesConfigBuilder
     {
@@ -12,7 +12,7 @@ namespace TestWeb.Tests.Common.Builders
             _config = new HearingServicesConfiguration()
             {
                 TestApiUrl = ConfigData.TEST_API_URL,
-                TestApiResourceUrl = ConfigData.TEST_API_RESOURCE_URL
+                TestApiResourceId = ConfigData.TEST_API_RESOURCE_URL
             };
         }
 

@@ -29,8 +29,13 @@ namespace TestWeb.UnitTests.Controllers.Hearings
             var client = new Mock<ITestApiClient>();
             const int COUNT = 1;
 
+            var deletedResponse = new DeletedResponse()
+            {
+                Number_of_deleted_hearings = COUNT
+            };
+
             client.Setup(x => x.RemoveTestDataAsync(It.IsAny<DeleteTestHearingDataRequest>()))
-                .ReturnsAsync(COUNT);
+                .ReturnsAsync(deletedResponse);
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
 
@@ -38,8 +43,9 @@ namespace TestWeb.UnitTests.Controllers.Hearings
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var deleteCount = (int)typedResult.Value;
-            deleteCount.Should().Be(COUNT);
+            var response = (DeletedResponse)typedResult.Value;
+            response.Should().NotBeNull();
+            response.Number_of_deleted_hearings.Should().Be(COUNT);
         }
 
         [Test]

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestWeb.Common.Security;
 using TestWeb.TestApi.Client;
 
 namespace TestWeb.Controllers
@@ -10,6 +12,7 @@ namespace TestWeb.Controllers
     [Consumes("application/json")]
     [Produces("application/json")]
     [Route("hearings")]
+    [Authorize(AppRoles.QA)]
     [ApiController]
     public class HearingsController : ControllerBase
     {
@@ -80,7 +83,7 @@ namespace TestWeb.Controllers
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         [HttpPost("removeTestData")]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DeletedResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
         {

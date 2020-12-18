@@ -14,6 +14,6 @@ namespace TestWeb.Common.Security
         }
         
         protected override string TokenCacheKey => "TestApiServiceToken";
-        protected override string ClientResource => HearingServicesConfiguration.TestApiResourceUrl;
+        protected override string ClientResource => HearingServicesConfiguration.TestApiResourceId;
     }
 }

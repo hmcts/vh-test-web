@@ -2,7 +2,7 @@
 using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
 
-namespace TestWeb.Tests.Common.Builders
+namespace TestWeb.Tests.Common.Builders.Models
 {
     public class UserBuilder
     {

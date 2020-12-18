@@ -10,6 +10,33 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.27.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="87.0.4280.8800" />
+    <PackageReference Include="SpecFlow" Version="3.5.14" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.5.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestWeb.Tests.Common\TestWeb.Tests.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <ContentWithTargetPath Include="Configuration\Environments\appsettings.aat.json" Condition="Exists('Configuration\Environments\appsettings.aat.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>appsettings.aat.json</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="Configuration\Environments\appsettings.dev.json" Condition="Exists('Configuration\Environments\appsettings.dev.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>appsettings.dev.json</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="Configuration\Environments\appsettings.preview.json" Condition="Exists('Configuration\Environments\appsettings.preview.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>appsettings.preview.json</TargetPath>
+    </ContentWithTargetPath>
   </ItemGroup>
 
 </Project>

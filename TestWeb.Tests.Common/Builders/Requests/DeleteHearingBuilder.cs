@@ -12,8 +12,7 @@ namespace TestWeb.Tests.Common.Builders.Requests
             _request = new DeleteTestHearingDataRequest()
             {
                 Limit = DeleteData.LIMIT,
-                Partial_hearing_case_name = DeleteData.PARTIAL_HEARING_CASE_NAME,
-                Partial_hearing_case_number = DeleteData.PARTIAL_HEARING_CASE_NUMBER
+                Partial_hearing_case_name = DeleteData.PARTIAL_HEARING_CASE_NAME
             };
         }
         public DeleteTestHearingDataRequest Build()

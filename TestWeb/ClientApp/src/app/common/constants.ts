@@ -1,6 +1,9 @@
+import { TestType } from "../services/clients/api-client";
+
 export const Constants = {
   TestTypes: {
-    Demo: 'Demo',
-    Manual: 'Manual'
+    Demo: TestType.Demo,
+    ITHC: TestType.ITHC,
+    Manual: TestType.Manual
   }
 };

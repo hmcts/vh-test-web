@@ -5,6 +5,7 @@ using NUnit.Framework;
 using TestWeb.Contracts.Responses;
 using TestWeb.Controllers;
 using TestWeb.Tests.Common.Builders;
+using TestWeb.Tests.Common.Builders.Models;
 
 namespace TestWeb.UnitTests.Controllers.Config
 {
