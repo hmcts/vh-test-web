@@ -17,7 +17,7 @@ parameters:
     - name: RunIntegTests
       displayName: Run Integration Tests
       type: boolean
-      default: false
+      default: true
 
     - name: RunSonarCloudTests
       displayName: Run Sonar Cloud Analysis
