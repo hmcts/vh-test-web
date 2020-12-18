@@ -48,6 +48,8 @@ parameters:
           - name: VhServices:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
+          - name: VhServices:TestWebUrl
+            value: $(test_web_url)  
 
           # AzureAd
           - name: AzureAd:TenantId
@@ -59,8 +61,14 @@ parameters:
           - name: AzureAd:ClientSecret
             value: vh-test-web-key
             secret: true
+          - name: AzureAd:PostLogoutRedirectUri
+            slot: true
+          - name: AzureAd:RedirectUri
+            slot: true
 
           # Testing
+          - name: Testing:TestUsernameStem
+            value: $(TestUserSecrets:TestUsernameStem)
           - name: Testing:TestUserPassword
             value: $(TestUserSecrets:TestApiUserPassword)
 
@@ -69,8 +77,6 @@ parameters:
             value: $(CallbackKey)
           - name: KinlyConfiguration:ApiSecret
             value: $(KinlyApiKey)
-          - name: KinlyConfiguration:SelfTestApiSecret
-            value: $(SelfTestApiKey)
 
           # SauceLabs
           - name: Saucelabs:Username
@@ -103,9 +109,9 @@ parameters:
           - name: AzureAd:RedirectUri
             slot:
                 deployment:
-                    value: $(test_web_url)home
+                    value: $(test_web_url)create-hearings
                 active:
-                    value: $(test_web_url)home
+                    value: $(test_web_url)create-hearings
           - name: AzureAd:TenantId
             value: tenantid
             secret: true
@@ -115,8 +121,6 @@ parameters:
             value: $(CallbackKey)
           - name: KinlyConfiguration:ApiSecret
             value: $(KinlyApiKey)
-          - name: KinlyConfiguration:SelfTestApiSecret
-            value: $(SelfTestApiKey)
 
           # VhServices
           - name: VhServices:TestApiResourceId
@@ -165,8 +169,8 @@ resources:
 extends:
     template: stages\dotnet-package.yml@templates
     parameters:
-        coreProjectPath: TestWeb/TestWeb
-        nodeProjectPath: TestWeb/TestWeb/ClientApp
+        coreProjectPath: TestWeb
+        nodeProjectPath: TestWeb/ClientApp
         PackageApp: ${{ parameters.PackageApp }}
         PackageAcceptanceTests: ${{ parameters.PackageACTests }}
         packageManagers:
@@ -174,11 +178,11 @@ extends:
             - npm
         Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}
         testParameters:
-            coreProjectPath: TestWeb/TestWeb
-            nodeProjectPath: TestWeb/TestWeb/ClientApp
+            coreProjectPath: TestWeb
+            nodeProjectPath: TestWeb/ClientApp
             RunNode: true
-            unitTestProjectPath: TestWeb/TestWeb.UnitTests
-            integTestProjectPath: TestWeb/TestWeb.IntegrationTests
+            unitTestProjectPath: TestWeb.UnitTests
+            integTestProjectPath: TestWeb.IntegrationTests
             secrets_KeyVault: $(pr_Secret_KeyVault)
             secrets_Subscription: $(pr_Secret_Subscription)
             RunUnitTests: ${{ parameters.RunUnitTests }}
@@ -207,7 +211,7 @@ extends:
                 sonar.typescript.exclusions=**/node_modules/**,**/typings.d.ts,**/main.ts,**/environments/environment*.ts,**/*routing.module.ts,**/api-client.ts
                 sonar.coverage.exclusions= **/Testing.Common/**, TestWeb/Views/*, TestWeb/Pages/*, TestWeb.AcceptanceTests/*, **/TestWeb.Services/**, **/ClientApp/src/scripts/*.js, **/ClientApp/src/app/testing/**, **/ClientApp/src/app/vh-officer/helper.ts, **/ClientApp/src/app/services/events.service.ts, **/ClientApp/src/app/send-video-events/send-video-events.component.ts, **/ClientApp/src/app/services/api/video-web.service.ts, **/ClientApp/src/app/waiting-space/analogue-clock/analogue-clock.component.ts
                 sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
-                sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/TestWeb/TestWeb/ClientApp/coverage/lcov.info
+                sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/TestWeb/ClientApp/coverage/lcov.info
             StrykerBreak: 75
         ACTest: ${{ parameters.RunACTests }}
         releaseParameters:

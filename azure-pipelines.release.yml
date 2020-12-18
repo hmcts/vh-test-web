@@ -17,7 +17,6 @@ parameters:
   - Test2
   - Demo
   - Preprod
-  - Prod
 
 - name: RunZap
   displayName: Execute ZAP Tests
@@ -28,7 +27,6 @@ parameters:
   displayName: Environments Using Prod Subscription
   type: object
   default:
-    - Prod
     - Preprod
 
 # Set variables once
@@ -99,9 +97,6 @@ stages:
           - name: ApplicationInsights:InstrumentationKey
             value: vh-core-infra-AppInsightsKey
             secret: true
-          - name: ConnectionStrings:SignalR
-            value: signalr-connection-str
-            secret: true
 
           # AzureAd
           - name: AzureAd:ClientId
@@ -119,19 +114,25 @@ stages:
           - name: AzureAd:RedirectUri
             slot:
               deployment:
-                value: $(test_web_url)home
+                value: $(test_web_url)create-hearings
               active:
-                value: $(test_web_url)home
+                value: $(test_web_url)create-hearings
           - name: AzureAd:TenantId
             value: tenantid
             secret: true
+            
+          # Kinly
+          - name: KinlyConfiguration:CallbackSecret
+            value: $(CallbackKey)
+          - name: KinlyConfiguration:ApiSecret
+            value: $(KinlyApiKey)
 
           # VhServices
           - name: VhServices:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
           - name: VhServices:TestApiUrl
-            value: $(test_api_url)
+            value: $(test_api_url)      
             
         acceptanceTestSettings:
           - name: ConnectionStrings:SignalR
@@ -144,6 +145,8 @@ stages:
           - name: VhServices:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
+          - name: VhServices:TestWebUrl
+            value: $(test_web_url)  
 
           # AzureAd
           - name: AzureAd:TenantId
@@ -155,6 +158,18 @@ stages:
           - name: AzureAd:ClientSecret
             value: vh-test-web-key
             secret: true
+            
+          # Kinly
+          - name: KinlyConfiguration:CallbackSecret
+            value: $(CallbackKey)
+          - name: KinlyConfiguration:ApiSecret
+            value: $(KinlyApiKey)
+            
+          # Testing
+          - name: Testing:TestUsernameStem
+            value: $(TestUserSecrets:TestUsernameStem)
+          - name: Testing:TestUserPassword
+            value: $(TestUserSecrets:TestApiUserPassword)
 
           # SauceLabs
           - name: Saucelabs:Username
