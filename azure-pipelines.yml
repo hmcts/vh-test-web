@@ -107,9 +107,9 @@ parameters:
           - name: AzureAd:RedirectUri
             slot:
                 deployment:
-                    value: $(test_web_url)create-hearings
+                    value: $(test_web_url)home
                 active:
-                    value: $(test_web_url)create-hearings
+                    value: $(test_web_url)home
           - name: AzureAd:TenantId
             value: tenantid
             secret: true
