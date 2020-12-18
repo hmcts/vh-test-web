@@ -11,6 +11,7 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <UserSecretsId>a7b48686-45a2-45b2-81e6-f1f9aac606fa</UserSecretsId>
     <ProjectGuid>E9155E74-4D08-4B73-831F-3A8C207754EB</ProjectGuid>
   </PropertyGroup>
