@@ -24,12 +24,6 @@ namespace TestWeb.IntegrationTests.Controllers
             _server = Context.Server;
         }
 
-        [TearDown]
-        public async Task AfterEveryTest()
-        {
-            // Data Cleanup
-        }
-
         [OneTimeTearDown]
         public void AfterTestRun()
         {
