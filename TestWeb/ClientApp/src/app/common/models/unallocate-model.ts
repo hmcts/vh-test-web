@@ -1,3 +1,3 @@
 export class UnallocateModel {
-  useranmes: string[] | undefined;
+    useranmes: string[] | undefined;
 }

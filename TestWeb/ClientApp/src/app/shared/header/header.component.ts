@@ -8,21 +8,20 @@ import { TopMenuItems } from './top-menu-items';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+    @Input() loggedIn: boolean;
+    topMenuItems = [];
 
-  @Input() loggedIn: boolean;
-  topMenuItems = [];
+    constructor(private router: Router) {}
 
-  constructor(private router: Router) {}
-
-  ngOnInit() {
-      this.topMenuItems = TopMenuItems;
-  }
-
-  navigateToSelectedMenuItem(indexOfItem: number) {
-    for (const item of this.topMenuItems) {
-        item.active = false;
+    ngOnInit() {
+        this.topMenuItems = TopMenuItems;
     }
-    this.topMenuItems[indexOfItem].active = true;
-    this.router.navigate([this.topMenuItems[indexOfItem].url]);
-  }
+
+    navigateToSelectedMenuItem(indexOfItem: number) {
+        for (const item of this.topMenuItems) {
+            item.active = false;
+        }
+        this.topMenuItems[indexOfItem].active = true;
+        this.router.navigate([this.topMenuItems[indexOfItem].url]);
+    }
 }

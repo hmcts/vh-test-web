@@ -32,11 +32,7 @@ export function getSettings(configService: ConfigService) {
 }
 
 @NgModule({
-    declarations: [
-      AppComponent,
-      CreateHearingComponent,
-      DeleteHearingComponent
-    ],
+    declarations: [AppComponent, CreateHearingComponent, DeleteHearingComponent],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,

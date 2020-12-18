@@ -1,10 +1,10 @@
 import { DeleteData } from './data/delete-data';
 
 export class DeleteModel {
-  constructor() {
-    this.limit = DeleteData.Limit;
-  }
+    constructor() {
+        this.limit = DeleteData.Limit;
+    }
 
-  case_name: string | undefined;
-  limit: number | undefined;
+    case_name: string | undefined;
+    limit: number | undefined;
 }

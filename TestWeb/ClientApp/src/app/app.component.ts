@@ -18,11 +18,11 @@ export class AppComponent implements OnInit {
     private isTester: boolean;
 
     private config = {
-      tenant: '',
-      clientId: '',
-      redirectUri: '',
-      postLogoutRedirectUri: '',
-      cacheLocation: ''
+        tenant: '',
+        clientId: '',
+        redirectUri: '',
+        postLogoutRedirectUri: '',
+        cacheLocation: ''
     };
 
     constructor(
@@ -45,35 +45,35 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.logger.debug(`${this.loggerPrefix} Starting app. Checking Auth`);
-      this.checkAuth();
+        this.logger.debug(`${this.loggerPrefix} Starting app. Checking Auth`);
+        this.checkAuth();
     }
 
     async checkAuth(): Promise<void> {
-      const currentUrl = this.locationService.getCurrentUrl();
-      if (this.locationService.getCurrentPathName() !== `/${PageUrls.Logout}`) {
-          this.adalService.handleWindowCallback();
-          this.loggedIn = await this.adalService.userInfo.authenticated;
-          if (!this.loggedIn) {
-              this.router.navigate([`/${PageUrls.Login}`], { queryParams: { returnUrl: currentUrl } });
-              return;
-          }
-          await this.retrieveProfileRole();
-      }
+        const currentUrl = this.locationService.getCurrentUrl();
+        if (this.locationService.getCurrentPathName() !== `/${PageUrls.Logout}`) {
+            this.adalService.handleWindowCallback();
+            this.loggedIn = await this.adalService.userInfo.authenticated;
+            if (!this.loggedIn) {
+                this.router.navigate([`/${PageUrls.Login}`], { queryParams: { returnUrl: currentUrl } });
+                return;
+            }
+            await this.retrieveProfileRole();
+        }
     }
 
     async retrieveProfileRole(): Promise<void> {
-      console.log('Retrieving Profile');
-      try {
-        const profile = await this.profileService.getUserProfile();
-        console.log(`Profile username is ${profile.username} role is ${profile.role}`);
-        if (profile.role === 'VHQA') {
-            this.isTester = true;
+        console.log('Retrieving Profile');
+        try {
+            const profile = await this.profileService.getUserProfile();
+            console.log(`Profile username is ${profile.username} role is ${profile.role}`);
+            if (profile.role === 'VHQA') {
+                this.isTester = true;
+            }
+        } catch (error) {
+            this.isTester = false;
+            this.errorService.goToUnauthorised();
         }
-      } catch (error) {
-        this.isTester = false;
-        this.errorService.goToUnauthorised();
-      }
     }
 
     logOut() {

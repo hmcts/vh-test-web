@@ -1,3 +1,3 @@
 export const DeleteData = {
-  Limit: 1000
+    Limit: 1000
 };

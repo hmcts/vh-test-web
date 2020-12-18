@@ -10,20 +10,8 @@ import { SharedRoutingModule } from './shared-routing.module';
 
 @NgModule({
     imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, SharedRoutingModule],
-    declarations: [
-        HeaderComponent,
-        FooterComponent,
-        ErrorComponent,
-        NotFoundComponent
-    ],
+    declarations: [HeaderComponent, FooterComponent, ErrorComponent, NotFoundComponent],
     providers: [],
-    exports: [
-        HeaderComponent,
-        FooterComponent,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule
-    ]
+    exports: [HeaderComponent, FooterComponent, CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule]
 })
 export class SharedModule {}

@@ -10,13 +10,12 @@ import { PageUrls } from 'src/app/shared/page-url.constants';
 @Injectable()
 export class LogoutComponent implements OnInit {
     readonly loginPath = `../${PageUrls.Login}`;
-    constructor(private adalSvc: AdalService, private profileService: ProfileService) {
-    }
+    constructor(private adalSvc: AdalService, private profileService: ProfileService) {}
 
     ngOnInit() {
         if (this.adalSvc.userInfo.authenticated) {
-          this.profileService.clearUserProfile();
-          this.adalSvc.logOut();
+            this.profileService.clearUserProfile();
+            this.adalSvc.logOut();
         }
     }
 

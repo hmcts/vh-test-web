@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { ApiClient, UserProfileResponse } from "../clients/api-client";
+import { Injectable } from '@angular/core';
+import { ApiClient, UserProfileResponse } from '../clients/api-client';
 
 @Injectable({
     providedIn: 'root'

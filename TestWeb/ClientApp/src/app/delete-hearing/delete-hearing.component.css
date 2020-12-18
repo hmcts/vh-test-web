@@ -1,12 +1,12 @@
 .no-left-margin {
-  margin-left: 0%;
-  padding-left: 0%;
+    margin-left: 0%;
+    padding-left: 0%;
 }
 
 .textarea-small-text {
-  font-size: smaller;
+    font-size: smaller;
 }
 
 .extra-bottom-margin {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
