@@ -144,9 +144,7 @@ stages:
             value: $(test_api_url)
           - name: VhServices:TestApiResourceId
             value: vh-test-api-identifieruris
-            secret: true
-          - name: VhServices:TestWebUrl
-            value: $(test_web_url)  
+            secret: true 
 
           # AzureAd
           - name: AzureAd:TenantId
