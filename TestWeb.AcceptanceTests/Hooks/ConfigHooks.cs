@@ -50,10 +50,10 @@ namespace TestWeb.AcceptanceTests.Hooks
         {
             context.Config.AzureAdConfiguration = Options.Create(_configRoot.GetSection("AzureAd").Get<AzureAdConfiguration>()).Value;
             context.Config.AzureAdConfiguration.Authority += context.Config.AzureAdConfiguration.TenantId;
-            context.Config.AzureAdConfiguration.Authority.Should().BeNullOrEmpty();
-            context.Config.AzureAdConfiguration.ClientId.Should().BeNullOrEmpty();
-            context.Config.AzureAdConfiguration.ClientSecret.Should().BeNullOrEmpty();
-            context.Config.AzureAdConfiguration.TenantId.Should().BeNullOrEmpty();
+            context.Config.AzureAdConfiguration.Authority.Should().NotBeNullOrEmpty();
+            context.Config.AzureAdConfiguration.ClientId.Should().NotBeNullOrEmpty();
+            context.Config.AzureAdConfiguration.ClientSecret.Should().NotBeNullOrEmpty();
+            context.Config.AzureAdConfiguration.TenantId.Should().NotBeNullOrEmpty();
         }
 
         private void RegisterTestUserSecrets(TestContext context)
