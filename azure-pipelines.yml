@@ -100,16 +100,16 @@ parameters:
             secret: true
           - name: AzureAd:PostLogoutRedirectUri
             slot:
-                deployment:
-                    value: $(test_web_url)logout
-                active:
-                    value: $(test_web_url)logout
+              deployment:
+                value: $(test_web_url)logout
+              active:
+                value: $(test_web_url)logout
           - name: AzureAd:RedirectUri
             slot:
-                deployment:
-                    value: $(test_web_url)create-hearings
-                active:
-                    value: $(test_web_url)create-hearings
+              deployment:
+                value: $(test_web_url)home
+              active:
+                value: $(test_web_url)home            
           - name: AzureAd:TenantId
             value: tenantid
             secret: true
