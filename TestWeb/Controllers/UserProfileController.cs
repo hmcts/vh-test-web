@@ -23,7 +23,7 @@ namespace TestWeb.Controllers
         /// <summary>
         /// Get profile for logged in user
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Profile for logged in user</returns>
         [HttpGet]
         [SwaggerOperation(OperationId = "GetUserProfile")]
         [ProducesResponseType(typeof(UserProfileResponse), (int)HttpStatusCode.OK)]
