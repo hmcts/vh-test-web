@@ -28,7 +28,7 @@ describe('LoginComponent', () => {
     it('should store return url if supplied', () => {
         spyOn(returnUrlService, 'setUrl');
         adalService.setAuthenticated(false);
-        activatedRoute.snapshot.queryParams['returnUrl'] = '/returnPath';
+        activatedRoute.snapshot.queryParams['returnUrl'] = '/returnPath'; 
         component.ngOnInit();
         expect(returnUrlService.setUrl).toHaveBeenCalledWith('/returnPath');
     });

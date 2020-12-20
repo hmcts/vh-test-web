@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdalService } from 'adal-angular4';
+import { Role } from './common/models/data/role';
 import { ConfigService } from './services/api/config.service';
 import { ProfileService } from './services/api/profile-service';
 import { ErrorService } from './services/error.service';
@@ -67,7 +68,7 @@ export class AppComponent implements OnInit {
         try {
             const profile = await this.profileService.getUserProfile();
             console.log(`Profile username is ${profile.username} role is ${profile.role}`);
-            if (profile.role === 'VHQA') {
+            if (profile.role === Role.VHQA) {
                 this.isTester = true;
             }
         } catch (error) {

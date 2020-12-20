@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TestWeb.Common.Security;
 using TestWeb.TestApi.Client;
 
 namespace TestWeb.Controllers
@@ -11,7 +9,6 @@ namespace TestWeb.Controllers
     [Consumes("application/json")]
     [Produces("application/json")]
     [Route("users")]
-    [Authorize(AppRoles.QA)]
     [ApiController]
     public class UserController : ControllerBase
     {

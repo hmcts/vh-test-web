@@ -183,7 +183,8 @@
 
       <div class="govuk-form-group">
         <label class="govuk-label govuk-!-width-full" for="testTypeDropdown"> Test type </label>
-        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown">
+        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown"
+        >
           <option *ngFor="let testType of testTypes" [ngValue]="testType">
             {{ testType }}
           </option>
