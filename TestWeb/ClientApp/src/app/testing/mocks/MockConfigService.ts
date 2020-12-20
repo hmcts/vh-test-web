@@ -8,8 +8,8 @@ export class MockConfigService {
         post_logout_redirect_uri: '/logout',
         redirect_uri: '/home',
         test_api_url: 'http://vh-video-api/',
-        app_insights_instrumentation_key = 'appInsightsInstrumentationKey',
-        authority = 'authority';
+        app_insights_instrumentation_key: 'appInsightsInstrumentationKey',
+        authority: 'authority'
     });
 
     getClientSettings(): Observable<ClientSettingsResponse> {
