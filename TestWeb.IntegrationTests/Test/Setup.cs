@@ -43,9 +43,11 @@ namespace TestWeb.IntegrationTests.Test
         {
             var azureOptions = Options.Create(_configRoot.GetSection("AzureAd").Get<AzureAdConfiguration>());
             _context.Config.AzureAdConfiguration = azureOptions.Value;
-            _context.Config.AzureAdConfiguration.Authority =
-                _context.Config.AzureAdConfiguration.Authority + _context.Config.AzureAdConfiguration.TenantId;
-            ConfigurationManager.VerifyConfigValuesSet(_context.Config.AzureAdConfiguration);
+            _context.Config.AzureAdConfiguration.Authority += _context.Config.AzureAdConfiguration.TenantId;
+            _context.Config.AzureAdConfiguration.Authority.Should().NotBeNullOrEmpty();
+            _context.Config.AzureAdConfiguration.ClientId.Should().NotBeNullOrEmpty();
+            _context.Config.AzureAdConfiguration.ClientSecret.Should().NotBeNullOrEmpty();
+            _context.Config.AzureAdConfiguration.TenantId.Should().NotBeNullOrEmpty();
         }
 
         private void RegisterServer()
