@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DeleteHearingComponent } from './delete-hearing.component';
 
 describe('DeleteHearingComponent', () => {
@@ -16,9 +15,5 @@ describe('DeleteHearingComponent', () => {
         fixture = TestBed.createComponent(DeleteHearingComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-    });
-
-    it('should create', () => {
-        expect(component).toBeTruthy();
     });
 });

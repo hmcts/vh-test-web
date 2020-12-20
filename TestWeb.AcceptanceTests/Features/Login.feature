@@ -17,8 +17,14 @@ Scenario: Judge User Login Denied
 	When the user logs in with valid credentials
 	Then the user is on the Unauthorised page
 
-@VIH-6627
+@VIH-6627 @Smoketest
 Scenario: VHO User Login Denied
 	Given a new browser is open for a Video Hearings Officer user
+	When the user logs in with valid credentials
+	Then the user is on the Unauthorised page
+
+@VIH-6627 @Smoketest
+Scenario: Individual User Login Denied
+	Given a new browser is open for an Individual user
 	When the user logs in with valid credentials
 	Then the user is on the Unauthorised page

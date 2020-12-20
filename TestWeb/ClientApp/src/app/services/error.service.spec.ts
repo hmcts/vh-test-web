@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { pageUrls } from '../shared/page-url.constants';
+import { PageUrls } from '../shared/page-url.constants';
 import { MockLogger } from '../testing/mocks/MockLogger';
 import { ErrorService } from './error.service';
 import { Logger } from './logging/logger-base';
@@ -40,21 +40,21 @@ describe('ErrorService', () => {
         spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
         const error = { status: 401, isApiException: true };
         service.handleApiError(error);
-        expect(router.navigate).toHaveBeenCalledWith([pageUrls.Unauthorised]);
+        expect(router.navigate).toHaveBeenCalledWith([PageUrls.Unauthorised]);
     }));
 
     it('should navigate to not found', inject([ErrorService], (service: ErrorService) => {
         spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
         const error = { status: 404, isApiException: true };
         service.handleApiError(error);
-        expect(router.navigate).toHaveBeenCalledWith([pageUrls.NotFound]);
+        expect(router.navigate).toHaveBeenCalledWith([PageUrls.NotFound]);
     }));
 
     it('should navigate to service error', inject([ErrorService], (service: ErrorService) => {
         spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
         const error = { status: 500, isApiException: true };
         service.handleApiError(error);
-        expect(router.navigate).toHaveBeenCalledWith([pageUrls.ServiceError]);
+        expect(router.navigate).toHaveBeenCalledWith([PageUrls.ServiceError]);
     }));
 
     it('should return false when error not an ApiException during unauthorised check', inject([ErrorService], (service: ErrorService) => {
@@ -76,7 +76,7 @@ describe('ErrorService', () => {
             spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
             const error = { status: 401, isApiException: true };
             expect(service.returnHomeIfUnauthorised(error)).toBeTruthy();
-            expect(router.navigate).toHaveBeenCalledWith([pageUrls.Home]);
+            expect(router.navigate).toHaveBeenCalledWith([PageUrls.Home]);
         }
     ));
 });

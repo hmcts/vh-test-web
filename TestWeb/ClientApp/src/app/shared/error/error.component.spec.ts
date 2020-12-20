@@ -1,14 +1,10 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { NavigationEnd, NavigationExtras, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
-import { EventsService } from 'src/app/services/events.service';
 import { PageTrackerService } from 'src/app/services/page-tracker.service';
 import { SessionStorage } from 'src/app/services/session-storage';
-import { eventsServiceSpy } from 'src/app/testing/mocks/mock-events-service';
-import { ContactUsFoldingComponent } from '../contact-us-folding/contact-us-folding.component';
 import { ErrorMessage } from '../models/error-message';
 import { ErrorComponent } from './error.component';
 
@@ -31,8 +27,6 @@ class Mock1Component {}
 @Component({ selector: 'app-mock-component2', template: '' })
 class Mock2Component {}
 
-let eventsService: jasmine.SpyObj<EventsService>;
-
 describe('ErrorComponent', () => {
     let component: ErrorComponent;
     let fixture: ComponentFixture<ErrorComponent>;
@@ -42,12 +36,11 @@ describe('ErrorComponent', () => {
 
     beforeEach(
         waitForAsync(() => {
-            eventsService = eventsServiceSpy;
             pageTrackerSpy = jasmine.createSpyObj<PageTrackerService>(['trackPreviousPage', 'getPreviousUrl']);
             pageTrackerSpy.getPreviousUrl.and.returnValue('testUrl-test-error1');
 
             TestBed.configureTestingModule({
-                declarations: [ErrorComponent, ContactUsFoldingComponent, Mock1Component, Mock2Component],
+                declarations: [ErrorComponent, Mock1Component, Mock2Component],
                 imports: [
                     RouterTestingModule.withRoutes([
                         { path: 'testUrl-test-error1', component: Mock1Component },
@@ -56,7 +49,6 @@ describe('ErrorComponent', () => {
                 ],
                 providers: [
                     { provide: PageTrackerService, useValue: pageTrackerSpy },
-                    { provide: EventsService, useValue: eventsService }
                 ]
             }).compileComponents();
         })
@@ -110,17 +102,15 @@ describe('ErrorComponent Refresh', () => {
     let pageTrackerSpy: jasmine.SpyObj<PageTrackerService>;
 
     beforeEach(() => {
-        eventsService = eventsServiceSpy;
         pageTrackerSpy = jasmine.createSpyObj<PageTrackerService>(['trackPreviousPage', 'getPreviousUrl']);
         pageTrackerSpy.getPreviousUrl.and.returnValue('testUrl-test-error1');
 
         TestBed.configureTestingModule({
-            declarations: [ErrorComponent, ContactUsFoldingComponent],
+            declarations: [ErrorComponent],
             imports: [RouterTestingModule],
             providers: [
                 { provide: PageTrackerService, useValue: pageTrackerSpy },
-                { provide: Router, useClass: MockRouter },
-                { provide: EventsService, useValue: eventsService }
+                { provide: Router, useClass: MockRouter }
             ]
         }).compileComponents();
         router = TestBed.inject(Router);

@@ -1,4 +1,7 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -64,7 +67,8 @@ namespace TestWeb.Extensions
             var allRoles = new[] { AppRoles.QA };
             options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireRole(allRoles).Build()));
+                .RequireRole(allRoles)
+                .Build()));
         }
     }
 }

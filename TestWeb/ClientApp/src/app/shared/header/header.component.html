@@ -32,7 +32,7 @@
 
     <nav class="hmcts-primary-navigation" aria-label="Primary navigation">
       <div class="hmcts-primary-navigation__container">
-        <ul *ngIf="loggedIn" id="navigation" style="display: inline-block" class="hmcts-primary-navigation__list" aria-label="Top Level Navigation">
+        <ul *ngIf="authorised" id="navigation" style="display: inline-block" class="hmcts-primary-navigation__list" aria-label="Top Level Navigation">
           <li class="hmcts-primary-navigation__item" *ngFor="let topItem of topMenuItems; index as i">
             <a
               class="vh-primary-navigation__link"
