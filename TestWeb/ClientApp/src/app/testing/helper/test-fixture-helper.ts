@@ -1,3 +1,1 @@
-export class TestFixtureHelper {
-
-}
+export class TestFixtureHelper {}

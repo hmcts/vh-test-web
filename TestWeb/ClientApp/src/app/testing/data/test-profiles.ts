@@ -2,8 +2,8 @@ import { Role } from 'src/app/common/models/data/role';
 import { UserProfileResponse } from '../../services/clients/api-client';
 
 export const testerTestProfile: UserProfileResponse = new UserProfileResponse({
-  role: Role.VHQA,
-  username: 'james.green@hearings.net'
+    role: Role.VHQA,
+    username: 'james.green@hearings.net'
 });
 
 export const judgeTestProfile: UserProfileResponse = new UserProfileResponse({

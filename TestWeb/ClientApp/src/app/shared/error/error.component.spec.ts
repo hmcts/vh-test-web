@@ -47,9 +47,7 @@ describe('ErrorComponent', () => {
                         { path: 'testUrl-test-error2', component: Mock2Component }
                     ])
                 ],
-                providers: [
-                    { provide: PageTrackerService, useValue: pageTrackerSpy },
-                ]
+                providers: [{ provide: PageTrackerService, useValue: pageTrackerSpy }]
             }).compileComponents();
         })
     );

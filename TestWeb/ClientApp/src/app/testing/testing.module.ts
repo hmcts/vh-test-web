@@ -5,9 +5,6 @@ import { HeaderStubComponent } from './stubs/header-stub';
 
 @NgModule({
     imports: [CommonModule],
-    declarations: [
-        FooterStubComponent,
-        HeaderStubComponent
-    ]
+    declarations: [FooterStubComponent, HeaderStubComponent]
 })
 export class TestingModule {}
