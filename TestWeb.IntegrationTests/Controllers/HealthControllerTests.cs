@@ -15,7 +15,7 @@ namespace TestWeb.IntegrationTests.Controllers
         public async Task Should_return_health_OK()
         {
             var uri = ApiUriFactory.HealthCheckEndpoints.CheckServiceHealth;
-            await SendGetRequest(uri);
+            await SendGetRequestAsync(uri);
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<HealthCheckResponse>(Json);
 
