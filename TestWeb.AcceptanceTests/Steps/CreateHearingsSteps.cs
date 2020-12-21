@@ -79,7 +79,7 @@ namespace TestWeb.AcceptanceTests.Steps
             }
         }
 
-        [When(@"the date is set to the past")]
+        [When(@"the date is set to a past date")]
         public void WhenTheDateIsSetToThePast()
         {
             _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingStartTimeHour).Clear();
