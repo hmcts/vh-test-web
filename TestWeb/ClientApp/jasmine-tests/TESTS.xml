@@ -1,56 +1,56 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome 88.0.4298.0 (Windows 10)" package="" timestamp="2020-12-21T11:18:08" id="0" hostname="NICKPOXONA8E9" tests="48" errors="0" failures="0" time="0.184">
+<testsuite name="Chrome 88.0.4298.0 (Windows 10)" package="" timestamp="2020-12-21T18:10:47" id="0" hostname="NICKPOXONA8E9" tests="48" errors="0" failures="0" time="0.18">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4298.0 Safari/537.36"/>
   </properties>
-  <testcase name="LoginComponent should create" time="0.05" classname="LoginComponent"/>
-  <testcase name="LoginComponent should store return url if supplied" time="0.003" classname="LoginComponent"/>
+  <testcase name="LoginComponent should create" time="0.057" classname="LoginComponent"/>
+  <testcase name="LoginComponent should store return url if supplied" time="0.001" classname="LoginComponent"/>
   <testcase name="LoginComponent should use saved return url" time="0.001" classname="LoginComponent"/>
   <testcase name="LoginComponent should return to root url if no return path is given" time="0.002" classname="LoginComponent"/>
   <testcase name="LoginComponent should fallback to root url if return url is invalid" time="0" classname="LoginComponent"/>
-  <testcase name="LogoutComponent should call logout if authenticated" time="0.001" classname="LogoutComponent"/>
+  <testcase name="LogoutComponent should call logout if authenticated" time="0" classname="LogoutComponent"/>
   <testcase name="LogoutComponent should not call logout if unauthenticated" time="0.002" classname="LogoutComponent"/>
   <testcase name="LogoutComponent should return true for &quot;loggedIn&quot; when authenticated" time="0" classname="LogoutComponent"/>
-  <testcase name="LogoutComponent should return false for &quot;loggedIn&quot; when not authenticated" time="0" classname="LogoutComponent"/>
+  <testcase name="LogoutComponent should return false for &quot;loggedIn&quot; when not authenticated" time="0.003" classname="LogoutComponent"/>
   <testcase name="WindowRef should get url from browser" time="0" classname="WindowRef"/>
   <testcase name="WindowLocation should concatenate to url" time="0" classname="WindowLocation"/>
   <testcase name="WindowLocation should concatenate to url without search and hash" time="0" classname="WindowLocation"/>
-  <testcase name="ConfigService should not have called method on api client" time="0.01" classname="ConfigService"/>
-  <testcase name="ErrorService should do nothing if skip redirect is true" time="0.006" classname="ErrorService"/>
-  <testcase name="ErrorService should do nothing if error is not an api exception" time="0.002" classname="ErrorService"/>
+  <testcase name="ConfigService should not have called method on api client" time="0.011" classname="ConfigService"/>
+  <testcase name="ErrorService should do nothing if skip redirect is true" time="0.005" classname="ErrorService"/>
+  <testcase name="ErrorService should do nothing if error is not an api exception" time="0.003" classname="ErrorService"/>
   <testcase name="ErrorService should navigate to unauthorised" time="0.002" classname="ErrorService"/>
-  <testcase name="ErrorService should navigate to not found" time="0.002" classname="ErrorService"/>
-  <testcase name="ErrorService should navigate to service error" time="0.002" classname="ErrorService"/>
-  <testcase name="ErrorService should return false when error not an ApiException during unauthorised check" time="0.002" classname="ErrorService"/>
+  <testcase name="ErrorService should navigate to not found" time="0.001" classname="ErrorService"/>
+  <testcase name="ErrorService should navigate to service error" time="0.001" classname="ErrorService"/>
+  <testcase name="ErrorService should return false when error not an ApiException during unauthorised check" time="0.001" classname="ErrorService"/>
   <testcase name="ErrorService should return false when error not a 401 ApiException during unauthorised check" time="0.001" classname="ErrorService"/>
-  <testcase name="ErrorService should return true and navigate to home when error is a 401 ApiException during unauthorised check" time="0.003" classname="ErrorService"/>
+  <testcase name="ErrorService should return true and navigate to home when error is a 401 ApiException during unauthorised check" time="0.001" classname="ErrorService"/>
   <testcase name="LoggerService should be created" time="0.004" classname="LoggerService"/>
-  <testcase name="LoggerService should log events to all adapters" time="0.001" classname="LoggerService"/>
+  <testcase name="LoggerService should log events to all adapters" time="0.002" classname="LoggerService"/>
   <testcase name="LoggerService should log errors to all adapters" time="0.002" classname="LoggerService"/>
-  <testcase name="PageTrackerService should be created" time="0.004" classname="PageTrackerService"/>
-  <testcase name="PageTrackerService it should retrieve data from session" time="0.002" classname="PageTrackerService"/>
+  <testcase name="PageTrackerService should be created" time="0.003" classname="PageTrackerService"/>
+  <testcase name="PageTrackerService it should retrieve data from session" time="0.001" classname="PageTrackerService"/>
   <testcase name="PageTrackerService it should save data from session" time="0.002" classname="PageTrackerService"/>
   <testcase name="ReturnUrlService should return null if no key is stored" time="0" classname="ReturnUrlService"/>
   <testcase name="ReturnUrlService should delete the stored url after popping" time="0" classname="ReturnUrlService"/>
   <testcase name="ReturnUrlService should use the last stored url" time="0.001" classname="ReturnUrlService"/>
-  <testcase name="SessionStorage can set and read data from storage" time="0" classname="SessionStorage"/>
-  <testcase name="SessionStorage should not set null or undefined data" time="0.002" classname="SessionStorage"/>
+  <testcase name="SessionStorage can set and read data from storage" time="0.001" classname="SessionStorage"/>
+  <testcase name="SessionStorage should not set null or undefined data" time="0" classname="SessionStorage"/>
   <testcase name="SessionStorage removes invalid keys after failing to read" time="0.001" classname="SessionStorage"/>
-  <testcase name="SessionStorage returns null if no data is cached" time="0.001" classname="SessionStorage"/>
+  <testcase name="SessionStorage returns null if no data is cached" time="0" classname="SessionStorage"/>
   <testcase name="SessionStorage can clear any stored value" time="0.001" classname="SessionStorage"/>
   <testcase name="BackNavigationComponent should go back using location" time="0.001" classname="BackNavigationComponent"/>
-  <testcase name="ErrorComponent should create" time="0.019" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should create" time="0.021" classname="ErrorComponent"/>
   <testcase name="ErrorComponent should show default error message if session storage is empty" time="0.008" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent should show error message if session storage returns a value" time="0.014" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent should unsubscribe all subcriptions on destroy component" time="0.007" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should show error message if session storage returns a value" time="0.005" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should unsubscribe all subcriptions on destroy component" time="0.008" classname="ErrorComponent"/>
   <testcase name="ErrorComponent should navigate to previous page on reconnect click" time="0.01" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent Refresh should not navigate back on timer page refresh" time="0.006" classname="ErrorComponent Refresh"/>
-  <testcase name="FooterComponent should create" time="0.003" classname="FooterComponent"/>
+  <testcase name="ErrorComponent Refresh should not navigate back on timer page refresh" time="0.005" classname="ErrorComponent Refresh"/>
+  <testcase name="FooterComponent should create" time="0.005" classname="FooterComponent"/>
   <testcase name="HeaderComponent header component should have top menu items with authenticated user" time="0.003" classname="HeaderComponent"/>
-  <testcase name="HeaderComponent header component should not have top menu items with unauthenticated user" time="0" classname="HeaderComponent"/>
+  <testcase name="HeaderComponent header component should not have top menu items with unauthenticated user" time="0.001" classname="HeaderComponent"/>
   <testcase name="HeaderComponent selected top menu item has active property set to true, others item active set to false" time="0.001" classname="HeaderComponent"/>
-  <testcase name="HeaderComponent user should navigate by selecting top menu item" time="0.002" classname="HeaderComponent"/>
-  <testcase name="TestingModule should create an instance" time="0" classname="TestingModule"/>
+  <testcase name="HeaderComponent user should navigate by selecting top menu item" time="0.001" classname="HeaderComponent"/>
+  <testcase name="TestingModule should create an instance" time="0.001" classname="TestingModule"/>
   <system-out>
     <![CDATA[Chrome 88.0.4298.0 (Windows 10) WARN: 'Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?'
 ,Chrome 88.0.4298.0 (Windows 10) WARN: 'Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?'
