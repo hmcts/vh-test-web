@@ -68,7 +68,7 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             var summary = _browser.Driver.WaitUntilVisible(CreateHearingPage.SummaryTextfield).GetProperty("value");
             summary = summary.Replace("\r\n", ".");
-            var sentences = summary.Split(new[] { '.' });
+            var sentences = summary.Split('.', ':', '\'');
 
             foreach (var sentence in sentences)
             {
