@@ -3,6 +3,7 @@ using AcceptanceTests.Common.Driver.Helpers;
 using AcceptanceTests.Common.Test.Steps;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using TestWeb.AcceptanceTests.Data;
 using TestWeb.AcceptanceTests.Helpers;
 using TestWeb.AcceptanceTests.Pages;
 
@@ -73,7 +74,9 @@ namespace TestWeb.AcceptanceTests.Steps
             {
                 if (sentence.Contains("Test"))
                 {
-                    _c.Test.CaseNames.Add(sentence);
+                    var lengthOfCaseName = ConfigData.TemplateCaseName.Length;
+                    var caseName = sentence.Substring(0, lengthOfCaseName);
+                    _c.Test.CaseNames.Add(caseName);
                 }
             }
         }

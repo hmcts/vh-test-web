@@ -41,8 +41,8 @@ namespace TestWeb.AcceptanceTests.Steps
             _c.Test.CaseNames.Should().NotBeNullOrEmpty();
             var prefix = $"{_c.Test.CaseNames.Count} hearing(s) deleted matching case name ";
             var caseName = _c.Test.CaseNames.First();
-            VerifyTextPresence.Verify(_browser, DeleteHearingPage.ResultsTextfield, prefix, _c.Test.CaseNames.Count);
-            VerifyTextPresence.Verify(_browser, DeleteHearingPage.ResultsTextfield, caseName, _c.Test.CaseNames.Count);
+            VerifyTextPresence.VerifyOnce(_browser, DeleteHearingPage.ResultsTextfield, prefix);
+            VerifyTextPresence.VerifyOnce(_browser, DeleteHearingPage.ResultsTextfield, caseName);
         }
 
         private void ClickDelete()

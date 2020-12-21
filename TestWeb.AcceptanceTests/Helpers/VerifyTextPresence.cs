@@ -23,15 +23,9 @@ namespace TestWeb.AcceptanceTests.Helpers
 
                 var sentences = actual.Split('.', ':', '\'');
 
-                var wordsToMatch = new[] { expected };
+                var count = sentences.Count(sentence => sentence.Contains(expected));
 
-                var sentenceQuery = from sentence in sentences
-                    let w = sentence.Split(new[] { '.' },
-                        StringSplitOptions.RemoveEmptyEntries)
-                    where w.Distinct().Intersect(wordsToMatch).Count() == wordsToMatch.Count()
-                    select sentence;
-
-                if (sentenceQuery.Count().Equals(numberOfHearings))
+                if (count.Equals(numberOfHearings))
                 {
                     return;
                 }
