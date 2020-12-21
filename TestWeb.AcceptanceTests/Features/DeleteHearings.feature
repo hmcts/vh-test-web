@@ -3,7 +3,7 @@
 	As a tester
 	I want to be able to easily remove unwanted test data
 
-@VIH-6692 @Smoketest
+@VIH-6692 @Smoketest @Delete
 Scenario: Delete hearing
 	Given the user has progressed to the Delete Hearings page with a hearing
 	When the user deletes the hearing

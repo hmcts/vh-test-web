@@ -29,8 +29,10 @@ export class HeaderComponent implements OnInit {
     }
 
     async onlyShowMenuLinksIfAuthenticated() {
+        console.log(`Checking Profile for header...`);
         try {
             const profile = await this.profileService.getUserProfile();
+            console.log(`Profile username is ${profile.username} role is ${profile.role}`);
             if (profile.role === Role.VHQA) {
                 this.topMenuItems = TopMenuItems;
             }

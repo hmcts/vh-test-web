@@ -7,7 +7,6 @@ namespace TestWeb.IntegrationTests.Test
     {
         public Config Config { get; set; }
         public TestServer Server { get; set; }
-        public Data Data { get; set; }
         public string Token { get; set; }
     }
 }
