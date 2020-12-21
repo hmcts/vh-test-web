@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
     constructor(private router: Router, private profileService: ProfileService) {}
 
     async ngOnInit() {
-      await this.onlyShowMenuLinksIfAuthenticated();
+        await this.onlyShowMenuLinksIfAuthenticated();
     }
 
     navigateToSelectedMenuItem(indexOfItem: number) {
@@ -29,13 +29,15 @@ export class HeaderComponent implements OnInit {
     }
 
     async onlyShowMenuLinksIfAuthenticated() {
-      try {
-        const profile = await this.profileService.getUserProfile();
-        if (profile.role === Role.VHQA) {
-          this.topMenuItems = TopMenuItems;
+        console.log(`Checking Profile for header...`);
+        try {
+            const profile = await this.profileService.getUserProfile();
+            console.log(`Profile username is ${profile.username} role is ${profile.role}`);
+            if (profile.role === Role.VHQA) {
+                this.topMenuItems = TopMenuItems;
+            }
+        } catch (error) {
+            this.topMenuItems = [];
         }
-      } catch (error) {
-          this.topMenuItems = [];
-      }
     }
 }

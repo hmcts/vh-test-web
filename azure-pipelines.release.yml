@@ -17,6 +17,7 @@ parameters:
   - Test2
   - Demo
   - Preprod
+  - Prod
 
 - name: RunZap
   displayName: Execute ZAP Tests
@@ -35,6 +36,7 @@ variables:
   - group: vh-apps-settings-generic
   - group: vh-test-web
   - group: Saucelabs
+  - group: KinlyConfiguration_Test
   - ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
     - ${{ if containsValue(parameters.prodEnvs, parameters.environment) }}:
       - group: vh-prod
@@ -132,7 +134,21 @@ stages:
             value: vh-test-api-identifieruris
             secret: true
           - name: VhServices:TestApiUrl
-            value: $(test_api_url)      
+            value: $(test_api_url)
+
+          # Testing
+          - name: Testing:TestUsernameStem
+            value: $(Testing:TestUsernameStem)
+          - name: Testing:TestUserPassword
+            value: $(Testing:TestUserPassword)
+
+          # SauceLabs
+          - name: Saucelabs:Username
+            value: $(Saucelabs:Username)
+          - name: Saucelabs:AccessKey
+            value: $(Saucelabs:AccessKey)
+          - name: Saucelabs:RealDeviceApiKey
+            value: $(RealDeviceApiKey)            
             
         acceptanceTestSettings:
           - name: ConnectionStrings:SignalR
@@ -140,6 +156,8 @@ stages:
             secret: true
 
           # VhServices
+          - name: VhServices:TestWebUrl
+            value: $(test_web_url)
           - name: VhServices:TestApiUrl
             value: $(test_api_url)
           - name: VhServices:TestApiResourceId
@@ -165,9 +183,9 @@ stages:
             
           # Testing
           - name: Testing:TestUsernameStem
-            value: $(TestUserSecrets:TestUsernameStem)
+            value: $(Testing:TestUsernameStem)
           - name: Testing:TestUserPassword
-            value: $(TestUserSecrets:TestApiUserPassword)
+            value: $(Testing:TestUserPassword)
 
           # SauceLabs
           - name: Saucelabs:Username

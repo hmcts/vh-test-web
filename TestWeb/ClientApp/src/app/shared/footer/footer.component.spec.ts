@@ -16,10 +16,7 @@ describe('FooterComponent', () => {
     configureTestSuite(() => {
         TestBed.configureTestingModule({
             declarations: [FooterComponent],
-            imports: [
-                RouterTestingModule.withRoutes([
-                ])
-            ],
+            imports: [RouterTestingModule.withRoutes([])],
             schemas: [NO_ERRORS_SCHEMA]
         });
     });

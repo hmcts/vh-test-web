@@ -13,5 +13,5 @@ Scenario: Create hearing
 @VIH-6690
 Scenario Outline: Cannot create hearings in the past
 	Given the user has progressed to the Create Hearings page
-	When the date is set to the past
+	When the date is set to a past date
 	Then an error appears stating the hearing time must be in the future

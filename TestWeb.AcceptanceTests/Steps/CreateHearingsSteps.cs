@@ -3,6 +3,7 @@ using AcceptanceTests.Common.Driver.Helpers;
 using AcceptanceTests.Common.Test.Steps;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using TestWeb.AcceptanceTests.Data;
 using TestWeb.AcceptanceTests.Helpers;
 using TestWeb.AcceptanceTests.Pages;
 
@@ -14,7 +15,7 @@ namespace TestWeb.AcceptanceTests.Steps
         private readonly  UserBrowser _browser;
         private readonly TestContext _c;
         private readonly CommonSharedSteps _commonSharedSteps;
-        private int _numberOfHearings;
+        private int _numberOfHearings = 1;
 
         public CreateHearingsSteps(UserBrowser browser, TestContext testContext, CommonSharedSteps commonSharedSteps)
         {
@@ -25,9 +26,8 @@ namespace TestWeb.AcceptanceTests.Steps
 
         public void ProgressToNextPage()
         {
-            _numberOfHearings = 1;
             ClickBook();
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.SummaryTextfield, "Hearing ID", _numberOfHearings);
+            VerifyTextPresence.VerifyOnce(_browser, CreateHearingPage.SummaryTextfield, "Hearing ID");
             GetTheHearingNames();
             _c.Test.CaseNames.Count.Should().BeGreaterThan(0);
             _browser.ClickLink(HeaderPage.DeleteHearingsLink);
@@ -68,18 +68,22 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             var summary = _browser.Driver.WaitUntilVisible(CreateHearingPage.SummaryTextfield).GetProperty("value");
             summary = summary.Replace("\r\n", ".");
-            var sentences = summary.Split(new[] { '.' });
+            summary = summary.Replace("\n", ".");
+            var sentences = summary.Split('.', ':', '\'');
 
             foreach (var sentence in sentences)
             {
-                if (sentence.Contains("Test"))
-                {
-                    _c.Test.CaseNames.Add(sentence);
-                }
+                if (!sentence.Contains("Test")) continue;
+                var lengthOfCaseName = ConfigData.TemplateCaseName.Length;
+                var caseName = sentence.Substring(0, lengthOfCaseName);
+                if (!caseName.Contains("Test")) continue;
+                _c.Test.CaseNames.Add(caseName);
             }
+
+            _c.Test.CaseNames.Count.Should().Be(_numberOfHearings, $"Case names were not correctly saved. Sentences were: '{sentences}'");
         }
 
-        [When(@"the date is set to the past")]
+        [When(@"the date is set to a past date")]
         public void WhenTheDateIsSetToThePast()
         {
             _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingStartTimeHour).Clear();

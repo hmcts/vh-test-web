@@ -13,11 +13,13 @@ namespace TestWeb.AcceptanceTests.Steps
     {
         private readonly UserBrowser _browser;
         private readonly TestContext _c;
+        private readonly ScenarioContext _scenario;
 
-        public DeleteHearingsSteps(UserBrowser browser, TestContext testContext)
+        public DeleteHearingsSteps(UserBrowser browser, TestContext testContext, ScenarioContext scenario)
         {
             _browser = browser;
             _c = testContext;
+            _scenario = scenario;
         }
 
         [When(@"the user deletes the hearing")]
@@ -27,16 +29,20 @@ namespace TestWeb.AcceptanceTests.Steps
             var caseName = _c.Test.CaseNames.First();
             _browser.Driver.WaitUntilVisible(DeleteHearingPage.CaseNameText).SendKeys(caseName);
             ClickDelete();
-            _c.Test.CaseNames.Remove(caseName);
+            if (!_scenario.ScenarioInfo.Tags.Contains("Delete"))
+            {
+                _c.Test.CaseNames.Remove(caseName);
+            }
         }
 
         [Then(@"the deleted hearing appears in the results")]
         public void ThenTheDeletedHearingAppearsInTheResults()
         {
+            _c.Test.CaseNames.Should().NotBeNullOrEmpty();
             var prefix = $"{_c.Test.CaseNames.Count} hearing(s) deleted matching case name ";
             var caseName = _c.Test.CaseNames.First();
-            VerifyTextPresence.Verify(_browser, DeleteHearingPage.ResultsTextfield, prefix, _c.Test.CaseNames.Count);
-            VerifyTextPresence.Verify(_browser, DeleteHearingPage.ResultsTextfield, caseName, _c.Test.CaseNames.Count);
+            VerifyTextPresence.VerifyOnce(_browser, DeleteHearingPage.ResultsTextfield, prefix);
+            VerifyTextPresence.VerifyOnce(_browser, DeleteHearingPage.ResultsTextfield, caseName);
         }
 
         private void ClickDelete()

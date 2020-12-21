@@ -1,76 +1,97 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
-using TestWeb.IntegrationTests.Test;
-using TestContext = TestWeb.IntegrationTests.Test.TestContext;
+using TestWeb.Common.Configuration;
+using TestWeb.Common.Security;
 
 namespace TestWeb.IntegrationTests.Controllers
 {
     public class ControllerTestsBase
     {
-        protected TestContext Context;
+        private TestServer _server;
+        private string _bearerToken;
         protected HttpResponseMessage Response;
         protected string Json;
-        private TestServer _server;
 
         [OneTimeSetUp]
-        public async Task BeforeTestRun()
+        public void OneTimeSetup()
         {
-            Context = await new Setup().RegisterSecrets();
-            _server = Context.Server;
+            var webHostBuilder = WebHost.CreateDefaultBuilder()
+                .UseKestrel(c => c.AddServerHeader = false)
+                .UseEnvironment("Development")
+                .UseStartup<Startup>();
+            _server = new TestServer(webHostBuilder);
+            GetClientAccessTokenForApi();
         }
 
-        [OneTimeTearDown]
-        public void AfterTestRun()
+        private void GetClientAccessTokenForApi()
         {
-            _server?.Dispose();
+            var configRootBuilder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Production.json", true)
+                .AddJsonFile("appsettings.Development.json", true)
+                .AddEnvironmentVariables()
+                .AddUserSecrets<Startup>();
+
+            var configRoot = configRootBuilder.Build();
+            var azureAdConfigurationOptions = Options.Create(configRoot.GetSection("AzureAd").Get<AzureAdConfiguration>());
+            var azureAdConfiguration = azureAdConfigurationOptions.Value;
+            VerifyConfigValuesSet(azureAdConfiguration);
+            _bearerToken = new TokenProvider(azureAdConfigurationOptions).GetClientAccessToken(
+                azureAdConfiguration.ClientId, azureAdConfiguration.ClientSecret, azureAdConfiguration.ClientId);
         }
 
-        private HttpClient CreateNewClient()
+        private static void VerifyConfigValuesSet(AzureAdConfiguration azureAdConfiguration)
         {
-            var client = _server.CreateClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Context.Token}");
-            return client;
+            azureAdConfiguration.Authority.Should().NotBeNullOrEmpty();
+            azureAdConfiguration.ClientId.Should().NotBeNullOrEmpty();
+            azureAdConfiguration.ClientSecret.Should().NotBeNullOrEmpty();
+            azureAdConfiguration.TenantId.Should().NotBeNullOrEmpty();
         }
 
-        protected async Task SendGetRequest(string uri)
+        protected async Task SendGetRequestAsync(string uri)
         {
-            using var client = CreateNewClient();
+            using var client = _server.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
             Response = await client.GetAsync(uri);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
-        protected async Task SendPatchRequest(string uri, string request)
+        protected async Task SendPostRequestAsync(string uri, HttpContent httpContent)
         {
-            var content = new StringContent(request, Encoding.UTF8, "application/json");
-            using var client = CreateNewClient();
-            Response = await client.PatchAsync(uri, content);
+            using var client = _server.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
+            Response = await client.PostAsync(uri, httpContent);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
-        protected async Task SendPostRequest(string uri, string request)
+        protected async Task SendPatchRequestAsync(string uri, StringContent httpContent)
         {
-            var content = new StringContent(request, Encoding.UTF8, "application/json");
-            using var client = CreateNewClient();
-            Response = await client.PostAsync(uri, content);
+            using var client = _server.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
+            Response = await client.PatchAsync(uri, httpContent);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
-        protected async Task SendPutRequest(string uri, string request)
+        protected async Task SendPutRequestAsync(string uri, StringContent httpContent)
         {
-            var content = new StringContent(request, Encoding.UTF8, "application/json");
-            using var client = CreateNewClient();
-            Response = await client.PutAsync(uri, content);
+            using var client = _server.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
+            Response = await client.PutAsync(uri, httpContent);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
-        protected async Task SendDeleteRequest(string uri)
+        protected async Task SendDeleteRequestAsync(string uri)
         {
-            using var client = CreateNewClient();
+            using var client = _server.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
             Response = await client.DeleteAsync(uri);
             Json = await Response.Content.ReadAsStringAsync();
         }
@@ -79,6 +100,12 @@ namespace TestWeb.IntegrationTests.Controllers
         {
             Response.StatusCode.Should().Be(statusCode);
             Response.IsSuccessStatusCode.Should().Be(isSuccess);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            _server?.Dispose();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using TestWeb.AcceptanceTests.Helpers;
@@ -15,13 +14,18 @@ namespace TestWeb.AcceptanceTests.Hooks
         {
             if (context?.Test?.CaseNames == null) return;
             if (context.Test.CaseNames.Count == 0) return;
+            const int LIMIT = 1000;
 
-            foreach (var response in context.Test.CaseNames.Select(caseName => new DeleteTestHearingDataRequest()
+            foreach (var caseName in context.Test.CaseNames)
             {
-                Partial_hearing_case_name = caseName
-            }).Select(request => context.TestApi.DeleteTestData(request)))
-            {
-                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                var request = new DeleteTestHearingDataRequest()
+                {
+                    Limit = LIMIT,
+                    Partial_hearing_case_name = caseName
+                };
+
+                var response = context.TestApi.DeleteTestData(request); 
+                response.StatusCode.Should().Be(HttpStatusCode.OK, $"Failed to delete hearing with case name '{request.Partial_hearing_case_name}'");
             }
         }
     }
