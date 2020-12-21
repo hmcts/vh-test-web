@@ -105,7 +105,7 @@ namespace TestWeb.IntegrationTests.Controllers
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            _server.Dispose();
+            _server?.Dispose();
         }
     }
 }
