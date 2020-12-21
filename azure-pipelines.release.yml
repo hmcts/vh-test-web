@@ -140,7 +140,7 @@ stages:
           - name: Testing:TestUsernameStem
             value: $(Testing:TestUsernameStem)
           - name: Testing:TestUserPassword
-            value: $(Testing:TestApiUserPassword)
+            value: $(Testing:TestUserPassword)
 
           # SauceLabs
           - name: Saucelabs:Username
@@ -185,7 +185,7 @@ stages:
           - name: Testing:TestUsernameStem
             value: $(Testing:TestUsernameStem)
           - name: Testing:TestUserPassword
-            value: $(Testing:TestApiUserPassword)
+            value: $(Testing:TestUserPassword)
 
           # SauceLabs
           - name: Saucelabs:Username
