@@ -20,6 +20,7 @@ namespace TestWeb.AcceptanceTests.Helpers
             {
                 actual = browser.Driver.WaitUntilVisible(element).GetProperty("value");
                 actual = actual.Replace("\r\n", ".");
+                actual = actual.Replace("\n", ".");
 
                 var sentences = actual.Split('.', ':', '\'');
 
@@ -46,6 +47,7 @@ namespace TestWeb.AcceptanceTests.Helpers
             {
                 actual = browser.Driver.WaitUntilVisible(element).GetProperty("value");
                 actual = actual.Replace("\r\n", ".");
+                actual = actual.Replace("\n", ".");
 
                 if (actual.Contains(expected))
                 {
