@@ -15,7 +15,7 @@ namespace TestWeb.AcceptanceTests.Steps
         private readonly  UserBrowser _browser;
         private readonly TestContext _c;
         private readonly CommonSharedSteps _commonSharedSteps;
-        private int _numberOfHearings;
+        private int _numberOfHearings = 1;
 
         public CreateHearingsSteps(UserBrowser browser, TestContext testContext, CommonSharedSteps commonSharedSteps)
         {
@@ -68,6 +68,7 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             var summary = _browser.Driver.WaitUntilVisible(CreateHearingPage.SummaryTextfield).GetProperty("value");
             summary = summary.Replace("\r\n", ".");
+            summary = summary.Replace("\n", ".");
             var sentences = summary.Split('.', ':', '\'');
 
             foreach (var sentence in sentences)
@@ -75,8 +76,11 @@ namespace TestWeb.AcceptanceTests.Steps
                 if (!sentence.Contains("Test")) continue;
                 var lengthOfCaseName = ConfigData.TemplateCaseName.Length;
                 var caseName = sentence.Substring(0, lengthOfCaseName);
+                if (!caseName.Contains("Test")) continue;
                 _c.Test.CaseNames.Add(caseName);
             }
+
+            _c.Test.CaseNames.Count.Should().Be(_numberOfHearings);
         }
 
         [When(@"the date is set to a past date")]
