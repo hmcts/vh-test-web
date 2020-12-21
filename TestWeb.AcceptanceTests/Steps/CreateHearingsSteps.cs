@@ -72,12 +72,10 @@ namespace TestWeb.AcceptanceTests.Steps
 
             foreach (var sentence in sentences)
             {
-                if (sentence.Contains("Test"))
-                {
-                    var lengthOfCaseName = ConfigData.TemplateCaseName.Length;
-                    var caseName = sentence.Substring(0, lengthOfCaseName);
-                    _c.Test.CaseNames.Add(caseName);
-                }
+                if (!sentence.Contains("Test")) continue;
+                var lengthOfCaseName = ConfigData.TemplateCaseName.Length;
+                var caseName = sentence.Substring(0, lengthOfCaseName);
+                _c.Test.CaseNames.Add(caseName);
             }
         }
 
