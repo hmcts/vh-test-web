@@ -35,14 +35,25 @@ namespace TestWeb.IntegrationTests.Controllers
         {
             var configRootBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Production.json", true)
+                .AddJsonFile("appsettings.Development.json", true)
                 .AddEnvironmentVariables()
                 .AddUserSecrets<Startup>();
 
             var configRoot = configRootBuilder.Build();
             var azureAdConfigurationOptions = Options.Create(configRoot.GetSection("AzureAd").Get<AzureAdConfiguration>());
             var azureAdConfiguration = azureAdConfigurationOptions.Value;
+            VerifyConfigValuesSet(azureAdConfiguration);
             _bearerToken = new TokenProvider(azureAdConfigurationOptions).GetClientAccessToken(
                 azureAdConfiguration.ClientId, azureAdConfiguration.ClientSecret, azureAdConfiguration.ClientId);
+        }
+
+        private static void VerifyConfigValuesSet(AzureAdConfiguration azureAdConfiguration)
+        {
+            azureAdConfiguration.Authority.Should().NotBeNullOrEmpty();
+            azureAdConfiguration.ClientId.Should().NotBeNullOrEmpty();
+            azureAdConfiguration.ClientSecret.Should().NotBeNullOrEmpty();
+            azureAdConfiguration.TenantId.Should().NotBeNullOrEmpty();
         }
 
         protected async Task SendGetRequestAsync(string uri)
