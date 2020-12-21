@@ -80,7 +80,7 @@ namespace TestWeb.AcceptanceTests.Steps
                 _c.Test.CaseNames.Add(caseName);
             }
 
-            _c.Test.CaseNames.Count.Should().Be(_numberOfHearings);
+            _c.Test.CaseNames.Count.Should().Be(_numberOfHearings, $"Case names were not correctly saved. Sentences were: '{sentences}'");
         }
 
         [When(@"the date is set to a past date")]
