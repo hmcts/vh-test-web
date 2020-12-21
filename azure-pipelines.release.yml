@@ -140,7 +140,7 @@ stages:
             secret: true
 
           # VhServices
-           - name: VhServices:TestWebUrl
+          - name: VhServices:TestWebUrl
             value: $(test_web_url)
           - name: VhServices:TestApiUrl
             value: $(test_api_url)
