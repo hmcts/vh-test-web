@@ -25,9 +25,8 @@ namespace TestWeb.AcceptanceTests.Steps
 
         public void ProgressToNextPage()
         {
-            _numberOfHearings = 1;
             ClickBook();
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.SummaryTextfield, "Hearing ID", _numberOfHearings);
+            VerifyTextPresence.VerifyOnce(_browser, CreateHearingPage.SummaryTextfield, "Hearing ID");
             GetTheHearingNames();
             _c.Test.CaseNames.Count.Should().BeGreaterThan(0);
             _browser.ClickLink(HeaderPage.DeleteHearingsLink);
