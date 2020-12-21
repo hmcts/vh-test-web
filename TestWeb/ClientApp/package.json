@@ -17,6 +17,7 @@
     "prettify-fix": "run-script-os",
     "prettify-fix:nix": "npx prettier --write 'src/app/**/*.*'",
     "prettify-fix:default": "npx prettier --write \"src\\app\\**\\*.*\"",
+    "snyk-protect": "snyk protect",
     "update-api-client": "nswag run"
   },
   "private": true,
@@ -46,6 +47,7 @@
     "popper.js": "^1.16.0",
     "run-script-os": "^1.1.1",
     "rxjs": "^6.6.3",
+    "snyk": "^1.431.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
