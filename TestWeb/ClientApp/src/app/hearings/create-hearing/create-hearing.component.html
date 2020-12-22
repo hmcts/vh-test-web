@@ -236,7 +236,7 @@
             id="bookButton"
             class="govuk-button vh-mr25"
             data-module="govuk-button"
-            (click)="saveBooking()"
+            (click)="displayConfirmationDialog()"
             alt="Book hearing and view hearing details"
             [disabled]="bookingsSaving"
           >
@@ -244,17 +244,6 @@
           </button>
         </div>
 
-        <div class="govuk-grid-column-one-half no-left-margin">
-          <button
-            class="govuk-button govuk-!-margin-left-2 standard-width-button govuk-button--secondary"
-            data-module="govuk-button"
-            id="reset"
-            (click)="reset()"
-            *ngIf="enableResetButton"
-            >
-            Reset
-          </button>
-        </div>
       </div>
 
     </form>
@@ -262,48 +251,6 @@
   </div>
 
   <div class="govuk-grid-column-one-half">
-    <form [formGroup]="summaryForm" class="govuk-form-group">
-
-      <div class="govuk-form-group">
-        <div id="results-hint" class="govuk-hint">
-          <h4 class="govuk-heading-s">Progress</h4>
-        </div>
-        <textarea
-          class="govuk-textarea textarea-small-text"
-          id="progressTextfield"
-          name="progressTextfield"
-          rows="10"
-          aria-describedby="results-hint"
-          [value]="progressOutput"
-          disabled>
-        </textarea>
-
-        <div id="results-hint" class="govuk-hint">
-          <h4 class="govuk-heading-s">Summary</h4>
-        </div>
-        <textarea
-          class="govuk-textarea textarea-small-text"
-          id="summaryTextfield"
-          name="summaryTextfield"
-          rows="28"
-          aria-describedby="results-hint"
-          [value]="summaryOutput"
-          disabled>
-        </textarea>
-        <div class="govuk-grid-column-full no-left-margin">
-          <button
-            class="govuk-button govuk-!-margin-left-2 standard-width-button govuk-button--secondary"
-            data-module="govuk-button"
-            id="copyHearing"
-            (click)="copyHearing()"
-            *ngIf="enableCopyButton"
-            >
-            Copy hearing details
-          </button>
-        </div>
-      </div>
-
-    </form>
   </div>
 
 </div>

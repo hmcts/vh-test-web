@@ -6,9 +6,7 @@ import { Summary } from "src/app/services/test-api/models/summary";
 
 @Directive()
 export abstract class HearingBaseComponentDirective implements OnInit {
-  protected readonly loggerPrefix: string = '[Hearing] -';
-  private readonly componentName: string;
-  protected summeries: Summary[];
+  protected readonly loggerPrefix: string = '[HearingBaseComponentDirective] -';
 
   buttonAction: string;
   editMode = false;
@@ -19,10 +17,7 @@ export abstract class HearingBaseComponentDirective implements OnInit {
       protected logger: Logger
   ) {
       const componentName = this.constructor.name;
-      const index = componentName.indexOf('Component');
-      this.componentName = componentName.substring(0, index);
       this.loggerPrefix = `${this.loggerPrefix} [${componentName}] -`;
-      this.summeries = [];
   }
 
   ngOnInit(): void {

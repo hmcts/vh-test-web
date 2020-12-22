@@ -6,6 +6,8 @@ import { HearingFormData } from "./models/hearing-form-data";
 import { HearingService } from "./hearing-service";
 import { ResetService } from "./reset-service";
 import { Summary } from "./models/summary";
+import { HearingFormDataService } from "./hearing-form-data-service";
+import { SummeriesService } from "./summeries-service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +23,14 @@ export class CreateService {
     private hearingService: HearingService,
     private confirmService: ConfirmService,
     private resetService: ResetService,
-    hearingFormData: HearingFormData
+    private summeriesService: SummeriesService,
+    hearingFormDataService: HearingFormDataService
     ) {
-    this.hearingFormData = hearingFormData;
+      this.hearingFormData = hearingFormDataService.getHearingFormData();
   }
 
   async createHearings(): Promise<Summary[]> {
+    this.logger.debug(`${this.loggerPrefix} Creating ${this.hearingFormData.numberOfHearings} hearings...`);
     var summaries = [];
     for (let index = 0; index < this.hearingFormData.numberOfHearings; index++) {
       var allocatedUsers = await this.allocationService.AllocatateUsers(this.hearingFormData);
@@ -36,6 +40,7 @@ export class CreateService {
       summaries.push(new Summary(conference, resetPasswords));
     }
     this.logger.debug(`${this.loggerPrefix} ${summaries.length} SUMMARIES CREATED`);
+    this.summeriesService.setSummaries(summaries);
     return summaries;
   }
 }

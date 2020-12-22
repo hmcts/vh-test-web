@@ -21,6 +21,34 @@ export class Summary {
   private scheduledDateTime: string | undefined;
   private userPasswords: Dictionary<string>;
 
+  getCaseName(): string {
+    return this.caseName;
+  }
+
+  getCaseNumber(): string {
+    return this.caseNumber;
+  }
+
+  getHearingId(): string {
+    return this.hearingId;
+  }
+
+  getConferenceId(): string {
+    return this.conferenceId;
+  }
+
+  getScheduledDateTime(): string {
+    return this.scheduledDateTime;
+  }
+
+  getParticipants(): ParticipantDetailsResponse[] {
+    return this.participants;
+  }
+
+  getParticipantPassword(username: string) {
+    return this.userPasswords.getItem(username)
+  }
+
   toText(): string {
     let text = '';
     text = text + `${this.caseName}\n`;

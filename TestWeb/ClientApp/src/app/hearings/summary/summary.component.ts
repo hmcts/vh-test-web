@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { Logger } from 'src/app/services/logging/logger-base';
+import { Summary } from 'src/app/services/test-api/models/summary';
+import { SummeriesService } from 'src/app/services/test-api/summeries-service';
 import { PageUrls } from 'src/app/shared/page-url.constants';
 import { HearingBaseComponentDirective } from '../hearing-base/hearing-base-component';
 
@@ -14,14 +16,17 @@ export class SummaryComponent extends HearingBaseComponentDirective implements O
 
   protected readonly loggerPrefix: string = '[Summary] -';
   tooltip: string;
+  summeries: Summary[];
 
   constructor(
     protected router: Router,
     protected logger: Logger,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    summeriesService: SummeriesService
   )
   {
-    super(router, logger)
+    super(router, logger);
+    this.summeries = summeriesService.getSummaries();
   }
 
   ngOnInit(): void {

@@ -9,11 +9,11 @@ import { PageUrls } from 'src/app/shared/page-url.constants';
 import { HearingBaseComponentDirective } from '../hearing-base/hearing-base-component';
 
 @Component({
-  selector: 'app-progress-popup',
-  templateUrl: './progress-popup.component.html',
-  styleUrls: ['./progress-popup.component.css']
+  selector: 'app-progress',
+  templateUrl: './progress.component.html',
+  styleUrls: ['./progress.component.css']
 })
-export class ProgressPopupComponent extends HearingBaseComponentDirective implements OnInit {
+export class ProgressComponent extends HearingBaseComponentDirective implements OnInit {
 
   enableContinueButton = false;
   enableRetryButton = false;
