@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AllocateUsersModel } from '../common/models/allocate.users.model';
-import { ConfirmHearingModel } from '../common/models/confirm.hearing.model';
-import { DeleteModel } from '../common/models/delete-model';
-import { HearingModel } from '../common/models/hearing.model';
-import { MapAllocateUsers } from './api/mappers/map-allocate-users';
-import { MapConfirmHearing } from './api/mappers/map-confirm-hearing';
-import { MapDelete } from './api/mappers/map-delete';
-import { MapHearing } from './api/mappers/map-hearing';
+import { AllocateUsersModel } from '../../common/models/allocate.users.model';
+import { ConfirmHearingModel } from '../../common/models/confirm.hearing.model';
+import { DeleteModel } from '../../common/models/delete-model';
+import { HearingModel } from '../../common/models/hearing.model';
+import { MapAllocateUsers } from '../api/mappers/map-allocate-users';
+import { MapConfirmHearing } from '../api/mappers/map-confirm-hearing';
+import { MapDelete } from '../api/mappers/map-delete';
+import { MapHearing } from '../api/mappers/map-hearing';
 import {
     ApiClient,
     ConferenceDetailsResponse,
@@ -15,8 +15,8 @@ import {
     ResetUserPasswordRequest,
     UpdateUserResponse,
     UserDetailsResponse
-} from './clients/api-client';
-import { Logger } from './logging/logger-base';
+} from '../clients/api-client';
+import { Logger } from '../logging/logger-base';
 
 @Injectable({
     providedIn: 'root'

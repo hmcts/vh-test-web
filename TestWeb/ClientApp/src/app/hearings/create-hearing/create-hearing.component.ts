@@ -4,18 +4,18 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ClipboardService } from 'ngx-clipboard';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
-import { Constants } from '../common/constants';
-import { AllocateUsersModel } from '../common/models/allocate.users.model';
-import { ConfirmHearingModel } from '../common/models/confirm.hearing.model';
-import { UserData } from '../common/models/data/user-data';
-import { HearingModel } from '../common/models/hearing.model';
-import { UserModel } from '../common/models/user.model';
-import { MapAllocatedResponseToUsers } from '../services/api/mappers/map-allocated-users-details-response-to-users-model';
-import { ConferenceDetailsResponse, HearingDetailsResponse, TestType, UpdateUserResponse, UserType } from '../services/clients/api-client';
-import { Logger } from '../services/logging/logger-base';
-import { TestApiService } from '../services/test-api-service';
-import Dictionary from '../shared/helpers/dictionary';
-import { ConferenceSummary } from '../shared/models/hearings-summary';
+import { Constants } from '../../common/constants';
+import { AllocateUsersModel } from '../../common/models/allocate.users.model';
+import { ConfirmHearingModel } from '../../common/models/confirm.hearing.model';
+import { UserData } from '../../common/models/data/user-data';
+import { HearingModel } from '../../common/models/hearing.model';
+import { UserModel } from '../../common/models/user.model';
+import { MapAllocatedResponseToUsers } from '../../services/api/mappers/map-allocated-users-details-response-to-users-model';
+import { ConferenceDetailsResponse, HearingDetailsResponse, TestType, UpdateUserResponse, UserType } from '../../services/clients/api-client';
+import { Logger } from '../../services/logging/logger-base';
+import { TestApiService } from '../../services/test-api/test-api-service';
+import Dictionary from '../../shared/helpers/dictionary';
+import { ConferenceSummary } from '../../shared/models/hearings-summary';
 
 @Component({
     selector: 'app-create-hearing',
@@ -282,6 +282,10 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         this.logger.debug(`${this.loggerPrefix} Scheduled date: ${hearingDate}`);
         this.hearingModel.questionnaire_not_required = this.questionnaireNotRequiredCheckBox.value;
         this.hearingModel.audio_recording_required = this.audioRecordingRequiredCheckBox.value;
+        this.logger.debug(`${this.loggerPrefix} Test type: ${this.testType.value} Questionnaire not required:
+        ${this.questionnaireNotRequired.value} Audio recording required: ${this.audioRecordingRequired.value}
+        Individuals: ${this.individuals.value} Representatives: ${this.representatives.value} Observers:
+        ${this.observers.value} Panel Members: ${this.panelMembers.value} Number of hearings: ${this.quantity.value}`);
     }
 
     async saveBooking() {
@@ -290,10 +294,6 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
             this.enableResetButton = true;
             this.bookingsSaving = true;
             this.populateHearingRequest();
-            this.logger.debug(`${this.loggerPrefix} Test type: ${this.testType.value} Questionnaire not required:
-      ${this.questionnaireNotRequired.value} Audio recording required: ${this.audioRecordingRequired.value}
-      Individuals: ${this.individuals.value} Representatives: ${this.representatives.value} Observers:
-      ${this.observers.value} Panel Members: ${this.panelMembers.value} Number of hearings: ${this.quantity.value}`);
             this.failedSubmission = false;
             this.form.markAsPristine();
 
