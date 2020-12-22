@@ -19,4 +19,8 @@ export class SummeriesService {
   setSummaries(summeries: Summary[]){
     this.summaries = summeries;
   }
+
+  resetSummaries(){
+    this.summaries = [];
+  }
 }

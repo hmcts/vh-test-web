@@ -2,25 +2,41 @@
 
   <div class="govuk-grid-column-full">
 
+    <div class="govuk-grid-column-full govuk-!-padding-bottom-2">
+      <a
+        href="javascript:void(0)"
+        (click)="clickCreateHearings()"
+        >Back</a
+      >
+    </div>
+
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-l">Summary</h1>
     </div>
 
-    <div *ngFor="let summary of summeries; index as i">
-      <h1 class="govuk-heading-m">Hearing {{i+1}} - {{summary.getCaseName()}}</h1>
-      <p>{{summary.getCaseName()}}</p>
-      <p>{{summary.getCaseNumber()}}</p>
-      <p>{{summary.getScheduledDateTime()}}</p>
-      <p>Hearing ID: {{summary.getHearingId()}}</p>
-      <p>Conference ID: {{summary.getConferenceId()}}</p>
-      <div *ngFor="let participant of summary.getParticipants(); index as i">
-        <p>{{participant.username}}</p>
-        <p>{{summary.getParticipantPassword(participant.username)}}</p>
+    <div *ngFor="let summary of summeries; index as i" class="govuk-grid-column-full">
+      <div class="govuk-grid-column-full no-left-margin">
+        <h1 class="govuk-heading-m">Hearing {{i+1}} - {{summary.getCaseName()}}</h1>
+        <p>
+          {{summary.getCaseName()}}<br />
+          {{summary.getCaseNumber()}}<br />
+          {{summary.getScheduledDateTime()}}
+        </p>
+        <p>
+          Hearing ID: {{summary.getHearingId()}}<br />
+          Conference ID: {{summary.getConferenceId()}}
+        </p>
+        <div *ngFor="let participant of summary.getParticipants(); index as i">
+          <p>
+            {{participant.username}}<br />
+            {{summary.getParticipantPassword(participant.username)}}
+          </p>
+        </div>
       </div>
 
       <div class="govuk-grid-column-full no-left-margin">
         <button
-          class="govuk-button govuk-!-margin-left-2 standard-width-button govuk-button--secondary"
+          class="govuk-button standard-width-button govuk-button--secondary"
           data-module="govuk-button"
           id="copyHearing"
           (click)="copyHearing(i)"

@@ -19,4 +19,8 @@ export class HearingFormDataService {
   setHearingFormData(hearingFormData: HearingFormData){
     this.hearingFormData = hearingFormData;
   }
+
+  resetHearingFormData(){
+    this.hearingFormData = new HearingFormData();
+  }
 }

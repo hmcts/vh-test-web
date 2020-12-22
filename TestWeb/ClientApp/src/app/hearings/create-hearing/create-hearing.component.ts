@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HearingFormDataService } from 'src/app/services/test-api/hearing-form-data-service';
 import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-data';
+import { SummeriesService } from 'src/app/services/test-api/summeries-service';
 import { PageUrls } from 'src/app/shared/page-url.constants';
 import { Constants } from '../../common/constants';
 import { TestType } from '../../services/clients/api-client';
@@ -53,16 +54,18 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         protected logger: Logger,
         private datePipe: DatePipe,
         protected router: Router,
-        private hearingFormDataService: HearingFormDataService
+        private hearingFormDataService: HearingFormDataService,
+        private summeriesService: SummeriesService
     ) {
       super(router, logger);
       this.displayProgressPopup = false;
     }
 
     ngOnInit() {
-        this.initForm();
-        this.buttonAction = 'Book & Confirm';
-        this.form.valueChanges.subscribe(() => {});
+      this.resetData();
+      this.initForm();
+      this.buttonAction = 'Book & Confirm';
+      this.form.valueChanges.subscribe(() => {});
     }
 
     ngOnDestroy(): void {
@@ -73,11 +76,17 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         });
     }
 
+    private resetData(){
+      this.hearingFormDataService.resetHearingFormData();
+      this.summeriesService.resetSummaries();
+    }
+
     displayConfirmationDialog() {
       this.bookingsSaving = true;
       this.form.markAsPristine();
       this.setHearingFormData();
       this.router.navigate([PageUrls.Progress]);
+      //this.displayProgressPopup = true;
     }
 
     private setHearingFormData(){

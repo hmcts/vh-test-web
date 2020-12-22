@@ -30,10 +30,17 @@ export class SummaryComponent extends HearingBaseComponentDirective implements O
   }
 
   ngOnInit(): void {
+    this.redirectIfNoData();
     this.resetTooltipText();
   }
 
-  bookAnotherHearing(){
+  private redirectIfNoData(){
+    if(this.summeries.length === 0){
+      this.router.navigate([PageUrls.CreateHearings]);
+    }
+  }
+
+  clickCreateHearings(){
     this.router.navigate([PageUrls.CreateHearings]);
   }
 

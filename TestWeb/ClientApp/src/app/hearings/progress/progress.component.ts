@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Logger } from 'src/app/services/logging/logger-base';
 import { CreateService } from 'src/app/services/test-api/create-service';
+import { HearingFormDataService } from 'src/app/services/test-api/hearing-form-data-service';
 import { Summary } from 'src/app/services/test-api/models/summary';
 import { SummeriesService } from 'src/app/services/test-api/summeries-service';
 import { PageUrls } from 'src/app/shared/page-url.constants';
@@ -25,7 +26,7 @@ export class ProgressComponent extends HearingBaseComponentDirective implements 
     protected router: Router,
     protected createService: CreateService,
     protected logger: Logger,
-    private spinnerService: NgxSpinnerService,
+    private hearingFormDataService: HearingFormDataService,
     summeriesService: SummeriesService
   ) {
     super(router, logger);
@@ -33,7 +34,7 @@ export class ProgressComponent extends HearingBaseComponentDirective implements 
   }
 
   async ngOnInit(): Promise<void> {
-    this.spinnerService.show();
+    this.redirectIfNoData();
     try {
       this.summeries = await this.createService.createHearings();
       for (const summary of this.summeries) {
@@ -46,7 +47,12 @@ export class ProgressComponent extends HearingBaseComponentDirective implements 
       this.errors.push(error);
       this.enableRetryButton = true;
     }
-    this.spinnerService.hide();
+  }
+
+  private redirectIfNoData(){
+    if(this.hearingFormDataService.getHearingFormData().hearingDate === null){
+      this.router.navigate([PageUrls.CreateHearings]);
+    }
   }
 
   continue(){
@@ -58,7 +64,6 @@ export class ProgressComponent extends HearingBaseComponentDirective implements 
   }
 
   summeriesToDisplay(): boolean {
-    this.logger.debug(`${this.loggerPrefix} Summeries length is ${this.summeries.length}`);
     if(this.summeries.length > 0){
       return true;
     };
@@ -66,7 +71,6 @@ export class ProgressComponent extends HearingBaseComponentDirective implements 
   }
 
   errorsToDisplay(): boolean {
-    this.logger.debug(`${this.loggerPrefix} Errors length is ${this.errors.length}`);
     if(this.errors.length > 0){
       return true;
     };

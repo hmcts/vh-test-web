@@ -8,6 +8,7 @@ import { ResetService } from "./reset-service";
 import { Summary } from "./models/summary";
 import { HearingFormDataService } from "./hearing-form-data-service";
 import { SummeriesService } from "./summeries-service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,14 @@ export class CreateService {
     private confirmService: ConfirmService,
     private resetService: ResetService,
     private summeriesService: SummeriesService,
+    private spinnerService: NgxSpinnerService,
     hearingFormDataService: HearingFormDataService
     ) {
       this.hearingFormData = hearingFormDataService.getHearingFormData();
   }
 
   async createHearings(): Promise<Summary[]> {
+    this.spinnerService.show();
     this.logger.debug(`${this.loggerPrefix} Creating ${this.hearingFormData.numberOfHearings} hearings...`);
     var summaries = [];
     for (let index = 0; index < this.hearingFormData.numberOfHearings; index++) {
@@ -41,6 +44,7 @@ export class CreateService {
     }
     this.logger.debug(`${this.loggerPrefix} ${summaries.length} SUMMARIES CREATED`);
     this.summeriesService.setSummaries(summaries);
+    this.spinnerService.hide();
     return summaries;
   }
 }

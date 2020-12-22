@@ -6,9 +6,10 @@
     <h1 class="govuk-heading-l">Create a hearing</h1>
   </div>
 
-  <div class="govuk-grid-column-one-half">
+  <form [formGroup]="form" class="govuk-form-group">
 
-    <form [formGroup]="form" class="govuk-form-group">
+    <div class="govuk-grid-column-one-half">
+
 
       <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="hearingDate"> Date of hearing </label>
@@ -87,6 +88,73 @@
         </div>
       </div>
 
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="testTypeDropdown"> Test type </label>
+        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown"
+        >
+          <option *ngFor="let testType of testTypes" [ngValue]="testType">
+            {{ testType }}
+          </option>
+        </select>
+      </div>
+
+      <div class="govuk-form-group bigger-margin-bottom">
+        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
+        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
+          <option *ngFor="let number of numbers" [ngValue]="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="questionnaireNotRequiredCheckBox"
+            name="questionnaireNotRequiredCheckBox"
+            type="checkbox"
+            [checked]="defaultQuestionnaireNotRequired"
+            formControlName="questionnaireNotRequiredCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
+        </div>
+      </div>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="audioRecordingRequiredCheckBox"
+            name="audioRecordingRequiredCheckBox"
+            type="checkbox"
+            [checked]="defaultAudioRecordingRequired"
+            formControlName="audioRecordingRequiredCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
+        </div>
+      </div>
+
+      <div class="govuk-!-padding-bottom-2"></div>
+
+      <div class="sk-top">
+        <div class="govuk-grid-column-one-half no-left-margin">
+          <button
+            id="bookButton"
+            class="govuk-button vh-mr25"
+            data-module="govuk-button"
+            (click)="displayConfirmationDialog()"
+            alt="Book hearing and view hearing details"
+            [disabled]="bookingsSaving"
+          >
+            {{ buttonAction }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="govuk-grid-column-one-half">
       <div [ngClass]="individualsInvalid || representativesInvalid || observersInvalid || panelMembersInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="participants"> Participants </label>
 
@@ -180,77 +248,8 @@
           <span id="panelMembersInvalid-error" class="govuk-error-message"> Provide a value for he number of panel member participants between 0 and {{maxParticipants}} </span>
         </div>
       </div>
+    </div>
 
-      <div class="govuk-form-group">
-        <label class="govuk-label govuk-!-width-full" for="testTypeDropdown"> Test type </label>
-        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown"
-        >
-          <option *ngFor="let testType of testTypes" [ngValue]="testType">
-            {{ testType }}
-          </option>
-        </select>
-      </div>
-
-      <div class="govuk-form-group bigger-margin-bottom">
-        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
-        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
-          <option *ngFor="let number of numbers" [ngValue]="number">
-            {{ number }}
-          </option>
-        </select>
-      </div>
-
-      <div class="govuk-form-group">
-        <div class="govuk-checkboxes__item">
-          <input
-            class="govuk-checkboxes__input"
-            id="questionnaireNotRequiredCheckBox"
-            name="questionnaireNotRequiredCheckBox"
-            type="checkbox"
-            [checked]="defaultQuestionnaireNotRequired"
-            formControlName="questionnaireNotRequiredCheckBox"
-          />
-          <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
-        </div>
-      </div>
-
-      <div class="govuk-form-group">
-        <div class="govuk-checkboxes__item">
-          <input
-            class="govuk-checkboxes__input"
-            id="audioRecordingRequiredCheckBox"
-            name="audioRecordingRequiredCheckBox"
-            type="checkbox"
-            [checked]="defaultAudioRecordingRequired"
-            formControlName="audioRecordingRequiredCheckBox"
-          />
-          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
-        </div>
-      </div>
-
-      <div class="govuk-!-padding-bottom-2"></div>
-
-      <div class="sk-top">
-        <div class="govuk-grid-column-one-half no-left-margin">
-          <button
-            id="bookButton"
-            class="govuk-button vh-mr25"
-            data-module="govuk-button"
-            (click)="displayConfirmationDialog()"
-            alt="Book hearing and view hearing details"
-            [disabled]="bookingsSaving"
-          >
-            {{ buttonAction }}
-          </button>
-        </div>
-
-      </div>
-
-    </form>
-
-  </div>
-
-  <div class="govuk-grid-column-one-half">
-  </div>
+  </form>
 
 </div>
