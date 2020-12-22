@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DeleteModel } from '../common/models/delete-model';
-import { DeletedResponse } from '../services/clients/api-client';
-import { Logger } from '../services/logging/logger-base';
-import { TestApiService } from '../services/test-api-service';
+import { DeleteModel } from '../../common/models/delete-model';
+import { DeletedResponse } from '../../services/clients/api-client';
+import { Logger } from '../../services/logging/logger-base';
+import { TestApiService } from '../../services/test-api/test-api-service';
 
 @Component({
     selector: 'app-delete-hearing',
