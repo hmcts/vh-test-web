@@ -4,6 +4,7 @@
 
     <div class="govuk-grid-column-full govuk-!-padding-bottom-2">
       <a
+        id="backLink"
         href="javascript:void(0)"
         class="govuk-back-link"
         (click)="clickCreateHearings()"
@@ -24,7 +25,7 @@
           <dt class="govuk-summary-list__key">
             Case name
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd id='case-name-{{i}}' class="govuk-summary-list__value">
             {{summary.getCaseName()}}
           </dd>
         </div>
@@ -32,7 +33,7 @@
           <dt class="govuk-summary-list__key">
             Case number
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd id='case-number-{{i}}' class="govuk-summary-list__value">
             {{summary.getCaseNumber()}}
           </dd>
         </div>
@@ -40,7 +41,7 @@
           <dt class="govuk-summary-list__key">
             Scheduled date
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd id='scheduled-date-{{i}}' class="govuk-summary-list__value">
             {{summary.getScheduledDateTime()}}
           </dd>
         </div>
@@ -48,7 +49,7 @@
           <dt class="govuk-summary-list__key">
             Hearing ID
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd id='hearing-id-{{i}}' class="govuk-summary-list__value">
             {{summary.getHearingId()}}
           </dd>
         </div>
@@ -56,7 +57,7 @@
           <dt class="govuk-summary-list__key">
             Conference ID
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd id='conference-id-{{i}}' class="govuk-summary-list__value">
             {{summary.getConferenceId()}}
           </dd>
         </div>
@@ -66,8 +67,8 @@
           </dt>
           <dd class="govuk-summary-list__value">
             <div *ngFor="let participant of summary.getParticipants(); index as j">
-              {{participant.username}}<br />
-              {{summary.getParticipantPassword(participant.username)}}
+              <div id='hearing-{{i}}-participant-{{j}}-username'>{{participant.username}}<br /></div>
+              <div id='hearing-{{i}}-participant-{{j}}-password'>{{summary.getParticipantPassword(participant.username)}}</div>
               <div *ngIf="!theLastParticipant(summary.getParticipants().length, j)"><br /></div>
             </div>
           </dd>
@@ -78,7 +79,7 @@
         <button
           class="govuk-button standard-width-button govuk-button--secondary"
           data-module="govuk-button"
-          id="copyHearing"
+          id="copy-hearing-button-{{i}}"
           (click)="copyHearing(i)"
           >
           Copy hearing details

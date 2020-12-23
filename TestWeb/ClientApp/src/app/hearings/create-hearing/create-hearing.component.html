@@ -266,8 +266,8 @@
   <div *ngIf="displayProgressPopup" id="progressDialog" class="vh-popup-overlay">
     <div class="vh-popup">
 
-      <h1 *ngIf="!finishedCreatingHearings" class="govuk-heading-m">Creating hearings</h1>
-      <h1 *ngIf="finishedCreatingHearings" class="govuk-heading-m">Hearings created</h1>
+      <h1 *ngIf="!finishedCreatingHearings" id="inProgressTitle" class="govuk-heading-m">Creating hearings</h1>
+      <h1 *ngIf="finishedCreatingHearings" id="completeTitle" class="govuk-heading-m">Hearings created</h1>
 
       <div *ngIf="!summeriesToDisplay()">
         <p id='progressText' class="govuk-body govuk-!-margin-bottom-9">
@@ -289,12 +289,16 @@
       </div>
 
       <div *ngIf="errorsToDisplay()">
-        <strong>Errors</strong>
-        <ul>
-          <li *ngFor="let error of errors">
-            {{error}}
-          </li>
-        </ul>
+        <dl *ngFor="let error of errors; index as i" class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Error {{ i+1 }}
+            </dt>
+            <dd id='hearing-{{i}}' class="govuk-summary-list__value">
+              {{error}}
+            </dd>
+          </div>
+        </dl>
       </div>
 
       <div class="centre-buttons">
