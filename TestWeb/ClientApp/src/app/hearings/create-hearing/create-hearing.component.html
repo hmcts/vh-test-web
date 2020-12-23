@@ -10,7 +10,6 @@
 
     <div class="govuk-grid-column-one-half">
 
-
       <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="hearingDate"> Date of hearing </label>
         <input
@@ -118,20 +117,6 @@
             formControlName="questionnaireNotRequiredCheckBox"
           />
           <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
-        </div>
-      </div>
-
-      <div class="govuk-form-group">
-        <div class="govuk-checkboxes__item">
-          <input
-            class="govuk-checkboxes__input"
-            id="audioRecordingRequiredCheckBox"
-            name="audioRecordingRequiredCheckBox"
-            type="checkbox"
-            [checked]="defaultAudioRecordingRequired"
-            formControlName="audioRecordingRequiredCheckBox"
-          />
-          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
         </div>
       </div>
 
@@ -257,6 +242,20 @@
             {{ number }}
           </option>
         </select>
+      </div>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="audioRecordingRequiredCheckBox"
+            name="audioRecordingRequiredCheckBox"
+            type="checkbox"
+            [checked]="defaultAudioRecordingRequired"
+            formControlName="audioRecordingRequiredCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
+        </div>
       </div>
 
     </div>

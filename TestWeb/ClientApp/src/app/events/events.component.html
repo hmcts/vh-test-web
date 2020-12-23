@@ -1,0 +1,37 @@
+<div class="govuk-grid-row">
+
+  <ngx-spinner></ngx-spinner>
+
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Events</h1>
+  </div>
+
+  <form [formGroup]="form" class="govuk-form-group">
+
+    <div class="govuk-grid-column-one-half">
+
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="caseNamesDropdown"> Conferences </label>
+        <select id="caseNamesDropdown" class="govuk-select govuk-!-width-one-half"  formControlName="caseNamesDropdown"
+        >
+          <option *ngFor="let caseName of caseNames" [ngValue]="caseName">
+            {{ caseName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="eventTypeDropdown"> Event type </label>
+        <select id="eventTypeDropdown" class="govuk-select govuk-!-width-one-half"  formControlName="eventTypeDropdown"
+        >
+          <option *ngFor="let eventType of eventTypes" [ngValue]="eventType">
+            {{ eventType }}
+          </option>
+        </select>
+      </div>
+
+    </div>
+
+  </form>
+
+</div>

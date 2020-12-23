@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { EventsComponent } from './events/events.component';
 import { CreateHearingComponent } from './hearings/create-hearing/create-hearing.component';
 import { DeleteHearingComponent } from './hearings/delete-hearing/delete-hearing.component';
 import { SummaryComponent } from './hearings/summary/summary.component';
@@ -12,6 +13,7 @@ export const routes: Routes = [
     { path: `${PageUrls.CreateHearings}`, component: CreateHearingComponent },
     { path: `${PageUrls.Summary}`, component: SummaryComponent },
     { path: `${PageUrls.DeleteHearings}`, component: DeleteHearingComponent },
+    { path: `${PageUrls.Events}`, component: EventsComponent },
     { path: '**', redirectTo: `${PageUrls.NotFound}`, pathMatch: 'full' }
 ];
 

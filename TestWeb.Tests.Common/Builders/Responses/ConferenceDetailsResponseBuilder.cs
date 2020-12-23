@@ -6,11 +6,11 @@ using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Responses
 {
-    public class ConferenceResponseBuilder
+    public class ConferenceDetailsResponseBuilder
     {
         private readonly ConferenceDetailsResponse _response;
 
-        public ConferenceResponseBuilder(HearingDetailsResponse hearing)
+        public ConferenceDetailsResponseBuilder(HearingDetailsResponse hearing)
         {
             _response = new ConferenceDetailsResponse()
             {

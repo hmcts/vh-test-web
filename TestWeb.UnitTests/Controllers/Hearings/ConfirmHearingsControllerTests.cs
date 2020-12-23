@@ -30,7 +30,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
             var hearing = new CreateHearingBuilder().Build();
             var hearingResponse = new HearingsResponseBuilder(hearing).Build();
             var request = new ConfirmHearingBuilder().Build();
-            var conferenceResponse = new ConferenceResponseBuilder(hearingResponse).Build();
+            var conferenceResponse = new ConferenceDetailsResponseBuilder(hearingResponse).Build();
 
             var client = new Mock<ITestApiClient>();
             client.Setup(x => x.ConfirmHearingByIdAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
