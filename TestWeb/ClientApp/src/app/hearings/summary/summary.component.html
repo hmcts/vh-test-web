@@ -5,6 +5,7 @@
     <div class="govuk-grid-column-full govuk-!-padding-bottom-2">
       <a
         href="javascript:void(0)"
+        class="govuk-back-link"
         (click)="clickCreateHearings()"
         >Back</a
       >
@@ -15,24 +16,63 @@
     </div>
 
     <div *ngFor="let summary of summeries; index as i" class="govuk-grid-column-full">
-      <div class="govuk-grid-column-full no-left-margin">
-        <h1 class="govuk-heading-m">Hearing {{i+1}} - {{summary.getCaseName()}}</h1>
-        <p>
-          {{summary.getCaseName()}}<br />
-          {{summary.getCaseNumber()}}<br />
-          {{summary.getScheduledDateTime()}}
-        </p>
-        <p>
-          Hearing ID: {{summary.getHearingId()}}<br />
-          Conference ID: {{summary.getConferenceId()}}
-        </p>
-        <div *ngFor="let participant of summary.getParticipants(); index as i">
-          <p>
-            {{participant.username}}<br />
-            {{summary.getParticipantPassword(participant.username)}}
-          </p>
+
+      <h1 id='hearing-{{i}}' class="govuk-heading-m">Hearing {{i+1}} - {{summary.getCaseName()}}</h1>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Case name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{summary.getCaseName()}}
+          </dd>
         </div>
-      </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Case number
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{summary.getCaseNumber()}}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Scheduled date
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{summary.getScheduledDateTime()}}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Hearing ID
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{summary.getHearingId()}}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Conference ID
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{summary.getConferenceId()}}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Participants
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <div *ngFor="let participant of summary.getParticipants(); index as j">
+              {{participant.username}}<br />
+              {{summary.getParticipantPassword(participant.username)}}
+              <div *ngIf="!theLastParticipant(summary.getParticipants().length, j)"><br /></div>
+            </div>
+          </dd>
+        </div>
+      </dl>
 
       <div class="govuk-grid-column-full no-left-margin">
         <button

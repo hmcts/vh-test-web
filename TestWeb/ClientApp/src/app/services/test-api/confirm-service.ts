@@ -46,7 +46,7 @@ export class ConfirmService {
       try {
           var confirmResponse = await this.testApiService.confirmHearing(hearing.id, this.confirmModel);
           this.logger.debug(`${this.loggerPrefix} CONFERENCE CREATED.`);
-          this.logger.debug(`${this.loggerPrefix} Confirm Response  ${confirmResponse}.`, { payload: confirmResponse });
+          this.logger.debug(`${this.loggerPrefix} Confirm Response:`, { payload: confirmResponse });
           return confirmResponse;
       } catch (error) {
           this.logger.error(`${this.loggerPrefix} Failed to confirm hearing.`, error, { payload: hearing });

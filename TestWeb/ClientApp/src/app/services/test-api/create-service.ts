@@ -6,9 +6,7 @@ import { HearingFormData } from "./models/hearing-form-data";
 import { HearingService } from "./hearing-service";
 import { ResetService } from "./reset-service";
 import { Summary } from "./models/summary";
-import { HearingFormDataService } from "./hearing-form-data-service";
 import { SummeriesService } from "./summeries-service";
-import { NgxSpinnerService } from "ngx-spinner";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +14,6 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class CreateService {
 
   private readonly loggerPrefix: string = '[CreateService] -';
-  private hearingFormData: HearingFormData;
 
   constructor(
     private logger: Logger,
@@ -25,26 +22,21 @@ export class CreateService {
     private confirmService: ConfirmService,
     private resetService: ResetService,
     private summeriesService: SummeriesService,
-    private spinnerService: NgxSpinnerService,
-    hearingFormDataService: HearingFormDataService
     ) {
-      this.hearingFormData = hearingFormDataService.getHearingFormData();
   }
 
-  async createHearings(): Promise<Summary[]> {
-    this.spinnerService.show();
-    this.logger.debug(`${this.loggerPrefix} Creating ${this.hearingFormData.numberOfHearings} hearings...`);
+  async createHearings(hearingFormData: HearingFormData): Promise<Summary[]> {
+    this.logger.debug(`${this.loggerPrefix} Creating ${hearingFormData.numberOfHearings} hearings...`);
     var summaries = [];
-    for (let index = 0; index < this.hearingFormData.numberOfHearings; index++) {
-      var allocatedUsers = await this.allocationService.AllocatateUsers(this.hearingFormData);
-      var hearing = await this.hearingService.CreateHearing(this.hearingFormData, allocatedUsers);
+    for (let index = 0; index < hearingFormData.numberOfHearings; index++) {
+      var allocatedUsers = await this.allocationService.AllocatateUsers(hearingFormData);
+      var hearing = await this.hearingService.CreateHearing(hearingFormData, allocatedUsers);
       var conference = await this.confirmService.ConfirmHearing(hearing, allocatedUsers);
       var resetPasswords = await this.resetService.resetPasswords(allocatedUsers);
       summaries.push(new Summary(conference, resetPasswords));
     }
     this.logger.debug(`${this.loggerPrefix} ${summaries.length} SUMMARIES CREATED`);
     this.summeriesService.setSummaries(summaries);
-    this.spinnerService.hide();
     return summaries;
   }
 }

@@ -54,4 +54,11 @@ export class SummaryComponent extends HearingBaseComponentDirective implements O
   resetTooltipText() {
     this.tooltip = 'Copy conference details to clipboard';
   }
+
+  theLastParticipant(totalParticipants: number, index: number){
+    if(totalParticipants === index + 1){
+      return true;
+    }
+    return false;
+  }
 }

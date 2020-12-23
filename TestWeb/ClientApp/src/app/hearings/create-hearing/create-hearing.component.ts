@@ -2,9 +2,12 @@ import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
+import { CreateService } from 'src/app/services/test-api/create-service';
 import { HearingFormDataService } from 'src/app/services/test-api/hearing-form-data-service';
 import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-data';
+import { Summary } from 'src/app/services/test-api/models/summary';
 import { SummeriesService } from 'src/app/services/test-api/summeries-service';
 import { PageUrls } from 'src/app/shared/page-url.constants';
 import { Constants } from '../../common/constants';
@@ -20,7 +23,8 @@ import { HearingBaseComponentDirective } from '../hearing-base/hearing-base-comp
 export class CreateHearingComponent extends HearingBaseComponentDirective implements OnInit, OnDestroy {
     protected readonly loggerPrefix: string = '[Create Hearing(s)] -';
     testTypes: TestType[] = [Constants.TestTypes.Demo, Constants.TestTypes.ITHC, Constants.TestTypes.Manual];
-    numbers: number[] = [1, 2, 3, 4];
+    numberOfHearingsOptions: number[] = [1, 2, 3, 4];
+    numberOfEndpointsOptions: number[] = [0];
     private defaultTestType: string = Constants.TestTypes.Manual;
     defaultQuestionnaireNotRequired = true;
     defaultAudioRecordingRequired = false;
@@ -29,6 +33,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     private defaultObservers = 0;
     private defaultPanelMembers = 0;
     private defaultNumberOfHearings = 1;
+    private defaultNumberOfEndpoints = 0;
     maxParticipants = 21;
     today = new Date();
     form: FormGroup;
@@ -42,12 +47,19 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     observersTextfield: FormControl;
     panelMembersTextfield: FormControl;
     quantityDropdown: FormControl;
+    endpointsDropdown: FormControl;
     isStartHoursInPast: boolean;
     isStartMinutesInPast: boolean;
     bookingsSaving = false;
     bookingsSaved = true;
     tooltip: string;
     displayProgressPopup: boolean;
+    enableContinueButton = false;
+    enableRetryButton = false;
+    finishedCreatingHearings = false;
+    errors = [];
+    caseNames = [];
+    summeries: Summary[];
 
     constructor(
         private fb: FormBuilder,
@@ -55,7 +67,9 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         private datePipe: DatePipe,
         protected router: Router,
         private hearingFormDataService: HearingFormDataService,
-        private summeriesService: SummeriesService
+        private summeriesService: SummeriesService,
+        private createService: CreateService,
+        private spinnerService: NgxSpinnerService
     ) {
       super(router, logger);
       this.displayProgressPopup = false;
@@ -81,15 +95,56 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
       this.summeriesService.resetSummaries();
     }
 
-    displayConfirmationDialog() {
+    async displayConfirmationDialog() {
       this.bookingsSaving = true;
       this.form.markAsPristine();
-      this.setHearingFormData();
-      this.router.navigate([PageUrls.Progress]);
-      //this.displayProgressPopup = true;
+      var data = this.setHearingFormData();
+      //this.router.navigate([PageUrls.Progress]);
+      this.displayProgressPopup = true;
+      this.spinnerService.show();
+      await this.createHearings(data);
+      this.finishedCreatingHearings = true;
+      this.spinnerService.hide();
     }
 
-    private setHearingFormData(){
+    async createHearings(hearingFormData: HearingFormData): Promise<void> {
+      try {
+        this.summeries = await this.createService.createHearings(hearingFormData);
+        for (const summary of this.summeries) {
+          var casename = summary.getCaseName();
+          this.caseNames.push(casename);
+        }
+        this.enableContinueButton = true;
+      } catch (error) {
+        this.logger.error(`${this.loggerPrefix} Failed to create hearings.`, error);
+        this.errors.push(error);
+        this.enableRetryButton = true;
+      }
+    }
+
+    summeriesToDisplay(): boolean {
+      if(this.summeries != null && this.summeries.length > 0){
+        return true;
+      };
+      return false;
+    }
+
+    errorsToDisplay(): boolean {
+      if(this.errors != null && this.errors.length > 0){
+        return true;
+      };
+      return false;
+    }
+
+    continue(){
+      this.router.navigate([PageUrls.Summary]);
+    }
+
+    goBackToHearings(){
+      this.router.navigate([PageUrls.CreateHearings]);
+    }
+
+    private setHearingFormData(): HearingFormData{
       var data = new HearingFormData();
       data.audioRecordingRequired = this.audioRecordingRequiredCheckBox.value;
       const hearingDate = new Date(this.form.value.hearingDate);
@@ -107,6 +162,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
       data.testType = this.testType.value;
       this.hearingFormDataService.setHearingFormData(data);
       this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
+      return data;
     }
 
     private initForm() {
@@ -128,6 +184,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         this.observersTextfield = new FormControl(this.defaultObservers);
         this.panelMembersTextfield = new FormControl(this.defaultPanelMembers);
         this.quantityDropdown = new FormControl(this.defaultNumberOfHearings);
+        this.endpointsDropdown = new FormControl(this.defaultNumberOfEndpoints);
 
         this.form = this.fb.group({
             testTypeDropdown: this.testTypeDropdown,
@@ -140,7 +197,8 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
             representativesTextfield: this.representativesTextfield,
             observersTextfield: this.observersTextfield,
             panelMembersTextfield: this.panelMembersTextfield,
-            quantityDropdown: this.quantityDropdown
+            quantityDropdown: this.quantityDropdown,
+            endpointsDropdown: this.endpointsDropdown
         });
     }
 

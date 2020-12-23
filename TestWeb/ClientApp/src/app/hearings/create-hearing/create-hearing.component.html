@@ -101,7 +101,7 @@
       <div class="govuk-form-group bigger-margin-bottom">
         <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
         <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
-          <option *ngFor="let number of numbers" [ngValue]="number">
+          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
             {{ number }}
           </option>
         </select>
@@ -247,9 +247,82 @@
         <div *ngIf="panelMembersInvalid" class="alert alert-danger">
           <span id="panelMembersInvalid-error" class="govuk-error-message"> Provide a value for he number of panel member participants between 0 and {{maxParticipants}} </span>
         </div>
+
       </div>
+
+      <div class="govuk-form-group bigger-margin-bottom">
+        <label class="govuk-label govuk-!-width-full" for="endpointsDropdown"> Endpoints </label>
+        <select id="endpointsDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="endpointsDropdown">
+          <option *ngFor="let number of numberOfEndpointsOptions" [ngValue]="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+
     </div>
 
   </form>
 
+  <div *ngIf="displayProgressPopup" id="progressDialog" class="vh-popup-overlay">
+    <div class="vh-popup">
+
+      <h1 *ngIf="!finishedCreatingHearings" class="govuk-heading-m">Creating hearings</h1>
+      <h1 *ngIf="finishedCreatingHearings" class="govuk-heading-m">Hearings created</h1>
+
+      <div *ngIf="!summeriesToDisplay()">
+        <p id='progressText' class="govuk-body govuk-!-margin-bottom-9">
+          Please wait whilst the hearings are created.
+        </p>
+      </div>
+
+      <div *ngIf="summeriesToDisplay()">
+        <dl *ngFor="let caseName of caseNames; index as i" class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Hearing {{ i+1 }}
+            </dt>
+            <dd id='hearing-{{i}}' class="govuk-summary-list__value">
+              {{caseName}}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div *ngIf="errorsToDisplay()">
+        <strong>Errors</strong>
+        <ul>
+          <li *ngFor="let error of errors">
+            {{error}}
+          </li>
+        </ul>
+      </div>
+
+      <div class="centre-buttons">
+        <button
+          id="continueButton"
+          class="govuk-button vh-popup-button"
+          type="button"
+          data-module="govuk-button"
+          aria-label="Continue to summary"
+          (click)="continue()"
+          *ngIf="enableContinueButton"
+        >
+          Continue
+        </button>
+
+        <button
+          id="retryButton"
+          class="govuk-button vh-popup-button"
+          type="button"
+          data-module="govuk-button"
+          aria-label="Return to create hearings"
+          (click)="goBackToHearings()"
+          *ngIf="enableRetryButton"
+        >
+          Retry
+        </button>
+      </div>
+
+    </div>
+  </div>
 </div>
