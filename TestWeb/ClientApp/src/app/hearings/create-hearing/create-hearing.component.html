@@ -6,9 +6,10 @@
     <h1 class="govuk-heading-l">Create a hearing</h1>
   </div>
 
-  <div class="govuk-grid-column-one-half">
+  <form [formGroup]="form" class="govuk-form-group">
 
-    <form [formGroup]="form" class="govuk-form-group">
+    <div class="govuk-grid-column-one-half">
+
 
       <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="hearingDate"> Date of hearing </label>
@@ -87,6 +88,73 @@
         </div>
       </div>
 
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="testTypeDropdown"> Test type </label>
+        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown"
+        >
+          <option *ngFor="let testType of testTypes" [ngValue]="testType">
+            {{ testType }}
+          </option>
+        </select>
+      </div>
+
+      <div class="govuk-form-group bigger-margin-bottom">
+        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
+        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
+          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="questionnaireNotRequiredCheckBox"
+            name="questionnaireNotRequiredCheckBox"
+            type="checkbox"
+            [checked]="defaultQuestionnaireNotRequired"
+            formControlName="questionnaireNotRequiredCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
+        </div>
+      </div>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="audioRecordingRequiredCheckBox"
+            name="audioRecordingRequiredCheckBox"
+            type="checkbox"
+            [checked]="defaultAudioRecordingRequired"
+            formControlName="audioRecordingRequiredCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
+        </div>
+      </div>
+
+      <div class="govuk-!-padding-bottom-2"></div>
+
+      <div class="sk-top">
+        <div class="govuk-grid-column-one-half no-left-margin">
+          <button
+            id="bookButton"
+            class="govuk-button vh-mr25"
+            data-module="govuk-button"
+            (click)="displayConfirmationDialog()"
+            alt="Book hearing and view hearing details"
+            [disabled]="bookingsSaving"
+          >
+            {{ buttonAction }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="govuk-grid-column-one-half">
       <div [ngClass]="individualsInvalid || representativesInvalid || observersInvalid || panelMembersInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="participants"> Participants </label>
 
@@ -179,131 +247,86 @@
         <div *ngIf="panelMembersInvalid" class="alert alert-danger">
           <span id="panelMembersInvalid-error" class="govuk-error-message"> Provide a value for he number of panel member participants between 0 and {{maxParticipants}} </span>
         </div>
-      </div>
 
-      <div class="govuk-form-group">
-        <label class="govuk-label govuk-!-width-full" for="testTypeDropdown"> Test type </label>
-        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown"
-        >
-          <option *ngFor="let testType of testTypes" [ngValue]="testType">
-            {{ testType }}
-          </option>
-        </select>
       </div>
 
       <div class="govuk-form-group bigger-margin-bottom">
-        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
-        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
-          <option *ngFor="let number of numbers" [ngValue]="number">
+        <label class="govuk-label govuk-!-width-full" for="endpointsDropdown"> Endpoints </label>
+        <select id="endpointsDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="endpointsDropdown">
+          <option *ngFor="let number of numberOfEndpointsOptions" [ngValue]="number">
             {{ number }}
           </option>
         </select>
       </div>
 
-      <div class="govuk-form-group">
-        <div class="govuk-checkboxes__item">
-          <input
-            class="govuk-checkboxes__input"
-            id="questionnaireNotRequiredCheckBox"
-            name="questionnaireNotRequiredCheckBox"
-            type="checkbox"
-            [checked]="defaultQuestionnaireNotRequired"
-            formControlName="questionnaireNotRequiredCheckBox"
-          />
-          <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
-        </div>
+    </div>
+
+  </form>
+
+  <div *ngIf="displayProgressPopup" id="progressDialog" class="vh-popup-overlay">
+    <div class="vh-popup">
+
+      <h1 *ngIf="!finishedCreatingHearings" id="inProgressTitle" class="govuk-heading-m">Creating hearings</h1>
+      <h1 *ngIf="finishedCreatingHearings" id="completeTitle" class="govuk-heading-m">Hearings created</h1>
+
+      <div *ngIf="!summeriesToDisplay()">
+        <p id='progressText' class="govuk-body govuk-!-margin-bottom-9">
+          Please wait whilst the hearings are created.
+        </p>
       </div>
 
-      <div class="govuk-form-group">
-        <div class="govuk-checkboxes__item">
-          <input
-            class="govuk-checkboxes__input"
-            id="audioRecordingRequiredCheckBox"
-            name="audioRecordingRequiredCheckBox"
-            type="checkbox"
-            [checked]="defaultAudioRecordingRequired"
-            formControlName="audioRecordingRequiredCheckBox"
-          />
-          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
-        </div>
+      <div *ngIf="summeriesToDisplay()">
+        <dl *ngFor="let caseName of caseNames; index as i" class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Hearing {{ i+1 }}
+            </dt>
+            <dd id='hearing-{{i}}' class="govuk-summary-list__value">
+              {{caseName}}
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      <div class="govuk-!-padding-bottom-2"></div>
-
-      <div class="sk-top">
-        <div class="govuk-grid-column-one-half no-left-margin">
-          <button
-            id="bookButton"
-            class="govuk-button vh-mr25"
-            data-module="govuk-button"
-            (click)="saveBooking()"
-            alt="Book hearing and view hearing details"
-            [disabled]="bookingsSaving"
-          >
-            {{ buttonAction }}
-          </button>
-        </div>
-
-        <div class="govuk-grid-column-one-half no-left-margin">
-          <button
-            class="govuk-button govuk-!-margin-left-2 standard-width-button govuk-button--secondary"
-            data-module="govuk-button"
-            id="reset"
-            (click)="reset()"
-            *ngIf="enableResetButton"
-            >
-            Reset
-          </button>
-        </div>
+      <div *ngIf="errorsToDisplay()">
+        <dl *ngFor="let error of errors; index as i" class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Error {{ i+1 }}
+            </dt>
+            <dd id='hearing-{{i}}' class="govuk-summary-list__value">
+              {{error}}
+            </dd>
+          </div>
+        </dl>
       </div>
 
-    </form>
+      <div class="centre-buttons">
+        <button
+          id="continueButton"
+          class="govuk-button vh-popup-button"
+          type="button"
+          data-module="govuk-button"
+          aria-label="Continue to summary"
+          (click)="continue()"
+          *ngIf="enableContinueButton"
+        >
+          Continue
+        </button>
 
+        <button
+          id="retryButton"
+          class="govuk-button vh-popup-button"
+          type="button"
+          data-module="govuk-button"
+          aria-label="Return to create hearings"
+          (click)="goBackToHearings()"
+          *ngIf="enableRetryButton"
+        >
+          Retry
+        </button>
+      </div>
+
+    </div>
   </div>
-
-  <div class="govuk-grid-column-one-half">
-    <form [formGroup]="summaryForm" class="govuk-form-group">
-
-      <div class="govuk-form-group">
-        <div id="results-hint" class="govuk-hint">
-          <h4 class="govuk-heading-s">Progress</h4>
-        </div>
-        <textarea
-          class="govuk-textarea textarea-small-text"
-          id="progressTextfield"
-          name="progressTextfield"
-          rows="10"
-          aria-describedby="results-hint"
-          [value]="progressOutput"
-          disabled>
-        </textarea>
-
-        <div id="results-hint" class="govuk-hint">
-          <h4 class="govuk-heading-s">Summary</h4>
-        </div>
-        <textarea
-          class="govuk-textarea textarea-small-text"
-          id="summaryTextfield"
-          name="summaryTextfield"
-          rows="28"
-          aria-describedby="results-hint"
-          [value]="summaryOutput"
-          disabled>
-        </textarea>
-        <div class="govuk-grid-column-full no-left-margin">
-          <button
-            class="govuk-button govuk-!-margin-left-2 standard-width-button govuk-button--secondary"
-            data-module="govuk-button"
-            id="copyHearing"
-            (click)="copyHearing()"
-            *ngIf="enableCopyButton"
-            >
-            Copy hearing details
-          </button>
-        </div>
-      </div>
-
-    </form>
-  </div>
-
 </div>

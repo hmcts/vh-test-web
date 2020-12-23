@@ -7,8 +7,10 @@
 Scenario: Create hearing
 	Given the user has progressed to the Create Hearings page
 	When the user creates 2 hearings
-	Then the progress is visible
-	And the conference details appear in the summary
+	Then the confirmation dialog shows hearings were created
+	And the summary page displays the new hearing details
+	When the user returns to the Create Hearings page
+	Then the user is on the create hearings page
 
 @VIH-6690
 Scenario Outline: Cannot create hearings in the past

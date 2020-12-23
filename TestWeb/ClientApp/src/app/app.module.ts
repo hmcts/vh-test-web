@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Config } from './common/models/config';
+import { SummaryComponent } from './hearings/summary/summary.component';
 
 export let ENVIRONMENT_CONFIG: Config = new Config();
 
@@ -32,7 +33,7 @@ export function getSettings(configService: ConfigService) {
 }
 
 @NgModule({
-    declarations: [AppComponent, CreateHearingComponent, DeleteHearingComponent],
+    declarations: [AppComponent, CreateHearingComponent, SummaryComponent, DeleteHearingComponent],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,

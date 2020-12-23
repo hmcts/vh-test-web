@@ -27,23 +27,23 @@ export class TestApiService {
     constructor(private apiClient: ApiClient, private logger: Logger) {}
 
     allocateUsers(allocateUsersModel: AllocateUsersModel): Promise<UserDetailsResponse[]> {
-        this.logger.debug(`${this.loggerPrefix} Allocating users with model ${allocateUsersModel}`, { payload: allocateUsersModel });
+        this.logger.debug(`${this.loggerPrefix} Allocating users with model:`, { payload: allocateUsersModel });
         const allocateRequest = MapAllocateUsers.map(allocateUsersModel);
-        this.logger.debug(`${this.loggerPrefix} Mapped allocation model to request ${allocateRequest}`, { payload: allocateRequest });
+        this.logger.debug(`${this.loggerPrefix} Mapped allocation model to request:`, { payload: allocateRequest });
         return this.apiClient.allocateUsers(allocateRequest).toPromise();
     }
 
     createHearing(createHearingModel: HearingModel): Promise<HearingDetailsResponse> {
-        this.logger.debug(`${this.loggerPrefix} Creating hearing with model ${createHearingModel}`, { payload: createHearingModel });
+        this.logger.debug(`${this.loggerPrefix} Creating hearing with model:`, { payload: createHearingModel });
         const hearingRequest = MapHearing.map(createHearingModel);
-        this.logger.debug(`${this.loggerPrefix} Mapped hearing model to request ${hearingRequest}`, { payload: hearingRequest });
+        this.logger.debug(`${this.loggerPrefix} Mapped hearing model to request:`, { payload: hearingRequest });
         return this.apiClient.hearings(hearingRequest).toPromise();
     }
 
     confirmHearing(hearingId: string, confirmHearingModel: ConfirmHearingModel): Promise<ConferenceDetailsResponse> {
-        this.logger.debug(`${this.loggerPrefix} Confirming hearing with model ${confirmHearingModel}`, { payload: confirmHearingModel });
+        this.logger.debug(`${this.loggerPrefix} Confirming hearing with model:`, { payload: confirmHearingModel });
         const confirmRequest = MapConfirmHearing.map(confirmHearingModel);
-        this.logger.debug(`${this.loggerPrefix} Mapped confirm model to request ${confirmRequest}`, { payload: confirmRequest });
+        this.logger.debug(`${this.loggerPrefix} Mapped confirm model to request:`, { payload: confirmRequest });
         return this.apiClient.confirmHearingById(hearingId, confirmRequest).toPromise();
     }
 
@@ -51,14 +51,14 @@ export class TestApiService {
         this.logger.debug(`${this.loggerPrefix} Resetting password for ${username}`);
         const resetRequest = new ResetUserPasswordRequest();
         resetRequest.username = username;
-        this.logger.debug(`${this.loggerPrefix} Mapped reset model to request ${resetRequest}`, { payload: resetRequest });
+        this.logger.debug(`${this.loggerPrefix} Mapped reset model to request:`, { payload: resetRequest });
         return this.apiClient.password(resetRequest).toPromise();
     }
 
     deleteHearings(deleteHearingsModel: DeleteModel): Promise<DeletedResponse> {
-        this.logger.debug(`${this.loggerPrefix} Deleting hearings with model ${deleteHearingsModel}`, { payload: deleteHearingsModel });
+        this.logger.debug(`${this.loggerPrefix} Deleting hearings with model:`, { payload: deleteHearingsModel });
         const deleteRequest = MapDelete.map(deleteHearingsModel);
-        this.logger.debug(`${this.loggerPrefix} Mapped delete model to request ${deleteRequest}`, { payload: deleteRequest });
+        this.logger.debug(`${this.loggerPrefix} Mapped delete model to request:`, { payload: deleteRequest });
         return this.apiClient.removeTestData(deleteRequest).toPromise();
     }
 }

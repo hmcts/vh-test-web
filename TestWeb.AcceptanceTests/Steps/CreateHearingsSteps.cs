@@ -1,4 +1,6 @@
-﻿using AcceptanceTests.Common.Driver.Drivers;
+﻿using System;
+using System.Threading;
+using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.Driver.Helpers;
 using AcceptanceTests.Common.Test.Steps;
 using FluentAssertions;
@@ -26,10 +28,11 @@ namespace TestWeb.AcceptanceTests.Steps
 
         public void ProgressToNextPage()
         {
+            SetTheParticipants();
             ClickBook();
-            VerifyTextPresence.VerifyOnce(_browser, CreateHearingPage.SummaryTextfield, "Hearing ID");
             GetTheHearingNames();
-            _c.Test.CaseNames.Count.Should().BeGreaterThan(0);
+            ClickContinue();
+            _c.Test.CaseNames.Should().NotBeNullOrEmpty();
             _browser.ClickLink(HeaderPage.DeleteHearingsLink);
         }
 
@@ -39,6 +42,7 @@ namespace TestWeb.AcceptanceTests.Steps
             _numberOfHearings = numberOfHearings;
             _browser.Driver.WaitForListToBePopulated(CreateHearingPage.NumberOfHearingsDropdown);
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfHearingsDropdown, numberOfHearings.ToString());
+            SetTheParticipants();
             ClickBook();
         }
 
@@ -47,40 +51,49 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Click(CreateHearingPage.BookAndConfirmButton);
         }
 
-        [Then(@"the progress is visible")]
-        public void ThenTheProgressIsVisible()
+        private void ClickContinue()
         {
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.ProgressTextfield, "[Allocating] Complete", _numberOfHearings);
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.ProgressTextfield, "[Creating hearing] Complete", _numberOfHearings);
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.ProgressTextfield, "[Confirming hearing] Complete", _numberOfHearings);
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.ProgressTextfield, "[Resetting user passwords] Complete", _numberOfHearings);
+            _browser.Click(CreateHearingPage.ContinueButton);
         }
 
-        [Then(@"the conference details appear in the summary")]
-        public void ThenTheConferenceDetailsAppearInTheSummary()
+        private void SetTheParticipants()
         {
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.SummaryTextfield, "Hearing ID", _numberOfHearings);
-            VerifyTextPresence.Verify(_browser, CreateHearingPage.SummaryTextfield, "Conference ID", _numberOfHearings);
+            _browser.Clear(CreateHearingPage.IndividualsTextfield);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.IndividualsTextfield).SendKeys(DefaultData.Individuals.ToString());
+            _browser.Clear(CreateHearingPage.RepresentativesTextfield);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.RepresentativesTextfield).SendKeys(DefaultData.Representatives.ToString());
+            _browser.Clear(CreateHearingPage.ObserversTextfield);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.ObserversTextfield).SendKeys(DefaultData.Observers.ToString());
+            _browser.Clear(CreateHearingPage.PanelMembersTextfield);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.PanelMembersTextfield).SendKeys(DefaultData.PanelMembers.ToString());
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
+
+        [Then(@"the confirmation dialog shows hearings were created")]
+        public void ThenTheConfirmationDialogShowsHearingsWereCreated()
+        {
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.ProgressDialog).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InProgressTitle).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilElementNotVisible(CreateHearingPage.InProgressTitle, 30);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.CompleteTitle).Displayed.Should().BeTrue();
             GetTheHearingNames();
+            ClickContinue();
+            _browser.Driver.WaitUntilElementNotVisible(CreateHearingPage.CompleteTitle);
+            _browser.Driver.WaitUntilElementNotVisible(CreateHearingPage.ProgressDialog);
         }
 
         private void GetTheHearingNames()
         {
-            var summary = _browser.Driver.WaitUntilVisible(CreateHearingPage.SummaryTextfield).GetProperty("value");
-            summary = summary.Replace("\r\n", ".");
-            summary = summary.Replace("\n", ".");
-            var sentences = summary.Split('.', ':', '\'');
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.CompleteTitle).Displayed.Should().BeTrue();
+            var numberOfCaseNames = _browser.Driver.WaitUntilElementsVisible(CreateHearingPage.NumberOfCaseNames).Count;
+            numberOfCaseNames.Should().BeGreaterThan(0);
 
-            foreach (var sentence in sentences)
+            for (var i = 0; i < numberOfCaseNames; i++)
             {
-                if (!sentence.Contains("Test")) continue;
-                var lengthOfCaseName = ConfigData.TemplateCaseName.Length;
-                var caseName = sentence.Substring(0, lengthOfCaseName);
-                if (!caseName.Contains("Test")) continue;
+                var caseName = _browser.Driver.WaitUntilVisible(CreateHearingPage.CaseName(i)).Text;
                 _c.Test.CaseNames.Add(caseName);
             }
-
-            _c.Test.CaseNames.Count.Should().Be(_numberOfHearings, $"Case names were not correctly saved. Sentences were: '{sentences}'");
+            _c.Test.CaseNames.Count.Should().Be(_numberOfHearings, $"Case names were not correctly saved. Expected {_numberOfHearings} hearings but {_c.Test.CaseNames.Count} were created.");
         }
 
         [When(@"the date is set to a past date")]
