@@ -1,26 +1,25 @@
-import { Injectable } from "@angular/core";
-import { Summary } from "./models/summary";
+import { Injectable } from '@angular/core';
+import { Summary } from './models/summary';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SummeriesService {
+    private summaries: Summary[];
 
-  private summaries: Summary[];
+    constructor() {
+        this.summaries = [];
+    }
 
-  constructor() {
-      this.summaries = [];
-  }
+    getSummaries() {
+        return this.summaries;
+    }
 
-  getSummaries(){
-    return this.summaries;
-  }
+    setSummaries(summeries: Summary[]) {
+        this.summaries = summeries;
+    }
 
-  setSummaries(summeries: Summary[]){
-    this.summaries = summeries;
-  }
-
-  resetSummaries(){
-    this.summaries = [];
-  }
+    resetSummaries() {
+        this.summaries = [];
+    }
 }

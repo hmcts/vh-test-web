@@ -69,15 +69,15 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         private createService: CreateService,
         private spinnerService: NgxSpinnerService
     ) {
-      super(router, logger);
-      this.displayProgressPopup = false;
+        super(router, logger);
+        this.displayProgressPopup = false;
     }
 
     ngOnInit() {
-      this.resetData();
-      this.initForm();
-      this.buttonAction = 'Book & Confirm';
-      this.form.valueChanges.subscribe(() => {});
+        this.resetData();
+        this.initForm();
+        this.buttonAction = 'Book & Confirm';
+        this.form.valueChanges.subscribe(() => {});
     }
 
     ngOnDestroy(): void {
@@ -88,76 +88,76 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         });
     }
 
-    private resetData(){
-      this.summeriesService.resetSummaries();
+    private resetData() {
+        this.summeriesService.resetSummaries();
     }
 
     async displayConfirmationDialog() {
-      this.bookingsSaving = true;
-      this.form.markAsPristine();
-      var data = this.setHearingFormData();
-      this.displayProgressPopup = true;
-      this.spinnerService.show();
-      await this.createHearings(data);
-      this.finishedCreatingHearings = true;
-      this.spinnerService.hide();
+        this.bookingsSaving = true;
+        this.form.markAsPristine();
+        const data = this.setHearingFormData();
+        this.displayProgressPopup = true;
+        this.spinnerService.show();
+        await this.createHearings(data);
+        this.finishedCreatingHearings = true;
+        this.spinnerService.hide();
     }
 
     async createHearings(hearingFormData: HearingFormData): Promise<void> {
-      try {
-        this.summeries = await this.createService.createHearings(hearingFormData);
-        for (const summary of this.summeries) {
-          var casename = summary.getCaseName();
-          this.caseNames.push(casename);
+        try {
+            this.summeries = await this.createService.createHearings(hearingFormData);
+            for (const summary of this.summeries) {
+                const casename = summary.getCaseName();
+                this.caseNames.push(casename);
+            }
+            this.enableContinueButton = true;
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to create hearings.`, error);
+            this.errors.push(error);
+            this.enableRetryButton = true;
         }
-        this.enableContinueButton = true;
-      } catch (error) {
-        this.logger.error(`${this.loggerPrefix} Failed to create hearings.`, error);
-        this.errors.push(error);
-        this.enableRetryButton = true;
-      }
     }
 
     summeriesToDisplay(): boolean {
-      if(this.summeries != null && this.summeries.length > 0){
-        return true;
-      };
-      return false;
+        if (this.summeries != null && this.summeries.length > 0) {
+            return true;
+        }
+        return false;
     }
 
     errorsToDisplay(): boolean {
-      if(this.errors != null && this.errors.length > 0){
-        return true;
-      };
-      return false;
+        if (this.errors != null && this.errors.length > 0) {
+            return true;
+        }
+        return false;
     }
 
-    continue(){
-      this.router.navigate([PageUrls.Summary]);
+    continue() {
+        this.router.navigate([PageUrls.Summary]);
     }
 
-    goBackToHearings(){
-      this.router.navigate([PageUrls.CreateHearings]);
+    goBackToHearings() {
+        this.router.navigate([PageUrls.CreateHearings]);
     }
 
-    private setHearingFormData(): HearingFormData{
-      var data = new HearingFormData();
-      data.audioRecordingRequired = this.audioRecordingRequiredCheckBox.value;
-      const hearingDate = new Date(this.form.value.hearingDate);
-      hearingDate.setHours(this.form.value.hearingStartTimeHour, this.form.value.hearingStartTimeMinute);
-      data.hearingDate = hearingDate;
-      data.hearingStartTimeHour = this.form.value.hearingStartTimeHour;
-      data.hearingStartTimeMinute = this.form.value.hearingStartTimeMinute;
-      data.individuals = this.individuals.value
-      data.numberOfHearings = this.quantity.value;
-      data.observers = this.observers.value;
-      data.panelMembers = this.panelMembers.value;
-      data.questionnaireNotRequired = this.questionnaireNotRequiredCheckBox.value;
-      data.representatives = this.representatives.value;
-      data.scheduledDateTime = hearingDate;
-      data.testType = this.testType.value;
-      this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
-      return data;
+    private setHearingFormData(): HearingFormData {
+        const data = new HearingFormData();
+        data.audioRecordingRequired = this.audioRecordingRequiredCheckBox.value;
+        const hearingDate = new Date(this.form.value.hearingDate);
+        hearingDate.setHours(this.form.value.hearingStartTimeHour, this.form.value.hearingStartTimeMinute);
+        data.hearingDate = hearingDate;
+        data.hearingStartTimeHour = this.form.value.hearingStartTimeHour;
+        data.hearingStartTimeMinute = this.form.value.hearingStartTimeMinute;
+        data.individuals = this.individuals.value;
+        data.numberOfHearings = this.quantity.value;
+        data.observers = this.observers.value;
+        data.panelMembers = this.panelMembers.value;
+        data.questionnaireNotRequired = this.questionnaireNotRequiredCheckBox.value;
+        data.representatives = this.representatives.value;
+        data.scheduledDateTime = hearingDate;
+        data.testType = this.testType.value;
+        this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
+        return data;
     }
 
     private initForm() {
@@ -254,10 +254,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     }
 
     get hearingStartTimeHourInvalid() {
-        return (
-            this.hearingStartTimeHour.invalid &&
-            (this.hearingStartTimeHour.dirty || this.hearingStartTimeHour.touched)
-        );
+        return this.hearingStartTimeHour.invalid && (this.hearingStartTimeHour.dirty || this.hearingStartTimeHour.touched);
     }
 
     get individualsInvalid() {
@@ -312,10 +309,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     }
 
     get hearingStartTimeMinuteInvalid() {
-        return (
-            this.hearingStartTimeMinute.invalid &&
-            (this.hearingStartTimeMinute.dirty || this.hearingStartTimeMinute.touched)
-        );
+        return this.hearingStartTimeMinute.invalid && (this.hearingStartTimeMinute.dirty || this.hearingStartTimeMinute.touched);
     }
 
     resetPastTimeOnBlur() {

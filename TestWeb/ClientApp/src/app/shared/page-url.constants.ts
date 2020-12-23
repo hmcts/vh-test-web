@@ -3,7 +3,6 @@ export const PageUrls = {
     Home: 'home',
     // Creating Bookings
     CreateHearings: 'create-hearings',
-    Progress: 'progress',
     Summary: 'summary',
     Users: 'allocate-users',
     DeleteHearings: 'delete-hearings',
