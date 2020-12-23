@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { CreateService } from 'src/app/services/test-api/create-service';
-import { HearingFormDataService } from 'src/app/services/test-api/hearing-form-data-service';
 import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-data';
 import { Summary } from 'src/app/services/test-api/models/summary';
 import { SummeriesService } from 'src/app/services/test-api/summeries-service';
@@ -66,7 +65,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         protected logger: Logger,
         private datePipe: DatePipe,
         protected router: Router,
-        private hearingFormDataService: HearingFormDataService,
         private summeriesService: SummeriesService,
         private createService: CreateService,
         private spinnerService: NgxSpinnerService
@@ -91,7 +89,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     }
 
     private resetData(){
-      this.hearingFormDataService.resetHearingFormData();
       this.summeriesService.resetSummaries();
     }
 
@@ -99,7 +96,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
       this.bookingsSaving = true;
       this.form.markAsPristine();
       var data = this.setHearingFormData();
-      //this.router.navigate([PageUrls.Progress]);
       this.displayProgressPopup = true;
       this.spinnerService.show();
       await this.createHearings(data);
@@ -160,7 +156,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
       data.representatives = this.representatives.value;
       data.scheduledDateTime = hearingDate;
       data.testType = this.testType.value;
-      this.hearingFormDataService.setHearingFormData(data);
       this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
       return data;
     }
