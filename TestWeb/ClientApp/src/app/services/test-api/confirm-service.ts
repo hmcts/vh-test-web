@@ -39,7 +39,7 @@ export class ConfirmService {
     private async sendConfirmRequest(hearing: HearingDetailsResponse) {
         this.logger.debug(`${this.loggerPrefix} SENDING CONFIRM REQUEST`);
         try {
-            let confirmResponse = await this.testApiService.confirmHearing(hearing.id, this.confirmModel);
+            const confirmResponse = await this.testApiService.confirmHearing(hearing.id, this.confirmModel);
             this.logger.debug(`${this.loggerPrefix} CONFERENCE CREATED.`);
             this.logger.debug(`${this.loggerPrefix} Confirm Response:`, { payload: confirmResponse });
             return confirmResponse;
