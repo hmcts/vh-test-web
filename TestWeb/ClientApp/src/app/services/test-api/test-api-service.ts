@@ -10,6 +10,7 @@ import { MapHearing } from '../api/mappers/map-hearing';
 import {
     ApiClient,
     ConferenceDetailsResponse,
+    ConferenceResponse,
     DeletedResponse,
     HearingDetailsResponse,
     ResetUserPasswordRequest,
@@ -62,8 +63,8 @@ export class TestApiService {
       return this.apiClient.removeTestData(deleteRequest).toPromise();
     }
 
-    getConferencesForToday(): Promise<ConferenceForAdminResponse[]> {
+    getConferencesForToday(): Promise<ConferenceResponse[]> {
       this.logger.debug(`${this.loggerPrefix} Getting conferences for today`);
-      return this.apiClient.(deleteRequest).toPromise();
+      return this.apiClient.getConferencesForToday().toPromise();
     }
 }

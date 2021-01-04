@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { ConferenceResponse } from "../clients/api-client";
 import { Logger } from "../logging/logger-base";
 import { TestApiService } from "./test-api-service";
 
@@ -13,22 +14,21 @@ export class ConferenceService {
       private testApiService: TestApiService
   ) {}
 
-  async getConferencesForToday(): Promise<ConferenceForAdminResponse[]> {
+  async getConferencesForToday(): Promise<ConferenceResponse[]> {
     this.logger.debug(`${this.loggerPrefix} Fetching conferences for today...`);
-    const conferences = [];
-    const response = await this.sendGetConferencesRequest();
+    const conferences = await this.sendGetConferencesRequest();
     return conferences;
   }
 
   private async sendGetConferencesRequest() {
-    this.logger.debug(`${this.loggerPrefix} SENDING HEARING REQUEST`);
+    this.logger.debug(`${this.loggerPrefix} SENDING GET CONFERENCES REQUEST`);
     try {
-        const hearingResponse = await this.testApiService.createHearing(this.hearingModel);
-        this.logger.debug(`${this.loggerPrefix} HEARING CREATED.`);
-        this.logger.debug(`${this.loggerPrefix} Hearing Response  ${hearingResponse}.`, { payload: hearingResponse });
-        return hearingResponse;
+        const conferencesResponse = await this.testApiService.getConferencesForToday();
+        this.logger.debug(`${this.loggerPrefix} CONFERENCES RETRIEVED.`);
+        this.logger.debug(`${this.loggerPrefix} Hearing Response`, { payload: conferencesResponse });
+        return conferencesResponse;
     } catch (error) {
-        this.logger.error(`${this.loggerPrefix} Failed to create hearing.`, error, { payload: this.hearingModel });
+        this.logger.error(`${this.loggerPrefix} Failed to fetch conferences.`, error);
     }
   }
 }
