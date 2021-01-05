@@ -77,7 +77,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         this.resetData();
         this.initForm();
         this.buttonAction = 'Book & Confirm';
-        this.form.valueChanges.subscribe(() => {});
+        this.$subscriptions.push(this.form.valueChanges.subscribe(() => {}));
     }
 
     ngOnDestroy(): void {

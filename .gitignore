@@ -364,3 +364,4 @@ nuget.config
 *.DS_Store
 *.orig
 .angulardoc.json
+/TestWeb/ClientApp/jasmine-tests/TESTS.xml
