@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { UserModel } from 'src/app/common/models/user.model';
 import { MapAllocatedResponseToUsers } from '../api/mappers/map-allocated-users-details-response-to-users-model';
-import { TestType, UserType } from '../clients/api-client';
+import { UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { HearingFormData } from './models/hearing-form-data';
 import { TestApiService } from './test-api-service';
