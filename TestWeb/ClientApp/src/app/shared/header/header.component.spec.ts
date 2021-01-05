@@ -50,7 +50,7 @@ describe('HeaderComponent', () => {
     it('user should navigate by selecting top menu item', async () => {
         const profile = new UserProfileResponse({ role: Role.VHQA, username: 'abc@123.com' });
         profileServiceSpy.getUserProfile.and.returnValue(Promise.resolve(profile));
-        await component.onlyShowMenuLinksIfAuthenticated();
+        await component.ngOnInit(); // .onlyShowMenuLinksIfAuthenticated();
         component.navigateToSelectedMenuItem(0);
         expect(routerSpy.navigate).toHaveBeenCalledWith([component.topMenuItems[0].url]);
     });
