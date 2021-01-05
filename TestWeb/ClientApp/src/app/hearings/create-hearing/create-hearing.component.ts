@@ -288,7 +288,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     }
 
     get noIndividualsOrReps() {
-      return this.individuals.value + this.representatives.value == 0;
+        return this.individuals.value + this.representatives.value === 0;
     }
 
     startHoursInPast() {
