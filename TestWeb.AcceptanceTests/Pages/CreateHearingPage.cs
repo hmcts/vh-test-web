@@ -19,5 +19,10 @@ namespace TestWeb.AcceptanceTests.Pages
         public static By NumberOfCaseNames => By.XPath("//div[@class='govuk-summary-list__row']");
         public static By CaseName(int i) => By.Id($"hearing-{i}");
         public static readonly By ContinueButton = By.Id("continueButton");
+        public static readonly By InvalidIndividualsError = By.Id("individualsInvalid-error");
+        public static readonly By InvalidRepsError = By.Id("representativesInvalid-error");
+        public static readonly By InvalidObserversError = By.Id("observersInvalid-error");
+        public static readonly By InvalidPanelMembersError = By.Id("panelMembersInvalid-error");
+        public static readonly By InvalidNumberOfIndividualsAndRepsError = By.Id("noIndividualsOrReps-error");
     }
 }
