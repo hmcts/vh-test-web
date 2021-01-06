@@ -17,3 +17,11 @@ Scenario Outline: Cannot create hearings in the past
 	Given the user has progressed to the Create Hearings page
 	When the date is set to a past date
 	Then an error appears stating the hearing time must be in the future
+
+@VIH-6690
+Scenario: Numbers of participants
+	Given the user has progressed to the Create Hearings page
+	When the user attempts to exceed the allowed participants
+	Then errors should appear to state that the numbers are too high
+	When the user attempts to not add any individuals or representatives
+	Then an error message appears stating that there are no individuals or representatives
