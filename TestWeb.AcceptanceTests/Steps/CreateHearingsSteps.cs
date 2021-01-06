@@ -28,7 +28,7 @@ namespace TestWeb.AcceptanceTests.Steps
 
         public void ProgressToNextPage()
         {
-            SetTheParticipants();
+            SetTheParticipants(DefaultData.Individuals, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers);
             ClickBook();
             GetTheHearingNames();
             ClickContinue();
@@ -42,7 +42,7 @@ namespace TestWeb.AcceptanceTests.Steps
             _numberOfHearings = numberOfHearings;
             _browser.Driver.WaitForListToBePopulated(CreateHearingPage.NumberOfHearingsDropdown);
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfHearingsDropdown, numberOfHearings.ToString());
-            SetTheParticipants();
+            SetTheParticipants(DefaultData.Individuals, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers);
             ClickBook();
         }
 
@@ -56,16 +56,16 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Click(CreateHearingPage.ContinueButton);
         }
 
-        private void SetTheParticipants()
+        private void SetTheParticipants(int individuals, int representatives, int observers, int panelMembers)
         {
             _browser.Clear(CreateHearingPage.IndividualsTextfield);
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.IndividualsTextfield).SendKeys(DefaultData.Individuals.ToString());
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.IndividualsTextfield).SendKeys(individuals.ToString());
             _browser.Clear(CreateHearingPage.RepresentativesTextfield);
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.RepresentativesTextfield).SendKeys(DefaultData.Representatives.ToString());
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.RepresentativesTextfield).SendKeys(representatives.ToString());
             _browser.Clear(CreateHearingPage.ObserversTextfield);
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.ObserversTextfield).SendKeys(DefaultData.Observers.ToString());
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.ObserversTextfield).SendKeys(observers.ToString());
             _browser.Clear(CreateHearingPage.PanelMembersTextfield);
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.PanelMembersTextfield).SendKeys(DefaultData.PanelMembers.ToString());
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.PanelMembersTextfield).SendKeys(panelMembers.ToString());
             Thread.Sleep(TimeSpan.FromSeconds(1));
         }
 
@@ -109,6 +109,34 @@ namespace TestWeb.AcceptanceTests.Steps
         public void ThenAnErrorAppearsStatingTheHearingTimeMustBeInTheFuture()
         {
             _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingTimeError).Displayed.Should().BeTrue();
+        }
+
+        [When(@"the user attempts to exceed the allowed participants")]
+        public void WhenTheUserAttemptsToExceedTheAllowedParticipants()
+        {
+            const int ABOVE_THE_MAX = 22;
+            SetTheParticipants(ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX);
+        }
+
+        [Then(@"errors should appear to state that the numbers are too high")]
+        public void ThenErrorsShouldAppearToStateThatTheNumbersAreTooHigh()
+        {
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
+        }
+
+        [When(@"the user attempts to not add any individuals or representatives")]
+        public void WhenTheUserAttemptsToNotAddAnyIndividualsOrRepresentatives()
+        {
+            SetTheParticipants(0, 0, 1, 1);
+        }
+
+        [Then(@"an error message appears stating that there are no individuals or representatives")]
+        public void ThenAnErrorMessageAppearsStatingThatThereAreNoIndividualsOrRepresentatives()
+        {
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidNumberOfIndividualsAndRepsError).Displayed.Should().BeTrue();
         }
     }
 }

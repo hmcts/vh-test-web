@@ -31,6 +31,11 @@ First ensure you are running a terminal in the TestWeb directory of this reposit
 dotnet test --no-build TestWeb.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat="\"opencover,cobertura,json,lcov\"" /p:CoverletOutput=../Artifacts/Coverage/ /p:MergeWith='../Artifacts/Coverage/coverage.json' /p:Exclude="\"[TestWeb.ConfigureServicesExtensions,[TestWeb]TestWeb.Program,[TestWeb]TestWeb.Startup,[*]TestWeb.Common.*,[*]TestWeb.Extensions.*,[*]TestWeb.Pages.*,[*]TestWeb.Swagger.*,[*]TestWeb.Views.*,[*]TestWeb.UnitTests.*,[*]TestWeb.Services.*,[*]Testing.Common.*\""
 
 ```
+Using Poweshell
+
+```
+dotnet test --% --no-build TestWeb.UnitTests/TestWeb.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=\"opencover,cobertura,json,lcov\" /p:CoverletOutput=../Artifacts/Coverage/ /p:MergeWith='../Artifacts/Coverage/coverage.json' /p:Exclude=\"[TestWeb.ConfigureServicesExtensions,[TestWeb]TestWeb.Program,[TestWeb]TestWeb.Startup,[*]TestWeb.Common.*,[*]TestWeb.Extensions.*,[*]TestWeb.Pages.*,[*]TestWeb.Swagger.*,[*]TestWeb.Views.*,[*]TestWeb.UnitTests.*,[*]TestWeb.Services.*,[*]Testing.Common.*\"
+```
 
 ## Generate HTML Report
 
