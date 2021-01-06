@@ -1,5 +1,4 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { LoggerService, LOG_ADAPTER } from './logger.service';
 import { LogAdapter } from './log-adapter';
 

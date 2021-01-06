@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 
@@ -27,7 +28,8 @@ describe('DeleteHearingComponent', () => {
                 { provide: Logger, useValue: loggerSpy },
                 { provide: TestApiService, useValue: testApiServiceSpy }
             ],
-            declarations: [DeleteHearingComponent]
+            declarations: [DeleteHearingComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
     });
 
@@ -80,13 +82,11 @@ describe('DeleteHearingComponent', () => {
     it('should delete a hearing', async () => {
         deletedResponse.number_of_deleted_hearings = 1;
         testApiServiceSpy.deleteHearings.and.returnValue(Promise.resolve(deletedResponse));
-        // testApiServiceSpy.deleteHearings.and.callFake((deleteModel: DeleteModel) => Promise.resolve(deletedResponse));
         component.ngOnInit();
         component.caseNameTextfield.setValue(caseName);
         fixture.detectChanges();
 
         component.deleteHearings();
-        // expect(testApiServiceSpy.deleteHearings).toHaveBeenCalled();
         expect(testApiServiceSpy.deleteHearings).toHaveBeenCalledWith(deleteModel);
         // expect(component.resultsOutput).toBe(`1 hearing(s) deleted matching case name '${caseName}'.`);
     });
@@ -94,14 +94,11 @@ describe('DeleteHearingComponent', () => {
     it('should not delete a hearing if case name is not found', async () => {
         deletedResponse.number_of_deleted_hearings = 0;
         testApiServiceSpy.deleteHearings.and.returnValue(Promise.resolve(deletedResponse));
-        // testApiServiceSpy.deleteHearings.and.callFake((deleteModel: DeleteModel) => Promise.resolve(deletedResponse));
         component.ngOnInit();
         component.caseNameTextfield.setValue(caseName);
         fixture.detectChanges();
 
         component.deleteHearings();
-        console.log(component);
-        // expect(testApiServiceSpy.deleteHearings).toHaveBeenCalled();
         expect(testApiServiceSpy.deleteHearings).toHaveBeenCalledWith(deleteModel);
         // expect(component.resultsOutput).toBe(`No matching hearings could be found with case name '${caseName}'.`);
     });

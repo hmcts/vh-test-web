@@ -1,7 +1,6 @@
-import { UserData } from 'src/app/common/models/data/user-data';
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
-import { Application, HearingDetailsResponse, TestType, UserType } from '../clients/api-client';
+import { Application, TestType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { HearingService } from './hearing-service';
 import { TestApiService } from './test-api-service';
@@ -41,7 +40,7 @@ describe('HearingService', () => {
         expect(result.audio_recording_required).toBe(hearingDetailsResponse.audio_recording_required);
     });
 
-    it('should throw an error if test api to allocate users fails', async () => {
+    it('should throw an error if test api to create hearing fails', async () => {
         const error = { error: 'not found!' };
         testApiService.createHearing.and.callFake(() => Promise.reject(error));
 

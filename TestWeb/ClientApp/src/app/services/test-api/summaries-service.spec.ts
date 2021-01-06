@@ -1,6 +1,5 @@
 import Dictionary from 'src/app/shared/helpers/dictionary';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
-import { ConferenceDetailsResponse, ConferenceState } from '../clients/api-client';
 import { Summary } from './models/summary';
 import { SummeriesService } from './summeries-service';
 

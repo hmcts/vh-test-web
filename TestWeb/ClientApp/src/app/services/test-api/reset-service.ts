@@ -21,8 +21,10 @@ export class ResetService {
     private async resetAllPasswords(allocatedUsers: UserModel[]) {
         for (const user of allocatedUsers) {
             const response = await this.sendResetPasswordRequest(user.username);
-            this.logger.debug(`${this.loggerPrefix} User ${user.username} password reset to ${response.new_password}`);
-            this.userPasswords.add(user.username, response.new_password);
+            if (response) {
+                this.logger.debug(`${this.loggerPrefix} User ${user.username} password reset to ${response.new_password}`);
+                this.userPasswords.add(user.username, response.new_password);
+            }
         }
     }
 
