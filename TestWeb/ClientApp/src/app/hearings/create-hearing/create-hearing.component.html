@@ -247,6 +247,9 @@
         <div *ngIf="panelMembersInvalid" class="alert alert-danger">
           <span id="panelMembersInvalid-error" class="govuk-error-message"> Provide a value for he number of panel member participants between 0 and {{maxParticipants}} </span>
         </div>
+        <div *ngIf="noIndividualsOrReps" class="alert alert-danger">
+          <span id="noIndividualsOrReps-error" class="govuk-error-message"> Please add at least 1 individual or representative </span>
+        </div>
 
       </div>
 
@@ -267,9 +270,10 @@
     <div class="vh-popup">
 
       <h1 *ngIf="!finishedCreatingHearings" id="inProgressTitle" class="govuk-heading-m">Creating hearings</h1>
-      <h1 *ngIf="finishedCreatingHearings" id="completeTitle" class="govuk-heading-m">Hearings created</h1>
+      <h1 *ngIf="finishedCreatingHearings && !errorsOccured" id="completeTitle" class="govuk-heading-m">Hearings created</h1>
+      <h1 *ngIf="errorsOccured" id="completeTitle" class="govuk-heading-m">Failed to create hearings</h1>
 
-      <div *ngIf="!summeriesToDisplay()">
+      <div *ngIf="!summeriesToDisplay() && !errorsOccured">
         <p id='progressText' class="govuk-body govuk-!-margin-bottom-9">
           Please wait whilst the hearings are created.
         </p>
@@ -315,15 +319,15 @@
         </button>
 
         <button
-          id="retryButton"
+          id="closeButton"
           class="govuk-button vh-popup-button"
           type="button"
           data-module="govuk-button"
           aria-label="Return to create hearings"
-          (click)="goBackToHearings()"
+          (click)="reset()"
           *ngIf="enableRetryButton"
         >
-          Retry
+          Close
         </button>
       </div>
 

@@ -58,7 +58,7 @@ namespace TestWeb.Extensions
                 });
                 c.OperationFilter<AuthResponsesOperationFilter>();
             });
-            serviceCollection.AddSwaggerGen();
+            serviceCollection.AddSwaggerGenNewtonsoftSupport();
 
             return serviceCollection;
         }

@@ -364,4 +364,7 @@ nuget.config
 *.DS_Store
 *.orig
 .angulardoc.json
-/TestWeb/ClientApp/jasmine-tests/TESTS.xml
+
+# Local test report files
+TESTS.xml
+

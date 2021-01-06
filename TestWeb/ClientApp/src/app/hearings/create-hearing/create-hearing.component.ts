@@ -56,6 +56,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     enableContinueButton = false;
     enableRetryButton = false;
     finishedCreatingHearings = false;
+    errorsOccured = false;
     errors = [];
     caseNames = [];
     summeries: Summary[];
@@ -127,6 +128,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
 
     errorsToDisplay(): boolean {
         if (this.errors != null && this.errors.length > 0) {
+            this.errorsOccured = true;
             return true;
         }
         return false;
@@ -283,6 +285,10 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
             (this.panelMembers.invalid || this.panelMembers.value > this.maxParticipants || this.panelMembers.value < 0) &&
             (this.panelMembers.dirty || this.panelMembers.touched)
         );
+    }
+
+    get noIndividualsOrReps() {
+        return this.individuals.value + this.representatives.value === 0;
     }
 
     startHoursInPast() {

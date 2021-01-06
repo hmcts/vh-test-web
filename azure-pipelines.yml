@@ -219,9 +219,9 @@ extends:
                 - '[*]TestWeb.Services.*'
                 - '[*]Testing.Common.*'
             sonarCloud_ExtraProperties: |
-                sonar.exclusions=**/node_modules/**,**/*.spec.ts, *.spec.ts, **/ClientApp/src/*, **/ClientApp/coverage/**/**, **/ConfigureServicesExtensions.cs, **/Startup.cs, **/Program.cs, **/Testing.Common/**, **/TestWeb.UnitTests/**, **/TestWeb.Common/**, **/TestWeb/Swagger/**, **/TestWeb/Extensions/**, **/ClientApp/src/scripts/*.js
+                sonar.exclusions=**/node_modules/**,**/*.spec.ts, *.spec.ts, **/ClientApp/src/*, **/ClientApp/coverage/**/**, **/ConfigureServicesExtensions.cs, **/Startup.cs, **/Program.cs, **/Testing.Common/**, **/TestWeb.UnitTests/**, **/TestWeb.IntegrationTests/**, **/TestWeb.AcceptanceTests/**, **/TestWeb.Common/**, **/TestWeb/Swagger/**, **/TestWeb/Extensions/**, **/ClientApp/src/scripts/*.js
                 sonar.typescript.exclusions=**/node_modules/**,**/typings.d.ts,**/main.ts,**/environments/environment*.ts,**/*routing.module.ts,**/api-client.ts
-                sonar.coverage.exclusions= **/Testing.Common/**, TestWeb/Views/*, TestWeb/Pages/*, TestWeb.AcceptanceTests/*, **/TestWeb.Services/**, **/ClientApp/src/scripts/*.js, **/ClientApp/src/app/testing/**, **/ClientApp/src/app/vh-officer/helper.ts, **/ClientApp/src/app/services/events.service.ts, **/ClientApp/src/app/send-video-events/send-video-events.component.ts, **/ClientApp/src/app/services/api/video-web.service.ts, **/ClientApp/src/app/waiting-space/analogue-clock/analogue-clock.component.ts
+                sonar.coverage.exclusions= **/Testing.Common/**, TestWeb/Views/*, TestWeb/Pages/*, TestWeb.AcceptanceTests/*, **/TestWeb.Services/**, **/ClientApp/src/scripts/*.js, **/ClientApp/src/app/testing/**
                 sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
                 sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/TestWeb/ClientApp/coverage/lcov.info
             StrykerBreak: 75
