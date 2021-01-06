@@ -2,16 +2,7 @@ import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model
 import { UserData } from 'src/app/common/models/data/user-data';
 import { UserModel } from 'src/app/common/models/user.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
-import {
-    Application,
-    ConferenceDetailsResponse,
-    ConferenceState,
-    HearingDetailsResponse,
-    MeetingRoomResponse,
-    TestType,
-    UpdateBookingStatus,
-    UserType
-} from '../clients/api-client';
+import { Application, TestType, UpdateBookingStatus, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { ConfirmService } from './confirm-service';
 import { TestApiService } from './test-api-service';
@@ -56,7 +47,7 @@ describe('ConfirmService', () => {
         expect(result.audio_recording_required).toBe(conferenceDetailsResponse.audio_recording_required);
     });
 
-    it('should throw an error if call to test api to allocate users fails', async () => {
+    it('should throw an error if call to test api to confirm a hearing fails', async () => {
         const error = { error: 'not found!' };
         testApiService.confirmHearing.and.callFake(() => Promise.reject(error));
 

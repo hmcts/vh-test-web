@@ -1,15 +1,13 @@
 import { DatePipe } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Logger } from 'src/app/services/logging/logger-base';
 import { CreateService } from 'src/app/services/test-api/create-service';
-import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-data';
 import { Summary } from 'src/app/services/test-api/models/summary';
-import { TestApiService } from 'src/app/services/test-api/test-api-service';
 import { PageUrls } from 'src/app/shared/page-url.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
-
 import { CreateHearingComponent } from './create-hearing.component';
 
 describe('CreateHearingComponent', () => {
@@ -30,7 +28,8 @@ describe('CreateHearingComponent', () => {
                 { provide: CreateService, useValue: createServiceSpy },
                 DatePipe
             ],
-            declarations: [CreateHearingComponent]
+            declarations: [CreateHearingComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
     });
 

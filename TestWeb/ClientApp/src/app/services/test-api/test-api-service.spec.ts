@@ -3,17 +3,13 @@ import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 import { HearingModel } from 'src/app/common/models/hearing.model';
-import { testerTestProfile } from 'src/app/testing/data/test-profiles';
 import {
     AllocateUsersRequest,
     ApiClient,
     Application,
     ConferenceDetailsResponse,
-    ConferenceState,
-    CreateHearingRequest,
     DeletedResponse,
     DeleteTestHearingDataRequest,
-    HearingDetailsResponse,
     ResetUserPasswordRequest,
     TestType,
     UpdateBookingStatus,
