@@ -1,115 +1,146 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome 88.0.4298.0 (Windows 10)" package="" timestamp="2021-01-07T17:33:16" id="0" hostname="NICKPOXONA8E9" tests="95" errors="0" failures="3" time="1.101">
+<testsuite name="Chrome 88.0.4298.0 (Windows 10)" package="" timestamp="2021-01-07T18:17:50" id="0" hostname="NICKPOXONA8E9" tests="96" errors="0" failures="4" time="0.749">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4298.0 Safari/537.36"/>
   </properties>
-  <testcase name="EventsComponent should create" time="0.178" classname="EventsComponent"/>
-  <testcase name="EventsComponent should create" time="0.222" classname="EventsComponent"/>
-  <testcase name="CreateHearingComponent should create" time="0.123" classname="CreateHearingComponent"/>
-  <testcase name="CreateHearingComponent should populate data and call create hearing" time="0.038" classname="CreateHearingComponent"/>
-  <testcase name="CreateHearingComponent should create a hearing" time="0.039" classname="CreateHearingComponent"/>
-  <testcase name="CreateHearingComponent should navigate to summary page" time="0.028" classname="CreateHearingComponent"/>
-  <testcase name="CreateHearingComponent should navigate to create hearing page" time="0.028" classname="CreateHearingComponent"/>
-  <testcase name="CreateHearingComponent should unsubscribe all subcriptions on destroy" time="0.042" classname="CreateHearingComponent"/>
-  <testcase name="DeleteHearingComponent should create" time="0.026" classname="DeleteHearingComponent"/>
-  <testcase name="DeleteHearingComponent should fail validation if case name is empty" time="0.014" classname="DeleteHearingComponent"/>
-  <testcase name="DeleteHearingComponent should pass validation if case name has test in name" time="0.017" classname="DeleteHearingComponent"/>
-  <testcase name="DeleteHearingComponent should fail validation if case name does not have test" time="0.013" classname="DeleteHearingComponent"/>
-  <testcase name="DeleteHearingComponent should sanitize text for case name" time="0.013" classname="DeleteHearingComponent"/>
-  <testcase name="DeleteHearingComponent should delete a hearing" time="0.015" classname="DeleteHearingComponent"/>
-  <testcase name="DeleteHearingComponent should not delete a hearing if case name is not found" time="0.012" classname="DeleteHearingComponent"/>
-  <testcase name="SummaryComponent should create" time="0.017" classname="SummaryComponent"/>
-  <testcase name="SummaryComponent should navigate to create hearing page" time="0.008" classname="SummaryComponent"/>
-  <testcase name="SummaryComponent should reset tooltip value" time="0.008" classname="SummaryComponent"/>
-  <testcase name="SummaryComponent should return true for the last participant" time="0.008" classname="SummaryComponent"/>
-  <testcase name="SummaryComponent should copy the conference id to the clipboard" time="0.008" classname="SummaryComponent"/>
-  <testcase name="LoginComponent should create" time="0.001" classname="LoginComponent"/>
+  <testcase name="EventsComponent should create" time="0.126" classname="EventsComponent"/>
+  <testcase name="EventsComponent should create a hearing event" time="0.258" classname="EventsComponent">
+    <failure type="">Error: Expected spy EventsService.createHearingEvent to have been called.
+    at &lt;Jasmine&gt;
+    at UserContext.&lt;anonymous&gt; (src/app/events/events.component.spec.ts:50:51)
+    at ZoneDelegate.invoke (node_modules/zone.js/dist/zone-evergreen.js:364:1)
+    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvoke (node_modules/zone.js/dist/zone-testing.js:292:1)
+</failure>
+  </testcase>
+  <testcase name="CreateHearingComponent should create" time="0.09" classname="CreateHearingComponent"/>
+  <testcase name="CreateHearingComponent should populate data and call create hearing" time="0.022" classname="CreateHearingComponent"/>
+  <testcase name="CreateHearingComponent should create a hearing" time="0.02" classname="CreateHearingComponent"/>
+  <testcase name="CreateHearingComponent should navigate to summary page" time="0.017" classname="CreateHearingComponent"/>
+  <testcase name="CreateHearingComponent should navigate to create hearing page" time="0.016" classname="CreateHearingComponent"/>
+  <testcase name="CreateHearingComponent should unsubscribe all subcriptions on destroy" time="0.016" classname="CreateHearingComponent"/>
+  <testcase name="DeleteHearingComponent should create" time="0.013" classname="DeleteHearingComponent"/>
+  <testcase name="DeleteHearingComponent should fail validation if case name is empty" time="0.007" classname="DeleteHearingComponent"/>
+  <testcase name="DeleteHearingComponent should pass validation if case name has test in name" time="0.008" classname="DeleteHearingComponent"/>
+  <testcase name="DeleteHearingComponent should fail validation if case name does not have test" time="0.005" classname="DeleteHearingComponent"/>
+  <testcase name="DeleteHearingComponent should sanitize text for case name" time="0.007" classname="DeleteHearingComponent"/>
+  <testcase name="DeleteHearingComponent should delete a hearing" time="0.007" classname="DeleteHearingComponent"/>
+  <testcase name="DeleteHearingComponent should not delete a hearing if case name is not found" time="0.006" classname="DeleteHearingComponent"/>
+  <testcase name="SummaryComponent should create" time="0.01" classname="SummaryComponent"/>
+  <testcase name="SummaryComponent should navigate to create hearing page" time="0.004" classname="SummaryComponent"/>
+  <testcase name="SummaryComponent should reset tooltip value" time="0.003" classname="SummaryComponent"/>
+  <testcase name="SummaryComponent should return true for the last participant" time="0.003" classname="SummaryComponent"/>
+  <testcase name="SummaryComponent should copy the conference id to the clipboard" time="0.015" classname="SummaryComponent"/>
+  <testcase name="LoginComponent should create" time="0" classname="LoginComponent"/>
   <testcase name="LoginComponent should store return url if supplied" time="0.002" classname="LoginComponent"/>
-  <testcase name="LoginComponent should use saved return url" time="0.001" classname="LoginComponent"/>
+  <testcase name="LoginComponent should use saved return url" time="0" classname="LoginComponent"/>
   <testcase name="LoginComponent should return to root url if no return path is given" time="0.001" classname="LoginComponent"/>
-  <testcase name="LoginComponent should fallback to root url if return url is invalid" time="0.002" classname="LoginComponent"/>
-  <testcase name="LogoutComponent should call logout if authenticated" time="0.002" classname="LogoutComponent"/>
+  <testcase name="LoginComponent should fallback to root url if return url is invalid" time="0" classname="LoginComponent"/>
+  <testcase name="LogoutComponent should call logout if authenticated" time="0" classname="LogoutComponent"/>
   <testcase name="LogoutComponent should not call logout if unauthenticated" time="0.001" classname="LogoutComponent"/>
-  <testcase name="LogoutComponent should return true for &quot;loggedIn&quot; when authenticated" time="0.001" classname="LogoutComponent"/>
+  <testcase name="LogoutComponent should return true for &quot;loggedIn&quot; when authenticated" time="0" classname="LogoutComponent"/>
   <testcase name="LogoutComponent should return false for &quot;loggedIn&quot; when not authenticated" time="0" classname="LogoutComponent"/>
-  <testcase name="WindowRef should get url from browser" time="0.001" classname="WindowRef"/>
-  <testcase name="WindowLocation should concatenate to url" time="0.002" classname="WindowLocation"/>
+  <testcase name="WindowRef should get url from browser" time="0" classname="WindowRef"/>
+  <testcase name="WindowLocation should concatenate to url" time="0" classname="WindowLocation"/>
   <testcase name="WindowLocation should concatenate to url without search and hash" time="0" classname="WindowLocation"/>
-  <testcase name="ConfigService should not have called method on api client" time="0.007" classname="ConfigService"/>
+  <testcase name="ConfigService should not have called method on api client" time="0.004" classname="ConfigService"/>
   <testcase name="AllocateUserMapper should map the AllocateUsersModel to the AllocateUsersRequest" time="0.002" classname="AllocateUserMapper"/>
-  <testcase name="MapAllocatedResponseToUsers should map the UserDetailsResponse to the UserModel" time="0.002" classname="MapAllocatedResponseToUsers"/>
-  <testcase name="MapConfirmHearing should map the ConfirmHearingModel to the UpdateBookingStatusRequest" time="0.002" classname="MapConfirmHearing"/>
-  <testcase name="DeleteUserMapper should map the DeleteModel to the DeleteTestHearingDataRequest" time="0.001" classname="DeleteUserMapper"/>
-  <testcase name="MapConfirmHearing should map the EventModel to the ConferenceEventRequest" time="0.002" classname="MapConfirmHearing"/>
-  <testcase name="MapHearing should map the HearingModel to the CreateHearingRequest" time="0.002" classname="MapHearing"/>
+  <testcase name="MapAllocatedResponseToUsers should map the UserDetailsResponse to the UserModel" time="0.001" classname="MapAllocatedResponseToUsers"/>
+  <testcase name="MapConfirmHearing should map the ConfirmHearingModel to the UpdateBookingStatusRequest" time="0" classname="MapConfirmHearing"/>
+  <testcase name="DeleteUserMapper should map the DeleteModel to the DeleteTestHearingDataRequest" time="0.002" classname="DeleteUserMapper"/>
+  <testcase name="MapConfirmHearing should map the EventModel to the ConferenceEventRequest" time="0" classname="MapConfirmHearing"/>
+  <testcase name="MapHearing should map the HearingModel to the CreateHearingRequest" time="0" classname="MapHearing"/>
   <testcase name="ProfileService should not call api when profile is already set" time="0.002" classname="ProfileService"/>
-  <testcase name="ProfileService should call api when profile is not set" time="0.002" classname="ProfileService"/>
-  <testcase name="ProfileService should clear set profile" time="0.001" classname="ProfileService"/>
-  <testcase name="ProfileService should return instance when profile is already in cache" time="0.001" classname="ProfileService"/>
-  <testcase name="ProfileService should return instance when profile is already in cache" time="0.001" classname="ProfileService"/>
-  <testcase name="ErrorService should do nothing if skip redirect is true" time="0.007" classname="ErrorService"/>
-  <testcase name="ErrorService should do nothing if error is not an api exception" time="0.003" classname="ErrorService"/>
-  <testcase name="ErrorService should navigate to unauthorised" time="0.004" classname="ErrorService"/>
-  <testcase name="ErrorService should navigate to not found" time="0.004" classname="ErrorService"/>
-  <testcase name="ErrorService should navigate to service error" time="0.004" classname="ErrorService"/>
-  <testcase name="ErrorService should return false when error not an ApiException during unauthorised check" time="0.004" classname="ErrorService"/>
-  <testcase name="ErrorService should return false when error not a 401 ApiException during unauthorised check" time="0.004" classname="ErrorService"/>
-  <testcase name="ErrorService should return true and navigate to home when error is a 401 ApiException during unauthorised check" time="0.005" classname="ErrorService"/>
-  <testcase name="LoggerService should be created" time="0.005" classname="LoggerService"/>
-  <testcase name="LoggerService should log events to all adapters" time="0.003" classname="LoggerService"/>
+  <testcase name="ProfileService should call api when profile is not set" time="0.001" classname="ProfileService"/>
+  <testcase name="ProfileService should clear set profile" time="0" classname="ProfileService"/>
+  <testcase name="ProfileService should return instance when profile is already in cache" time="0.002" classname="ProfileService"/>
+  <testcase name="ProfileService should return instance when profile is already in cache" time="0" classname="ProfileService"/>
+  <testcase name="ErrorService should do nothing if skip redirect is true" time="0.005" classname="ErrorService"/>
+  <testcase name="ErrorService should do nothing if error is not an api exception" time="0.001" classname="ErrorService"/>
+  <testcase name="ErrorService should navigate to unauthorised" time="0.002" classname="ErrorService"/>
+  <testcase name="ErrorService should navigate to not found" time="0" classname="ErrorService"/>
+  <testcase name="ErrorService should navigate to service error" time="0.001" classname="ErrorService"/>
+  <testcase name="ErrorService should return false when error not an ApiException during unauthorised check" time="0.001" classname="ErrorService"/>
+  <testcase name="ErrorService should return false when error not a 401 ApiException during unauthorised check" time="0.001" classname="ErrorService"/>
+  <testcase name="ErrorService should return true and navigate to home when error is a 401 ApiException during unauthorised check" time="0.002" classname="ErrorService"/>
+  <testcase name="LoggerService should be created" time="0.003" classname="LoggerService"/>
+  <testcase name="LoggerService should log events to all adapters" time="0" classname="LoggerService"/>
   <testcase name="LoggerService should log errors to all adapters" time="0.003" classname="LoggerService"/>
-  <testcase name="LoggerService should log warnings to adapters" time="0.004" classname="LoggerService"/>
-  <testcase name="LoggerService should log info logs to adapters" time="0.004" classname="LoggerService"/>
-  <testcase name="LoggerService should log debug logs to adapters" time="0.004" classname="LoggerService"/>
-  <testcase name="PageTrackerService should be created" time="0.006" classname="PageTrackerService"/>
-  <testcase name="PageTrackerService it should retrieve data from session" time="0.004" classname="PageTrackerService"/>
-  <testcase name="PageTrackerService it should save data from session" time="0.004" classname="PageTrackerService"/>
-  <testcase name="ReturnUrlService should return null if no key is stored" time="0.001" classname="ReturnUrlService"/>
-  <testcase name="ReturnUrlService should delete the stored url after popping" time="0.001" classname="ReturnUrlService"/>
+  <testcase name="LoggerService should log warnings to adapters" time="0" classname="LoggerService"/>
+  <testcase name="LoggerService should log info logs to adapters" time="0" classname="LoggerService"/>
+  <testcase name="LoggerService should log debug logs to adapters" time="0.002" classname="LoggerService"/>
+  <testcase name="PageTrackerService should be created" time="0.003" classname="PageTrackerService"/>
+  <testcase name="PageTrackerService it should retrieve data from session" time="0.001" classname="PageTrackerService"/>
+  <testcase name="PageTrackerService it should save data from session" time="0.002" classname="PageTrackerService"/>
+  <testcase name="ReturnUrlService should return null if no key is stored" time="0" classname="ReturnUrlService"/>
+  <testcase name="ReturnUrlService should delete the stored url after popping" time="0" classname="ReturnUrlService"/>
   <testcase name="ReturnUrlService should use the last stored url" time="0.001" classname="ReturnUrlService"/>
-  <testcase name="SessionStorage can set and read data from storage" time="0.001" classname="SessionStorage"/>
-  <testcase name="SessionStorage should not set null or undefined data" time="0.001" classname="SessionStorage"/>
-  <testcase name="SessionStorage removes invalid keys after failing to read" time="0.001" classname="SessionStorage"/>
-  <testcase name="SessionStorage returns null if no data is cached" time="0.001" classname="SessionStorage"/>
-  <testcase name="SessionStorage can clear any stored value" time="0" classname="SessionStorage"/>
-  <testcase name="AllocationService should call the test api to allocate users for the hearing" time="0.003" classname="AllocationService"/>
-  <testcase name="AllocationService should throw an error if test api to allocate users fails" time="0.003" classname="AllocationService">
+  <testcase name="SessionStorage can set and read data from storage" time="0" classname="SessionStorage"/>
+  <testcase name="SessionStorage should not set null or undefined data" time="0" classname="SessionStorage"/>
+  <testcase name="SessionStorage removes invalid keys after failing to read" time="0" classname="SessionStorage"/>
+  <testcase name="SessionStorage returns null if no data is cached" time="0" classname="SessionStorage"/>
+  <testcase name="SessionStorage can clear any stored value" time="0.001" classname="SessionStorage"/>
+  <testcase name="AllocationService should call the test api to allocate users for the hearing" time="0.002" classname="AllocationService"/>
+  <testcase name="AllocationService should throw an error if test api to allocate users fails" time="0" classname="AllocationService">
     <failure type="">[object Object] thrown
 </failure>
   </testcase>
-  <testcase name="ConfirmService should call the test api to confirm a hearing" time="0.004" classname="ConfirmService"/>
-  <testcase name="ConfirmService should throw an error if call to test api to confirm a hearing fails" time="0.002" classname="ConfirmService">
+  <testcase name="ConfirmService should call the test api to confirm a hearing" time="0.001" classname="ConfirmService"/>
+  <testcase name="ConfirmService should throw an error if call to test api to confirm a hearing fails" time="0.001" classname="ConfirmService">
     <failure type="">[object Object] thrown
 </failure>
   </testcase>
-  <testcase name="HearingService should call the test api to create a hearing" time="0.006" classname="HearingService"/>
+  <testcase name="HearingService should call the test api to create a hearing" time="0" classname="HearingService"/>
   <testcase name="HearingService should throw an error if test api to create hearing fails" time="0.002" classname="HearingService">
     <failure type="">[object Object] thrown
 </failure>
   </testcase>
-  <testcase name="ResetService should reset the passwords for the user in the hearing" time="0.002" classname="ResetService"/>
-  <testcase name="ResetService should throw an error if call to test api to reset password fails" time="0.003" classname="ResetService"/>
-  <testcase name="SummeriesService should get the summary data" time="0.001" classname="SummeriesService"/>
+  <testcase name="ResetService should reset the passwords for the user in the hearing" time="0.003" classname="ResetService"/>
+  <testcase name="ResetService should throw an error if call to test api to reset password fails" time="0" classname="ResetService"/>
+  <testcase name="SummeriesService should get the summary data" time="0" classname="SummeriesService"/>
   <testcase name="TestApiService should create" time="0" classname="TestApiService"/>
-  <testcase name="TestApiService should call the allocate users test api endpoint" time="0.003" classname="TestApiService"/>
-  <testcase name="TestApiService should call the confirm hearing test api endpoint" time="0.002" classname="TestApiService"/>
-  <testcase name="TestApiService should call the password test api endpoint" time="0.002" classname="TestApiService"/>
-  <testcase name="TestApiService should call the remove test data api endpoint" time="0.001" classname="TestApiService"/>
-  <testcase name="BackNavigationComponent should go back using location" time="0.002" classname="BackNavigationComponent"/>
-  <testcase name="ErrorComponent should create" time="0.012" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent should show default error message if session storage is empty" time="0.011" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent should show error message if session storage returns a value" time="0.008" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent should unsubscribe all subcriptions on destroy component" time="0.012" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent should navigate to previous page on reconnect click" time="0.016" classname="ErrorComponent"/>
-  <testcase name="ErrorComponent Refresh should not navigate back on timer page refresh" time="0.009" classname="ErrorComponent Refresh"/>
-  <testcase name="FooterComponent should create" time="0.008" classname="FooterComponent"/>
-  <testcase name="HeaderComponent header component should have top menu items with authenticated user" time="0.003" classname="HeaderComponent"/>
-  <testcase name="HeaderComponent header component should not have top menu items with unauthenticated user" time="0.002" classname="HeaderComponent"/>
-  <testcase name="HeaderComponent selected top menu item has active property set to true, others item active set to false" time="0.005" classname="HeaderComponent"/>
-  <testcase name="HeaderComponent user should navigate by selecting top menu item" time="0.003" classname="HeaderComponent"/>
-  <testcase name="TestingModule should create an instance" time="0.001" classname="TestingModule"/>
+  <testcase name="TestApiService should call the allocate users test api endpoint" time="0.002" classname="TestApiService"/>
+  <testcase name="TestApiService should call the confirm hearing test api endpoint" time="0" classname="TestApiService"/>
+  <testcase name="TestApiService should call the password test api endpoint" time="0" classname="TestApiService"/>
+  <testcase name="TestApiService should call the remove test data api endpoint" time="0" classname="TestApiService"/>
+  <testcase name="BackNavigationComponent should go back using location" time="0" classname="BackNavigationComponent"/>
+  <testcase name="ErrorComponent should create" time="0.008" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should show default error message if session storage is empty" time="0.004" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should show error message if session storage returns a value" time="0.004" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should unsubscribe all subcriptions on destroy component" time="0.004" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent should navigate to previous page on reconnect click" time="0.008" classname="ErrorComponent"/>
+  <testcase name="ErrorComponent Refresh should not navigate back on timer page refresh" time="0.004" classname="ErrorComponent Refresh"/>
+  <testcase name="FooterComponent should create" time="0.004" classname="FooterComponent"/>
+  <testcase name="HeaderComponent header component should have top menu items with authenticated user" time="0" classname="HeaderComponent"/>
+  <testcase name="HeaderComponent header component should not have top menu items with unauthenticated user" time="0" classname="HeaderComponent"/>
+  <testcase name="HeaderComponent selected top menu item has active property set to true, others item active set to false" time="0.001" classname="HeaderComponent"/>
+  <testcase name="HeaderComponent user should navigate by selecting top menu item" time="0.001" classname="HeaderComponent"/>
+  <testcase name="TestingModule should create an instance" time="0" classname="TestingModule"/>
   <system-out>
-    <![CDATA[Chrome 88.0.4298.0 (Windows 10) ERROR: 'Unhandled Promise rejection:', Object{error: 'not found!'}, '; Zone:', 'ProxyZone', '; Task:', 'Promise.then', '; Value:', Object{error: 'not found!'}, undefined
+    <![CDATA[Chrome 88.0.4298.0 (Windows 10) ERROR: 'Unhandled Promise rejection:', 'this.conferences is not iterable', '; Zone:', 'ProxyZone', '; Task:', 'Promise.then', '; Value:', TypeError: this.conferences is not iterable
+TypeError: this.conferences is not iterable
+    at EventsComponent.<anonymous> (http://localhost:9876/_karma_webpack_/main.js:10622:37)
+    at Generator.next (<anonymous>)
+    at fulfilled (http://localhost:9876/_karma_webpack_/main.js:10490:24)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:364:1)
+    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-testing.js:292:1)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:363:1)
+    at Zone.run (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:123:1)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:857:1
+    at ZoneDelegate.invokeTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:399:1)
+    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvokeTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-testing.js:323:1), 'TypeError: this.conferences is not iterable
+    at EventsComponent.<anonymous> (http://localhost:9876/_karma_webpack_/main.js:10622:37)
+    at Generator.next (<anonymous>)
+    at fulfilled (http://localhost:9876/_karma_webpack_/main.js:10490:24)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:364:1)
+    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-testing.js:292:1)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:363:1)
+    at Zone.run (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:123:1)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:857:1
+    at ZoneDelegate.invokeTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-evergreen.js:399:1)
+    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvokeTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-testing.js:323:1)'
+,Chrome 88.0.4298.0 (Windows 10) ERROR
+  Disconnected, because no message in 60000 ms.
+,Chrome 88.0.4298.0 (Windows 10) ERROR: 'Unhandled Promise rejection:', Object{error: 'not found!'}, '; Zone:', 'ProxyZone', '; Task:', 'Promise.then', '; Value:', Object{error: 'not found!'}, undefined
 ,Chrome 88.0.4298.0 (Windows 10) WARN: 'Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?'
 ,Chrome 88.0.4298.0 (Windows 10) WARN: 'Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?'
 ,Chrome 88.0.4298.0 (Windows 10) LOG: 'Checking Profile for header...'

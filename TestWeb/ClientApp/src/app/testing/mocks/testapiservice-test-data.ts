@@ -2,9 +2,11 @@ import { UserModel } from 'src/app/common/models/user.model';
 import {
     Application,
     ConferenceDetailsResponse,
+    ConferenceResponse,
     ConferenceState,
     HearingDetailsResponse,
     ParticipantDetailsResponse,
+    ParticipantResponse,
     ParticipantState,
     TestType,
     UserDetailsResponse,
@@ -145,5 +147,37 @@ export class TestApiServiceTestData {
         allocatedUsers.push(userModel);
 
         return allocatedUsers;
+    }
+
+    getConferenceResponse(): ConferenceResponse {
+      const response = new ConferenceResponse();
+      response.case_name = 'case name';
+      response.hearing_ref_id = '123';
+      response.id = '456';
+      response.status = ConferenceState.NotStarted;
+
+      const participants = [];
+
+      const judge = new ParticipantResponse();
+      judge.display_name = 'judge';
+      judge.hearing_role = 'judge';
+      judge.id = '123';
+      judge.status = ParticipantState.NotSignedIn;
+      judge.user_role = UserRole.Judge;
+      judge.username = 'judge@mail.net';
+      participants.push(judge);
+
+      const individual = new ParticipantResponse();
+      individual.display_name = 'individual';
+      individual.hearing_role = 'Individual';
+      individual.id = '456';
+      individual.status = ParticipantState.NotSignedIn;
+      individual.user_role = UserRole.Individual;
+      individual.username = 'individial@mail.net';
+      participants.push(individual);
+
+      response.participants = participants;
+      
+      return response;
     }
 }

@@ -152,15 +152,16 @@ export class EventsComponent implements OnInit {
 
     async sendHearingEvent(): Promise<void> {
         this.spinnerService.show();
-        await this.sendHearingEventToApi();
+        const judgeId = this.getJudgeParticipantId();
+        const eventType = this.hearingEventTypeDropdown.value;
+        await this.sendHearingEventToApi(judgeId, eventType);
         this.spinnerService.hide();
         await this.refreshConferenceDetails();
     }
 
-    async sendHearingEventToApi(): Promise<void> {
+    async sendHearingEventToApi(judgeId: string, eventType: EventType): Promise<void> {
         try {
-            const judgeId = this.getJudgeParticipantId();
-            return await this.eventsService.createHearingEvent(this.conference.id, this.hearingEventTypeDropdown.value, judgeId);
+            return await this.eventsService.createHearingEvent(this.conference.id, eventType, judgeId);
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to send event.`, error);
             this.errorSendingEvent = true;
