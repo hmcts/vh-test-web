@@ -36,6 +36,7 @@ export class ResetService {
             return resetResponse;
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to reset password for ${username}.`, error, { payload: username });
+            throw error;
         }
     }
 }

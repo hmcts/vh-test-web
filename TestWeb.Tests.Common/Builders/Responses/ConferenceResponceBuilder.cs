@@ -9,13 +9,19 @@ namespace TestWeb.Tests.Common.Builders.Responses
     public class ConferenceResponseBuilder
     {
         private readonly List<ConferenceForAdminResponse> _conferencesForAdminResponses;
+        private readonly ConferenceDetailsResponse _conferenceDetailsResponse;
 
         public ConferenceResponseBuilder(List<ConferenceForAdminResponse> conferencesForAdminResponses)
         {
             _conferencesForAdminResponses = conferencesForAdminResponses;
         }
 
-        public List<ConferenceResponse> Build()
+        public ConferenceResponseBuilder(ConferenceDetailsResponse conferenceDetailsResponse)
+        {
+            _conferenceDetailsResponse = conferenceDetailsResponse;
+        }
+
+        public List<ConferenceResponse> BuildFromAdminResponse()
         {
             var conferencesResponse = new List<ConferenceResponse>()
             {
@@ -43,6 +49,29 @@ namespace TestWeb.Tests.Common.Builders.Responses
             conferencesResponse.First().Participants = participants;
 
             return conferencesResponse;
+        }
+
+        public ConferenceResponse Build()
+        {
+            var participants = _conferenceDetailsResponse.Participants.Select(participant => new ParticipantResponse()
+                {
+                    Display_name = participant.Display_name,
+                    Hearing_role = participant.Hearing_role,
+                    Id = participant.Id,
+                    Status = participant.Current_status,
+                    User_role = participant.User_role,
+                    Username = participant.Username
+                })
+                .ToList();
+
+            return new ConferenceResponse()
+            {
+                Case_name = _conferenceDetailsResponse.Case_name,
+                HearingRefId = _conferenceDetailsResponse.Hearing_id,
+                Id = _conferenceDetailsResponse.Id,
+                Participants = participants,
+                Status = _conferenceDetailsResponse.Current_status
+            };
         }
     }
 }

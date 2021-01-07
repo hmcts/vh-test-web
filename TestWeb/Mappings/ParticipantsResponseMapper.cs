@@ -7,6 +7,20 @@ namespace TestWeb.Mappings
 {
     public static class ParticipantsResponseMapper
     {
+        public static List<ParticipantResponse> Map(List<ParticipantDetailsResponse> participants)
+        {
+            return participants.Select(participant => new ParticipantResponse()
+                {
+                    Display_name = participant.Display_name,
+                    Hearing_role = participant.Hearing_role,
+                    Id = participant.Id,
+                    Status = participant.Current_status,
+                    User_role = participant.User_role,
+                    Username = participant.Username
+                })
+                .ToList();
+        }
+
         public static List<ParticipantResponse> Map(List<ParticipantSummaryResponse> participants)
         {
             return participants.Select(participant => new ParticipantResponse()

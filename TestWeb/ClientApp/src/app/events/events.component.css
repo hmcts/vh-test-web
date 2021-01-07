@@ -1,0 +1,34 @@
+.no-left-margin {
+    margin-left: 0%;
+    padding-left: 0%;
+}
+
+.vh-popup-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 500ms;
+    z-index: 998;
+}
+
+.vh-popup {
+    padding: 40px;
+    margin: 250px auto;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 1);
+    transition: all 2s ease-in-out;
+    width: 37%;
+    z-index: 999;
+}
+
+.centre-buttons {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.vh-popup-button {
+    margin-bottom: 5px;
+}

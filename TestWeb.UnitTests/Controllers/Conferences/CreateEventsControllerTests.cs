@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -8,12 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using TestWeb.Contracts.Responses;
 using TestWeb.Controllers;
 using TestWeb.TestApi.Client;
-using TestWeb.Tests.Common.Builders.Responses;
 using TestWeb.Tests.Common.Data;
-using ParticipantResponse = TestWeb.Contracts.Responses.ParticipantResponse;
 
 namespace TestWeb.UnitTests.Controllers.Conferences
 {
@@ -61,30 +56,6 @@ namespace TestWeb.UnitTests.Controllers.Conferences
             var result = await controller.CreateVideoEventAsync(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
-        }
-
-        [Test]
-        public async Task Should_get_conferences_for_today()
-        {
-            var conferencesForAdminResponse = new ConferencesForAdminResponseBuilder().Build();
-            var conferencesResponse = new ConferenceResponseBuilder(conferencesForAdminResponse).Build();
-
-            var testApiClientMock = new Mock<ITestApiClient>();
-            testApiClientMock
-                .Setup(x => x.GetConferencesForTodayVhoAsync())
-                .ReturnsAsync(conferencesForAdminResponse);
-
-            var controller = new ConferencesController(testApiClientMock.Object, _loggerMock.Object);
-
-            var response = await controller.GetConferencesForTodayAsync();
-            response.Should().NotBeNull();
-
-            var result = (OkObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-
-            var conferenceDetails = (List<ConferenceResponse>)result.Value;
-            conferenceDetails.Should().NotBeNull();
-            conferenceDetails.Should().BeEquivalentTo(conferencesResponse);
         }
     }
 }

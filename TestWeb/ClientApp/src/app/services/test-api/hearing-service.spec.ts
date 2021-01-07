@@ -33,7 +33,6 @@ describe('HearingService', () => {
         createHearingModel.users = null;
         createHearingModel.venue = 'court';
 
-        // expect(testApiService.createHearing).toHaveBeenCalledWith(createHearingModel);
         expect(testApiService.createHearing).toHaveBeenCalled();
         expect(result).not.toBeNull();
         expect(result).toBe(hearingDetailsResponse);

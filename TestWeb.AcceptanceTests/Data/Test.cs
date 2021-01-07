@@ -7,5 +7,6 @@ namespace TestWeb.AcceptanceTests.Data
     {
         public List<string> CaseNames { get; set; }
         public List<User> Users { get; set; }
+        public ConferenceDetailsResponse Conference { get; set; }
     }
 }

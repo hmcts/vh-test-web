@@ -31,9 +31,10 @@ export class HearingService {
         this.hearingModel.questionnaire_not_required = hearingFormData.questionnaireNotRequired;
         this.hearingModel.audio_recording_required = hearingFormData.audioRecordingRequired;
         this.logger.debug(`${this.loggerPrefix} Test type: ${hearingFormData.testType} Questionnaire not required:
-    ${hearingFormData.questionnaireNotRequired} Audio recording required: ${hearingFormData.audioRecordingRequired}
-    Individuals: ${hearingFormData.individuals} Representatives: ${hearingFormData.representatives} Observers:
-    ${hearingFormData.observers} Panel Members: ${hearingFormData.panelMembers} Number of hearings: ${hearingFormData.numberOfHearings}`);
+        ${hearingFormData.questionnaireNotRequired} Audio recording required: ${hearingFormData.audioRecordingRequired}
+        Individuals: ${hearingFormData.individuals} Representatives: ${hearingFormData.representatives} Observers:
+        ${hearingFormData.observers} Panel Members: ${hearingFormData.panelMembers} Number of hearings:
+        ${hearingFormData.numberOfHearings}`);
     }
 
     private addUsersToHearingModel(allocatedUsers: UserModel[]) {
@@ -51,6 +52,7 @@ export class HearingService {
             return hearingResponse;
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to create hearing.`, error, { payload: this.hearingModel });
+            throw error;
         }
     }
 }
