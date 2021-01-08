@@ -23,14 +23,14 @@ describe('EventsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-          imports: [SharedModule],
-          providers: [
-              { provide: Router, useValue: routerSpy },
-              { provide: Logger, useValue: loggerSpy }
-          ],
-          declarations: [EventsComponent],
-          schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
+            imports: [SharedModule],
+            providers: [
+                { provide: Router, useValue: routerSpy },
+                { provide: Logger, useValue: loggerSpy }
+            ],
+            declarations: [EventsComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        }).compileComponents();
     });
 
     beforeEach(() => {

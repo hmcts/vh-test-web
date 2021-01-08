@@ -150,41 +150,41 @@ export class TestApiServiceTestData {
     }
 
     getConferenceResponse(): ConferenceResponse {
-      const response = new ConferenceResponse();
-      response.case_name = 'case name';
-      response.hearing_ref_id = '123';
-      response.id = '456';
-      response.status = ConferenceState.NotStarted;
+        const response = new ConferenceResponse();
+        response.case_name = 'case name';
+        response.hearing_ref_id = '123';
+        response.id = '456';
+        response.status = ConferenceState.NotStarted;
 
-      const participants = [];
+        const participants = [];
 
-      const judge = new ParticipantResponse();
-      judge.display_name = 'judge';
-      judge.hearing_role = 'judge';
-      judge.id = '123';
-      judge.status = ParticipantState.NotSignedIn;
-      judge.user_role = UserRole.Judge;
-      judge.username = 'judge@mail.net';
-      participants.push(judge);
+        const judge = new ParticipantResponse();
+        judge.display_name = 'judge';
+        judge.hearing_role = 'judge';
+        judge.id = '123';
+        judge.status = ParticipantState.NotSignedIn;
+        judge.user_role = UserRole.Judge;
+        judge.username = 'judge@mail.net';
+        participants.push(judge);
 
-      const individual = new ParticipantResponse();
-      individual.display_name = 'individual';
-      individual.hearing_role = 'Individual';
-      individual.id = '456';
-      individual.status = ParticipantState.NotSignedIn;
-      individual.user_role = UserRole.Individual;
-      individual.username = 'individial@mail.net';
-      participants.push(individual);
+        const individual = new ParticipantResponse();
+        individual.display_name = 'individual';
+        individual.hearing_role = 'Individual';
+        individual.id = '456';
+        individual.status = ParticipantState.NotSignedIn;
+        individual.user_role = UserRole.Individual;
+        individual.username = 'individial@mail.net';
+        participants.push(individual);
 
-      response.participants = participants;
+        response.participants = participants;
 
-      return response;
+        return response;
     }
 
     getConferencesResponse(): ConferenceResponse[] {
-      const conferences = [];
-      const conference = this.getConferenceResponse();
-      conferences.push(conference);
-      return conferences;
+        const conferences = [];
+        const conference = this.getConferenceResponse();
+        conferences.push(conference);
+        return conferences;
     }
 }

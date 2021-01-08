@@ -48,9 +48,9 @@ describe('ConfirmService', () => {
     });
 
     it('should throw an error if call to test api to confirm a hearing fails', async () => {
-      const error = { error: 'not found!' };
-      testApiService.confirmHearing.and.callFake(() => Promise.reject(error));
-      await expectAsync(service.ConfirmHearing(hearing, allocatedUsers)).toBeRejected(error.error);
-      expect(logger.error).toHaveBeenCalled();
+        const error = { error: 'not found!' };
+        testApiService.confirmHearing.and.callFake(() => Promise.reject(error));
+        await expectAsync(service.ConfirmHearing(hearing, allocatedUsers)).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
     });
 });
