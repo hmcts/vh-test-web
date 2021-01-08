@@ -61,7 +61,7 @@ export class EventsComponent implements OnInit {
     enableCloseButton = false;
     displayConferenceDetails = false;
     error: string;
-    private conferences: ConferenceResponse[];
+    private conferences: ConferenceResponse[] = [];
     conference: ConferenceResponse;
 
     constructor(
