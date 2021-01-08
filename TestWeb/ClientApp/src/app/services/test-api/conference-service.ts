@@ -26,6 +26,7 @@ export class ConferenceService {
             return conferencesResponse;
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to fetch conferences.`, error);
+            throw error;
         }
     }
 

@@ -177,7 +177,14 @@ export class TestApiServiceTestData {
       participants.push(individual);
 
       response.participants = participants;
-      
+
       return response;
+    }
+
+    getConferencesResponse(): ConferenceResponse[] {
+      const conferences = [];
+      const conference = this.getConferenceResponse();
+      conferences.push(conference);
+      return conferences;
     }
 }

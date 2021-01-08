@@ -42,22 +42,4 @@ describe('EventsComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
-
-    it('should create a hearing event', () => {
-      const conferences = [];
-      const conference = testData.getConferenceResponse();
-      conferences.push(conference);
-
-      conferenceServiceSpy.getConferencesForToday.and.returnValue(Promise.resolve(conferences));
-      eventsServiceSpy.createHearingEvent.and.returnValue(Promise.resolve());
-
-      component.ngOnInit();
-
-      const judgeId = '123';
-      component.conference = conference;
-      const eventType = EventType.Start;
-
-      component.sendHearingEventToApi(judgeId, eventType);
-      expect(eventsServiceSpy.createHearingEvent).toHaveBeenCalledWith(judgeId, eventType);
-  });
 });
