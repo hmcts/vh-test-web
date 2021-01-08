@@ -141,13 +141,15 @@ export class EventsComponent implements OnInit {
     }
 
     private getSelectedConference(): ConferenceResponse {
+      if(this.conferences.length > 0){
         for (const conference of this.conferences) {
-            if (conference.case_name === this.caseNamesDropdown.value) {
-                this.logger.debug(`${this.loggerPrefix} Case Name selected ${conference.case_name}
-        with hearing ref id ${conference.hearing_ref_id}`);
-                return conference;
-            }
+          if (conference.case_name === this.caseNamesDropdown.value) {
+              this.logger.debug(`${this.loggerPrefix} Case Name selected ${conference.case_name}
+              with hearing ref id ${conference.hearing_ref_id}`);
+              return conference;
+          }
         }
+      }
     }
 
     async sendHearingEvent(): Promise<void> {
