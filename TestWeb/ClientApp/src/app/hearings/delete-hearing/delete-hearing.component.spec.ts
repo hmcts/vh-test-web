@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeleteModel } from 'src/app/common/models/delete-model';
-
 import { DeletedResponse } from 'src/app/services/clients/api-client';
 import { Logger } from 'src/app/services/logging/logger-base';
 import { TestApiService } from 'src/app/services/test-api/test-api-service';
