@@ -193,11 +193,11 @@ export class TestApiServiceTestData {
         return conferences;
     }
 
-    getJudgeId(participants: ParticipantResponse[]){
-      for (const participant of participants) {
-        if(participant.user_role === UserRole.Judge){
-          return participant.id;
+    getJudgeId(participants: ParticipantResponse[]) {
+        for (const participant of participants) {
+            if (participant.user_role === UserRole.Judge) {
+                return participant.id;
+            }
         }
-      }
     }
 }
