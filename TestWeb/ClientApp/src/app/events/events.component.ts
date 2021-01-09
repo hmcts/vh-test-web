@@ -93,9 +93,12 @@ export class EventsComponent implements OnInit {
         this.conferences = await this.getConferences();
         this.spinnerService.hide();
 
-        this.conferences.forEach(conference => {
-            this.caseNames.push(conference.case_name);
-        });
+        if (this.conferences !== undefined) {
+            this.logger.debug(`${this.loggerPrefix} CONFERENCES IS ${this.conferences}.`);
+            for (const conference of this.conferences) {
+                this.caseNames.push(conference.case_name);
+            }
+        }
 
         this.enableFetchingCaseNamesText = false;
         this.enableCaseNameDropdown = true;
@@ -117,7 +120,7 @@ export class EventsComponent implements OnInit {
         this.enableHearingEventTypesDropdown = false;
         this.enableParticipantEventTypesDropdown = false;
         this.displayConferenceDetails = false;
-        this.conference = null;
+        this.conference = undefined;
         this.caseNamesDropdown.setValue(this.pleaseSelectCaseName);
         this.caseNames = [];
         this.caseNames.push(this.pleaseSelectCaseName);
