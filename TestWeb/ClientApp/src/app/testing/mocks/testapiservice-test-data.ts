@@ -4,6 +4,7 @@ import {
     ConferenceDetailsResponse,
     ConferenceResponse,
     ConferenceState,
+    EndpointResponse,
     HearingDetailsResponse,
     ParticipantDetailsResponse,
     ParticipantResponse,
@@ -31,7 +32,9 @@ export class TestApiServiceTestData {
             representatives: 1,
             testType: TestType.Manual,
             audioRecordingRequired: false,
-            scheduledDateTime: hearingDate
+            scheduledDateTime: hearingDate,
+            numberOfEndpoints: 0,
+            reuseUsers: false
         };
 
         return hearingFormData;
@@ -47,7 +50,9 @@ export class TestApiServiceTestData {
         conference.case_type = 'tax';
         conference.closed_date_time = null;
         conference.current_status = ConferenceState.NotStarted;
-        conference.endpoints = null;
+        const endpoints = [];
+        endpoints.push(new EndpointResponse);
+        conference.endpoints = endpoints;
         conference.hearing_id = '1000';
         conference.hearing_venue_name = 'court';
         conference.id = '1001';

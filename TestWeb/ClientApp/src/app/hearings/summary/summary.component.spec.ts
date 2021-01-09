@@ -52,10 +52,10 @@ describe('SummaryComponent', () => {
     it('should return true for the last participant', () => {
         const totalParticipants = 5;
         let index = 4;
-        let result = component.theLastParticipant(totalParticipants, index);
+        let result = component.theLastEntry(totalParticipants, index);
         expect(result).toBe(true);
         index = 3;
-        result = component.theLastParticipant(totalParticipants, index);
+        result = component.theLastEntry(totalParticipants, index);
         expect(result).toBe(false);
     });
 

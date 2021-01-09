@@ -23,10 +23,11 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     protected readonly loggerPrefix: string = '[Create Hearing(s)] -';
     testTypes: TestType[] = [Constants.TestTypes.Demo, Constants.TestTypes.ITHC, Constants.TestTypes.Manual];
     numberOfHearingsOptions: number[] = [1, 2, 3, 4];
-    numberOfEndpointsOptions: number[] = [0];
+    numberOfEndpointsOptions: number[] = [0, 1, 2, 3, 4];
     private defaultTestType: string = Constants.TestTypes.Manual;
     defaultQuestionnaireNotRequired = true;
     defaultAudioRecordingRequired = false;
+    defaultReuseUsers = true;
     private defaultIndividuals = 1;
     private defaultRepresentatives = 0;
     private defaultObservers = 0;
@@ -41,6 +42,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     testTypeDropdown: FormControl;
     questionnaireNotRequiredCheckBox: FormControl;
     audioRecordingRequiredCheckBox: FormControl;
+    reuseUsersCheckBox: FormControl;
     individualsTextfield: FormControl;
     representativesTextfield: FormControl;
     observersTextfield: FormControl;
@@ -134,6 +136,13 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         return false;
     }
 
+    multipleHearings() {
+        if (this.quantity.value > 1) {
+            return true;
+        }
+        return false;
+    }
+
     continue() {
         this.router.navigate([PageUrls.Summary]);
     }
@@ -152,10 +161,12 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         data.hearingStartTimeMinute = this.form.value.hearingStartTimeMinute;
         data.individuals = this.individuals.value;
         data.numberOfHearings = this.quantity.value;
+        data.numberOfEndpoints = this.endpoints.value;
         data.observers = this.observers.value;
         data.panelMembers = this.panelMembers.value;
         data.questionnaireNotRequired = this.questionnaireNotRequiredCheckBox.value;
         data.representatives = this.representatives.value;
+        data.reuseUsers = this.reuseUsersCheckBox.value;
         data.scheduledDateTime = hearingDate;
         data.testType = this.testType.value;
         this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
@@ -182,6 +193,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         this.panelMembersTextfield = new FormControl(this.defaultPanelMembers);
         this.quantityDropdown = new FormControl(this.defaultNumberOfHearings);
         this.endpointsDropdown = new FormControl(this.defaultNumberOfEndpoints);
+        this.reuseUsersCheckBox = new FormControl(this.defaultReuseUsers);
 
         this.form = this.fb.group({
             testTypeDropdown: this.testTypeDropdown,
@@ -195,7 +207,8 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
             observersTextfield: this.observersTextfield,
             panelMembersTextfield: this.panelMembersTextfield,
             quantityDropdown: this.quantityDropdown,
-            endpointsDropdown: this.endpointsDropdown
+            endpointsDropdown: this.endpointsDropdown,
+            reuseUsersCheckBox: this.reuseUsersCheckBox
         });
     }
 
@@ -227,6 +240,10 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         return this.form.get('audioRecordingRequiredCheckBox');
     }
 
+    get reuseUsers() {
+        return this.form.get('reuseUsersCheckBox');
+    }
+
     get individuals() {
         return this.form.get('individualsTextfield');
     }
@@ -245,6 +262,10 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
 
     get quantity() {
         return this.form.get('quantityDropdown');
+    }
+
+    get endpoints() {
+        return this.form.get('endpointsDropdown');
     }
 
     get hearingDateInvalid() {

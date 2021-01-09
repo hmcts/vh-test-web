@@ -1200,6 +1200,7 @@ export class AllocateUserRequest implements IAllocateUserRequest {
     is_prod_user?: boolean;
     test_type?: TestType;
     user_type!: UserType;
+    allocated_by?: string | undefined;
 
     constructor(data?: IAllocateUserRequest) {
         if (data) {
@@ -1216,6 +1217,7 @@ export class AllocateUserRequest implements IAllocateUserRequest {
             this.is_prod_user = _data['is_prod_user'];
             this.test_type = _data['test_type'];
             this.user_type = _data['user_type'];
+            this.allocated_by = _data['allocated_by'];
         }
     }
 
@@ -1233,6 +1235,7 @@ export class AllocateUserRequest implements IAllocateUserRequest {
         data['is_prod_user'] = this.is_prod_user;
         data['test_type'] = this.test_type;
         data['user_type'] = this.user_type;
+        data['allocated_by'] = this.allocated_by;
         return data;
     }
 }
@@ -1243,6 +1246,7 @@ export interface IAllocateUserRequest {
     is_prod_user?: boolean;
     test_type?: TestType;
     user_type: UserType;
+    allocated_by?: string | undefined;
 }
 
 export class UserDetailsResponse implements IUserDetailsResponse {
@@ -1485,6 +1489,7 @@ export class AllocationDetailsResponse implements IAllocationDetailsResponse {
     username?: string | undefined;
     expires_at?: Date | undefined;
     allocated?: boolean;
+    allocated_by?: string | undefined;
 
     constructor(data?: IAllocationDetailsResponse) {
         if (data) {
@@ -1501,6 +1506,7 @@ export class AllocationDetailsResponse implements IAllocationDetailsResponse {
             this.username = _data['username'];
             this.expires_at = _data['expires_at'] ? new Date(_data['expires_at'].toString()) : <any>undefined;
             this.allocated = _data['allocated'];
+            this.allocated_by = _data['allocated_by'];
         }
     }
 
@@ -1518,6 +1524,7 @@ export class AllocationDetailsResponse implements IAllocationDetailsResponse {
         data['username'] = this.username;
         data['expires_at'] = this.expires_at ? this.expires_at.toISOString() : <any>undefined;
         data['allocated'] = this.allocated;
+        data['allocated_by'] = this.allocated_by;
         return data;
     }
 }
@@ -1528,6 +1535,7 @@ export interface IAllocationDetailsResponse {
     username?: string | undefined;
     expires_at?: Date | undefined;
     allocated?: boolean;
+    allocated_by?: string | undefined;
 }
 
 export enum EventType {
@@ -2061,6 +2069,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
     audio_recording_required?: boolean;
     application?: Application;
     case_type?: string | undefined;
+    endpoints?: number;
     questionnaire_not_required?: boolean;
     scheduled_date_time?: Date;
     test_type?: TestType;
@@ -2080,6 +2089,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
             this.audio_recording_required = _data['audio_recording_required'];
             this.application = _data['application'];
             this.case_type = _data['case_type'];
+            this.endpoints = _data['endpoints'];
             this.questionnaire_not_required = _data['questionnaire_not_required'];
             this.scheduled_date_time = _data['scheduled_date_time'] ? new Date(_data['scheduled_date_time'].toString()) : <any>undefined;
             this.test_type = _data['test_type'];
@@ -2103,6 +2113,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
         data['audio_recording_required'] = this.audio_recording_required;
         data['application'] = this.application;
         data['case_type'] = this.case_type;
+        data['endpoints'] = this.endpoints;
         data['questionnaire_not_required'] = this.questionnaire_not_required;
         data['scheduled_date_time'] = this.scheduled_date_time ? this.scheduled_date_time.toISOString() : <any>undefined;
         data['test_type'] = this.test_type;
@@ -2119,6 +2130,7 @@ export interface ICreateHearingRequest {
     audio_recording_required?: boolean;
     application?: Application;
     case_type?: string | undefined;
+    endpoints?: number;
     questionnaire_not_required?: boolean;
     scheduled_date_time?: Date;
     test_type?: TestType;

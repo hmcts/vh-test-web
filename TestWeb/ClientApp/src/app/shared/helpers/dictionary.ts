@@ -24,6 +24,15 @@ export default class Dictionary<T> implements IKeyCollection<T> {
         return this.items[key];
     }
 
+    containsItem(key: string): boolean {
+        for (const property in this.items) {
+            if (property === key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     removeItem(key: string): T {
         const value = this.items[key];
 

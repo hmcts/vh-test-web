@@ -48,7 +48,8 @@ describe('TestApiService', () => {
         users: null,
         venue: 'court',
         audio_recording_required: false,
-        scheduled_date_time: new Date()
+        scheduled_date_time: new Date(),
+        endpoints: 0
     };
     const deleteHearingsModel: DeleteModel = { case_name: 'test case name', limit: 1000 };
 

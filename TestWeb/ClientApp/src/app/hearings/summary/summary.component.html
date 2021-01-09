@@ -69,7 +69,20 @@
             <div *ngFor="let participant of summary.getParticipants(); index as j">
               <div id='hearing-{{i}}-participant-{{j}}-username'>{{participant.username}}<br /></div>
               <div id='hearing-{{i}}-participant-{{j}}-password'>{{summary.getParticipantPassword(participant.username)}}</div>
-              <div *ngIf="!theLastParticipant(summary.getParticipants().length, j)"><br /></div>
+              <div *ngIf="!theLastEntry(summary.getParticipants().length, j)"><br /></div>
+            </div>
+          </dd>
+        </div>
+        <div *ngIf="summary.getEndpoints().length > 0"   class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Endpoints
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <div *ngFor="let endpoint of summary.getEndpoints(); index as k">
+              <div id='hearing-{{i}}-endpoint-{{k}}-display-name'>{{endpoint.display_name}}<br /></div>
+              <div id='hearing-{{i}}-endpoint-{{k}}-sip-address'>{{endpoint.sip_address}}</div>
+              <div id='hearing-{{i}}-endpoint-{{k}}-pin'>{{endpoint.pin}}</div>
+              <div *ngIf="!theLastEntry(summary.getEndpoints().length, k)"><br /></div>
             </div>
           </dd>
         </div>

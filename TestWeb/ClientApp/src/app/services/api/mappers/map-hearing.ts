@@ -8,6 +8,7 @@ export class MapHearing {
         request.application = model.application;
         request.audio_recording_required = model.audio_recording_required;
         request.case_type = model.case_type;
+        request.endpoints = model.endpoints;
         request.questionnaire_not_required = model.questionnaire_not_required;
         request.scheduled_date_time = model.scheduled_date_time;
         request.test_type = TestType[model.test_type];

@@ -30,11 +30,13 @@ export class HearingService {
         this.logger.debug(`${this.loggerPrefix} Scheduled date: ${hearingDate}`);
         this.hearingModel.questionnaire_not_required = hearingFormData.questionnaireNotRequired;
         this.hearingModel.audio_recording_required = hearingFormData.audioRecordingRequired;
+        this.hearingModel.endpoints = hearingFormData.numberOfEndpoints;
         this.logger.debug(`${this.loggerPrefix} Test type: ${hearingFormData.testType} Questionnaire not required:
         ${hearingFormData.questionnaireNotRequired} Audio recording required: ${hearingFormData.audioRecordingRequired}
         Individuals: ${hearingFormData.individuals} Representatives: ${hearingFormData.representatives} Observers:
         ${hearingFormData.observers} Panel Members: ${hearingFormData.panelMembers} Number of hearings:
-        ${hearingFormData.numberOfHearings}`);
+        ${hearingFormData.numberOfHearings} Number of endpoints ${hearingFormData.numberOfEndpoints}
+        Reuse users ${hearingFormData.reuseUsers}`);
     }
 
     private addUsersToHearingModel(allocatedUsers: UserModel[]) {

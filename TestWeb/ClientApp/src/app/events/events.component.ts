@@ -5,6 +5,7 @@ import { ConferenceResponse, EventType, RoomType, UserRole } from 'src/app/servi
 import { Logger } from 'src/app/services/logging/logger-base';
 import { ConferenceService } from '../services/test-api/conference-service';
 import { EventsService } from '../services/test-api/event-service';
+import Dictionary from '../shared/helpers/dictionary';
 
 @Component({
     selector: 'app-events',
@@ -91,9 +92,11 @@ export class EventsComponent implements OnInit {
         this.spinnerService.show();
         this.conferences = await this.getConferences();
         this.spinnerService.hide();
-        for (const conference of this.conferences) {
+
+        this.conferences.forEach(conference => {
             this.caseNames.push(conference.case_name);
-        }
+        });
+
         this.enableFetchingCaseNamesText = false;
         this.enableCaseNameDropdown = true;
     }
@@ -125,7 +128,7 @@ export class EventsComponent implements OnInit {
         this.enableHearingEventTypesDropdown = true;
         this.enableParticipantEventTypesDropdown = true;
         this.enableRefreshConferenceDetailsButton = true;
-        if (this.conference !== null) {
+        if (this.conference !== undefined) {
             this.removeParticipantEventDropdownsFromForm();
         }
         this.conference = this.getSelectedConference();

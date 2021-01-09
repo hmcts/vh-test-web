@@ -53,8 +53,8 @@ export class SummaryComponent extends HearingBaseComponentDirective implements O
         this.tooltip = 'Copy conference details to clipboard';
     }
 
-    theLastParticipant(totalParticipants: number, index: number) {
-        if (totalParticipants === index + 1) {
+    theLastEntry(totalEntries: number, index: number) {
+        if (totalEntries === index + 1) {
             return true;
         }
         return false;

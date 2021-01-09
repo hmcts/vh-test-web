@@ -1,5 +1,5 @@
 import Dictionary from 'src/app/shared/helpers/dictionary';
-import { ConferenceDetailsResponse, ParticipantDetailsResponse } from '../../clients/api-client';
+import { ConferenceDetailsResponse, EndpointResponse, ParticipantDetailsResponse } from '../../clients/api-client';
 
 export class Summary {
     constructor(conference: ConferenceDetailsResponse, userPasswords: Dictionary<string>) {
@@ -10,6 +10,7 @@ export class Summary {
         this.conferenceId = conference.id;
         this.participants = conference.participants;
         this.userPasswords = userPasswords;
+        this.endpoints = conference.endpoints;
     }
 
     private caseName: string | undefined;
@@ -19,6 +20,7 @@ export class Summary {
     private participants: ParticipantDetailsResponse[] | undefined;
     private scheduledDateTime: string | undefined;
     private userPasswords: Dictionary<string>;
+    private endpoints: EndpointResponse[] | undefined;
 
     getCaseName(): string {
         return this.caseName;
@@ -48,6 +50,10 @@ export class Summary {
         return this.userPasswords.getItem(username);
     }
 
+    getEndpoints() {
+        return this.endpoints;
+    }
+
     toText(): string {
         let text = '';
         text = text + `${this.caseName}\n`;
@@ -60,6 +66,12 @@ export class Summary {
         this.participants.forEach(participant => {
             text = text + `${participant.username}\n`;
             text = text + `${this.userPasswords.getItem(participant.username)}\n`;
+            text = text + `\n`;
+        });
+        this.endpoints.forEach(endpoint => {
+            text = text + `${endpoint.display_name}\n`;
+            text = text + `${endpoint.sip_address}\n`;
+            text = text + `${endpoint.pin}\n`;
             text = text + `\n`;
         });
         return text;

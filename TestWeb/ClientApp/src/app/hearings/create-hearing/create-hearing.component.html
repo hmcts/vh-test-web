@@ -97,15 +97,6 @@
         </select>
       </div>
 
-      <div class="govuk-form-group bigger-margin-bottom">
-        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
-        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
-          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
-            {{ number }}
-          </option>
-        </select>
-      </div>
-
       <div class="govuk-form-group">
         <div class="govuk-checkboxes__item">
           <input
@@ -117,6 +108,20 @@
             formControlName="questionnaireNotRequiredCheckBox"
           />
           <label class="govuk-label govuk-checkboxes__label" for="questionnaireNotRequiredCheckBox"> Do not send questionnaires </label>
+        </div>
+      </div>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="audioRecordingRequiredCheckBox"
+            name="audioRecordingRequiredCheckBox"
+            type="checkbox"
+            [checked]="defaultAudioRecordingRequired"
+            formControlName="audioRecordingRequiredCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
         </div>
       </div>
 
@@ -238,7 +243,7 @@
 
       </div>
 
-      <div class="govuk-form-group bigger-margin-bottom">
+      <div class="govuk-form-group">
         <label class="govuk-label govuk-!-width-full" for="endpointsDropdown"> Endpoints </label>
         <select id="endpointsDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="endpointsDropdown">
           <option *ngFor="let number of numberOfEndpointsOptions" [ngValue]="number">
@@ -248,16 +253,25 @@
       </div>
 
       <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
+        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
+          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="multipleHearings()" class="govuk-form-group">
         <div class="govuk-checkboxes__item">
           <input
             class="govuk-checkboxes__input"
-            id="audioRecordingRequiredCheckBox"
-            name="audioRecordingRequiredCheckBox"
+            id="reuseUsersCheckBox"
+            name="reuseUsersCheckBox"
             type="checkbox"
-            [checked]="defaultAudioRecordingRequired"
-            formControlName="audioRecordingRequiredCheckBox"
+            [checked]="defaultReuseUsers"
+            formControlName="reuseUsersCheckBox"
           />
-          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Audio recording required </label>
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Re-use same users </label>
         </div>
       </div>
 
