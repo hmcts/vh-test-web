@@ -1,0 +1,314 @@
+<div class="govuk-grid-row">
+
+  <ngx-spinner></ngx-spinner>
+
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Events</h1>
+  </div>
+
+  <form [formGroup]="form" class="govuk-form-group">
+
+    <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
+
+      <div *ngIf="enableCaseNameDropdown" class="govuk-form-group">
+
+        <div class="govuk-grid-row govuk-!-padding-bottom-2">
+          <div class="govuk-grid-column-full">
+
+            <label class="govuk-label govuk-!-width-full" for="caseNamesDropdown"> Conferences </label>
+
+            <select
+              id="caseNamesDropdown"
+              class="govuk-select govuk-!-width-one-half"
+              formControlName="caseNamesDropdown"
+            >
+              <option *ngFor="let caseName of caseNames" [ngValue]="caseName">
+                {{ caseName }}
+              </option>
+            </select>
+
+          </div>
+        </div>
+
+        <div class="govuk-grid-row">
+
+          <div class="govuk-grid-column-full">
+            <button
+              id="selectButton"
+              class="govuk-button govuk-!-margin-right-2"
+              type="button"
+              data-module="govuk-button"
+              aria-label="Select a conference"
+              (click)="selectCase()"
+              *ngIf="caseNameSelected()"
+            >
+              Select
+            </button>
+
+            <button
+              id="updateCasesButton"
+              class="govuk-button govuk-button--secondary"
+              type="button"
+              data-module="govuk-button"
+              aria-label="Updates the list of case names"
+              (click)="refreshCaseNames()"
+              *ngIf="caseNameSelected()"
+            >
+              Update
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="displayConferenceDetails" class="govuk-grid-row govuk-!-padding-bottom-6">
+
+      <div class="govuk-grid-column-full">
+
+        <div class="govuk-grid-column-full">
+          <button
+              id="refreshConferenceDetailsButton"
+              class="govuk-button govuk-button--secondary"
+              type="button"
+              data-module="govuk-button"
+              aria-label="Refresh the conference details"
+              (click)="refreshConferenceDetails()"
+              *ngIf="caseNameSelected()"
+              [disabled]="!enableRefreshConferenceDetailsButton"
+            >
+              Refresh Conference
+            </button>
+        </div>
+
+        <h1 id='conferenceTitle' class="govuk-heading-m">Conference Details</h1>
+
+        <div class="govuk-grid-column-two-thirds">
+
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Hearing ID
+              </dt>
+              <dd id='hearing-id' class="govuk-summary-list__value">
+                {{conference.hearing_ref_id}}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Conference ID
+              </dt>
+              <dd id='conference-id' class="govuk-summary-list__value">
+                {{conference.id}}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Hearing Status
+              </dt>
+              <dd id='conference-status' class="govuk-summary-list__value">
+                {{conference.status}}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+
+          <div *ngIf="enableHearingEventTypesDropdown" class="govuk-form-group">
+
+            <div class="govuk-grid-column-full govuk-!-padding-bottom-2">
+
+              <label class="govuk-label govuk-!-width-full" for="hearingEventTypeDropdown"> Hearing Event </label>
+              <select
+                id="hearingEventTypeDropdown"
+                class="govuk-select govuk-!-width-full"
+                formControlName="hearingEventTypeDropdown"
+              >
+                <option *ngFor="let hearingEventType of hearingEventTypes" [ngValue]="hearingEventType">
+                  {{ hearingEventType }}
+                </option>
+              </select>
+
+            </div>
+
+            <div class="govuk-grid-column-one-half">
+              <button
+                id="sendHearingEventButton"
+                class="govuk-button"
+                type="button"
+                data-module="govuk-button"
+                aria-label="Send the hearing event button"
+                (click)="sendHearingEvent()"
+                *ngIf="caseNameSelected()"
+                [disabled]="!hearingEventDropdownHasValue()"
+              >
+                Send Event
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="displayConferenceDetails" class="govuk-grid-row govuk-!-padding-bottom-6">
+
+      <div class="govuk-grid-column-full">
+
+        <h1 id='participantsTitle' class="govuk-heading-m">Participants</h1>
+
+        <div *ngFor="let participant of conference.participants;" class="govuk-grid-row govuk-!-padding-bottom-6">
+
+          <div class="govuk-grid-column-two-thirds">
+
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Display Name
+                </dt>
+                <dd id='participant-{{participant.id}}-display-name' class="govuk-summary-list__value">
+                  {{participant.display_name}}
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Username
+                </dt>
+                <dd id='participant-{{participant.id}}-username' class="govuk-summary-list__value">
+                  {{participant.username}}
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  User Role
+                </dt>
+                <dd id='participant-{{participant.id}}-user-role' class="govuk-summary-list__value">
+                  {{participant.user_role}}
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Participant ID
+                </dt>
+                <dd id='participant-{{participant.id}}-id' class="govuk-summary-list__value">
+                  {{participant.id}}
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Participant Status
+                </dt>
+                <dd id='participant-{{participant.id}}-status' class="govuk-summary-list__value">
+                  {{participant.status}}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="govuk-grid-column-one-third">
+            <div *ngIf="enableParticipantEventTypesDropdown" class="govuk-form-group">
+
+              <div class="govuk-grid-column-full govuk-!-padding-bottom-2">
+
+                <label class="govuk-label govuk-!-width-full" for="participant-event-type-dropdown-{{participant.id}}"> Participant Event </label>
+                <select
+                  id="participant-event-type-dropdown-{{participant.id}}"
+                  class="govuk-select govuk-!-width-full"
+                  formControlName="participant-event-type-dropdown-{{participant.id}}"
+                >
+                  <option *ngFor="let participantEventType of participantEventTypes" [ngValue]="participantEventType">
+                    {{ participantEventType }}
+                  </option>
+                </select>
+
+              </div>
+
+              <div *ngIf="enableParticipantEventTypesDropdown && transferSelected(participant.id)" class="govuk-grid-column-full govuk-!-padding-bottom-2">
+
+                <label class="govuk-label govuk-!-width-full" for="participant-transfer-from-dropdown-{{participant.id}}"> Transfer From </label>
+                <select
+                  id="participant-transfer-from-dropdown-{{participant.id}}"
+                  class="govuk-select govuk-!-width-full"
+                  formControlName="participant-transfer-from-dropdown-{{participant.id}}"
+                >
+                  <option *ngFor="let transferRoomOption of transferRoomOptions" [ngValue]="transferRoomOption">
+                    {{ transferRoomOption }}
+                  </option>
+                </select>
+
+              </div>
+
+              <div *ngIf="enableParticipantEventTypesDropdown && transferSelected(participant.id)" class="govuk-grid-column-full govuk-!-padding-bottom-2">
+
+                <label class="govuk-label govuk-!-width-full" for="participant-transfer-to-dropdown-{{participant.id}}"> Transfer To </label>
+                <select
+                  id="participant-transfer-to-dropdown-{{participant.id}}"
+                  class="govuk-select govuk-!-width-full"
+                  formControlName="participant-transfer-to-dropdown-{{participant.id}}"
+                >
+                  <option *ngFor="let transferRoomOption of transferRoomOptions" [ngValue]="transferRoomOption">
+                    {{ transferRoomOption }}
+                  </option>
+                </select>
+
+              </div>
+
+              <div class="govuk-grid-column-one-half">
+                <button
+                  id="send-participant-event-button-{{participant.id}}"
+                  class="govuk-button"
+                  type="button"
+                  data-module="govuk-button"
+                  aria-label="Send the participant event button"
+                  (click)="sendParticipantEvent(participant.id)"
+                  [disabled]="!participantDropdownHasValue(participant.id)"
+                >
+                  Send Event
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="displayPopup" id="dialog" class="vh-popup-overlay">
+      <div class="vh-popup">
+
+        <h1 *ngIf="enableFetchingCaseNamesText" id="fetchingTitle" class="govuk-heading-m">Fetching conferences for today</h1>
+        <h1 *ngIf="errorRetrievingConferences || errorSendingEvent" id="failedTitle" class="govuk-heading-m">Failed</h1>
+        <p *ngIf="errorRetrievingConferences" id="errorRetrievingConferencesText">An error occured whilst retrieving conferences for today</p>
+        <p *ngIf="errorSendingEvent" id="errorSendingEventText">An error occured whilst sending the event</p>
+        <p *ngIf="errorRetrievingConferences || errorSendingEvent" id="errorTextDetails">{{error}}</p>
+
+        <div *ngIf="!errorRetrievingConferences && !errorSendingEvent">
+          <p id='progressText' class="govuk-body govuk-!-margin-bottom-9">
+            Please wait whilst the conferences for today are retreived.
+          </p>
+        </div>
+
+        <div class="centre-buttons">
+          <button
+            id="closeButton"
+            class="govuk-button vh-popup-button"
+            type="button"
+            data-module="govuk-button"
+            aria-label="Close dialog"
+            (click)="closeDialog()"
+            *ngIf="enableCloseButton"
+          >
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>

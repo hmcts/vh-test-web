@@ -12,5 +12,7 @@
         public static int NUMBER = 1;
         public static string REPRESENTATIVE = "Representative";
         public static string USERNAME_STEM = "@test.com";
+        public static string TITLE = "Mrs";
+        public static string USERNAME = "user@email123.com";
     }
 }

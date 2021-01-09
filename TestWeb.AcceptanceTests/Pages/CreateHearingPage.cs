@@ -5,6 +5,7 @@ namespace TestWeb.AcceptanceTests.Pages
     public static class CreateHearingPage
     {
         public static readonly By NumberOfHearingsDropdown = By.Id("quantityDropdown");
+        public static readonly By NumberOfEndpointsDropdown = By.Id("endpointsDropdown");
         public static readonly By BookAndConfirmButton = By.Id("bookButton");
         public static readonly By HearingStartTimeHour = By.Id("hearingStartTimeHour");
         public static readonly By HearingStartTimeMinute = By.Id("hearingStartTimeMinute");

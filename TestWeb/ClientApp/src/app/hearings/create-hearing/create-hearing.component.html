@@ -10,7 +10,6 @@
 
     <div class="govuk-grid-column-one-half">
 
-
       <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="hearingDate"> Date of hearing </label>
         <input
@@ -94,15 +93,6 @@
         >
           <option *ngFor="let testType of testTypes" [ngValue]="testType">
             {{ testType }}
-          </option>
-        </select>
-      </div>
-
-      <div class="govuk-form-group bigger-margin-bottom">
-        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
-        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
-          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
-            {{ number }}
           </option>
         </select>
       </div>
@@ -253,13 +243,36 @@
 
       </div>
 
-      <div class="govuk-form-group bigger-margin-bottom">
+      <div class="govuk-form-group">
         <label class="govuk-label govuk-!-width-full" for="endpointsDropdown"> Endpoints </label>
         <select id="endpointsDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="endpointsDropdown">
           <option *ngFor="let number of numberOfEndpointsOptions" [ngValue]="number">
             {{ number }}
           </option>
         </select>
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
+        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
+          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="multipleHearings()" class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="reuseUsersCheckBox"
+            name="reuseUsersCheckBox"
+            type="checkbox"
+            [checked]="defaultReuseUsers"
+            formControlName="reuseUsersCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Re-use same users </label>
+        </div>
       </div>
 
     </div>

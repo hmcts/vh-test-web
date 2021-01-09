@@ -2,9 +2,12 @@ import { UserModel } from 'src/app/common/models/user.model';
 import {
     Application,
     ConferenceDetailsResponse,
+    ConferenceResponse,
     ConferenceState,
+    EndpointResponse,
     HearingDetailsResponse,
     ParticipantDetailsResponse,
+    ParticipantResponse,
     ParticipantState,
     TestType,
     UserDetailsResponse,
@@ -29,7 +32,9 @@ export class TestApiServiceTestData {
             representatives: 1,
             testType: TestType.Manual,
             audioRecordingRequired: false,
-            scheduledDateTime: hearingDate
+            scheduledDateTime: hearingDate,
+            numberOfEndpoints: 0,
+            reuseUsers: false
         };
 
         return hearingFormData;
@@ -45,7 +50,9 @@ export class TestApiServiceTestData {
         conference.case_type = 'tax';
         conference.closed_date_time = null;
         conference.current_status = ConferenceState.NotStarted;
-        conference.endpoints = null;
+        const endpoints = [];
+        endpoints.push(new EndpointResponse());
+        conference.endpoints = endpoints;
         conference.hearing_id = '1000';
         conference.hearing_venue_name = 'court';
         conference.id = '1001';
@@ -145,5 +152,52 @@ export class TestApiServiceTestData {
         allocatedUsers.push(userModel);
 
         return allocatedUsers;
+    }
+
+    getConferenceResponse(): ConferenceResponse {
+        const response = new ConferenceResponse();
+        response.case_name = 'case name';
+        response.hearing_ref_id = '123';
+        response.id = '456';
+        response.status = ConferenceState.NotStarted;
+
+        const participants = [];
+
+        const judge = new ParticipantResponse();
+        judge.display_name = 'judge';
+        judge.hearing_role = 'judge';
+        judge.id = '123';
+        judge.status = ParticipantState.NotSignedIn;
+        judge.user_role = UserRole.Judge;
+        judge.username = 'judge@mail.net';
+        participants.push(judge);
+
+        const individual = new ParticipantResponse();
+        individual.display_name = 'individual';
+        individual.hearing_role = 'Individual';
+        individual.id = '456';
+        individual.status = ParticipantState.NotSignedIn;
+        individual.user_role = UserRole.Individual;
+        individual.username = 'individial@mail.net';
+        participants.push(individual);
+
+        response.participants = participants;
+
+        return response;
+    }
+
+    getConferencesResponse(): ConferenceResponse[] {
+        const conferences = [];
+        const conference = this.getConferenceResponse();
+        conferences.push(conference);
+        return conferences;
+    }
+
+    getJudgeId(participants: ParticipantResponse[]) {
+        for (const participant of participants) {
+            if (participant.user_role === UserRole.Judge) {
+                return participant.id;
+            }
+        }
     }
 }

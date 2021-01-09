@@ -48,5 +48,15 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Driver.WaitUntilVisible(HeaderPage.DeleteHearingsLink);
             _browser.ClickLink(HeaderPage.DeleteHearingsLink);
         }
+
+        [Given(@"the user has progressed to the Events page")]
+        public void GivenTheUserHasProgressedToTheEventsPage()
+        {
+            _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
+            _loginSteps.ProgressToNextPage();
+            _createHearingsSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.EventsLink);
+        }
+
     }
 }

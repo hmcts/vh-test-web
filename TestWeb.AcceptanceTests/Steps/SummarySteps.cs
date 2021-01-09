@@ -41,6 +41,13 @@ namespace TestWeb.AcceptanceTests.Steps
                     _browser.Driver.WaitUntilVisible(SummaryPage.ParticipantUsername(i, j)).Text.Trim().Should().NotBeNull();
                     _browser.Driver.WaitUntilVisible(SummaryPage.ParticipantPassword(i, j)).Text.Trim().Should().NotBeNull();
                 }
+
+                for (var j = 0; j < _c.Test.Endpoints; j++)
+                {
+                    _browser.Driver.WaitUntilVisible(SummaryPage.EndpointDisplayName(i, j)).Text.Trim().Should().StartWith(DefaultData.EndpointsPrefix);
+                    _browser.Driver.WaitUntilVisible(SummaryPage.EndpointSipAddress(i, j)).Text.Trim().Should().NotBeNull();
+                    _browser.Driver.WaitUntilVisible(SummaryPage.EndpointPin(i, j)).Text.Trim().Should().NotBeNull();
+                }
             }
         }
 

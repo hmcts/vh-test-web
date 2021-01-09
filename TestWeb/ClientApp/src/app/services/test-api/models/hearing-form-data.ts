@@ -12,10 +12,12 @@ export class HearingFormData {
     hearingStartTimeMinute: number | undefined;
     individuals: number | undefined;
     numberOfHearings: number | undefined;
+    numberOfEndpoints: number | undefined;
     observers: number | undefined;
     panelMembers: number | undefined;
     questionnaireNotRequired: boolean;
     representatives: number | undefined;
-    scheduledDateTime?: Date | undefined;
+    reuseUsers: boolean;
+    scheduledDateTime: Date | undefined;
     testType: TestType | undefined;
 }

@@ -11,6 +11,9 @@ namespace TestWeb.AcceptanceTests.Pages
         public static By ConferenceId(int i) => By.Id($"conference-id-{i}");
         public static By ParticipantUsername(int i, int j) => By.Id($"hearing-{i}-participant-{j}-username");
         public static By ParticipantPassword(int i, int j) => By.Id($"hearing-{i}-participant-{j}-password");
+        public static By EndpointDisplayName(int i, int j) => By.Id($"hearing-{i}-endpoint-{j}-display-name");
+        public static By EndpointSipAddress(int i, int j) => By.Id($"hearing-{i}-endpoint-{j}-sip-address");
+        public static By EndpointPin(int i, int j) => By.Id($"hearing-{i}-endpoint-{j}-pin");
         public static By CopyButton(int i) => By.Id($"copy-hearing-button-{i}");
         public static By BackLink = By.Id("backLink");
     }

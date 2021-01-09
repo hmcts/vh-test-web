@@ -41,6 +41,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^3.8.2",
     "govuk-frontend": "^3.10.2",
+    "guid-typescript": "^1.0.9",
     "ngx-clipboard": "^13.0.1",
     "ngx-spinner": "^10.0.1",
     "oidc-client": "^1.9.1",

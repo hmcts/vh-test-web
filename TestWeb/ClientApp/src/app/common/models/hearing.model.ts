@@ -13,6 +13,7 @@ export class HearingModel {
     application: Application | undefined;
     audio_recording_required?: boolean;
     case_type: string | undefined;
+    endpoints: number | undefined;
     questionnaire_not_required: boolean;
     scheduled_date_time?: Date | undefined;
     test_type: string | undefined;

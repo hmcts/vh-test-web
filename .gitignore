@@ -359,12 +359,12 @@ MigrationBackup/
 # Config for NuGet
 nuget.config
 
+# Local test report files
+TESTS.xml
+jasmine-tests/
+
 # MacOS Desktop Services Store files
 .DS_Store
 *.DS_Store
 *.orig
 .angulardoc.json
-
-# Local test report files
-TESTS.xml
-

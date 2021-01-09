@@ -57,6 +57,7 @@ export class AllocationService {
             });
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to allocate users.`, error, { payload: this.allocateUsersModel });
+            throw error;
         }
     }
 }

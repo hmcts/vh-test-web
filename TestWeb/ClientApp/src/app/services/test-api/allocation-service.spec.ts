@@ -30,15 +30,13 @@ describe('AllocationService', () => {
         allocateUserModel.test_type = TestType.Manual;
 
         expect(testApiService.allocateUsers).toHaveBeenCalledWith(allocateUserModel);
-        // expect(result[0].application).toBe(userDetailsResponse[0].application);
     });
 
     it('should throw an error if test api to allocate users fails', async () => {
         const error = { error: 'not found!' };
         testApiService.allocateUsers.and.callFake(() => Promise.reject(error));
-
         const hearingFormData = testData.createHearingFormData();
-        const result = await service.AllocatateUsers(hearingFormData);
+        await expectAsync(service.AllocatateUsers(hearingFormData)).toBeRejected(error.error);
         expect(logger.error).toHaveBeenCalled();
     });
 });

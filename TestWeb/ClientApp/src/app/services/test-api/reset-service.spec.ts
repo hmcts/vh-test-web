@@ -34,14 +34,12 @@ describe('ResetService', () => {
         testApiService.resetUserPassword.and.returnValue(Promise.resolve(updateUserResponse));
 
         const result = await service.resetPasswords(allocatedUsers);
-
         expect(testApiService.resetUserPassword).toHaveBeenCalledWith(allocatedUsers[0].username);
     });
 
     it('should throw an error if call to test api to reset password fails', async () => {
         const error = { error: 'not found!' };
         testApiService.resetUserPassword.and.returnValue(Promise.reject(error));
-
         const result = await service.resetPasswords(allocatedUsers);
         expect(logger.error).toHaveBeenCalled();
     });

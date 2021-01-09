@@ -36,12 +36,16 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.ClickLink(HeaderPage.DeleteHearingsLink);
         }
 
-        [When(@"the user creates (.*) hearings")]
-        public void WhenTheUserCreatesHearings(int numberOfHearings)
+        [When(@"the user creates (.*) hearing with (.*) endpoints")]
+        [When(@"the user creates (.*) hearings with (.*) endpoint")]
+        public void WhenTheUserCreatesHearings(int numberOfHearings, int numberOfEndpoints)
         {
             _numberOfHearings = numberOfHearings;
+            _c.Test.Endpoints = numberOfEndpoints;
             _browser.Driver.WaitForListToBePopulated(CreateHearingPage.NumberOfHearingsDropdown);
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfHearingsDropdown, numberOfHearings.ToString());
+            _browser.Driver.WaitForListToBePopulated(CreateHearingPage.NumberOfEndpointsDropdown);
+            _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfEndpointsDropdown, numberOfEndpoints.ToString());
             SetTheParticipants(DefaultData.Individuals, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers);
             ClickBook();
         }
@@ -122,9 +126,9 @@ namespace TestWeb.AcceptanceTests.Steps
         public void ThenErrorsShouldAppearToStateThatTheNumbersAreTooHigh()
         {
             _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidIndividualsError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidRepsError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidObserversError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidPanelMembersError).Displayed.Should().BeTrue();
         }
 
         [When(@"the user attempts to not add any individuals or representatives")]

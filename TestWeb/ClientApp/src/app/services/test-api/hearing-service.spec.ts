@@ -33,7 +33,6 @@ describe('HearingService', () => {
         createHearingModel.users = null;
         createHearingModel.venue = 'court';
 
-        // expect(testApiService.createHearing).toHaveBeenCalledWith(createHearingModel);
         expect(testApiService.createHearing).toHaveBeenCalled();
         expect(result).not.toBeNull();
         expect(result).toBe(hearingDetailsResponse);
@@ -43,10 +42,9 @@ describe('HearingService', () => {
     it('should throw an error if test api to create hearing fails', async () => {
         const error = { error: 'not found!' };
         testApiService.createHearing.and.callFake(() => Promise.reject(error));
-
         const hearingFormData = testData.createHearingFormData();
         const allocatedUsers = testData.getAllocatedUserModel();
-        const result = await service.CreateHearing(hearingFormData, allocatedUsers);
+        await expectAsync(service.CreateHearing(hearingFormData, allocatedUsers)).toBeRejected(error.error);
         expect(logger.error).toHaveBeenCalled();
     });
 });

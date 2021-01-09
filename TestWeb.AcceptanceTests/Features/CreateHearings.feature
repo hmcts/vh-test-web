@@ -3,10 +3,10 @@
 	As a tester, demo-er or secOps team member
 	I want to be able to quickly and easily create test data
 
-@VIH-6690 @Smoketest
+@VIH-6690 @VIH-6950 @Smoketest
 Scenario: Create hearing
 	Given the user has progressed to the Create Hearings page
-	When the user creates 2 hearings
+	When the user creates 2 hearings with 1 endpoint
 	Then the confirmation dialog shows hearings were created
 	And the summary page displays the new hearing details
 	When the user returns to the Create Hearings page

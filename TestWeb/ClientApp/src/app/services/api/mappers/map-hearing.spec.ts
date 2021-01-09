@@ -29,7 +29,8 @@ describe('MapHearing', () => {
             users: users,
             venue: 'court',
             audio_recording_required: false,
-            scheduled_date_time: new Date()
+            scheduled_date_time: new Date(),
+            endpoints: 0
         };
 
         const request = MapHearing.map(hearingModel);

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { EventModel } from 'src/app/common/models/event-model';
 import { AllocateUsersModel } from '../../common/models/allocate.users.model';
 import { ConfirmHearingModel } from '../../common/models/confirm.hearing.model';
 import { DeleteModel } from '../../common/models/delete-model';
@@ -6,10 +7,12 @@ import { HearingModel } from '../../common/models/hearing.model';
 import { MapAllocateUsers } from '../api/mappers/map-allocate-users';
 import { MapConfirmHearing } from '../api/mappers/map-confirm-hearing';
 import { MapDelete } from '../api/mappers/map-delete';
+import { MapEvent } from '../api/mappers/map-event';
 import { MapHearing } from '../api/mappers/map-hearing';
 import {
     ApiClient,
     ConferenceDetailsResponse,
+    ConferenceResponse,
     DeletedResponse,
     HearingDetailsResponse,
     ResetUserPasswordRequest,
@@ -60,5 +63,22 @@ export class TestApiService {
         const deleteRequest = MapDelete.map(deleteHearingsModel);
         this.logger.debug(`${this.loggerPrefix} Mapped delete model to request:`, { payload: deleteRequest });
         return this.apiClient.removeTestData(deleteRequest).toPromise();
+    }
+
+    getConferencesForToday(): Promise<ConferenceResponse[]> {
+        this.logger.debug(`${this.loggerPrefix} Getting conferences for today`);
+        return this.apiClient.getConferencesForToday().toPromise();
+    }
+
+    getConferencesByHearingRefId(hearingId: string): Promise<ConferenceResponse> {
+        this.logger.debug(`${this.loggerPrefix} Getting conference by hearing ref id ${hearingId}`);
+        return this.apiClient.getConferenceByHearingRefId(hearingId).toPromise();
+    }
+
+    sendEvent(eventModel: EventModel): Promise<void> {
+        this.logger.debug(`${this.loggerPrefix} Sending event with model:`, { payload: eventModel });
+        const eventRequest = MapEvent.map(eventModel);
+        this.logger.debug(`${this.loggerPrefix} Mapped event model to request:`, { payload: eventRequest });
+        return this.apiClient.createVideoEvent(eventRequest).toPromise();
     }
 }

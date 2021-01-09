@@ -45,6 +45,7 @@ export class ConfirmService {
             return confirmResponse;
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to confirm hearing.`, error, { payload: hearing });
+            throw error;
         }
     }
 }

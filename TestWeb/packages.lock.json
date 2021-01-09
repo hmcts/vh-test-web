@@ -1833,7 +1833,10 @@
         }
       },
       "testweb.contracts": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "TestWeb.TestApi.Client": "1.0.0"
+        }
       },
       "testweb.testapi.client": {
         "type": "Project",
