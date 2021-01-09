@@ -5,7 +5,6 @@ import { ConferenceResponse, EventType, RoomType, UserRole } from 'src/app/servi
 import { Logger } from 'src/app/services/logging/logger-base';
 import { ConferenceService } from '../services/test-api/conference-service';
 import { EventsService } from '../services/test-api/event-service';
-import Dictionary from '../shared/helpers/dictionary';
 
 @Component({
     selector: 'app-events',

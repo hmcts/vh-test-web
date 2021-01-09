@@ -7,7 +7,8 @@ export class EventModel {
         this.time_stamp_utc = new Date();
         this.transfer_from = RoomType.WaitingRoom;
         this.transfer_to = RoomType.WaitingRoom;
-        (this.reason = 'Test'), (this.phone = '');
+        this.reason = 'Test';
+        this.phone = '';
     }
 
     'event_id': string | undefined;

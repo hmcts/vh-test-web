@@ -18,6 +18,6 @@ export class HearingFormData {
     questionnaireNotRequired: boolean;
     representatives: number | undefined;
     reuseUsers: boolean;
-    scheduledDateTime?: Date | undefined;
+    scheduledDateTime: Date | undefined;
     testType: TestType | undefined;
 }
