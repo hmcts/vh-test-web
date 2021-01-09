@@ -51,7 +51,7 @@ export class TestApiServiceTestData {
         conference.closed_date_time = null;
         conference.current_status = ConferenceState.NotStarted;
         const endpoints = [];
-        endpoints.push(new EndpointResponse);
+        endpoints.push(new EndpointResponse());
         conference.endpoints = endpoints;
         conference.hearing_id = '1000';
         conference.hearing_venue_name = 'court';
