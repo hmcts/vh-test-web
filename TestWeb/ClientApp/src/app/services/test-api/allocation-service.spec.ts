@@ -1,7 +1,7 @@
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
 import { ProfileService } from '../api/profile-service';
-import { Application, TestType, UserDetailsResponse, UserType } from '../clients/api-client';
+import { Application, TestType, UserDetailsResponse, UserProfileResponse, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { AllocationService } from './allocation-service';
 import { TestApiService } from './test-api-service';
@@ -21,10 +21,16 @@ describe('AllocationService', () => {
         const userDetailsResponse: UserDetailsResponse[] = testData.getAllocatedUsersResponse();
         testApiService.allocateUsers.and.returnValue(Promise.resolve(userDetailsResponse));
 
+        const profile = new UserProfileResponse();
+        profile.role = 'Role';
+        profile.username = 'user@email.com';
+        profileService.getUserProfile.and.returnValue(Promise.resolve(profile));
+
         const hearingFormData = testData.createHearingFormData();
         const result = await service.allocatateUsers(hearingFormData);
 
         const allocateUserModel = new AllocateUsersModel();
+        allocateUserModel.allocated_by = profile.username;
         allocateUserModel.application = Application.VideoWeb;
         allocateUserModel.expiry_in_minutes = 1;
         allocateUserModel.is_prod_user = false;

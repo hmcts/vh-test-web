@@ -7,7 +7,7 @@ import { MapAllocatedResponseToUser } from '../api/mappers/map-allocated-user-de
 import { MapAllocatedResponseToAllocatedModel } from '../api/mappers/map-allocated-user-response-to-allocation-model';
 import { MapAllocatedResponseToUsers } from '../api/mappers/map-allocated-users-details-response-to-users-model';
 import { ProfileService } from '../api/profile-service';
-import { AllocationDetailsResponse, UserType } from '../clients/api-client';
+import { UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { AllocationFormData } from './models/allocation-form-data';
 import { HearingFormData } from './models/hearing-form-data';
@@ -27,14 +27,16 @@ export class AllocationService {
     constructor(private logger: Logger, private testApiService: TestApiService, private profileService: ProfileService) {}
 
     async allocatateUsers(hearingFormData: HearingFormData) {
-        this.createAllocateUsersModels(hearingFormData);
+        await this.createAllocateUsersModels(hearingFormData);
         await this.sendAllocationsRequest();
         return this.allocatedUsers;
     }
 
-    private createAllocateUsersModels(hearingFormData: HearingFormData) {
+    private async createAllocateUsersModels(hearingFormData: HearingFormData) {
         this.logger.debug(`${this.loggerPrefix} CREATING ALLOCATIONS MODEL`);
         this.allocateUsersModel = new AllocateUsersModel();
+        const username = await this.getLoggedInUserUsername();
+        this.allocateUsersModel.allocated_by = username;
         this.allocateUsersModel.test_type = hearingFormData.testType;
         this.addUserTypesToModel(1, UserType.Judge);
         this.addUserTypesToModel(hearingFormData.individuals, UserType.Individual);

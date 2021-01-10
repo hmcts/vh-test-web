@@ -58,5 +58,12 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.ClickLink(HeaderPage.EventsLink);
         }
 
+        [Given(@"the user has progressed to the Allocate Users page")]
+        public void GivenTheUserHasProgressedToTheAllocateUsersPage()
+        {
+            _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
+            _loginSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.AllocateUserLink);
+        }
     }
 }

@@ -136,11 +136,11 @@
           </thead>
           <tbody class="govuk-table__body">
             <tr *ngFor="let allocation of allocations;" id="{{allocation.id}}" class="govuk-table__row">
-              <td id="{{allocation.id}}-username" class="govuk-table__cell">{{allocation.username}}</td>
-              <td id="{{allocation.id}}-expiry-at" class="govuk-table__cell">{{allocation.expires_at.toLocaleString()}}</td>
+              <td id="{{allocation.username}}-username" class="govuk-table__cell">{{allocation.username}}</td>
+              <td id="{{allocation.username}}-expiry-at" class="govuk-table__cell">{{allocation.expires_at.toLocaleString()}}</td>
               <td class="govuk-table__cell">
                 <button
-                  id="{{allocation.id}}-reset-button"
+                  id="{{allocation.username}}-reset-button"
                   class="govuk-button govuk-button--secondary"
                   type="button"
                   data-module="govuk-button"
@@ -152,7 +152,7 @@
               </td>
               <td class="govuk-table__cell">
                 <button
-                  id="{{allocation.id}}-unallocate-button"
+                  id="{{allocation.username}}-unallocate-button"
                   class="govuk-button"
                   type="button"
                   data-module="govuk-button"

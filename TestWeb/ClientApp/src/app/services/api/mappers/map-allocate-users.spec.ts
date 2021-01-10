@@ -11,6 +11,7 @@ describe('AllocateUserMapper', () => {
         userTypes.push(UserType.Individual);
         userTypes.push(UserType.Representative);
         const allocateUsersModel: AllocateUsersModel = {
+            allocated_by: 'user@email.com',
             application: Application.AdminWeb,
             expiry_in_minutes: 10,
             is_prod_user: false,
@@ -19,6 +20,7 @@ describe('AllocateUserMapper', () => {
         };
 
         const request = MapAllocateUsers.map(allocateUsersModel);
+        expect(request.allocated_by).toBe(allocateUsersModel.allocated_by);
         expect(request.application).toBe(allocateUsersModel.application);
         expect(request.expiry_in_minutes).toBe(allocateUsersModel.expiry_in_minutes);
         expect(request.is_prod_user).toBe(allocateUsersModel.is_prod_user);

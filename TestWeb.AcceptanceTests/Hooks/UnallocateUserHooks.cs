@@ -21,6 +21,11 @@ namespace TestWeb.AcceptanceTests.Hooks
                 Usernames = new List<string>{context.CurrentUser.Username}
             };
 
+            if (context.Test?.AllocateUsername != null) 
+            {
+                request.Usernames.Add(context.Test.AllocateUsername);
+            }
+
             var response = context.TestApi.UnallocateUsers(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }

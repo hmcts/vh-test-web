@@ -56,7 +56,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     tooltip: string;
     displayProgressPopup: boolean;
     enableContinueButton = false;
-    enableRetryButton = false;
+    enableCloseButton = false;
     finishedCreatingHearings = false;
     errorsOccured = false;
     errors = [];
@@ -117,7 +117,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to create hearings.`, error);
             this.errors.push(error);
-            this.enableRetryButton = true;
+            this.enableCloseButton = true;
         }
     }
 
@@ -345,6 +345,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     }
 
     reset() {
+        this.enableCloseButton = false;
         window.location.reload();
     }
 }

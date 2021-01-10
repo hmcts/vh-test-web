@@ -12,7 +12,11 @@ describe('AllocateUsersComponent', () => {
     let fixture: ComponentFixture<AllocateUsersComponent>;
     const loggerSpy = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    const allocationServiceSpy = jasmine.createSpyObj<AllocationService>('AllocationService', ['allocateSingleUser', 'getAllAllocationsByUsername', 'unallocateUser']);
+    const allocationServiceSpy = jasmine.createSpyObj<AllocationService>('AllocationService', [
+        'allocateSingleUser',
+        'getAllAllocationsByUsername',
+        'unallocateUser'
+    ]);
     const resetServiceSpy = jasmine.createSpyObj<ResetService>('ResetService', ['resetPassword']);
 
     beforeEach(async () => {
@@ -22,19 +26,18 @@ describe('AllocateUsersComponent', () => {
     });
 
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-          imports: [SharedModule],
-          providers: [
-              { provide: Router, useValue: routerSpy },
-              { provide: Logger, useValue: loggerSpy },
-              { provide: AllocationService, useValue: allocationServiceSpy },
-              { provide: ResetService, useValue: resetServiceSpy }
-          ],
-          declarations: [AllocateUsersComponent],
-          schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
+        await TestBed.configureTestingModule({
+            imports: [SharedModule],
+            providers: [
+                { provide: Router, useValue: routerSpy },
+                { provide: Logger, useValue: loggerSpy },
+                { provide: AllocationService, useValue: allocationServiceSpy },
+                { provide: ResetService, useValue: resetServiceSpy }
+            ],
+            declarations: [AllocateUsersComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        }).compileComponents();
     });
-
 
     beforeEach(() => {
         fixture = TestBed.createComponent(AllocateUsersComponent);

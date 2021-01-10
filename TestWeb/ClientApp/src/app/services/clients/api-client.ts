@@ -1472,6 +1472,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
     is_prod_user?: boolean;
     test_type?: TestType;
     user_types!: UserType[];
+    allocated_by?: string | undefined;
 
     constructor(data?: IAllocateUsersRequest) {
         if (data) {
@@ -1494,6 +1495,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
                 this.user_types = [] as any;
                 for (let item of _data['user_types']) this.user_types!.push(item);
             }
+            this.allocated_by = _data['allocated_by'];
         }
     }
 
@@ -1514,6 +1516,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
             data['user_types'] = [];
             for (let item of this.user_types) data['user_types'].push(item);
         }
+        data['allocated_by'] = this.allocated_by;
         return data;
     }
 }
@@ -1524,6 +1527,7 @@ export interface IAllocateUsersRequest {
     is_prod_user?: boolean;
     test_type?: TestType;
     user_types: UserType[];
+    allocated_by?: string | undefined;
 }
 
 export class UnallocateUsersRequest implements IUnallocateUsersRequest {

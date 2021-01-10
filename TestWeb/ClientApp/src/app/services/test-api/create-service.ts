@@ -31,14 +31,14 @@ export class CreateService {
         this.logger.debug(`${this.loggerPrefix} Creating ${hearingFormData.numberOfHearings} hearings...`);
         const summaries = [];
         for (let index = 0; index < hearingFormData.numberOfHearings; index++) {
-            if (hearingFormData.reuseUsers && index === 0) {
+            if (!hearingFormData.reuseUsers || index === 0) {
                 this.allocatedUsers = await this.allocationService.allocatateUsers(hearingFormData);
             }
 
             const hearing = await this.hearingService.CreateHearing(hearingFormData, this.allocatedUsers);
             const conference = await this.confirmService.ConfirmHearing(hearing, this.allocatedUsers);
 
-            if (hearingFormData.reuseUsers && index === 0) {
+            if (!hearingFormData.reuseUsers || index === 0) {
                 this.resetPasswords = await this.resetService.resetPasswords(this.allocatedUsers);
             }
 

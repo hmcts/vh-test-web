@@ -9,6 +9,7 @@ export class AllocateUsersModel {
         this.usertypes = [];
     }
 
+    allocated_by: string | undefined;
     application: Application | undefined;
     expiry_in_minutes: number | undefined;
     is_prod_user: boolean;

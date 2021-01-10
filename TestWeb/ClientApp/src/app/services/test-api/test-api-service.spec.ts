@@ -1,12 +1,11 @@
 import { of } from 'rxjs';
 import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
-import { AllocatedUserModel } from 'src/app/common/models/allocated.user.model';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import {
-  AllocateUserRequest,
+    AllocateUserRequest,
     AllocateUsersRequest,
     AllocationDetailsResponse,
     ApiClient,
@@ -42,6 +41,7 @@ describe('TestApiService', () => {
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
 
     const allocatedUsersModel: AllocateUsersModel = {
+        allocated_by: 'user@email.com',
         application: Application.AdminWeb,
         expiry_in_minutes: 5,
         is_prod_user: false,
@@ -77,6 +77,7 @@ describe('TestApiService', () => {
         apiClient.allocateUsers.and.returnValue(of(userDetailsResponse));
 
         const allocateRequest = new AllocateUsersRequest();
+        allocateRequest.allocated_by = 'user@email.com';
         allocateRequest.application = Application.AdminWeb;
         allocateRequest.expiry_in_minutes = 5;
         allocateRequest.is_prod_user = false;
@@ -138,55 +139,55 @@ describe('TestApiService', () => {
     });
 
     it('should call the allocate single user test api endpoint', async () => {
-      const userDetailsResponse = new UserDetailsResponse();
-      apiClient.allocateUser.and.returnValue(of(userDetailsResponse));
+        const userDetailsResponse = new UserDetailsResponse();
+        apiClient.allocateUser.and.returnValue(of(userDetailsResponse));
 
-      const allocateUserModel = new AllocateUserModel();
-      allocateUserModel.allocated_by = 'user@email.com';
-      allocateUserModel.application = Application.AdminWeb;
-      allocateUserModel.expiry_in_minutes = 5;
-      allocateUserModel.is_prod_user = false;
-      allocateUserModel.test_type = TestType.Manual;
-      allocateUserModel.user_type = UserType.Individual;
+        const allocateUserModel = new AllocateUserModel();
+        allocateUserModel.allocated_by = 'user@email.com';
+        allocateUserModel.application = Application.AdminWeb;
+        allocateUserModel.expiry_in_minutes = 5;
+        allocateUserModel.is_prod_user = false;
+        allocateUserModel.test_type = TestType.Manual;
+        allocateUserModel.user_type = UserType.Individual;
 
-      const allocateUserRequest = new AllocateUserRequest();
-      allocateUserRequest.allocated_by = allocateUserModel.allocated_by;
-      allocateUserRequest.application = allocateUserModel.application;
-      allocateUserRequest.expiry_in_minutes = allocateUserModel.expiry_in_minutes;
-      allocateUserRequest.is_prod_user = allocateUserModel.is_prod_user;
-      allocateUserRequest.test_type = allocateUserModel.test_type;
-      allocateUserRequest.user_type = allocateUserModel.user_type;
+        const allocateUserRequest = new AllocateUserRequest();
+        allocateUserRequest.allocated_by = allocateUserModel.allocated_by;
+        allocateUserRequest.application = allocateUserModel.application;
+        allocateUserRequest.expiry_in_minutes = allocateUserModel.expiry_in_minutes;
+        allocateUserRequest.is_prod_user = allocateUserModel.is_prod_user;
+        allocateUserRequest.test_type = allocateUserModel.test_type;
+        allocateUserRequest.user_type = allocateUserModel.user_type;
 
-      const result = await service.allocateSingleUser(allocateUserModel);
-      expect(apiClient.allocateUser).toHaveBeenCalledWith(allocateUserRequest);
-      expect(result).toBe(userDetailsResponse);
+        const result = await service.allocateSingleUser(allocateUserModel);
+        expect(apiClient.allocateUser).toHaveBeenCalledWith(allocateUserRequest);
+        expect(result).toBe(userDetailsResponse);
     });
 
     it('should call the unallocate user test api endpoint', async () => {
-      const allocationResponses = [];
-      const allocationResponse = new AllocationDetailsResponse();
-      allocationResponses.push(allocationResponse);
-      apiClient.unallocateUsers.and.returnValue(of(allocationResponses));
+        const allocationResponses = [];
+        const allocationResponse = new AllocationDetailsResponse();
+        allocationResponses.push(allocationResponse);
+        apiClient.unallocateUsers.and.returnValue(of(allocationResponses));
 
-      const username = 'user@email.com';
-      const unallocateRequest = new UnallocateUsersRequest();
-      unallocateRequest.usernames.push(username);
+        const username = 'user@email.com';
+        const unallocateRequest = new UnallocateUsersRequest();
+        unallocateRequest.usernames.push(username);
 
-      const result = await service.unallocateUser(username);
-      expect(apiClient.unallocateUsers).toHaveBeenCalledWith(unallocateRequest);
-      expect(result).toBe(allocationResponses);
+        const result = await service.unallocateUser(username);
+        expect(apiClient.unallocateUsers).toHaveBeenCalledWith(unallocateRequest);
+        expect(result).toBe(allocationResponses);
     });
 
     it('should call the get all allocations by allocatedBy test api endpoint', async () => {
-      const allocationResponses = [];
-      const allocationResponse = new AllocationDetailsResponse();
-      allocationResponses.push(allocationResponse);
-      apiClient.allocatedUsers.and.returnValue(of(allocationResponses));
+        const allocationResponses = [];
+        const allocationResponse = new AllocationDetailsResponse();
+        allocationResponses.push(allocationResponse);
+        apiClient.allocatedUsers.and.returnValue(of(allocationResponses));
 
-      const username = 'user@email.com';
+        const username = 'user@email.com';
 
-      const result = await service.getAllAllocationsByAllocatedBy(username);
-      expect(apiClient.allocatedUsers).toHaveBeenCalledWith(username);
-      expect(result).toBe(allocationResponses);
+        const result = await service.getAllAllocationsByAllocatedBy(username);
+        expect(apiClient.allocatedUsers).toHaveBeenCalledWith(username);
+        expect(result).toBe(allocationResponses);
     });
 });

@@ -4407,6 +4407,10 @@ namespace TestWeb.TestApi.Client
         [Newtonsoft.Json.JsonProperty("user_types", Required = Newtonsoft.Json.Required.Always, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public System.Collections.Generic.List<UserType> User_types { get; set; } = new System.Collections.Generic.List<UserType>();
     
+        /// <summary>The user that allocated the user</summary>
+        [Newtonsoft.Json.JsonProperty("allocated_by", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Allocated_by { get; set; }
+    
     
     }
     

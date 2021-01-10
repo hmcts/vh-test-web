@@ -4,6 +4,7 @@ import { AllocateUsersRequest } from '../../clients/api-client';
 export class MapAllocateUsers {
     public static map(model: AllocateUsersModel): AllocateUsersRequest {
         const request = new AllocateUsersRequest();
+        request.allocated_by = model.allocated_by;
         request.application = model.application;
         request.expiry_in_minutes = model.expiry_in_minutes;
         request.is_prod_user = model.is_prod_user;
