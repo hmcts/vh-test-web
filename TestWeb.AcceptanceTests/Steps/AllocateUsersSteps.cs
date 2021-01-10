@@ -108,5 +108,30 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Click(AllocateUsersPage.ResetButton(_c.Test.AllocateUsername));
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.CompletedTitle).Displayed.Should().BeTrue();
         }
+
+        [When(@"the user attempts to add invalid hours and minutes")]
+        public void WhenTheUserAttemptsToAddInvalidHoursAndMinutes()
+        {
+            SelectExpiry(9, 60);
+        }
+
+        [Then(@"hours and minutes error messages are displayed")]
+        public void ThenHoursAndMinutesErrorMessagesAreDisplayed()
+        {
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.HoursError).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.MinutesError).Displayed.Should().BeTrue();
+        }
+
+        [When(@"the user attempts to add zero for both hours and minutes")]
+        public void WhenTheUserAttemptsToAddZeroForBothHoursAndMinutes()
+        {
+            SelectExpiry(0, 0);
+        }
+
+        [Then(@"the zero hours and minutes error message is displayed")]
+        public void ThenTheZeroHoursAndMinutesErrorMessageIsDisplayed()
+        {
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.TimeError).Displayed.Should().BeTrue();
+        }
     }
 }

@@ -201,10 +201,23 @@ export class AllocateUsersComponent implements OnInit {
     }
 
     timeInvalid() {
-        if (this.hoursTextfield.value + this.minutesTextfield <= 0) {
+        if (this.hoursTextfield.value + this.minutesTextfield.value <= 0) {
             return true;
         }
         return false;
+    }
+
+    hoursInvalid() {
+        if (this.hoursTextfield.value < 0 || this.hoursTextfield.value > 8) {
+            return true;
+        }
+        return false;
+    }
+
+    minutesInvalid() {
+        if (this.minutesTextfield.value < 0 || this.minutesTextfield.value > 59) {
+            return true;
+        }
     }
 
     closeDialog() {

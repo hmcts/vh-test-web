@@ -19,5 +19,8 @@ namespace TestWeb.AcceptanceTests.Pages
         public static By CloseButton = By.Id("closeButton");
         public static By CompletedTitle = By.Id("completedTitle");
         public static By UnallocatedText = By.Id("unallocatedText");
+        public static By TimeError = By.Id("time-error");
+        public static By HoursError = By.Id("hours-error");
+        public static By MinutesError = By.Id("minutes-error");
     }
 }

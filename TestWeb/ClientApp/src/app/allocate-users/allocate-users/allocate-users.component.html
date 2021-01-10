@@ -84,11 +84,17 @@
               <div *ngIf="timeInvalid()" class="alert alert-danger">
                 <span id="time-error" class="govuk-error-message">Please enter an expiry time greater than 0</span>
               </div>
+              <div *ngIf="hoursInvalid()" class="alert alert-danger">
+                <span id="hours-error" class="govuk-error-message">Please enter hours between 0 and 8</span>
+              </div>
+              <div *ngIf="minutesInvalid()" class="alert alert-danger">
+                <span id="minutes-error" class="govuk-error-message">Please enter minutes between 0 and 59</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="govuk-grid-row">
+        <div *ngIf="!timeInvalid() && !hoursInvalid() && !minutesInvalid()" class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <button
               id="allocateButton"
