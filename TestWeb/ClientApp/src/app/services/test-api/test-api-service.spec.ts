@@ -1,10 +1,14 @@
 import { of } from 'rxjs';
+import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
+import { AllocatedUserModel } from 'src/app/common/models/allocated.user.model';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import {
+  AllocateUserRequest,
     AllocateUsersRequest,
+    AllocationDetailsResponse,
     ApiClient,
     Application,
     ConferenceDetailsResponse,
@@ -12,6 +16,7 @@ import {
     DeleteTestHearingDataRequest,
     ResetUserPasswordRequest,
     TestType,
+    UnallocateUsersRequest,
     UpdateBookingStatus,
     UpdateBookingStatusRequest,
     UpdateUserResponse,
@@ -29,7 +34,10 @@ describe('TestApiService', () => {
         'hearings',
         'confirmHearingById',
         'password',
-        'removeTestData'
+        'removeTestData',
+        'allocateUser',
+        'unallocateUsers',
+        'allocatedUsers'
     ]);
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
 
@@ -79,6 +87,7 @@ describe('TestApiService', () => {
         expect(apiClient.allocateUsers).toHaveBeenCalledWith(allocateRequest);
         expect(result).toBe(userDetailsResponse);
     });
+
     it('should call the confirm hearing test api endpoint', async () => {
         const conferenceDetailsResponse = new ConferenceDetailsResponse();
         conferenceDetailsResponse.audio_recording_required = false;
@@ -101,6 +110,7 @@ describe('TestApiService', () => {
         expect(apiClient.confirmHearingById).toHaveBeenCalledWith(hearingId, updatebookingStatusRequest);
         expect(result).toBe(conferenceDetailsResponse);
     });
+
     it('should call the password test api endpoint', async () => {
         const updateUserResponse = new UpdateUserResponse();
         updateUserResponse.new_password = 'pass';
@@ -113,6 +123,7 @@ describe('TestApiService', () => {
         expect(apiClient.password).toHaveBeenCalledWith(resetUserPasswordRequest);
         expect(result).toBe(updateUserResponse);
     });
+
     it('should call the remove test data api endpoint', async () => {
         const deleteRequest = new DeleteTestHearingDataRequest();
         deleteRequest.partial_hearing_case_name = 'test case name';
@@ -124,5 +135,58 @@ describe('TestApiService', () => {
 
         await service.deleteHearings(deleteHearingsModel);
         expect(apiClient.removeTestData).toHaveBeenCalledWith(deleteRequest);
+    });
+
+    it('should call the allocate single user test api endpoint', async () => {
+      const userDetailsResponse = new UserDetailsResponse();
+      apiClient.allocateUser.and.returnValue(of(userDetailsResponse));
+
+      const allocateUserModel = new AllocateUserModel();
+      allocateUserModel.allocated_by = 'user@email.com';
+      allocateUserModel.application = Application.AdminWeb;
+      allocateUserModel.expiry_in_minutes = 5;
+      allocateUserModel.is_prod_user = false;
+      allocateUserModel.test_type = TestType.Manual;
+      allocateUserModel.user_type = UserType.Individual;
+
+      const allocateUserRequest = new AllocateUserRequest();
+      allocateUserRequest.allocated_by = allocateUserModel.allocated_by;
+      allocateUserRequest.application = allocateUserModel.application;
+      allocateUserRequest.expiry_in_minutes = allocateUserModel.expiry_in_minutes;
+      allocateUserRequest.is_prod_user = allocateUserModel.is_prod_user;
+      allocateUserRequest.test_type = allocateUserModel.test_type;
+      allocateUserRequest.user_type = allocateUserModel.user_type;
+
+      const result = await service.allocateSingleUser(allocateUserModel);
+      expect(apiClient.allocateUser).toHaveBeenCalledWith(allocateUserRequest);
+      expect(result).toBe(userDetailsResponse);
+    });
+
+    it('should call the unallocate user test api endpoint', async () => {
+      const allocationResponses = [];
+      const allocationResponse = new AllocationDetailsResponse();
+      allocationResponses.push(allocationResponse);
+      apiClient.unallocateUsers.and.returnValue(of(allocationResponses));
+
+      const username = 'user@email.com';
+      const unallocateRequest = new UnallocateUsersRequest();
+      unallocateRequest.usernames.push(username);
+
+      const result = await service.unallocateUser(username);
+      expect(apiClient.unallocateUsers).toHaveBeenCalledWith(unallocateRequest);
+      expect(result).toBe(allocationResponses);
+    });
+
+    it('should call the get all allocations by allocatedBy test api endpoint', async () => {
+      const allocationResponses = [];
+      const allocationResponse = new AllocationDetailsResponse();
+      allocationResponses.push(allocationResponse);
+      apiClient.allocatedUsers.and.returnValue(of(allocationResponses));
+
+      const username = 'user@email.com';
+
+      const result = await service.getAllAllocationsByAllocatedBy(username);
+      expect(apiClient.allocatedUsers).toHaveBeenCalledWith(username);
+      expect(result).toBe(allocationResponses);
     });
 });

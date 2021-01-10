@@ -1,28 +1,30 @@
-import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
+import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { Application, TestType, UserType } from '../../clients/api-client';
-import { MapAllocateUsers } from './map-allocate-users';
+import { MapAllocateUser } from './map-allocate-user';
 
 describe('AllocateUserMapper', () => {
-    const mapper = new MapAllocateUsers();
+    const mapper = new MapAllocateUser();
 
-    it('should map the AllocateUsersModel to the AllocateUsersRequest', () => {
+    it('should map the AllocateUserModel to the AllocateUserRequest', () => {
         const userTypes = [];
         userTypes.push(UserType.Judge);
         userTypes.push(UserType.Individual);
         userTypes.push(UserType.Representative);
-        const allocateUsersModel: AllocateUsersModel = {
+        const allocateUserModel: AllocateUserModel = {
+            allocated_by: 'test@user.com',
             application: Application.AdminWeb,
             expiry_in_minutes: 10,
             is_prod_user: false,
             test_type: TestType.Manual,
-            usertypes: userTypes
+            user_type: UserType.Individual
         };
 
-        const request = MapAllocateUsers.map(allocateUsersModel);
-        expect(request.application).toBe(allocateUsersModel.application);
-        expect(request.expiry_in_minutes).toBe(allocateUsersModel.expiry_in_minutes);
-        expect(request.is_prod_user).toBe(allocateUsersModel.is_prod_user);
-        expect(request.test_type).toBe(allocateUsersModel.test_type);
-        expect(request.user_types).toBe(allocateUsersModel.usertypes);
+        const request = MapAllocateUser.map(allocateUserModel);
+        expect(request.allocated_by).toBe(allocateUserModel.allocated_by);
+        expect(request.application).toBe(allocateUserModel.application);
+        expect(request.expiry_in_minutes).toBe(allocateUserModel.expiry_in_minutes);
+        expect(request.is_prod_user).toBe(allocateUserModel.is_prod_user);
+        expect(request.test_type).toBe(allocateUserModel.test_type);
+        expect(request.user_type).toBe(allocateUserModel.user_type);
     });
 });

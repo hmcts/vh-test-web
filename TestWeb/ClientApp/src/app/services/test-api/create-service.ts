@@ -32,7 +32,7 @@ export class CreateService {
         const summaries = [];
         for (let index = 0; index < hearingFormData.numberOfHearings; index++) {
             if (hearingFormData.reuseUsers && index === 0) {
-                this.allocatedUsers = await this.allocationService.AllocatateUsers(hearingFormData);
+                this.allocatedUsers = await this.allocationService.allocatateUsers(hearingFormData);
             }
 
             const hearing = await this.hearingService.CreateHearing(hearingFormData, this.allocatedUsers);

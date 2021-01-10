@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
+import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { EventModel } from 'src/app/common/models/event-model';
 import { AllocateUsersModel } from '../../common/models/allocate.users.model';
 import { ConfirmHearingModel } from '../../common/models/confirm.hearing.model';
 import { DeleteModel } from '../../common/models/delete-model';
 import { HearingModel } from '../../common/models/hearing.model';
+import { MapAllocateUser } from '../api/mappers/map-allocate-user';
 import { MapAllocateUsers } from '../api/mappers/map-allocate-users';
 import { MapConfirmHearing } from '../api/mappers/map-confirm-hearing';
 import { MapDelete } from '../api/mappers/map-delete';
 import { MapEvent } from '../api/mappers/map-event';
 import { MapHearing } from '../api/mappers/map-hearing';
 import {
+    AllocationDetailsResponse,
     ApiClient,
     ConferenceDetailsResponse,
     ConferenceResponse,
     DeletedResponse,
     HearingDetailsResponse,
     ResetUserPasswordRequest,
+    UnallocateUsersRequest,
     UpdateUserResponse,
     UserDetailsResponse
 } from '../clients/api-client';
@@ -29,11 +33,26 @@ export class TestApiService {
 
     constructor(private apiClient: ApiClient, private logger: Logger) {}
 
+    allocateSingleUser(allocateUserModel: AllocateUserModel): Promise<UserDetailsResponse> {
+        this.logger.debug(`${this.loggerPrefix} Allocating user with model:`, { payload: allocateUserModel });
+        const allocateRequest = MapAllocateUser.map(allocateUserModel);
+        this.logger.debug(`${this.loggerPrefix} Mapped allocation model to request:`, { payload: allocateRequest });
+        return this.apiClient.allocateUser(allocateRequest).toPromise();
+    }
+
     allocateUsers(allocateUsersModel: AllocateUsersModel): Promise<UserDetailsResponse[]> {
         this.logger.debug(`${this.loggerPrefix} Allocating users with model:`, { payload: allocateUsersModel });
         const allocateRequest = MapAllocateUsers.map(allocateUsersModel);
         this.logger.debug(`${this.loggerPrefix} Mapped allocation model to request:`, { payload: allocateRequest });
         return this.apiClient.allocateUsers(allocateRequest).toPromise();
+    }
+
+    unallocateUser(username: string): Promise<AllocationDetailsResponse[]> {
+        this.logger.debug(`${this.loggerPrefix} Unallocating user by username ${username}`);
+        const unallocateRequest = new UnallocateUsersRequest();
+        unallocateRequest.usernames.push(username);
+        this.logger.debug(`${this.loggerPrefix} Mapped unallocation model to request:`, { payload: unallocateRequest });
+        return this.apiClient.unallocateUsers(unallocateRequest).toPromise();
     }
 
     createHearing(createHearingModel: HearingModel): Promise<HearingDetailsResponse> {
@@ -63,6 +82,11 @@ export class TestApiService {
         const deleteRequest = MapDelete.map(deleteHearingsModel);
         this.logger.debug(`${this.loggerPrefix} Mapped delete model to request:`, { payload: deleteRequest });
         return this.apiClient.removeTestData(deleteRequest).toPromise();
+    }
+
+    getAllAllocationsByAllocatedBy(username: string): Promise<AllocationDetailsResponse[]> {
+        this.logger.debug(`${this.loggerPrefix} Getting all allocations by username`);
+        return this.apiClient.allocatedUsers(username).toPromise();
     }
 
     getConferencesForToday(): Promise<ConferenceResponse[]> {

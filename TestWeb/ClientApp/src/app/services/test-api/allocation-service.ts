@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
+import { AllocatedUserModel } from 'src/app/common/models/allocated.user.model';
 import { UserModel } from 'src/app/common/models/user.model';
+import { MapAllocatedResponseToUser } from '../api/mappers/map-allocated-user-details-response-to-users-model';
+import { MapAllocatedResponseToAllocatedModel } from '../api/mappers/map-allocated-user-response-to-allocation-model';
 import { MapAllocatedResponseToUsers } from '../api/mappers/map-allocated-users-details-response-to-users-model';
-import { UserType } from '../clients/api-client';
+import { ProfileService } from '../api/profile-service';
+import { AllocationDetailsResponse, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
+import { AllocationFormData } from './models/allocation-form-data';
 import { HearingFormData } from './models/hearing-form-data';
 import { TestApiService } from './test-api-service';
 
@@ -14,17 +20,20 @@ export class AllocationService {
     private readonly loggerPrefix: string = '[AllocationService] -';
     private allocateUsersModel: AllocateUsersModel;
     private allocatedUsers: UserModel[];
+    private allocateUserModel: AllocateUserModel;
+    private allocatedUser: UserModel;
+    private allAllocatedByUsers: AllocatedUserModel[];
 
-    constructor(private logger: Logger, private testApiService: TestApiService) {}
+    constructor(private logger: Logger, private testApiService: TestApiService, private profileService: ProfileService) {}
 
-    async AllocatateUsers(hearingFormData: HearingFormData) {
+    async allocatateUsers(hearingFormData: HearingFormData) {
         this.createAllocateUsersModels(hearingFormData);
-        await this.sendAllocationRequest();
+        await this.sendAllocationsRequest();
         return this.allocatedUsers;
     }
 
     private createAllocateUsersModels(hearingFormData: HearingFormData) {
-        this.logger.debug(`${this.loggerPrefix} CREATING ALLOCATION MODEL`);
+        this.logger.debug(`${this.loggerPrefix} CREATING ALLOCATIONS MODEL`);
         this.allocateUsersModel = new AllocateUsersModel();
         this.allocateUsersModel.test_type = hearingFormData.testType;
         this.addUserTypesToModel(1, UserType.Judge);
@@ -46,7 +55,7 @@ export class AllocationService {
         }
     }
 
-    private async sendAllocationRequest() {
+    private async sendAllocationsRequest() {
         this.logger.debug(`${this.loggerPrefix} SENDING ALLOCATION REQUEST`);
         try {
             const allocationDetailsResponse = await this.testApiService.allocateUsers(this.allocateUsersModel);
@@ -57,6 +66,77 @@ export class AllocationService {
             });
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to allocate users.`, error, { payload: this.allocateUsersModel });
+            throw error;
+        }
+    }
+
+    async allocateSingleUser(allocationFormData: AllocationFormData) {
+        await this.createAllocateUserModel(allocationFormData);
+        await this.sendAllocationRequest();
+        return this.allocatedUser;
+    }
+
+    private async createAllocateUserModel(allocationFormData: AllocationFormData) {
+        this.logger.debug(`${this.loggerPrefix} CREATING ALLOCATION MODEL`);
+        this.allocateUserModel = new AllocateUserModel();
+        const username = await this.getLoggedInUserUsername();
+        this.allocateUserModel.allocated_by = username;
+        this.allocateUserModel.expiry_in_minutes = allocationFormData.expiry_in_minutes;
+        this.allocateUserModel.test_type = allocationFormData.testType;
+        this.allocateUserModel.user_type = allocationFormData.userType;
+    }
+
+    private async getLoggedInUserUsername() {
+        try {
+            const profile = await this.profileService.getUserProfile();
+            return profile.username;
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Unable to retreive user profile`, error);
+            throw error;
+        }
+    }
+
+    private async sendAllocationRequest() {
+        this.logger.debug(`${this.loggerPrefix} SENDING ALLOCATION REQUEST`);
+        try {
+            const allocationDetailResponse = await this.testApiService.allocateSingleUser(this.allocateUserModel);
+            this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse.user_type} user allocated`);
+            this.allocatedUser = MapAllocatedResponseToUser.map(allocationDetailResponse);
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to allocate user.`, error, { payload: this.allocateUserModel });
+            throw error;
+        }
+    }
+
+    async getAllAllocationsByUsername(): Promise<AllocatedUserModel[]> {
+        const username = await this.getLoggedInUserUsername();
+        await this.sendGetAllAllocationsRequest(username);
+        return this.allAllocatedByUsers;
+    }
+
+    private async sendGetAllAllocationsRequest(username: string) {
+        this.logger.debug(`${this.loggerPrefix} SENDING GET ALL ALLOCATIONS REQUEST`);
+        try {
+            const allocationDetailResponse = await this.testApiService.getAllAllocationsByAllocatedBy(username);
+            this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse.length} allocated users found`);
+            this.allAllocatedByUsers = MapAllocatedResponseToAllocatedModel.map(allocationDetailResponse);
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to allocate user.`, error, { payload: this.allocateUserModel });
+            throw error;
+        }
+    }
+
+    async unallocateUser(username: string): Promise<void> {
+        return await this.sendUnallocateUserRequest(username);
+    }
+
+    private async sendUnallocateUserRequest(username: string) {
+        this.logger.debug(`${this.loggerPrefix} SENDING UNALLOCATE USER REQUEST`);
+        try {
+            const allocationDetailResponse = await this.testApiService.unallocateUser(username);
+            this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse[0].username} unallocated`);
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to unallocate user.`, error, { payload: this.allocateUserModel });
             throw error;
         }
     }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserModel } from 'src/app/common/models/user.model';
 import Dictionary from 'src/app/shared/helpers/dictionary';
+import { UpdateUserResponse } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { TestApiService } from './test-api-service';
 
@@ -16,6 +17,10 @@ export class ResetService {
     async resetPasswords(allocatedUsers: UserModel[]) {
         this.resetAllPasswords(allocatedUsers);
         return this.userPasswords;
+    }
+
+    async resetPassword(username: string): Promise<UpdateUserResponse> {
+        return await this.sendResetPasswordRequest(username);
     }
 
     private async resetAllPasswords(allocatedUsers: UserModel[]) {
