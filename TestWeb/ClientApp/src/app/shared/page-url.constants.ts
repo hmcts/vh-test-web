@@ -7,6 +7,7 @@ export const PageUrls = {
     Users: 'allocate-users',
     DeleteHearings: 'delete-hearings',
     Events: 'events',
+    AllocateUsers: 'allocate-users',
     // Security
     Login: 'login',
     Logout: 'logout',

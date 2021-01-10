@@ -285,5 +285,6 @@ export class EventsComponent implements OnInit {
         this.enableCloseButton = false;
         this.errorSendingEvent = false;
         this.errorRetrievingConferences = false;
+        this.error = undefined;
     }
 }

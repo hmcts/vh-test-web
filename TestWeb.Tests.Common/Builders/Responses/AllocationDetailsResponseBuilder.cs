@@ -20,6 +20,12 @@ namespace TestWeb.Tests.Common.Builders.Responses
             };
         }
 
+        public AllocationDetailsResponseBuilder AllocatedBy(string allocatedBy)
+        {
+            _response.Allocated_by = allocatedBy;
+            return this;
+        }
+
         public AllocationDetailsResponse Build()
         {
             return _response;

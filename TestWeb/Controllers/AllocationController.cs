@@ -97,5 +97,28 @@ namespace TestWeb.Controllers
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
+
+        /// <summary>
+        ///     Get allocated users by allocatedBy
+        /// </summary>
+        /// <param name="username">Username of the user that has allocated users</param>
+        /// <returns>Full details of any allocated users</returns>
+        [HttpGet("allocatedUsers/{username}")]
+        [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetAllocatedUsersAsync(string username)
+        {
+            try
+            {
+                var response = await _testApiClient.AllocatedUsersAsync(username);
+                _logger.LogInformation($"Allocated to {response.Count} user(s)");
+                return Ok(response);
+            }
+            catch (TestApiException e)
+            {
+                _logger.LogError(e, $"Unable to retrieve allocated users with username: ${username}");
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
     }
 }

@@ -301,6 +301,93 @@ export class ApiClient {
     }
 
     /**
+     * Get allocated users by allocatedBy
+     * @param username Username of the user that has allocated users
+     * @return Success
+     */
+    allocatedUsers(username: string | null): Observable<AllocationDetailsResponse[]> {
+        let url_ = this.baseUrl + '/allocations/allocatedUsers/{username}';
+        if (username === undefined || username === null) throw new Error("The parameter 'username' must be defined.");
+        url_ = url_.replace('{username}', encodeURIComponent('' + username));
+        url_ = url_.replace(/[?&]$/, '');
+
+        let options_: any = {
+            observe: 'response',
+            responseType: 'blob',
+            headers: new HttpHeaders({
+                Accept: 'application/json'
+            })
+        };
+
+        return this.http
+            .request('get', url_, options_)
+            .pipe(
+                _observableMergeMap((response_: any) => {
+                    return this.processAllocatedUsers(response_);
+                })
+            )
+            .pipe(
+                _observableCatch((response_: any) => {
+                    if (response_ instanceof HttpResponseBase) {
+                        try {
+                            return this.processAllocatedUsers(<any>response_);
+                        } catch (e) {
+                            return <Observable<AllocationDetailsResponse[]>>(<any>_observableThrow(e));
+                        }
+                    } else return <Observable<AllocationDetailsResponse[]>>(<any>_observableThrow(response_));
+                })
+            );
+    }
+
+    protected processAllocatedUsers(response: HttpResponseBase): Observable<AllocationDetailsResponse[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    let result200: any = null;
+                    let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                    if (Array.isArray(resultData200)) {
+                        result200 = [] as any;
+                        for (let item of resultData200) result200!.push(AllocationDetailsResponse.fromJS(item));
+                    }
+                    return _observableOf(result200);
+                })
+            );
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    let result400: any = null;
+                    let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                    result400 = ProblemDetails.fromJS(resultData400);
+                    return throwException('Bad Request', status, _responseText, _headers, result400);
+                })
+            );
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    return throwException('Unauthorized', status, _responseText, _headers);
+                })
+            );
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+                })
+            );
+        }
+        return _observableOf<AllocationDetailsResponse[]>(<any>null);
+    }
+
+    /**
      * Create video event
      * @param body (optional) Conference event request
      * @return Success
@@ -1385,6 +1472,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
     is_prod_user?: boolean;
     test_type?: TestType;
     user_types!: UserType[];
+    allocated_by?: string | undefined;
 
     constructor(data?: IAllocateUsersRequest) {
         if (data) {
@@ -1407,6 +1495,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
                 this.user_types = [] as any;
                 for (let item of _data['user_types']) this.user_types!.push(item);
             }
+            this.allocated_by = _data['allocated_by'];
         }
     }
 
@@ -1427,6 +1516,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
             data['user_types'] = [];
             for (let item of this.user_types) data['user_types'].push(item);
         }
+        data['allocated_by'] = this.allocated_by;
         return data;
     }
 }
@@ -1437,6 +1527,7 @@ export interface IAllocateUsersRequest {
     is_prod_user?: boolean;
     test_type?: TestType;
     user_types: UserType[];
+    allocated_by?: string | undefined;
 }
 
 export class UnallocateUsersRequest implements IUnallocateUsersRequest {

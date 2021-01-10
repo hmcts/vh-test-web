@@ -127,7 +127,7 @@
 
       <div class="govuk-!-padding-bottom-2"></div>
 
-      <div class="sk-top">
+      <div *ngIf="!hearingDateInvalid && !hearingStartTimeHourInvalid && !hearingStartTimeMinuteInvalid && !isStartHoursInPast && !isStartMinutesInPast" class="sk-top">
         <div class="govuk-grid-column-one-half no-left-margin">
           <button
             id="bookButton"
@@ -338,7 +338,7 @@
           data-module="govuk-button"
           aria-label="Return to create hearings"
           (click)="reset()"
-          *ngIf="enableRetryButton"
+          *ngIf="enableCloseButton"
         >
           Close
         </button>

@@ -36,6 +36,12 @@ namespace TestWeb.Tests.Common.Builders.Requests
             return this;
         }
 
+        public AllocateUserBuilder AllocatedBy(string allocatedBy)
+        {
+            _request.Allocated_by = allocatedBy;
+            return this;
+        }
+
         public AllocateUserRequest Build()
         {
             return _request;

@@ -11,6 +11,7 @@ import {
     ParticipantState,
     TestType,
     UserDetailsResponse,
+    UserProfileResponse,
     UserRole,
     UserType
 } from 'src/app/services/clients/api-client';
