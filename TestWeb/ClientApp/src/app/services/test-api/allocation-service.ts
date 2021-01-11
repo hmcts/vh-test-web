@@ -146,12 +146,12 @@ export class AllocationService {
     }
 
     async unallocateAllAllocatedUsers(): Promise<void> {
-      const loggedInUsername = await this.getLoggedInUserUsername();
-      await this.sendGetAllAllocationsRequest(loggedInUsername);
-      const usernames = [];
-      for (const allocatedUser of this.allAllocatedByUsers) {
-        usernames.push(allocatedUser.username);
-      }
-      return await this.sendUnallocateUsersRequest(usernames);
-  }
+        const loggedInUsername = await this.getLoggedInUserUsername();
+        await this.sendGetAllAllocationsRequest(loggedInUsername);
+        const usernames = [];
+        for (const allocatedUser of this.allAllocatedByUsers) {
+            usernames.push(allocatedUser.username);
+        }
+        return await this.sendUnallocateUsersRequest(usernames);
+    }
 }

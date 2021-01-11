@@ -51,7 +51,7 @@ export class TestApiService {
         this.logger.debug(`${this.loggerPrefix} Unallocating user by usernames ${usernames}`);
         const unallocateRequest = new UnallocateUsersRequest();
         for (const username of usernames) {
-          unallocateRequest.usernames.push(username);
+            unallocateRequest.usernames.push(username);
         }
         this.logger.debug(`${this.loggerPrefix} Mapped unallocation model to request:`, { payload: unallocateRequest });
         return this.apiClient.unallocateUsers(unallocateRequest).toPromise();

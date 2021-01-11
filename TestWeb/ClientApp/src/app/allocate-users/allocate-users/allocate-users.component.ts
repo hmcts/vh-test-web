@@ -201,25 +201,25 @@ export class AllocateUsersComponent implements OnInit {
     }
 
     async unallocateAllAllocatedUsers() {
-      this.spinnerService.show();
-      this.displayPopup = true;
-      this.unallocatingUsers = true;
-      await this.sendUnallocateAllUsers();
-      this.enableCloseButton = true;
-      this.unallocatingUsers = false;
-      this.getAllAllocations();
-      this.spinnerService.hide();
+        this.spinnerService.show();
+        this.displayPopup = true;
+        this.unallocatingUsers = true;
+        await this.sendUnallocateAllUsers();
+        this.enableCloseButton = true;
+        this.unallocatingUsers = false;
+        this.getAllAllocations();
+        this.spinnerService.hide();
     }
 
     private async sendUnallocateAllUsers() {
-      try {
-          await this.allocationService.unallocateAllAllocatedUsers();
-          this.usersUnallocated = true;
-      } catch (error) {
-          this.logger.error(`${this.loggerPrefix} Failed to unallocate users.`, error);
-          this.errorResettingPassword = true;
-          this.error = error;
-      }
+        try {
+            await this.allocationService.unallocateAllAllocatedUsers();
+            this.usersUnallocated = true;
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to unallocate users.`, error);
+            this.errorResettingPassword = true;
+            this.error = error;
+        }
     }
 
     timeInvalid() {
