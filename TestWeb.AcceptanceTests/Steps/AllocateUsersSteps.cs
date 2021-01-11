@@ -153,7 +153,6 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.UnallocatedText).Displayed.Should().BeTrue();
             _c.Test.AllocateUsername = null;
             DismissThePopup();
-            ClickRefresh();
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.NoAllocationsMessage).Displayed.Should().BeTrue();
         }
     }
