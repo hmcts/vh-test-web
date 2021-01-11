@@ -169,11 +169,13 @@ describe('TestApiService', () => {
         allocationResponses.push(allocationResponse);
         apiClient.unallocateUsers.and.returnValue(of(allocationResponses));
 
+        const usernames = [];
         const username = 'user@email.com';
+        usernames.push(username);
         const unallocateRequest = new UnallocateUsersRequest();
         unallocateRequest.usernames.push(username);
 
-        const result = await service.unallocateUser(username);
+        const result = await service.unallocateUsers(usernames);
         expect(apiClient.unallocateUsers).toHaveBeenCalledWith(unallocateRequest);
         expect(result).toBe(allocationResponses);
     });

@@ -25,6 +25,7 @@ namespace TestWeb.AcceptanceTests.Steps
         }
 
         [When(@"the user allocates an individual user")]
+        [When(@"the user allocates another individual user")]
         public void WhenTheUserAllocatesAnIndividualUser()
         {
             SelectUserType("Individual");
@@ -132,6 +133,28 @@ namespace TestWeb.AcceptanceTests.Steps
         public void ThenTheZeroHoursAndMinutesErrorMessageIsDisplayed()
         {
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.TimeError).Displayed.Should().BeTrue();
+        }
+
+        [Then(@"the allocate button is disabled")]
+        public void ThenTheAllocateButtonIsDisabled()
+        {
+            _browser.Driver.WaitUntilElementNotVisible(AllocateUsersPage.AllocateButton).Should().BeTrue();
+        }
+
+        [When(@"the user unallocates all users")]
+        public void WhenTheUserUnallocatesAllUsers()
+        {
+            _browser.Click(AllocateUsersPage.UnallocateAllButton);
+        }
+
+        [Then(@"there a no users allocated")]
+        public void ThenThereANoUsersAllocated()
+        {
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.UnallocatedText).Displayed.Should().BeTrue();
+            _c.Test.AllocateUsername = null;
+            DismissThePopup();
+            ClickRefresh();
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.NoAllocationsMessage).Displayed.Should().BeTrue();
         }
     }
 }

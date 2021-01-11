@@ -126,11 +126,24 @@
     <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
       <h1 id='currentAllocationsTitle' class="govuk-heading-m">Current Allocations</h1>
 
-      <div *ngIf="!allocationsToDisplay()">
+      <div *ngIf="!allocationsToDisplay()" id="noAllocationsMessage">
         <p>You currently have no users allocated.</p>
       </div>
 
       <div *ngIf="allocationsToDisplay()">
+
+        <button
+            id="unallocateAllButton"
+            class="govuk-button govuk-!-margin-right-2"
+            type="button"
+            data-module="govuk-button"
+            aria-label="Unallocate all users"
+            (click)="unallocateAllAllocatedUsers()"
+            (disabled)="!enableAllocateButton"
+        >
+          Unallocate All
+        </button>
+
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
@@ -201,8 +214,8 @@
             <p *ngIf="!enableCloseButton" id='progressText' class="govuk-body govuk-!-margin-bottom-9">
               Please wait...
             </p>
-            <p *ngIf="userUnallocated" id='unallocatedText' class="govuk-body govuk-!-margin-bottom-9">
-              User unallocated.
+            <p *ngIf="usersUnallocated" id='unallocatedText' class="govuk-body govuk-!-margin-bottom-9">
+              User(s) unallocated.
             </p>
           </div>
 

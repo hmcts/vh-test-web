@@ -26,3 +26,14 @@ Scenario: Cannot enter invalid hours and minutes
 	Then hours and minutes error messages are displayed
 	When the user attempts to add zero for both hours and minutes
 	Then the zero hours and minutes error message is displayed
+	And the allocate button is disabled
+
+@VIH-6976
+Scenario: Unallocate all users
+	Given the user has progressed to the Allocate Users page
+	When the user allocates an individual user
+	Then the allocated username and password are displayed
+	When the user allocates another individual user
+	Then the allocated username and password are displayed
+	When the user unallocates all users
+	Then there a no users allocated

@@ -110,11 +110,7 @@ namespace TestWeb.AcceptanceTests.Hooks
         [AfterScenario(Order = (int)HooksSequence.LogResultHooks)]
         public void LogResult(TestContext context, ScenarioContext scenarioContext)
         {
-            _browser ??= new UserBrowser()
-                .SetBaseUrl(context.Config.Services.TestWebUrl)
-                .SetTargetDevice(context.Config.TestSettings.TargetDevice)
-                .SetTargetBrowser(context.Config.TestSettings.TargetBrowser)
-                .SetDriver(context.Driver);
+            if (_browser == null) return;
 
             DriverManager.LogTestResult(
                 context.Config.SauceLabsConfiguration.RunningOnSauceLabs(),
