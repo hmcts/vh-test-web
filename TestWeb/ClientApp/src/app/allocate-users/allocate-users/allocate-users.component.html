@@ -8,7 +8,7 @@
 
   <form [formGroup]="form" class="govuk-form-group">
 
-    <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
+    <div class="govuk-grid-column-full">
       <div class="govuk-form-group">
         <div class="govuk-grid-row govuk-!-padding-bottom-2">
           <div class="govuk-grid-column-full">
@@ -44,6 +44,11 @@
           <div class="govuk-grid-column-full">
             <div id="expiryFieldset" [ngClass]="timeInvalid() ? 'govuk-form-group--error' : 'govuk-form-group'">
               <fieldset class="govuk-fieldset" aria-describedby="hoursTextfield" role="group">
+                <legend class="govuk-fieldset__legend">
+                  <span class="caption-m">
+                    Allocate for
+                  </span>
+                </legend>
                 <div class="govuk-date-input__item">
                   <div class="govuk-form-group">
                     <label class="govuk-label" for="hoursTextfield">Hours</label>
@@ -123,15 +128,34 @@
       </div>
     </div>
 
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      </div>
+    </div>
+
     <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
       <h1 id='currentAllocationsTitle' class="govuk-heading-m">Current Allocations</h1>
 
-      <div *ngIf="!allocationsToDisplay()">
+      <div *ngIf="!allocationsToDisplay()" id="noAllocationsMessage">
         <p>You currently have no users allocated.</p>
       </div>
 
       <div *ngIf="allocationsToDisplay()">
-        <table class="govuk-table">
+
+        <button
+            id="unallocateAllButton"
+            class="govuk-button govuk-!-margin-right-2"
+            type="button"
+            data-module="govuk-button"
+            aria-label="Unallocate all users"
+            (click)="unallocateAllAllocatedUsers()"
+            (disabled)="!enableAllocateButton"
+        >
+          Unallocate All
+        </button>
+
+        <table class="govuk-table"  aria-describedby="currentAllocationsTitle">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Username</th>
@@ -201,8 +225,8 @@
             <p *ngIf="!enableCloseButton" id='progressText' class="govuk-body govuk-!-margin-bottom-9">
               Please wait...
             </p>
-            <p *ngIf="userUnallocated" id='unallocatedText' class="govuk-body govuk-!-margin-bottom-9">
-              User unallocated.
+            <p *ngIf="usersUnallocated" id='unallocatedText' class="govuk-body govuk-!-margin-bottom-9">
+              User(s) unallocated.
             </p>
           </div>
 

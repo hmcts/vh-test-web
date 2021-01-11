@@ -47,10 +47,12 @@ export class TestApiService {
         return this.apiClient.allocateUsers(allocateRequest).toPromise();
     }
 
-    unallocateUser(username: string): Promise<AllocationDetailsResponse[]> {
-        this.logger.debug(`${this.loggerPrefix} Unallocating user by username ${username}`);
+    unallocateUsers(usernames: string[]): Promise<AllocationDetailsResponse[]> {
+        this.logger.debug(`${this.loggerPrefix} Unallocating user by usernames ${usernames}`);
         const unallocateRequest = new UnallocateUsersRequest();
-        unallocateRequest.usernames.push(username);
+        for (const username of usernames) {
+            unallocateRequest.usernames.push(username);
+        }
         this.logger.debug(`${this.loggerPrefix} Mapped unallocation model to request:`, { payload: unallocateRequest });
         return this.apiClient.unallocateUsers(unallocateRequest).toPromise();
     }

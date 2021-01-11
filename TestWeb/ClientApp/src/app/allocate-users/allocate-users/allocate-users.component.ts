@@ -51,7 +51,7 @@ export class AllocateUsersComponent implements OnInit {
     allocatingUsers = false;
     resettingPasswords = false;
     unallocatingUsers = false;
-    userUnallocated = false;
+    usersUnallocated = false;
 
     enableAllocateButton = true;
     enableRefreshButton = true;
@@ -192,9 +192,31 @@ export class AllocateUsersComponent implements OnInit {
     private async sendUnallocateUser(username: string) {
         try {
             await this.allocationService.unallocateUser(username);
-            this.userUnallocated = true;
+            this.usersUnallocated = true;
         } catch (error) {
-            this.logger.error(`${this.loggerPrefix} Failed to reset password.`, error);
+            this.logger.error(`${this.loggerPrefix} Failed to unallocate user.`, error);
+            this.errorResettingPassword = true;
+            this.error = error;
+        }
+    }
+
+    async unallocateAllAllocatedUsers() {
+        this.spinnerService.show();
+        this.displayPopup = true;
+        this.unallocatingUsers = true;
+        await this.sendUnallocateAllUsers();
+        this.enableCloseButton = true;
+        this.unallocatingUsers = false;
+        this.getAllAllocations();
+        this.spinnerService.hide();
+    }
+
+    private async sendUnallocateAllUsers() {
+        try {
+            await this.allocationService.unallocateAllAllocatedUsers();
+            this.usersUnallocated = true;
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to unallocate users.`, error);
             this.errorResettingPassword = true;
             this.error = error;
         }
@@ -229,6 +251,6 @@ export class AllocateUsersComponent implements OnInit {
         this.errorResettingPassword = false;
         this.errorUnallocatingUser = false;
         this.error = undefined;
-        this.userUnallocated = false;
+        this.usersUnallocated = false;
     }
 }

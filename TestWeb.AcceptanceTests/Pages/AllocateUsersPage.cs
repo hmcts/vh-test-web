@@ -22,5 +22,7 @@ namespace TestWeb.AcceptanceTests.Pages
         public static By TimeError = By.Id("time-error");
         public static By HoursError = By.Id("hours-error");
         public static By MinutesError = By.Id("minutes-error");
+        public static By UnallocateAllButton = By.Id("unallocateAllButton");
+        public static By NoAllocationsMessage = By.Id("noAllocationsMessage");
     }
 }

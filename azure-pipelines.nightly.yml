@@ -99,12 +99,14 @@ stages:
           resourceGroup: vh-test-api-$(environment)
           healthEndpoint: $(test_api_url)health/health
         variables:
-          - group: vh-domains-and-urls
-          - group: vh-apps-settings-generic
-          - group: vh-test-web
-          - group: vh-preview
-          - group: Saucelabs
           - group: KinlyConfiguration_Test
+            env:
+             - Preview
+             - Dev
+             - AAT
+             - Sandbox
+             - Test1
+             - Test2
         appSettings:
           - name: ApplicationInsights:InstrumentationKey
             value: vh-core-infra-AppInsightsKey

@@ -111,15 +111,15 @@ export class AllocationService {
     }
 
     async getAllAllocationsByUsername(): Promise<AllocatedUserModel[]> {
-        const username = await this.getLoggedInUserUsername();
-        await this.sendGetAllAllocationsRequest(username);
+        const loggedInUsername = await this.getLoggedInUserUsername();
+        await this.sendGetAllAllocationsRequest(loggedInUsername);
         return this.allAllocatedByUsers;
     }
 
-    private async sendGetAllAllocationsRequest(username: string) {
+    private async sendGetAllAllocationsRequest(loggedInUsername: string) {
         this.logger.debug(`${this.loggerPrefix} SENDING GET ALL ALLOCATIONS REQUEST`);
         try {
-            const allocationDetailResponse = await this.testApiService.getAllAllocationsByAllocatedBy(username);
+            const allocationDetailResponse = await this.testApiService.getAllAllocationsByAllocatedBy(loggedInUsername);
             this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse.length} allocated users found`);
             this.allAllocatedByUsers = MapAllocatedResponseToAllocatedModel.map(allocationDetailResponse);
         } catch (error) {
@@ -129,17 +129,29 @@ export class AllocationService {
     }
 
     async unallocateUser(username: string): Promise<void> {
-        return await this.sendUnallocateUserRequest(username);
+        const usernames = [];
+        usernames.push(username);
+        return await this.sendUnallocateUsersRequest(usernames);
     }
 
-    private async sendUnallocateUserRequest(username: string) {
+    private async sendUnallocateUsersRequest(usernames: string[]) {
         this.logger.debug(`${this.loggerPrefix} SENDING UNALLOCATE USER REQUEST`);
         try {
-            const allocationDetailResponse = await this.testApiService.unallocateUser(username);
+            const allocationDetailResponse = await this.testApiService.unallocateUsers(usernames);
             this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse[0].username} unallocated`);
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to unallocate user.`, error, { payload: this.allocateUserModel });
             throw error;
         }
+    }
+
+    async unallocateAllAllocatedUsers(): Promise<void> {
+        const loggedInUsername = await this.getLoggedInUserUsername();
+        await this.sendGetAllAllocationsRequest(loggedInUsername);
+        const usernames = [];
+        for (const allocatedUser of this.allAllocatedByUsers) {
+            usernames.push(allocatedUser.username);
+        }
+        return await this.sendUnallocateUsersRequest(usernames);
     }
 }
