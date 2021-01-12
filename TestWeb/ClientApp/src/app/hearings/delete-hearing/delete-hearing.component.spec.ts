@@ -16,6 +16,8 @@ describe('DeleteHearingComponent', () => {
 
     const caseName = 'test case name';
     const deletedResponse = new DeletedResponse();
+    deletedResponse.number_of_deleted_hearings = 1;
+
     const deleteModel = new DeleteModel();
     deleteModel.limit = 1000;
     deleteModel.case_name = caseName;
@@ -85,9 +87,9 @@ describe('DeleteHearingComponent', () => {
         component.caseNameTextfield.setValue(caseName);
         fixture.detectChanges();
 
-        component.deleteHearings();
+        await component.deleteHearings();
         expect(testApiServiceSpy.deleteHearings).toHaveBeenCalledWith(deleteModel);
-        // expect(component.resultsOutput).toBe(`1 hearing(s) deleted matching case name '${caseName}'.`);
+        expect(component.resultsOutput).toBe(`1 hearing(s) deleted matching case name '${caseName}'.`);
     });
 
     it('should not delete a hearing if case name is not found', async () => {
@@ -97,8 +99,8 @@ describe('DeleteHearingComponent', () => {
         component.caseNameTextfield.setValue(caseName);
         fixture.detectChanges();
 
-        component.deleteHearings();
+        await component.deleteHearings();
         expect(testApiServiceSpy.deleteHearings).toHaveBeenCalledWith(deleteModel);
-        // expect(component.resultsOutput).toBe(`No matching hearings could be found with case name '${caseName}'.`);
+        expect(component.resultsOutput).toBe(`No matching hearings could be found with case name '${caseName}'.`);
     });
 });

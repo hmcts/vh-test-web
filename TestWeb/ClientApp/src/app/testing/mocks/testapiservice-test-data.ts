@@ -1,23 +1,35 @@
+import { EventModel } from 'src/app/common/models/event-model';
+import { HearingModel } from 'src/app/common/models/hearing.model';
 import { UserModel } from 'src/app/common/models/user.model';
 import {
+    AllocationDetailsResponse,
     Application,
     ConferenceDetailsResponse,
     ConferenceResponse,
     ConferenceState,
     EndpointResponse,
+    EventType,
     HearingDetailsResponse,
     ParticipantDetailsResponse,
     ParticipantResponse,
     ParticipantState,
     TestType,
     UserDetailsResponse,
-    UserProfileResponse,
     UserRole,
     UserType
 } from 'src/app/services/clients/api-client';
+import { AllocationFormData } from 'src/app/services/test-api/models/allocation-form-data';
 import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-data';
 
 export class TestApiServiceTestData {
+    createEventModel(): EventModel {
+        const event = new EventModel();
+        event.conference_id = '123';
+        event.event_type = EventType.Close;
+        event.participant_id = '456';
+        return event;
+    }
+
     createHearingFormData(): HearingFormData {
         const hearingDate = new Date();
         const hearingFormData: HearingFormData = {
@@ -39,6 +51,52 @@ export class TestApiServiceTestData {
         };
 
         return hearingFormData;
+    }
+
+    createHearingModel(): HearingModel {
+        const hearingModel = new HearingModel();
+        hearingModel.application = Application.VideoWeb;
+        hearingModel.audio_recording_required = false;
+        hearingModel.case_type = 'case type';
+        hearingModel.endpoints = 1;
+        hearingModel.questionnaire_not_required = true;
+        hearingModel.scheduled_date_time = new Date();
+        hearingModel.test_type = TestType.Manual;
+        hearingModel.users = this.createUsers();
+        hearingModel.venue = 'venue';
+        return hearingModel;
+    }
+
+    createAllocationFormData(): AllocationFormData {
+        const allocationFormData: AllocationFormData = {
+            application: Application.VideoWeb,
+            expiry_in_minutes: 1,
+            userType: UserType.Individual,
+            testType: TestType.Manual
+        };
+        return allocationFormData;
+    }
+
+    createUsers(): UserModel[] {
+        const users = [];
+        users.push(this.createUserModel());
+        return users;
+    }
+
+    createUserModel(): UserModel {
+        const userModel: UserModel = {
+            username: 'user@email.com',
+            contact_email: 'contact_email@email.com',
+            first_name: 'first name',
+            last_name: 'last name',
+            display_name: 'display name',
+            number: 1,
+            test_type: TestType.Manual,
+            user_type: UserType.Individual,
+            application: Application.VideoWeb,
+            is_prod_user: false
+        };
+        return userModel;
     }
 
     getConference(): ConferenceDetailsResponse {
@@ -67,7 +125,7 @@ export class TestApiServiceTestData {
     }
 
     getParticipants(): ParticipantDetailsResponse[] {
-        const participants: ParticipantDetailsResponse[] = [];
+        const participants = [];
         const participant = new ParticipantDetailsResponse();
         participant.case_type_group = 'casetype';
         participant.contact_email = 'test.user@email.com';
@@ -83,7 +141,7 @@ export class TestApiServiceTestData {
         participant.representee = '';
         participant.user_role = UserRole.Individual;
         participant.username = 'test.user@email.net';
-
+        participants.push(participant);
         return participants;
     }
 
@@ -134,6 +192,17 @@ export class TestApiServiceTestData {
         hearingDetailsResponse.updated_date = null;
 
         return hearingDetailsResponse;
+    }
+
+    getAllocationDetailsResponse(): AllocationDetailsResponse {
+        const allocationDetailsResponse = new AllocationDetailsResponse();
+        allocationDetailsResponse.id = '123';
+        allocationDetailsResponse.user_id = '456';
+        allocationDetailsResponse.username = 'user@email.com';
+        allocationDetailsResponse.expires_at = new Date();
+        allocationDetailsResponse.allocated = true;
+        allocationDetailsResponse.allocated_by = 'user@email.com';
+        return allocationDetailsResponse;
     }
 
     getAllocatedUserModel(): UserModel[] {

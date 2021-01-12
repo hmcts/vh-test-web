@@ -17,7 +17,11 @@ describe('EventsComponent', () => {
     const loggerSpy = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const eventsServiceSpy = jasmine.createSpyObj<EventsService>('EventsService', ['createHearingEvent', 'createParticipantEvent']);
-    const conferenceServiceSpy = jasmine.createSpyObj<ConferenceService>('ConferenceService', ['getConferenceByHearingRefId']);
+    const conferenceServiceSpy = jasmine.createSpyObj<ConferenceService>('ConferenceService', [
+        'getConferenceByHearingRefId',
+        'getConferencesForToday'
+    ]);
+    const error = { error: 'not found!' };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -55,6 +59,16 @@ describe('EventsComponent', () => {
         expect(eventsServiceSpy.createHearingEvent).toHaveBeenCalledWith(component.conference.id, eventType, judgeId);
     });
 
+    it('should throw an error if call to test api to send hearing event fails', async () => {
+        eventsServiceSpy.createHearingEvent.and.throwError(new Error());
+        const conferencesResponse = testData.getConferencesResponse();
+        component.conferences = conferencesResponse;
+        component.conference = conferencesResponse[0];
+        component.caseNamesDropdown.setValue(conferencesResponse[0].case_name);
+        await component.sendHearingEvent();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
     it('should create a partcipant event', async () => {
         const conference = testData.getConferenceResponse();
         eventsServiceSpy.createParticipantEvent.and.returnValue(Promise.resolve());
@@ -80,5 +94,70 @@ describe('EventsComponent', () => {
             transferFrom,
             transferTo
         );
+    });
+
+    it('should throw an error if call to test api to participant send event fails', async () => {
+        eventsServiceSpy.createParticipantEvent.and.callFake(() => Promise.reject(error));
+        const participant_id = '123';
+        await expectAsync(component.sendParticipantEvent(participant_id)).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should get all case names', () => {
+        const conferencesResponse = testData.getConferencesResponse();
+        conferenceServiceSpy.getConferencesForToday.and.returnValue(Promise.resolve(conferencesResponse));
+        component.ngOnInit();
+        component.refreshCaseNames();
+        expect(conferenceServiceSpy.getConferencesForToday).toHaveBeenCalled();
+    });
+
+    it('should throw an error if call to test api to get conferences fails', async () => {
+        conferenceServiceSpy.getConferencesForToday.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.getConferences()).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should select a case', () => {
+        const conferencesResponse = testData.getConferencesResponse();
+        component.conferences = conferencesResponse;
+        component.conference = conferencesResponse[0];
+        component.caseNamesDropdown.setValue(conferencesResponse[0].case_name);
+        component.selectCase();
+        expect(component.selectCase).toBeTruthy();
+    });
+
+    it('should determine if case name is selected', () => {
+        component.caseNamesDropdown.setValue('Please select');
+        expect(component.caseNameSelected()).toBeFalsy();
+        component.caseNamesDropdown.setValue('Case Name');
+        expect(component.caseNameSelected()).toBeTruthy();
+    });
+
+    it('should determine if a hearing event has been selected', () => {
+        component.hearingEventTypeDropdown.setValue(EventType.None);
+        expect(component.hearingEventDropdownHasValue()).toBeFalsy();
+        component.hearingEventTypeDropdown.setValue(EventType.Close);
+        expect(component.hearingEventDropdownHasValue()).toBeTruthy();
+    });
+
+    it('should determine if a participant event has been selected', () => {
+        const participant_id = '123';
+        component.form.addControl(`participant-event-type-dropdown-${participant_id}`, new FormControl(EventType.None));
+        expect(component.participantDropdownHasValue(participant_id)).toBeFalsy();
+        component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.ParticipantJoining);
+        expect(component.participantDropdownHasValue(participant_id)).toBeTruthy();
+    });
+
+    it('should determine if a participant transfer has been selected', () => {
+        const participant_id = '123';
+        component.form.addControl(`participant-event-type-dropdown-${participant_id}`, new FormControl(EventType.VhoCall));
+        expect(component.transferSelected(participant_id)).toBeFalsy();
+        component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.Transfer);
+        expect(component.transferSelected(participant_id)).toBeTruthy();
+    });
+
+    it('should close the dialog', () => {
+        component.closeDialog();
+        expect(component.closeDialog).toBeTruthy();
     });
 });

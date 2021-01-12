@@ -2,7 +2,6 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/common/models/data/role';
 import { ProfileService } from 'src/app/services/api/profile-service';
 import { UserProfileResponse } from 'src/app/services/clients/api-client';
-import { testerTestProfile } from 'src/app/testing/data/test-profiles';
 import { HeaderComponent } from './header.component';
 import { TopMenuItems } from './top-menu-items';
 
@@ -53,5 +52,11 @@ describe('HeaderComponent', () => {
         await component.ngOnInit(); // .onlyShowMenuLinksIfAuthenticated();
         component.navigateToSelectedMenuItem(0);
         expect(routerSpy.navigate).toHaveBeenCalledWith([component.topMenuItems[0].url]);
+    });
+
+    it('should not display top menu items if profile service call fails', async () => {
+        profileServiceSpy.getUserProfile.and.throwError(new Error());
+        await component.onlyShowMenuLinksIfAuthenticated();
+        expect(component.topMenuItems.length).toEqual(0);
     });
 });

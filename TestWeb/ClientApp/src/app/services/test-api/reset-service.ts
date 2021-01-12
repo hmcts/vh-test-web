@@ -14,16 +14,11 @@ export class ResetService {
 
     constructor(private logger: Logger, private testApiService: TestApiService) {}
 
-    async resetPasswords(allocatedUsers: UserModel[]) {
-        this.resetAllPasswords(allocatedUsers);
-        return this.userPasswords;
-    }
-
     async resetPassword(username: string): Promise<UpdateUserResponse> {
         return await this.sendResetPasswordRequest(username);
     }
 
-    private async resetAllPasswords(allocatedUsers: UserModel[]) {
+    async resetAllPasswords(allocatedUsers: UserModel[]) {
         for (const user of allocatedUsers) {
             const response = await this.sendResetPasswordRequest(user.username);
             if (response) {
@@ -31,6 +26,7 @@ export class ResetService {
                 this.userPasswords.add(user.username, response.new_password);
             }
         }
+        return this.userPasswords;
     }
 
     private async sendResetPasswordRequest(username: string) {

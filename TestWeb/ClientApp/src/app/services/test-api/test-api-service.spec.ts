@@ -4,6 +4,7 @@ import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 import { HearingModel } from 'src/app/common/models/hearing.model';
+import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
 import {
     AllocateUserRequest,
     AllocateUsersRequest,
@@ -27,6 +28,7 @@ import { TestApiService } from './test-api-service';
 
 describe('TestApiService', () => {
     let service: TestApiService;
+    const testData = new TestApiServiceTestData();
 
     const apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', [
         'allocateUsers',
@@ -36,7 +38,10 @@ describe('TestApiService', () => {
         'removeTestData',
         'allocateUser',
         'unallocateUsers',
-        'allocatedUsers'
+        'allocatedUsers',
+        `getConferencesForToday`,
+        `getConferenceByHearingRefId`,
+        `createVideoEvent`
     ]);
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
 
@@ -191,5 +196,37 @@ describe('TestApiService', () => {
         const result = await service.getAllAllocationsByAllocatedBy(username);
         expect(apiClient.allocatedUsers).toHaveBeenCalledWith(username);
         expect(result).toBe(allocationResponses);
+    });
+
+    it('should call the create hearing test api endpoint', async () => {
+        const hearingModel = testData.createHearingModel();
+        const hearingDetailsResponse = testData.getHearingDetails();
+        apiClient.hearings.and.returnValue(of(hearingDetailsResponse));
+        const result = await service.createHearing(hearingModel);
+        expect(apiClient.hearings).toHaveBeenCalled();
+        expect(result).toBe(hearingDetailsResponse);
+    });
+
+    it('should call the get all conferences for today test api endpoint', async () => {
+        const conferenceDetailsResponse = testData.getConferencesResponse();
+        apiClient.getConferencesForToday.and.returnValue(of(conferenceDetailsResponse));
+        const result = await service.getConferencesForToday();
+        expect(apiClient.getConferencesForToday).toHaveBeenCalled();
+        expect(result).toBe(conferenceDetailsResponse);
+    });
+
+    it('should call the get all conferences by hearing ref id test api endpoint', async () => {
+        const conferenceDetailsResponse = testData.getConferenceResponse();
+        apiClient.getConferenceByHearingRefId.and.returnValue(of(conferenceDetailsResponse));
+        const result = await service.getConferencesByHearingRefId(conferenceDetailsResponse.hearing_ref_id);
+        expect(apiClient.getConferenceByHearingRefId).toHaveBeenCalled();
+        expect(result).toBe(conferenceDetailsResponse);
+    });
+
+    it('should call the send event test api endpoint', async () => {
+        apiClient.createVideoEvent.and.returnValue(of());
+        const event = testData.createEventModel();
+        await service.sendEvent(event);
+        expect(apiClient.createVideoEvent).toHaveBeenCalled();
     });
 });
