@@ -61,7 +61,7 @@ export class EventsComponent implements OnInit {
     enableCloseButton = false;
     displayConferenceDetails = false;
     error: string;
-    private conferences: ConferenceResponse[] = [];
+    conferences: ConferenceResponse[] = [];
     conference: ConferenceResponse;
 
     constructor(
@@ -109,7 +109,6 @@ export class EventsComponent implements OnInit {
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to retrieve conferences.`, error);
             this.errorRetrievingConferences = true;
-            this.error = error;
         }
     }
 
@@ -173,6 +172,8 @@ export class EventsComponent implements OnInit {
             this.logger.error(`${this.loggerPrefix} Failed to send event.`, error);
             this.errorSendingEvent = true;
             this.error = error;
+            this.displayPopup = true;
+            this.enableCloseButton = true;
         }
     }
 

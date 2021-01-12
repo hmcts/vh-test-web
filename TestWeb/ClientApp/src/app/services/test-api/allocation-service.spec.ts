@@ -1,3 +1,4 @@
+import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
 import { ProfileService } from '../api/profile-service';
@@ -9,9 +10,17 @@ import { TestApiService } from './test-api-service';
 describe('AllocationService', () => {
     let service: AllocationService;
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
-    const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['allocateUsers']);
+    const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', [
+        'allocateUsers',
+        `allocateSingleUser`,
+        `getAllAllocationsByAllocatedBy`,
+        `unallocateUsers`
+    ]);
     const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile']);
     const testData = new TestApiServiceTestData();
+    const error = { error: 'not found!' };
+    const hearingFormData = testData.createHearingFormData();
+    const allocationFormData = testData.createAllocationFormData();
 
     beforeAll(() => {
         service = new AllocationService(logger, testApiService, profileService);
@@ -26,7 +35,6 @@ describe('AllocationService', () => {
         profile.username = 'user@email.com';
         profileService.getUserProfile.and.returnValue(Promise.resolve(profile));
 
-        const hearingFormData = testData.createHearingFormData();
         const result = await service.allocatateUsers(hearingFormData);
 
         const allocateUserModel = new AllocateUsersModel();
@@ -41,10 +49,101 @@ describe('AllocationService', () => {
     });
 
     it('should throw an error if test api to allocate users fails', async () => {
-        const error = { error: 'not found!' };
         testApiService.allocateUsers.and.callFake(() => Promise.reject(error));
-        const hearingFormData = testData.createHearingFormData();
         await expectAsync(service.allocatateUsers(hearingFormData)).toBeRejected(error.error);
         expect(logger.error).toHaveBeenCalled();
+    });
+
+    it('should call the test api to allocate a single user for the hearing', async () => {
+        const allocationResponse = testData.getAllocationDetailsResponse();
+        testApiService.allocateSingleUser.and.returnValue(Promise.resolve(allocationResponse));
+
+        const result = await service.allocateSingleUser(allocationFormData);
+
+        const allocateUserModel = new AllocateUserModel();
+        allocateUserModel.allocated_by = allocationResponse.username;
+        allocateUserModel.application = allocationFormData.application;
+        allocateUserModel.expiry_in_minutes = allocationFormData.expiry_in_minutes;
+        allocateUserModel.is_prod_user = false;
+        allocateUserModel.user_type = allocationFormData.userType;
+        allocateUserModel.test_type = allocationFormData.testType;
+
+        expect(testApiService.allocateSingleUser).toHaveBeenCalledWith(allocateUserModel);
+    });
+
+    it('should throw an error if allocate a single user fails', async () => {
+        testApiService.allocateSingleUser.and.callFake(() => Promise.reject(error));
+        await expectAsync(service.allocateSingleUser(allocationFormData)).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
+    });
+
+    it('should throw an error if profile service fails to retreive the logged in user', async () => {
+        profileService.getUserProfile.and.callFake(() => Promise.reject(error));
+        await expectAsync(service.allocateSingleUser(allocationFormData)).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
+    });
+
+    it('should call the test api to get all allocated users by logged in user', async () => {
+        const allocationDetailsResponse = [];
+        const allocationResponse = testData.getAllocationDetailsResponse();
+        allocationDetailsResponse.push(allocationResponse);
+        testApiService.getAllAllocationsByAllocatedBy.and.returnValue(Promise.resolve(allocationDetailsResponse));
+
+        const profile = new UserProfileResponse();
+        profile.role = 'Role';
+        profile.username = allocationResponse.allocated_by;
+        profileService.getUserProfile.and.returnValue(Promise.resolve(profile));
+
+        const result = await service.getAllAllocationsByUsername();
+
+        expect(testApiService.getAllAllocationsByAllocatedBy).toHaveBeenCalledWith(profile.username);
+    });
+
+    it('should throw an error if get all allocated users by logged in user fails', async () => {
+        testApiService.getAllAllocationsByAllocatedBy.and.callFake(() => Promise.reject(error));
+        await expectAsync(service.getAllAllocationsByUsername()).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
+    });
+
+    it('should call the test api to unallocate users', async () => {
+        const allocationDetailsResponse = [];
+        const allocationResponse = testData.getAllocationDetailsResponse();
+        allocationDetailsResponse.push(allocationResponse);
+        testApiService.unallocateUsers.and.returnValue(Promise.resolve(allocationDetailsResponse));
+
+        const result = await service.unallocateUser(allocationResponse.username);
+
+        const usernames = [];
+        usernames.push(allocationResponse.username);
+
+        expect(testApiService.unallocateUsers).toHaveBeenCalledWith(usernames);
+    });
+
+    it('should throw an error if get unallocated users fails', async () => {
+        testApiService.unallocateUsers.and.callFake(() => Promise.reject(error));
+        const username = 'user@email.com';
+        await expectAsync(service.unallocateUser(username)).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
+    });
+
+    it('should call the test api to unallocate all allocated users', async () => {
+        const allocationDetailsResponse = [];
+        const allocationResponse = testData.getAllocationDetailsResponse();
+        allocationDetailsResponse.push(allocationResponse);
+        testApiService.getAllAllocationsByAllocatedBy.and.returnValue(Promise.resolve(allocationDetailsResponse));
+
+        const profile = new UserProfileResponse();
+        profile.role = 'Role';
+        profile.username = allocationResponse.allocated_by;
+        profileService.getUserProfile.and.returnValue(Promise.resolve(profile));
+
+        testApiService.unallocateUsers.and.returnValue(Promise.resolve(allocationDetailsResponse));
+
+        const result = await service.unallocateAllAllocatedUsers();
+
+        const usernames = [];
+        usernames.push(allocationResponse.username);
+
+        expect(testApiService.unallocateUsers).toHaveBeenCalledWith(usernames);
     });
 });

@@ -39,7 +39,7 @@ export class CreateService {
             const conference = await this.confirmService.ConfirmHearing(hearing, this.allocatedUsers);
 
             if (!hearingFormData.reuseUsers || index === 0) {
-                this.resetPasswords = await this.resetService.resetPasswords(this.allocatedUsers);
+                this.resetPasswords = await this.resetService.resetAllPasswords(this.allocatedUsers);
             }
 
             summaries.push(new Summary(conference, this.resetPasswords));

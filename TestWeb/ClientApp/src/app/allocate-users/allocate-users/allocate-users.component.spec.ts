@@ -6,6 +6,11 @@ import { ResetService } from 'src/app/services/test-api/reset-service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AllocateUsersComponent } from './allocate-users.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AllocatedUserModel } from 'src/app/common/models/allocated.user.model';
+import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { UserModel } from 'src/app/common/models/user.model';
+import { Application, TestType, UpdateUserResponse, UserType } from 'src/app/services/clients/api-client';
+import { AllocationFormData } from 'src/app/services/test-api/models/allocation-form-data';
 
 describe('AllocateUsersComponent', () => {
     let component: AllocateUsersComponent;
@@ -15,9 +20,28 @@ describe('AllocateUsersComponent', () => {
     const allocationServiceSpy = jasmine.createSpyObj<AllocationService>('AllocationService', [
         'allocateSingleUser',
         'getAllAllocationsByUsername',
-        'unallocateUser'
+        'unallocateUser',
+        'unallocateAllAllocatedUsers'
     ]);
     const resetServiceSpy = jasmine.createSpyObj<ResetService>('ResetService', ['resetPassword']);
+    const testData = new TestApiServiceTestData();
+    const username = 'username@email.com';
+    const allocatedUserModel = new AllocatedUserModel();
+    allocatedUserModel.allocated_by = 'user@email.com';
+    allocatedUserModel.expires_at = new Date();
+    allocatedUserModel.id = '123';
+    allocatedUserModel.username = username;
+    const allocatedUsers = [];
+    const error = { error: 'not found!' };
+    const formData = new AllocationFormData();
+    formData.application = Application.VideoWeb;
+    formData.expiry_in_minutes = 1;
+    formData.testType = TestType.Manual;
+    formData.userType = UserType.Individual;
+    const new_password = { new_password: 'password' };
+    const updateUserResponse = new UpdateUserResponse();
+    updateUserResponse.init(new_password);
+    updateUserResponse.new_password = 'password';
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -47,5 +71,107 @@ describe('AllocateUsersComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should populate data with previous allocations', () => {
+        allocatedUsers.push(allocatedUserModel);
+        allocationServiceSpy.getAllAllocationsByUsername.and.returnValue(Promise.resolve(allocatedUsers));
+        component.ngOnInit();
+        expect(allocationServiceSpy.getAllAllocationsByUsername).toHaveBeenCalled();
+    });
+
+    it('should throw an error if call to test api to get all allocations fails', async () => {
+        allocationServiceSpy.getAllAllocationsByUsername.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.getAllAllocations()).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should allocate a user', async () => {
+        allocationServiceSpy.getAllAllocationsByUsername.and.returnValue(Promise.resolve(allocatedUsers));
+        const userModel: UserModel = testData.createUserModel();
+        allocationServiceSpy.allocateSingleUser.and.returnValue(Promise.resolve(userModel));
+
+        resetServiceSpy.resetPassword.and.returnValue(Promise.resolve(updateUserResponse));
+
+        component.ngOnInit();
+        await component.allocate();
+
+        expect(allocationServiceSpy.allocateSingleUser).toHaveBeenCalledWith(formData);
+    });
+
+    it('should throw an error if call to test api to allocate a user fails', async () => {
+        allocationServiceSpy.allocateSingleUser.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.allocate()).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should reset a users password', async () => {
+        resetServiceSpy.resetPassword.and.returnValue(Promise.resolve(updateUserResponse));
+        component.ngOnInit();
+        await component.resetUserPassword(username);
+        expect(resetServiceSpy.resetPassword).toHaveBeenCalledWith(username);
+    });
+
+    it('should throw an error if call to test api to reset a users password fails', async () => {
+        resetServiceSpy.resetPassword.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.resetUserPassword(username)).toBeRejected(error.error);
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should unallocate a user', async () => {
+        allocationServiceSpy.unallocateUser.and.returnValue(Promise.resolve());
+        component.ngOnInit();
+        await component.unallocateUser(username);
+        expect(allocationServiceSpy.unallocateUser).toHaveBeenCalledWith(username);
+    });
+
+    it('should throw an error if call to test api to reset a users password fails', async () => {
+        allocationServiceSpy.unallocateUser.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.unallocateUser(username)).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should unallocate all users', async () => {
+        allocationServiceSpy.unallocateAllAllocatedUsers.and.returnValue(Promise.resolve());
+        component.ngOnInit();
+        await component.unallocateAllAllocatedUsers();
+        expect(allocationServiceSpy.unallocateAllAllocatedUsers).toHaveBeenCalled();
+    });
+
+    it('should throw an error if call to test api to unallocate all users fails', async () => {
+        allocationServiceSpy.unallocateAllAllocatedUsers.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.unallocateAllAllocatedUsers()).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should display allocations if they exist', () => {
+        const allocations = [];
+        component.allocations = allocations;
+        expect(component.allocationsToDisplay()).toBeFalsy();
+        allocations.push(allocatedUserModel);
+        component.allocations = allocations;
+        fixture.detectChanges();
+        expect(component.allocationsToDisplay()).toBeTruthy();
+    });
+
+    it('should return true for zero hours and minutes', () => {
+        component.hoursTextfield.setValue(0);
+        component.minutesTextfield.setValue(0);
+        expect(component.timeInvalid()).toBeTruthy();
+    });
+
+    it('should return true for invalid hour', () => {
+        component.hoursTextfield.setValue(-1);
+        expect(component.hoursInvalid()).toBeTruthy();
+    });
+
+    it('should return true for invalid minute', () => {
+        component.minutesTextfield.setValue(-1);
+        expect(component.minutesInvalid()).toBeTruthy();
+    });
+
+    it('should close the dialog', () => {
+        component.closeDialog();
+        expect(component.closeDialog).toBeTruthy();
     });
 });

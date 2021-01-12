@@ -13,7 +13,6 @@ describe('ResetService', () => {
     const userModel = new UserModel();
     userModel.application = Application.VideoWeb;
     userModel.contact_email = 'test.user@email.com';
-    userModel.created_date = new Date();
     userModel.display_name = 'firstname lastname';
     userModel.first_name = 'firstname';
     userModel.is_prod_user = false;
@@ -28,19 +27,27 @@ describe('ResetService', () => {
         service = new ResetService(logger, testApiService);
     });
 
-    it('should reset the passwords for the user in the hearing', async () => {
+    it('should reset the passwords for an allocated user', async () => {
         const updateUserResponse = new UpdateUserResponse();
         updateUserResponse.new_password = 'password';
         testApiService.resetUserPassword.and.returnValue(Promise.resolve(updateUserResponse));
 
-        const result = await service.resetPasswords(allocatedUsers);
+        const result = await service.resetPassword(allocatedUsers[0].username);
+        expect(testApiService.resetUserPassword).toHaveBeenCalledWith(allocatedUsers[0].username);
+    });
+
+    it('should reset all the passwords for all users in the hearing', async () => {
+        const updateUserResponse = new UpdateUserResponse();
+        updateUserResponse.new_password = 'password';
+        testApiService.resetUserPassword.and.returnValue(Promise.resolve(updateUserResponse));
+
+        const result = await service.resetAllPasswords(allocatedUsers);
         expect(testApiService.resetUserPassword).toHaveBeenCalledWith(allocatedUsers[0].username);
     });
 
     it('should throw an error if call to test api to reset password fails', async () => {
         const error = { error: 'not found!' };
-        testApiService.resetUserPassword.and.returnValue(Promise.reject(error));
-        const result = await service.resetPasswords(allocatedUsers);
-        expect(logger.error).toHaveBeenCalled();
+        testApiService.resetUserPassword.and.callFake(() => Promise.reject(error));
+        await expectAsync(service.resetAllPasswords(allocatedUsers)).toBeRejected(error.error);
     });
 });

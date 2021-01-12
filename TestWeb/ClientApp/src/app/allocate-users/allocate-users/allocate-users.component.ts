@@ -125,7 +125,9 @@ export class AllocateUsersComponent implements OnInit {
         this.allocatingUsers = true;
         this.allocatedUser = await this.sendAllocation(data);
         this.allocatingUsers = false;
-        await this.resetUserPassword(this.allocatedUser.username);
+        if (this.allocatedUser !== undefined) {
+            await this.resetUserPassword(this.allocatedUser.username);
+        }
         this.enableCloseButton = true;
         this.getAllAllocations();
         this.spinnerService.hide();
@@ -133,11 +135,7 @@ export class AllocateUsersComponent implements OnInit {
 
     private setAllocationFormData(): AllocationFormData {
         const data = new AllocationFormData();
-
-        let minutes = this.minutesTextfield.value;
-        for (let index = 0; index < this.hoursTextfield.value; index++) {
-            minutes = minutes + 60;
-        }
+        const minutes = this.minutesTextfield.value + this.hoursTextfield.value * 60;
         data.expiry_in_minutes = minutes;
         data.testType = this.testTypesDropdown.value;
         data.userType = this.userTypesDropdown.value;
@@ -161,7 +159,9 @@ export class AllocateUsersComponent implements OnInit {
         this.resettingPasswords = true;
         const response = await this.sendResetPassword(username);
         this.resetUsername = username;
-        this.newPassword = response.new_password;
+        if (this.newPassword !== undefined) {
+            this.newPassword = response.new_password;
+        }
         this.displaySummary = true;
         this.enableCloseButton = true;
         this.resettingPasswords = false;

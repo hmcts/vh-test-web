@@ -107,6 +107,9 @@ stages:
              - Sandbox
              - Test1
              - Test2
+          - group: KinlyConfiguration_Test2
+            env:
+             - Demo
         appSettings:
           - name: ApplicationInsights:InstrumentationKey
             value: vh-core-infra-AppInsightsKey
@@ -164,6 +167,12 @@ stages:
 
         acceptanceTestSettings:
           # VhServices
+          - name: VhServices:TestWebUrl
+            slot:
+              deployment:
+                value: $(test_web_url_staging)
+              active:
+                value: $(test_web_url)
           - name: VhServices:TestApiUrl
             value: $(test_api_url)
           - name: VhServices:TestApiResourceId
