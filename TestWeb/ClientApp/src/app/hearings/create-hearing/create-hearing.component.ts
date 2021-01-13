@@ -212,7 +212,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         });
     }
 
-    private addMinutes(date, minutes) {
+    private addMinutes(date: Date, minutes: number) {
         return new Date(date.getTime() + minutes * 60000);
     }
 

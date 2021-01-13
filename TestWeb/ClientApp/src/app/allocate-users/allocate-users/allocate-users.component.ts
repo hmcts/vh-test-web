@@ -19,10 +19,12 @@ export class AllocateUsersComponent implements OnInit {
     form: FormGroup;
     testTypesDropdown: FormControl;
     userTypesDropdown: FormControl;
+    daysTextfield: FormControl;
     hoursTextfield: FormControl;
     minutesTextfield: FormControl;
     private defaultTestType = TestType.Manual;
     private defaultUserType = UserType.Individual;
+    private defaultDays = 0;
     private defaultHours = 0;
     private defaultMinutes = 1;
     testTypes: string[] = [TestType.Demo, TestType.ITHC, TestType.Manual];
@@ -99,11 +101,13 @@ export class AllocateUsersComponent implements OnInit {
     private initForm() {
         this.testTypesDropdown = new FormControl(this.defaultTestType);
         this.userTypesDropdown = new FormControl(this.defaultUserType);
+        this.daysTextfield = new FormControl(this.defaultDays);
         this.hoursTextfield = new FormControl(this.defaultHours);
         this.minutesTextfield = new FormControl(this.defaultMinutes);
         this.form = this.fb.group({
             testTypesDropdown: this.testTypesDropdown,
             userTypesDropdown: this.userTypesDropdown,
+            daysTextfield: this.daysTextfield,
             hoursTextfield: this.hoursTextfield,
             minutesTextfield: this.minutesTextfield
         });
@@ -223,14 +227,21 @@ export class AllocateUsersComponent implements OnInit {
     }
 
     timeInvalid() {
-        if (this.hoursTextfield.value + this.minutesTextfield.value <= 0) {
+        if (this.daysTextfield.value + this.hoursTextfield.value + this.minutesTextfield.value <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    daysInvalid() {
+        if (this.daysTextfield.value < 0 || this.daysTextfield.value > 29) {
             return true;
         }
         return false;
     }
 
     hoursInvalid() {
-        if (this.hoursTextfield.value < 0 || this.hoursTextfield.value > 8) {
+        if (this.hoursTextfield.value < 0 || this.hoursTextfield.value > 23) {
             return true;
         }
         return false;

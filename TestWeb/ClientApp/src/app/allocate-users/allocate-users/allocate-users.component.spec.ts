@@ -155,9 +155,15 @@ describe('AllocateUsersComponent', () => {
     });
 
     it('should return true for zero hours and minutes', () => {
+        component.daysTextfield.setValue(0);
         component.hoursTextfield.setValue(0);
         component.minutesTextfield.setValue(0);
         expect(component.timeInvalid()).toBeTruthy();
+    });
+
+    it('should return true for invalid days', () => {
+        component.daysTextfield.setValue(-1);
+        expect(component.daysInvalid()).toBeTruthy();
     });
 
     it('should return true for invalid hour', () => {

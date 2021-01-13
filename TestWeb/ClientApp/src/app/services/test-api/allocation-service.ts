@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { AllocatedUserModel } from 'src/app/common/models/allocated.user.model';
+import { HearingData } from 'src/app/common/models/data/hearing-data';
 import { UserModel } from 'src/app/common/models/user.model';
 import { MapAllocatedResponseToUser } from '../api/mappers/map-allocated-user-details-response-to-users-model';
 import { MapAllocatedResponseToAllocatedModel } from '../api/mappers/map-allocated-user-response-to-allocation-model';
@@ -37,6 +38,12 @@ export class AllocationService {
         this.allocateUsersModel = new AllocateUsersModel();
         const username = await this.getLoggedInUserUsername();
         this.allocateUsersModel.allocated_by = username;
+        const expiryInMinutes = this.calculateExpiryInMinutes(
+            hearingFormData.hearingDate,
+            hearingFormData.hearingStartTimeHour,
+            hearingFormData.hearingStartTimeMinute
+        );
+        this.allocateUsersModel.expiry_in_minutes = expiryInMinutes;
         this.allocateUsersModel.test_type = hearingFormData.testType;
         this.addUserTypesToModel(1, UserType.Judge);
         this.addUserTypesToModel(hearingFormData.individuals, UserType.Individual);
@@ -46,6 +53,21 @@ export class AllocationService {
         this.logger.debug(
             `${this.loggerPrefix} ${this.allocateUsersModel.usertypes.length} have been added the allocation request in total`
         );
+    }
+
+    private calculateExpiryInMinutes(hearingDate: any, startHour: number, startMinute: number): number {
+        const date = new Date(hearingDate);
+        date.setHours(startHour, startMinute);
+        const now = new Date();
+        const millisecondsDifference = date.valueOf() - now.valueOf();
+        const millisecondsInASecond = 1000;
+        const secondsInAMinute = 60;
+        let minutes = millisecondsDifference / (millisecondsInASecond * secondsInAMinute);
+        minutes = Math.floor(minutes);
+        this.logger.debug(`${this.loggerPrefix} Date of hearing is: ${date} and time now is ${now}. Minutes difference is ${minutes}`);
+        minutes = minutes + HearingData.DefaultDuration;
+        this.logger.debug(`${this.loggerPrefix} Adding default hearing duration. Minutes difference is now ${minutes}`);
+        return minutes;
     }
 
     private addUserTypesToModel(quantity: number, userType: UserType) {

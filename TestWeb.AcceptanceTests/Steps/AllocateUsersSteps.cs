@@ -30,7 +30,7 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             SelectUserType("Individual");
             SelectTestType("Manual");
-            SelectExpiry(0, 1);
+            SelectExpiry(0, 0, 1);
             ClickAllocate();
         }
 
@@ -44,8 +44,10 @@ namespace TestWeb.AcceptanceTests.Steps
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, AllocateUsersPage.TestTypeDropdown, testType);
         }
 
-        private void SelectExpiry(int hours, int minutes)
+        private void SelectExpiry(int days, int hours, int minutes)
         {
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.DaysTextfield).Clear();
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.DaysTextfield).SendKeys(days.ToString());
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.HoursTextfield).Clear();
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.HoursTextfield).SendKeys(hours.ToString());
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.MinutesTextfield).Clear();
@@ -110,26 +112,27 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.CompletedTitle).Displayed.Should().BeTrue();
         }
 
-        [When(@"the user attempts to add invalid hours and minutes")]
+        [When(@"the user attempts to add invalid days, hours and minutes")]
         public void WhenTheUserAttemptsToAddInvalidHoursAndMinutes()
         {
-            SelectExpiry(9, 60);
+            SelectExpiry(30, 24, 60);
         }
 
-        [Then(@"hours and minutes error messages are displayed")]
+        [Then(@"the days, hours and minutes error messages are displayed")]
         public void ThenHoursAndMinutesErrorMessagesAreDisplayed()
         {
+            _browser.Driver.WaitUntilVisible(AllocateUsersPage.DaysError).Displayed.Should().BeTrue();
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.HoursError).Displayed.Should().BeTrue();
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.MinutesError).Displayed.Should().BeTrue();
         }
 
-        [When(@"the user attempts to add zero for both hours and minutes")]
+        [When(@"the user attempts to add zero for days, hours and minutes")]
         public void WhenTheUserAttemptsToAddZeroForBothHoursAndMinutes()
         {
-            SelectExpiry(0, 0);
+            SelectExpiry(0, 0, 0);
         }
 
-        [Then(@"the zero hours and minutes error message is displayed")]
+        [Then(@"the zero days, hours and minutes error messages are displayed")]
         public void ThenTheZeroHoursAndMinutesErrorMessageIsDisplayed()
         {
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.TimeError).Displayed.Should().BeTrue();
