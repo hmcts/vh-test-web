@@ -7,9 +7,11 @@ namespace TestWeb.AcceptanceTests.Pages
         public static readonly By NumberOfHearingsDropdown = By.Id("quantityDropdown");
         public static readonly By NumberOfEndpointsDropdown = By.Id("endpointsDropdown");
         public static readonly By BookAndConfirmButton = By.Id("bookButton");
+        public static readonly By HearingDate = By.Id("hearingDate");
         public static readonly By HearingStartTimeHour = By.Id("hearingStartTimeHour");
         public static readonly By HearingStartTimeMinute = By.Id("hearingStartTimeMinute");
         public static readonly By HearingTimeError = By.Id("hearingTime-error");
+        public static readonly By HearingTimeExceedsMaxError = By.Id("hearingDateExceedsMax-error");
         public static readonly By IndividualsTextfield = By.Id("individualsTextfield");
         public static readonly By RepresentativesTextfield = By.Id("representativesTextfield");
         public static readonly By ObserversTextfield = By.Id("observersTextfield");

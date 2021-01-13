@@ -17,6 +17,8 @@ Scenario Outline: Cannot create hearings in the past
 	Given the user has progressed to the Create Hearings page
 	When the date is set to a past date
 	Then an error appears stating the hearing time must be in the future
+	When the date is set to a date that exceeds the limit
+	Then an error appears stating the hearing date must be within a limit
 
 @VIH-6690
 Scenario: Numbers of participants

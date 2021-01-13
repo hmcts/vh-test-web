@@ -276,6 +276,14 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         );
     }
 
+    get hearingDateExceedsMax() {
+        const hearingDate = new Date(this.hearingDate.value);
+        const todaysDate = new Date();
+        const maxDaysAllowed = 30;
+        const maxDate = todaysDate.setDate(todaysDate.getDate() + maxDaysAllowed);
+        return maxDate.valueOf() < hearingDate.valueOf();
+    }
+
     get hearingStartTimeHourInvalid() {
         return this.hearingStartTimeHour.invalid && (this.hearingStartTimeHour.dirty || this.hearingStartTimeHour.touched);
     }
