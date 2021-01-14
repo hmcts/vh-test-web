@@ -226,7 +226,10 @@ export class EventsComponent implements OnInit {
     private addParticipantEventDropdownsToForm() {
         for (const participant of this.conference.participants) {
             this.form.addControl(`participant-event-type-dropdown-${participant.id}`, new FormControl(this.defaultEventType));
-            this.form.addControl(`participant-transfer-from-textfield-${participant.id}`, new FormControl(this.defaultTransferFromRoomType));
+            this.form.addControl(
+                `participant-transfer-from-textfield-${participant.id}`,
+                new FormControl(this.defaultTransferFromRoomType)
+            );
             this.form.addControl(`participant-transfer-to-textfield-${participant.id}`, new FormControl(this.defaultTransferToRoomType));
         }
     }
@@ -282,20 +285,20 @@ export class EventsComponent implements OnInit {
     }
 
     transferFromInvalid(participant_id: string) {
-      return this.getTransferFromValue(participant_id) === '';
+        return this.getTransferFromValue(participant_id) === '';
     }
 
     transferToInvalid(participant_id: string) {
-      return this.getTransferToValue(participant_id) === '';
+        return this.getTransferToValue(participant_id) === '';
     }
 
-    transferValuesSetIfSelected(participant_id: string){
-      if (this.transferSelected(participant_id)){
-        if(this.transferFromInvalid(participant_id) || this.transferToInvalid(participant_id)){
-          return false;
+    transferValuesSetIfSelected(participant_id: string) {
+        if (this.transferSelected(participant_id)) {
+            if (this.transferFromInvalid(participant_id) || this.transferToInvalid(participant_id)) {
+                return false;
+            }
         }
-      }
-      return true;
+        return true;
     }
 
     closeDialog() {

@@ -14,3 +14,10 @@ Scenario: Send participant event
 	Given the user has progressed to the Events page
 	When the user sends a participant event
 	Then the participant status changes
+
+@VIH-6879
+Scenario: Send participant transfer events cannot be blank
+	Given the user has progressed to the Events page
+	When the user attempts to send a transfer event with a blank transfer from and to
+	Then the transfer from and to invalid error messages are displayed
+	And the event cannot be sent

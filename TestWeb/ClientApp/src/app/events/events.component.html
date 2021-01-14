@@ -241,7 +241,7 @@
                   required
                 />
                 <div *ngIf="transferFromInvalid(participant.id)" class="alert alert-danger">
-                  <span id="transfer-from-error" class="govuk-error-message"> Please enter a tranfer from value </span>
+                  <span id="transfer-from-error-{{participant.id}}" class="govuk-error-message"> Please enter a tranfer from value </span>
                 </div>
 
               </div>
@@ -258,7 +258,7 @@
                   required
                 />
                 <div *ngIf="transferToInvalid(participant.id)" class="alert alert-danger">
-                  <span id="transfer-to-error" class="govuk-error-message"> Please enter a tranfer to value </span>
+                  <span id="transfer-to-error-{{participant.id}}" class="govuk-error-message"> Please enter a tranfer to value </span>
                 </div>
 
               </div>

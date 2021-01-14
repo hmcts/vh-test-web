@@ -162,24 +162,42 @@ describe('EventsComponent', () => {
     });
 
     it('should determine if transfer from has a value', () => {
-      const judgeId = '123';
-      let room = 'WaitingRoom';
-      component.form.addControl(`participant-transfer-from-textfield-${judgeId}`, new FormControl(room));
-      component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(room);
-      expect(component.transferFromInvalid(judgeId)).toBeFalsy();
-      room = '';
-      component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(room);
-      expect(component.transferFromInvalid(judgeId)).toBeTruthy();
+        const judgeId = '123';
+        let room = 'WaitingRoom';
+        component.form.addControl(`participant-transfer-from-textfield-${judgeId}`, new FormControl(room));
+        component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(room);
+        expect(component.transferFromInvalid(judgeId)).toBeFalsy();
+        room = '';
+        component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(room);
+        expect(component.transferFromInvalid(judgeId)).toBeTruthy();
     });
 
-    // it('should determine if transfer from has a value', () => {
-    //   component.caseNamesDropdown.setValue('Please select');
-    //   expect(component.caseNameSelected()).toBeFalsy();
-    //   component.caseNamesDropdown.setValue('Case Name');
-    //   expect(component.caseNameSelected()).toBeTruthy();
-    //   component.form.addControl(`participant-transfer-from-textfield-${judgeId}`, new FormControl(transferFrom));
-    //   component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(transferFrom);
-    //     component.form.addControl(`participant-transfer-to-textfield-${judgeId}`, new FormControl(transferTo));
-    //     component.form.get(`participant-transfer-to-textfield-${judgeId}`).setValue(transferTo);
-    // });
+    it('should determine if transfer to has a value', () => {
+        const judgeId = '123';
+        let room = 'WaitingRoom';
+        component.form.addControl(`participant-transfer-to-textfield-${judgeId}`, new FormControl(room));
+        component.form.get(`participant-transfer-to-textfield-${judgeId}`).setValue(room);
+        expect(component.transferToInvalid(judgeId)).toBeFalsy();
+        room = '';
+        component.form.get(`participant-transfer-to-textfield-${judgeId}`).setValue(room);
+        expect(component.transferToInvalid(judgeId)).toBeTruthy();
+    });
+
+    it('should determine if transfer field have values and are selected', () => {
+        const judgeId = '123';
+        const empty_string = '';
+        const room = 'WaitingRoom';
+        const not_transfer = EventType.Joined;
+        const transfer = EventType.Transfer;
+
+        component.form.addControl(`participant-event-type-dropdown-${judgeId}`, new FormControl(not_transfer));
+        expect(component.transferValuesSetIfSelected(judgeId)).toBeTruthy();
+        component.form.get(`participant-event-type-dropdown-${judgeId}`).setValue(transfer);
+        component.form.addControl(`participant-transfer-from-textfield-${judgeId}`, new FormControl(empty_string));
+        component.form.addControl(`participant-transfer-to-textfield-${judgeId}`, new FormControl(empty_string));
+        expect(component.transferValuesSetIfSelected(judgeId)).toBeFalsy();
+        component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(room);
+        component.form.get(`participant-transfer-to-textfield-${judgeId}`).setValue(room);
+        expect(component.transferValuesSetIfSelected(judgeId)).toBeTruthy();
+    });
 });

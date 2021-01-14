@@ -1,5 +1,5 @@
 import { EventModel } from 'src/app/common/models/event-model';
-import { EventType, RoomType } from '../../clients/api-client';
+import { EventType } from '../../clients/api-client';
 import { MapEvent } from './map-event';
 
 describe('MapConfirmHearing', () => {
@@ -14,8 +14,8 @@ describe('MapConfirmHearing', () => {
             phone: '0123',
             reason: 'Any reason',
             time_stamp_utc: new Date(),
-            transfer_from: RoomType.WaitingRoom,
-            transfer_to: RoomType.AdminRoom
+            transfer_from: 'WaitingRoom',
+            transfer_to: 'AdminRoom'
         };
 
         const request = MapEvent.map(eventModel);
