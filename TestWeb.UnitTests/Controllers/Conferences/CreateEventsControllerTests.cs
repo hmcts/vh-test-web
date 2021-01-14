@@ -49,7 +49,7 @@ namespace TestWeb.UnitTests.Controllers.Conferences
         {
             var testApiClientMock = new Mock<ITestApiClient>();
             testApiClientMock
-                .Setup(x => x.CreateVideoEventAsync(It.IsAny<ConferenceEventRequest>()))
+                .Setup(x => x.CreateEventAsync(It.IsAny<ConferenceEventRequest>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new ConferencesController(testApiClientMock.Object, _loggerMock.Object);

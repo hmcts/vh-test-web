@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EventModel } from 'src/app/common/models/event-model';
-import { EventType, RoomType } from '../clients/api-client';
+import { EventType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { TestApiService } from './test-api-service';
 
@@ -26,8 +26,8 @@ export class EventsService {
         conferenceId: string,
         participantId: string,
         eventType: EventType,
-        transferFrom: RoomType,
-        transferTo: RoomType
+        transferFrom: string,
+        transferTo: string
     ) {
         this.logger.debug(`${this.loggerPrefix} Creating event...`);
         this.eventModel = new EventModel();

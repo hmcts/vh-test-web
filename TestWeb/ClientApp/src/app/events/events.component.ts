@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ConferenceResponse, EventType, RoomType, UserRole } from 'src/app/services/clients/api-client';
+import { ConferenceResponse, EventType, UserRole } from 'src/app/services/clients/api-client';
 import { Logger } from 'src/app/services/logging/logger-base';
 import { ConferenceService } from '../services/test-api/conference-service';
 import { EventsService } from '../services/test-api/event-service';
@@ -43,10 +43,10 @@ export class EventsComponent implements OnInit {
         EventType.Transfer,
         EventType.VhoCall
     ];
-    transferRoomOptions: string[] = Object.keys(RoomType).filter(k => typeof RoomType[k as any] === 'string');
     private pleaseSelectCaseName = 'Please select';
     private defaultEventType = EventType.None;
-    private defaultRoomType = RoomType.WaitingRoom;
+    private defaultTransferFromRoomType = 'WaitingRoom';
+    private defaultTransferToRoomType = 'WaitingRoom';
     hearingEventTypeDropdown: FormControl;
     participantEventTypeDropdown: FormControl;
     caseNamesDropdown: FormControl;
@@ -186,8 +186,8 @@ export class EventsComponent implements OnInit {
 
     async sendParticipantEventToApi(participant_id: string): Promise<void> {
         try {
-            let transferFrom = RoomType.WaitingRoom;
-            let transferTo = RoomType.WaitingRoom;
+            let transferFrom = 'WaitingRoom';
+            let transferTo = 'WaitingRoom';
             if (this.transferSelected) {
                 transferFrom = this.getTransferFromValue(participant_id);
                 transferTo = this.getTransferToValue(participant_id);
@@ -226,16 +226,16 @@ export class EventsComponent implements OnInit {
     private addParticipantEventDropdownsToForm() {
         for (const participant of this.conference.participants) {
             this.form.addControl(`participant-event-type-dropdown-${participant.id}`, new FormControl(this.defaultEventType));
-            this.form.addControl(`participant-transfer-from-dropdown-${participant.id}`, new FormControl(this.defaultRoomType));
-            this.form.addControl(`participant-transfer-to-dropdown-${participant.id}`, new FormControl(this.defaultRoomType));
+            this.form.addControl(`participant-transfer-from-textfield-${participant.id}`, new FormControl(this.defaultTransferFromRoomType));
+            this.form.addControl(`participant-transfer-to-textfield-${participant.id}`, new FormControl(this.defaultTransferToRoomType));
         }
     }
 
     private removeParticipantEventDropdownsFromForm() {
         for (const participant of this.conference.participants) {
             this.form.removeControl(`participant-event-type-dropdown-${participant.id}`);
-            this.form.removeControl(`participant-transfer-from-dropdown-${participant.id}`);
-            this.form.removeControl(`participant-transfer-to-dropdown-${participant.id}`);
+            this.form.removeControl(`participant-transfer-from-textfield-${participant.id}`);
+            this.form.removeControl(`participant-transfer-to-textfield-${participant.id}`);
         }
     }
 
@@ -266,11 +266,11 @@ export class EventsComponent implements OnInit {
     }
 
     private getTransferFromValue(participant_id: string) {
-        return this.form.get(`participant-transfer-from-dropdown-${participant_id}`).value;
+        return this.form.get(`participant-transfer-from-textfield-${participant_id}`).value;
     }
 
     private getTransferToValue(participant_id: string) {
-        return this.form.get(`participant-transfer-to-dropdown-${participant_id}`).value;
+        return this.form.get(`participant-transfer-to-textfield-${participant_id}`).value;
     }
 
     private getJudgeParticipantId(): string {
@@ -279,6 +279,23 @@ export class EventsComponent implements OnInit {
                 return participant.id;
             }
         }
+    }
+
+    transferFromInvalid(participant_id: string) {
+      return this.getTransferFromValue(participant_id) === '';
+    }
+
+    transferToInvalid(participant_id: string) {
+      return this.getTransferToValue(participant_id) === '';
+    }
+
+    transferValuesSetIfSelected(participant_id: string){
+      if (this.transferSelected(participant_id)){
+        if(this.transferFromInvalid(participant_id) || this.transferToInvalid(participant_id)){
+          return false;
+        }
+      }
+      return true;
     }
 
     closeDialog() {
