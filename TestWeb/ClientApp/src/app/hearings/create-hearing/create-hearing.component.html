@@ -25,6 +25,9 @@
         <div *ngIf="hearingDateInvalid" class="alert alert-danger">
           <span id="hearingDate-error" class="govuk-error-message"> Please enter a date in the future </span>
         </div>
+        <div *ngIf="hearingDateExceedsMax" class="alert alert-danger">
+          <span id="hearingDateExceedsMax-error" class="govuk-error-message">Hearing date must be within the next 30 days</span>
+        </div>
       </div>
 
       <div

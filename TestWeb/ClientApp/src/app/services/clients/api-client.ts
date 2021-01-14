@@ -1655,22 +1655,14 @@ export enum EventType {
     ConnectingToConference = 'ConnectingToConference'
 }
 
-export enum RoomType {
-    WaitingRoom = 'WaitingRoom',
-    HearingRoom = 'HearingRoom',
-    ConsultationRoom1 = 'ConsultationRoom1',
-    ConsultationRoom2 = 'ConsultationRoom2',
-    AdminRoom = 'AdminRoom'
-}
-
 export class ConferenceEventRequest implements IConferenceEventRequest {
     event_id!: string | undefined;
     event_type?: EventType;
     time_stamp_utc?: Date;
     conference_id!: string | undefined;
     participant_id?: string | undefined;
-    transfer_from?: RoomType;
-    transfer_to?: RoomType;
+    transfer_from?: string | undefined;
+    transfer_to?: string | undefined;
     reason?: string | undefined;
     phone?: string | undefined;
 
@@ -1724,8 +1716,8 @@ export interface IConferenceEventRequest {
     time_stamp_utc?: Date;
     conference_id: string | undefined;
     participant_id?: string | undefined;
-    transfer_from?: RoomType;
-    transfer_to?: RoomType;
+    transfer_from?: string | undefined;
+    transfer_to?: string | undefined;
     reason?: string | undefined;
     phone?: string | undefined;
 }
@@ -2160,6 +2152,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
     audio_recording_required?: boolean;
     application?: Application;
     case_type?: string | undefined;
+    custom_case_name_prefix?: string | undefined;
     endpoints?: number;
     questionnaire_not_required?: boolean;
     scheduled_date_time?: Date;
@@ -2180,6 +2173,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
             this.audio_recording_required = _data['audio_recording_required'];
             this.application = _data['application'];
             this.case_type = _data['case_type'];
+            this.custom_case_name_prefix = _data['custom_case_name_prefix'];
             this.endpoints = _data['endpoints'];
             this.questionnaire_not_required = _data['questionnaire_not_required'];
             this.scheduled_date_time = _data['scheduled_date_time'] ? new Date(_data['scheduled_date_time'].toString()) : <any>undefined;
@@ -2204,6 +2198,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
         data['audio_recording_required'] = this.audio_recording_required;
         data['application'] = this.application;
         data['case_type'] = this.case_type;
+        data['custom_case_name_prefix'] = this.custom_case_name_prefix;
         data['endpoints'] = this.endpoints;
         data['questionnaire_not_required'] = this.questionnaire_not_required;
         data['scheduled_date_time'] = this.scheduled_date_time ? this.scheduled_date_time.toISOString() : <any>undefined;
@@ -2221,6 +2216,7 @@ export interface ICreateHearingRequest {
     audio_recording_required?: boolean;
     application?: Application;
     case_type?: string | undefined;
+    custom_case_name_prefix?: string | undefined;
     endpoints?: number;
     questionnaire_not_required?: boolean;
     scheduled_date_time?: Date;

@@ -147,7 +147,6 @@ export class TestApiServiceTestData {
 
     getAllocatedUsersResponse(): UserDetailsResponse[] {
         const today = new Date();
-
         const userDetailsResponse: UserDetailsResponse[] = [];
         const userDetails = new UserDetailsResponse();
         userDetails.application = Application.VideoWeb;

@@ -20,12 +20,12 @@ Scenario: Reset allocated user password
 	Then the reset password is displayed
 
 @VIH-6694
-Scenario: Cannot enter invalid hours and minutes
+Scenario: Cannot enter invalid days, hours and minutes
 	Given the user has progressed to the Allocate Users page
-	When the user attempts to add invalid hours and minutes
-	Then hours and minutes error messages are displayed
-	When the user attempts to add zero for both hours and minutes
-	Then the zero hours and minutes error message is displayed
+	When the user attempts to add invalid days, hours and minutes
+	Then the days, hours and minutes error messages are displayed
+	When the user attempts to add zero for days, hours and minutes
+	Then the zero days, hours and minutes error messages are displayed
 	And the allocate button is disabled
 
 @VIH-6976

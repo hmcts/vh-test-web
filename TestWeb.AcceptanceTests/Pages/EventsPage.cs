@@ -20,8 +20,10 @@ namespace TestWeb.AcceptanceTests.Pages
         public static By ParticipantId(Guid participantId) => By.Id($"participant-{participantId}-id");
         public static By ParticipantStatus(Guid participantId) => By.Id($"participant-{participantId}-status");
         public static By ParticipantEventDropdown(Guid participantId) => By.Id($"participant-event-type-dropdown-{participantId}");
-        public static By ParticipantTransferFromDropdown(Guid participantId) => By.Id($"participant-transfer-from-dropdown-{participantId}");
-        public static By ParticipantTransferToDropdown(Guid participantId) => By.Id($"participant-transfer-to-dropdown-{participantId}");
+        public static By ParticipantTransferFromTextfield(Guid participantId) => By.Id($"participant-transfer-from-textfield-{participantId}");
+        public static By ParticipantTransferToTextfield(Guid participantId) => By.Id($"participant-transfer-to-textfield-{participantId}");
         public static By ParticipantSendEventButton(Guid participantId) => By.Id($"send-participant-event-button-{participantId}");
+        public static By ParticipantTransferFromError(Guid participantId) => By.Id($"transfer-from-error-{participantId}");
+        public static By ParticipantTransferToError(Guid participantId) => By.Id($"transfer-to-error-{participantId}");
     }
 }

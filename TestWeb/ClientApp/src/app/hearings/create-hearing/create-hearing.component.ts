@@ -212,7 +212,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         });
     }
 
-    private addMinutes(date, minutes) {
+    private addMinutes(date: Date, minutes: number) {
         return new Date(date.getTime() + minutes * 60000);
     }
 
@@ -274,6 +274,14 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
             (this.hearingDate.invalid || new Date(this.hearingDate.value) < todayDate) &&
             (this.hearingDate.dirty || this.hearingDate.touched)
         );
+    }
+
+    get hearingDateExceedsMax() {
+        const hearingDate = new Date(this.hearingDate.value);
+        const todaysDate = new Date();
+        const maxDaysAllowed = 30;
+        const maxDate = todaysDate.setDate(todaysDate.getDate() + maxDaysAllowed);
+        return maxDate.valueOf() < hearingDate.valueOf();
     }
 
     get hearingStartTimeHourInvalid() {

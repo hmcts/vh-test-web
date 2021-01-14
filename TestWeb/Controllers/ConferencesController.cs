@@ -40,7 +40,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                await _testApiClient.CreateVideoEventAsync(request);
+                await _testApiClient.CreateEventAsync(request);
                 return NoContent();
             }
             catch (TestApiException e)

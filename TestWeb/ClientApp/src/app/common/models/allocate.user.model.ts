@@ -4,7 +4,6 @@ import { UserData } from './data/user-data';
 export class AllocateUserModel {
     constructor() {
         this.application = UserData.Application;
-        this.expiry_in_minutes = UserData.ExpiryInMinutes;
         this.is_prod_user = UserData.IsProdUser;
     }
 

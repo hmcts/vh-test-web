@@ -6,6 +6,7 @@ namespace TestWeb.AcceptanceTests.Pages
     {
         public static By TestTypeDropdown = By.Id("testTypesDropdown");
         public static By UserTypeDropdown = By.Id("userTypesDropdown");
+        public static By DaysTextfield = By.Id("daysTextfield");
         public static By HoursTextfield = By.Id("hoursTextfield");
         public static By MinutesTextfield = By.Id("minutesTextfield");
         public static By AllocateButton = By.Id("allocateButton");
@@ -20,6 +21,7 @@ namespace TestWeb.AcceptanceTests.Pages
         public static By CompletedTitle = By.Id("completedTitle");
         public static By UnallocatedText = By.Id("unallocatedText");
         public static By TimeError = By.Id("time-error");
+        public static By DaysError = By.Id("days-error");
         public static By HoursError = By.Id("hours-error");
         public static By MinutesError = By.Id("minutes-error");
         public static By UnallocateAllButton = By.Id("unallocateAllButton");

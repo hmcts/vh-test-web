@@ -22,6 +22,7 @@ namespace TestWeb.AcceptanceTests.Steps
         private readonly UserBrowser _browser;
         private readonly TestContext _c;
         private readonly CommonSharedSteps _commonSharedSteps;
+        private Guid _participantId;
         private ConferenceState _conferenceState = ConferenceState.NotStarted;
         private ParticipantState _participantState = ParticipantState.None;
 
@@ -51,14 +52,21 @@ namespace TestWeb.AcceptanceTests.Steps
             GetTheConferenceDetailsById();
             VerifyHearingDetails();
             VerifyParticipantDetails();
-            var participantId = GetParticipantId();
-            participantId.Should().NotBeEmpty();
+            _participantId = GetParticipantId();
+            _participantId.Should().NotBeEmpty();
             _participantState = ParticipantState.InHearing;
-            _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, EventsPage.ParticipantEventDropdown(participantId), "Transfer");
-            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferFromDropdown(participantId)).Displayed.Should().BeTrue();
-            _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, EventsPage.ParticipantTransferFromDropdown(participantId), "WaitingRoom");
-            _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, EventsPage.ParticipantTransferToDropdown(participantId), "HearingRoom");
-            _browser.Click(EventsPage.ParticipantSendEventButton(participantId));
+            _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, EventsPage.ParticipantEventDropdown(_participantId), "Transfer");
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferFromTextfield(_participantId)).Displayed.Should().BeTrue();
+            SetTheTransferFromAndTo("WaitingRoom", "HearingRoom");
+            _browser.Click(EventsPage.ParticipantSendEventButton(_participantId));
+        }
+
+        private void SetTheTransferFromAndTo(string transferFrom, string transferTo)
+        {
+            _browser.Clear(EventsPage.ParticipantTransferFromTextfield(_participantId));
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferFromTextfield(_participantId)).SendKeys(transferFrom);
+            _browser.Clear(EventsPage.ParticipantTransferToTextfield(_participantId));
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferToTextfield(_participantId)).SendKeys(transferTo);
         }
 
         private void SelectAConference()
@@ -124,9 +132,9 @@ namespace TestWeb.AcceptanceTests.Steps
         [Then(@"the participant status changes")]
         public void ThenTheParticipantStatusChanges()
         {
-            var participantId = GetParticipantId();
-            participantId.Should().NotBeEmpty();
-            PollForStatusToUpdate(EventsPage.ParticipantStatus(participantId), _participantState.ToString()).Should()
+            _participantId = GetParticipantId();
+            _participantId.Should().NotBeEmpty();
+            PollForStatusToUpdate(EventsPage.ParticipantStatus(_participantId), _participantState.ToString()).Should()
                 .BeTrue();
         }
 
@@ -153,6 +161,42 @@ namespace TestWeb.AcceptanceTests.Steps
                 ClickRefresh();
             }
             throw new DataException($"Status not updated after {RETRIES * DELAY} seconds");
+        }
+
+        [When(@"the user attempts to send a transfer event with a blank transfer from and to")]
+        public void WhenTheUserAttemptsToSendATransferEventWithABlankTransferFromAndTo()
+        {
+            SelectAConference();
+            GetTheConferenceDetailsById();
+            VerifyHearingDetails();
+            VerifyParticipantDetails();
+            _participantId = GetParticipantId();
+            _participantId.Should().NotBeEmpty();
+            _participantState = ParticipantState.InHearing;
+            _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, EventsPage.ParticipantEventDropdown(_participantId), "Transfer");
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferFromTextfield(_participantId)).Displayed.Should().BeTrue();
+            ClearTheTransferFromAndToTextFields();
+        }
+
+        private void ClearTheTransferFromAndToTextFields()
+        {
+            var transferFromText = _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferFromTextfield(_participantId)).GetAttribute("value");
+            DeleteTextFromTextField.Delete(_browser, EventsPage.ParticipantTransferFromTextfield(_participantId), transferFromText.Length);
+            var transferToText = _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferToTextfield(_participantId)).GetAttribute("value");
+            DeleteTextFromTextField.Delete(_browser, EventsPage.ParticipantTransferToTextfield(_participantId), transferToText.Length);
+        }
+
+        [Then(@"the transfer from and to invalid error messages are displayed")]
+        public void ThenTheTransferFromAndToInvalidErrorMessagesAreDisplayed()
+        {
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferFromError(_participantId)).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantTransferToError(_participantId)).Displayed.Should().BeTrue();
+        }
+
+        [Then(@"the event cannot be sent")]
+        public void ThenTheEventCannotBeSent()
+        {
+            _browser.Driver.WaitUntilVisible(EventsPage.ParticipantSendEventButton(_participantId)).Enabled.Should().BeFalse();
         }
     }
 }

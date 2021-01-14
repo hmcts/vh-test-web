@@ -51,6 +51,24 @@
                 </legend>
                 <div class="govuk-date-input__item">
                   <div class="govuk-form-group">
+                    <label class="govuk-label" for="daysTextfield">Days</label>
+                    <input
+                      class="govuk-input govuk-date-input__input govuk-input--width-2"
+                      id="daysTextfield"
+                      name="daysTextfield"
+                      type="number"
+                      min="0"
+                      max="29"
+                      placeholder="DD"
+                      title="daysTextfield"
+                      formControlName="daysTextfield"
+                      aria-label="daysTextfield"
+                      aria-labelledby="daysTextfield"
+                    />
+                  </div>
+                </div>
+                <div class="govuk-date-input__item">
+                  <div class="govuk-form-group">
                     <label class="govuk-label" for="hoursTextfield">Hours</label>
                     <input
                       class="govuk-input govuk-date-input__input govuk-input--width-2"
@@ -58,8 +76,8 @@
                       name="hoursTextfield"
                       type="number"
                       min="0"
-                      max="8"
-                      placeholder="H"
+                      max="23"
+                      placeholder="HH"
                       title="hoursTextfield"
                       formControlName="hoursTextfield"
                       aria-label="hoursTextfield"
@@ -89,8 +107,11 @@
               <div *ngIf="timeInvalid()" class="alert alert-danger">
                 <span id="time-error" class="govuk-error-message">Please enter an expiry time greater than 0</span>
               </div>
+              <div *ngIf="daysInvalid()" class="alert alert-danger">
+                <span id="days-error" class="govuk-error-message">Please enter days between 0 and 29</span>
+              </div>
               <div *ngIf="hoursInvalid()" class="alert alert-danger">
-                <span id="hours-error" class="govuk-error-message">Please enter hours between 0 and 8</span>
+                <span id="hours-error" class="govuk-error-message">Please enter hours between 0 and 23</span>
               </div>
               <div *ngIf="minutesInvalid()" class="alert alert-danger">
                 <span id="minutes-error" class="govuk-error-message">Please enter minutes between 0 and 59</span>

@@ -170,7 +170,7 @@ stages:
           - name: VhServices:TestWebUrl
             slot:
               deployment:
-                value: $(test_web_url_staging)
+                value: $(test_web_url)
               active:
                 value: $(test_web_url)
           - name: VhServices:TestApiUrl

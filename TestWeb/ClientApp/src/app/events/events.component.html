@@ -231,31 +231,35 @@
 
               <div *ngIf="enableParticipantEventTypesDropdown && transferSelected(participant.id)" class="govuk-grid-column-full govuk-!-padding-bottom-2">
 
-                <label class="govuk-label govuk-!-width-full" for="participant-transfer-from-dropdown-{{participant.id}}"> Transfer From </label>
-                <select
-                  id="participant-transfer-from-dropdown-{{participant.id}}"
-                  class="govuk-select govuk-!-width-full"
-                  formControlName="participant-transfer-from-dropdown-{{participant.id}}"
-                >
-                  <option *ngFor="let transferRoomOption of transferRoomOptions" [ngValue]="transferRoomOption">
-                    {{ transferRoomOption }}
-                  </option>
-                </select>
+                <label class="govuk-label govuk-!-width-full extra-bottom-margin" for="participant-transfer-from-textfield-{{participant.id}}"> Transfer From </label>
+                <input
+                  id="participant-transfer-from-textfield-{{participant.id}}"
+                  placeholder="e.g. WaitingRoom"
+                  class="govuk-input govuk-!-width-full"
+                  type="text"
+                  formControlName="participant-transfer-from-textfield-{{participant.id}}"
+                  required
+                />
+                <div *ngIf="transferFromInvalid(participant.id)" class="alert alert-danger">
+                  <span id="transfer-from-error-{{participant.id}}" class="govuk-error-message"> Please enter a tranfer from value </span>
+                </div>
 
               </div>
 
               <div *ngIf="enableParticipantEventTypesDropdown && transferSelected(participant.id)" class="govuk-grid-column-full govuk-!-padding-bottom-2">
 
-                <label class="govuk-label govuk-!-width-full" for="participant-transfer-to-dropdown-{{participant.id}}"> Transfer To </label>
-                <select
-                  id="participant-transfer-to-dropdown-{{participant.id}}"
-                  class="govuk-select govuk-!-width-full"
-                  formControlName="participant-transfer-to-dropdown-{{participant.id}}"
-                >
-                  <option *ngFor="let transferRoomOption of transferRoomOptions" [ngValue]="transferRoomOption">
-                    {{ transferRoomOption }}
-                  </option>
-                </select>
+                <label class="govuk-label govuk-!-width-full extra-bottom-margin" for="participant-transfer-to-textfield-{{participant.id}}"> Transfer To </label>
+                <input
+                  id="participant-transfer-to-textfield-{{participant.id}}"
+                  placeholder="e.g. HearingRoom"
+                  class="govuk-input govuk-!-width-full"
+                  type="text"
+                  formControlName="participant-transfer-to-textfield-{{participant.id}}"
+                  required
+                />
+                <div *ngIf="transferToInvalid(participant.id)" class="alert alert-danger">
+                  <span id="transfer-to-error-{{participant.id}}" class="govuk-error-message"> Please enter a tranfer to value </span>
+                </div>
 
               </div>
 
@@ -267,7 +271,7 @@
                   data-module="govuk-button"
                   aria-label="Send the participant event button"
                   (click)="sendParticipantEvent(participant.id)"
-                  [disabled]="!participantDropdownHasValue(participant.id)"
+                  [disabled]="!participantDropdownHasValue(participant.id) || !transferValuesSetIfSelected(participant.id)"
                 >
                   Send Event
                 </button>

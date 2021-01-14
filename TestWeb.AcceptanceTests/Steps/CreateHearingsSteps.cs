@@ -142,5 +142,20 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             _browser.Driver.WaitUntilVisible(CreateHearingPage.InvalidNumberOfIndividualsAndRepsError).Displayed.Should().BeTrue();
         }
+
+        [When(@"the date is set to a date that exceeds the limit")]
+        public void WhenTheDateIsSetToADateThatExceedsTheLimit()
+        {
+            const int DAYS_LIMIT = 30 + 1;
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).Clear();
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).SendKeys(DateTime.Now.AddDays(DAYS_LIMIT).ToShortDateString());
+        }
+
+        [Then(@"an error appears stating the hearing date must be within a limit")]
+        public void ThenAnErrorAppearsStatingTheHearingDateMustBeWithinALimit()
+        {
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingTimeExceedsMaxError).Displayed.Should().BeTrue();
+        }
+
     }
 }
