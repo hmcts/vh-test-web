@@ -28,12 +28,8 @@ export class ProfileService {
     }
 
     public async getLoggedInUsername() {
-        try {
-            const profile = await this.getUserProfile();
-            return profile.username;
-        } catch (error) {
-            this.logger.error(`${this.loggerPrefix} Unable to retreive user profile`, error);
-            throw error;
-        }
+        const profile = await this.getUserProfile();
+        this.logger.debug(`${this.loggerPrefix} Profile retrieved: ${profile.username}`);
+        return profile.username;
     }
 }

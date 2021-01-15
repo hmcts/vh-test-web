@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
-import { UserData } from 'src/app/common/models/data/user-data';
 import { UserModel } from 'src/app/common/models/user.model';
 import { ProfileService } from '../api/profile-service';
-import { ConferenceDetailsResponse, HearingDetailsResponse, UserType } from '../clients/api-client';
+import { ConferenceDetailsResponse, HearingDetailsResponse } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { TestApiService } from './test-api-service';
 

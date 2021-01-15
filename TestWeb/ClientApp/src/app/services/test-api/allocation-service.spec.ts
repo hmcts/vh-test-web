@@ -39,7 +39,13 @@ describe('AllocationService', () => {
         allocateUserModel.application = Application.VideoWeb;
         allocateUserModel.expiry_in_minutes = 59;
         allocateUserModel.is_prod_user = false;
-        allocateUserModel.usertypes = [UserType.Judge, UserType.Individual, UserType.Representative];
+        allocateUserModel.usertypes = [
+            UserType.Judge,
+            UserType.Individual,
+            UserType.Representative,
+            UserType.Observer,
+            UserType.PanelMember
+        ];
         allocateUserModel.test_type = TestType.Manual;
 
         expect(testApiService.allocateUsers).toHaveBeenCalledWith(allocateUserModel);

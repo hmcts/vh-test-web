@@ -138,7 +138,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     }
 
     multipleHearings() {
-        if (this.quantity.value > 1) {
+        if (this.quantityDropdown.value > 1) {
             return true;
         }
         return false;
@@ -155,8 +155,8 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     private setHearingFormData(): HearingFormData {
         const data = new HearingFormData();
         data.audioRecordingRequired = this.audioRecordingRequiredCheckBox.value;
-        if (this.customCaseName.value !== null) {
-            const caseName: string = this.customCaseName.value;
+        if (this.customCaseNamePrefix.value !== null) {
+            const caseName: string = this.customCaseNamePrefix.value;
             data.customCaseNamePrefix = caseName.trim();
         }
         const hearingDate = new Date(this.form.value.hearingDate);
@@ -165,15 +165,15 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         data.hearingStartTimeHour = this.form.value.hearingStartTimeHour;
         data.hearingStartTimeMinute = this.form.value.hearingStartTimeMinute;
         data.individuals = this.individuals.value;
-        data.numberOfHearings = this.quantity.value;
-        data.numberOfEndpoints = this.endpoints.value;
+        data.numberOfHearings = this.quantityDropdown.value;
+        data.numberOfEndpoints = this.endpointsDropdown.value;
         data.observers = this.observers.value;
         data.panelMembers = this.panelMembers.value;
         data.questionnaireNotRequired = this.questionnaireNotRequiredCheckBox.value;
         data.representatives = this.representatives.value;
         data.reuseUsers = this.reuseUsersCheckBox.value;
         data.scheduledDateTime = hearingDate;
-        data.testType = this.testType.value;
+        data.testType = this.testTypeDropdown.value;
         this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
         return data;
     }
@@ -223,14 +223,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         return new Date(date.getTime() + minutes * 60000);
     }
 
-    get customCaseName() {
-        return this.form.get('customCaseNamePrefix');
-    }
-
-    get testType() {
-        return this.form.get('testTypeDropdown');
-    }
-
     get hearingDate() {
         return this.form.get('hearingDate');
     }
@@ -241,18 +233,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
 
     get hearingStartTimeMinute() {
         return this.form.get('hearingStartTimeMinute');
-    }
-
-    get questionnaireNotRequired() {
-        return this.form.get('questionnaireNotRequiredCheckBox');
-    }
-
-    get audioRecordingRequired() {
-        return this.form.get('audioRecordingRequiredCheckBox');
-    }
-
-    get reuseUsers() {
-        return this.form.get('reuseUsersCheckBox');
     }
 
     get individuals() {
@@ -269,14 +249,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
 
     get panelMembers() {
         return this.form.get('panelMembersTextfield');
-    }
-
-    get quantity() {
-        return this.form.get('quantityDropdown');
-    }
-
-    get endpoints() {
-        return this.form.get('endpointsDropdown');
     }
 
     get hearingDateInvalid() {

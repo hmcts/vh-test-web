@@ -84,4 +84,12 @@ describe('CreateHearingComponent', () => {
         component.ngOnDestroy();
         expect(component.$subscriptions[0].closed).toBe(true);
     });
+
+    it('should ignore custom name if not set', () => {
+        component.ngOnInit();
+        const hearingFormData = testData.createHearingFormData();
+        hearingFormData.customCaseNamePrefix = null;
+        component.createHearings(hearingFormData);
+        expect(createServiceSpy.createHearings).toHaveBeenCalledWith(hearingFormData);
+    });
 });
