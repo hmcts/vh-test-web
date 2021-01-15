@@ -27,3 +27,10 @@ Scenario: Numbers of participants
 	Then errors should appear to state that the numbers are too high
 	When the user attempts to not add any individuals or representatives
 	Then an error message appears stating that there are no individuals or representatives
+
+@VIH-6993
+Scenario: Create hearing with a custom case name 
+	Given the user has progressed to the Create Hearings page
+	When the user creates a hearing with a custom name
+	Then the confirmation dialog shows hearings were created
+	And the custom name is visible on the hearing name

@@ -1,21 +1,21 @@
 import { of } from 'rxjs';
 import { individualTestProfile } from 'src/app/testing/data/test-profiles';
 import { ApiClient } from '../clients/api-client';
+import { Logger } from '../logging/logger-base';
 import { ProfileService } from './profile-service';
 
 describe('ProfileService', () => {
     let service: ProfileService;
-    let apiClient: jasmine.SpyObj<ApiClient>;
+    const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
+    const apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', ['getUserProfile']);
     const knownProfile = individualTestProfile;
 
     beforeAll(() => {
-        apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', ['getUserProfile']);
-
         apiClient.getUserProfile.and.returnValue(of(knownProfile));
     });
 
     beforeEach(() => {
-        service = new ProfileService(apiClient);
+        service = new ProfileService(logger, apiClient);
     });
 
     it('should not call api when profile is already set', async () => {
@@ -47,5 +47,11 @@ describe('ProfileService', () => {
     it('should return instance when profile is already in cache', () => {
         const result = service.checkCacheForProfileByUsername(knownProfile.username);
         expect(result).toBeUndefined();
+    });
+
+    it('should get the logged in user', async () => {
+        service.profiles[knownProfile.username] = knownProfile;
+        const result = await service.getLoggedInUsername();
+        expect(result).toEqual(knownProfile.username);
     });
 });

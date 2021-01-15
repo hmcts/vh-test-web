@@ -34,13 +34,14 @@ export class TestApiServiceTestData {
         const hearingDate = new Date();
         const hearingFormData: HearingFormData = {
             application: Application.VideoWeb,
+            customCaseNamePrefix: 'custom',
             hearingDate: hearingDate,
             hearingStartTimeHour: hearingDate.getHours(),
             hearingStartTimeMinute: hearingDate.getMinutes(),
             individuals: 1,
             numberOfHearings: 1,
-            observers: 0,
-            panelMembers: 0,
+            observers: 1,
+            panelMembers: 1,
             questionnaireNotRequired: true,
             representatives: 1,
             testType: TestType.Manual,
@@ -58,6 +59,8 @@ export class TestApiServiceTestData {
         hearingModel.application = Application.VideoWeb;
         hearingModel.audio_recording_required = false;
         hearingModel.case_type = 'case type';
+        hearingModel.created_by = 'user@email.com';
+        hearingModel.custom_case_name_prefix = 'custom';
         hearingModel.endpoints = 1;
         hearingModel.questionnaire_not_required = true;
         hearingModel.scheduled_date_time = new Date();

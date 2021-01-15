@@ -5512,6 +5512,10 @@ namespace TestWeb.TestApi.Client
         [Newtonsoft.Json.JsonProperty("case_type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Case_type { get; set; }
     
+        /// <summary>The user that created the hearing</summary>
+        [Newtonsoft.Json.JsonProperty("created_by", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Created_by { get; set; }
+    
         /// <summary>An optional parameter to add some text before the case name to help identify a case</summary>
         [Newtonsoft.Json.JsonProperty("custom_case_name_prefix", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Custom_case_name_prefix { get; set; }

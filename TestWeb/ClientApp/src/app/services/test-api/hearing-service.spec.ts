@@ -1,5 +1,6 @@
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { ProfileService } from '../api/profile-service';
 import { Application, TestType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { HearingService } from './hearing-service';
@@ -9,10 +10,11 @@ describe('HearingService', () => {
     let service: HearingService;
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['createHearing']);
+    const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile', `getLoggedInUsername`]);
     const testData = new TestApiServiceTestData();
 
     beforeAll(() => {
-        service = new HearingService(logger, testApiService);
+        service = new HearingService(logger, testApiService, profileService);
     });
 
     it('should call the test api to create a hearing', async () => {
@@ -27,6 +29,8 @@ describe('HearingService', () => {
         createHearingModel.application = Application.VideoWeb;
         createHearingModel.audio_recording_required = false;
         createHearingModel.case_type = '';
+        createHearingModel.created_by = 'user@email.com';
+        createHearingModel.custom_case_name_prefix = 'custom';
         createHearingModel.questionnaire_not_required = true;
         createHearingModel.scheduled_date_time = new Date();
         createHearingModel.test_type = TestType.Manual;

@@ -11,8 +11,8 @@ describe('DeleteHearingComponent', () => {
     let component: DeleteHearingComponent;
     let fixture: ComponentFixture<DeleteHearingComponent>;
 
-    const loggerSpy = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
-    const testApiServiceSpy = jasmine.createSpyObj<TestApiService>('TestApiService', ['deleteHearings']);
+    const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
+    const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['deleteHearings']);
 
     const caseName = 'test case name';
     const deletedResponse = new DeletedResponse();
@@ -26,8 +26,8 @@ describe('DeleteHearingComponent', () => {
         await TestBed.configureTestingModule({
             imports: [SharedModule],
             providers: [
-                { provide: Logger, useValue: loggerSpy },
-                { provide: TestApiService, useValue: testApiServiceSpy }
+                { provide: Logger, useValue: logger },
+                { provide: TestApiService, useValue: testApiService }
             ],
             declarations: [DeleteHearingComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -82,25 +82,32 @@ describe('DeleteHearingComponent', () => {
 
     it('should delete a hearing', async () => {
         deletedResponse.number_of_deleted_hearings = 1;
-        testApiServiceSpy.deleteHearings.and.returnValue(Promise.resolve(deletedResponse));
+        testApiService.deleteHearings.and.returnValue(Promise.resolve(deletedResponse));
         component.ngOnInit();
         component.caseNameTextfield.setValue(caseName);
         fixture.detectChanges();
 
         await component.deleteHearings();
-        expect(testApiServiceSpy.deleteHearings).toHaveBeenCalledWith(deleteModel);
+        expect(testApiService.deleteHearings).toHaveBeenCalledWith(deleteModel);
         expect(component.resultsOutput).toBe(`1 hearing(s) deleted matching case name '${caseName}'.`);
     });
 
     it('should not delete a hearing if case name is not found', async () => {
         deletedResponse.number_of_deleted_hearings = 0;
-        testApiServiceSpy.deleteHearings.and.returnValue(Promise.resolve(deletedResponse));
+        testApiService.deleteHearings.and.returnValue(Promise.resolve(deletedResponse));
         component.ngOnInit();
         component.caseNameTextfield.setValue(caseName);
         fixture.detectChanges();
 
         await component.deleteHearings();
-        expect(testApiServiceSpy.deleteHearings).toHaveBeenCalledWith(deleteModel);
+        expect(testApiService.deleteHearings).toHaveBeenCalledWith(deleteModel);
         expect(component.resultsOutput).toBe(`No matching hearings could be found with case name '${caseName}'.`);
+    });
+
+    it('should throw an error if test api to delete hearing fails', async () => {
+        const error = { error: 'not found!' };
+        testApiService.deleteHearings.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.deleteHearings()).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
     });
 });

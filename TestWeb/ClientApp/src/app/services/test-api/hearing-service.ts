@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import { UserModel } from 'src/app/common/models/user.model';
+import { ProfileService } from '../api/profile-service';
 import { HearingDetailsResponse } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { HearingFormData } from './models/hearing-form-data';
@@ -13,17 +14,19 @@ export class HearingService {
     private readonly loggerPrefix: string = '[HearingService] -';
     private hearingModel: HearingModel;
 
-    constructor(private logger: Logger, private testApiService: TestApiService) {}
+    constructor(private logger: Logger, private testApiService: TestApiService, private profileService: ProfileService) {}
 
     async CreateHearing(hearingFormData: HearingFormData, allocatedUsers: UserModel[]): Promise<HearingDetailsResponse> {
-        this.createHearingRequest(hearingFormData);
+        await this.createHearingRequest(hearingFormData);
         this.addUsersToHearingModel(allocatedUsers);
         return await this.sendHearingRequest();
     }
 
-    private createHearingRequest(hearingFormData: HearingFormData) {
+    private async createHearingRequest(hearingFormData: HearingFormData) {
         this.hearingModel = new HearingModel();
         this.hearingModel.test_type = hearingFormData.testType;
+        this.hearingModel.created_by = await this.profileService.getLoggedInUsername();
+        this.hearingModel.custom_case_name_prefix = hearingFormData.customCaseNamePrefix;
         const hearingDate = new Date(hearingFormData.hearingDate);
         hearingDate.setHours(hearingFormData.hearingStartTimeHour, hearingFormData.hearingStartTimeMinute);
         this.hearingModel.scheduled_date_time = hearingDate;
@@ -31,11 +34,18 @@ export class HearingService {
         this.hearingModel.questionnaire_not_required = hearingFormData.questionnaireNotRequired;
         this.hearingModel.audio_recording_required = hearingFormData.audioRecordingRequired;
         this.hearingModel.endpoints = hearingFormData.numberOfEndpoints;
-        this.logger.debug(`${this.loggerPrefix} Test type: ${hearingFormData.testType} Questionnaire not required:
-        ${hearingFormData.questionnaireNotRequired} Audio recording required: ${hearingFormData.audioRecordingRequired}
-        Individuals: ${hearingFormData.individuals} Representatives: ${hearingFormData.representatives} Observers:
-        ${hearingFormData.observers} Panel Members: ${hearingFormData.panelMembers} Number of hearings:
-        ${hearingFormData.numberOfHearings} Number of endpoints ${hearingFormData.numberOfEndpoints}
+        this.logger.debug(`${this.loggerPrefix}
+        Test type: ${hearingFormData.testType}
+        Created by: ${this.hearingModel.created_by}
+        Custom Case Name Prefix ${hearingFormData.customCaseNamePrefix}
+        Questionnaire not required: ${hearingFormData.questionnaireNotRequired}
+        Audio recording required: ${hearingFormData.audioRecordingRequired}
+        Individuals: ${hearingFormData.individuals}
+        Representatives: ${hearingFormData.representatives}
+        Observers: ${hearingFormData.observers}
+        Panel Members: ${hearingFormData.panelMembers}
+        Number of hearings: ${hearingFormData.numberOfHearings}
+        Number of endpoints ${hearingFormData.numberOfEndpoints}
         Reuse users ${hearingFormData.reuseUsers}`);
     }
 

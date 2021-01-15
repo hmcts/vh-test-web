@@ -10,6 +10,21 @@
 
     <div class="govuk-grid-column-one-half">
 
+      <div class="govuk-!-padding-bottom-4" >
+
+        <label class="govuk-label govuk-!-width-full extra-bottom-margin" for="customCaseNamePrefix"> Custom Name (optional) </label>
+        <input
+          id="customCaseNamePrefix"
+          placeholder="e.g. VIH-1234"
+          maxlength="20"
+          class="govuk-input govuk-!-width-two-thirds"
+          type="text"
+          formControlName="customCaseNamePrefix"
+          required
+        />
+
+      </div>
+
       <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
         <label class="govuk-label govuk-!-width-full" for="hearingDate"> Date of hearing </label>
         <input
