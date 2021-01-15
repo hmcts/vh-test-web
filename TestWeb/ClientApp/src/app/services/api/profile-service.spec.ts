@@ -1,21 +1,21 @@
 import { of } from 'rxjs';
 import { individualTestProfile } from 'src/app/testing/data/test-profiles';
 import { ApiClient } from '../clients/api-client';
+import { Logger } from '../logging/logger-base';
 import { ProfileService } from './profile-service';
 
 describe('ProfileService', () => {
     let service: ProfileService;
-    let apiClient: jasmine.SpyObj<ApiClient>;
+    const loggerSpy = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
+    const apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', ['getUserProfile']);
     const knownProfile = individualTestProfile;
 
     beforeAll(() => {
-        apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', ['getUserProfile']);
-
         apiClient.getUserProfile.and.returnValue(of(knownProfile));
     });
 
     beforeEach(() => {
-        service = new ProfileService(apiClient);
+        service = new ProfileService(loggerSpy, apiClient);
     });
 
     it('should not call api when profile is already set', async () => {

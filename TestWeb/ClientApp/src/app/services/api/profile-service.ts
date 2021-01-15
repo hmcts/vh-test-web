@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ApiClient, UserProfileResponse } from '../clients/api-client';
+import { Logger } from '../logging/logger-base';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProfileService {
+    private readonly loggerPrefix: string = '[ProfileService] -';
     profile: UserProfileResponse;
     profiles: Record<string, UserProfileResponse> = {};
 
-    constructor(private apiClient: ApiClient) {}
+    constructor(private logger: Logger, private apiClient: ApiClient) {}
 
     async getUserProfile(): Promise<UserProfileResponse> {
         if (!this.profile) {
@@ -23,5 +25,15 @@ export class ProfileService {
 
     clearUserProfile(): void {
         this.profile = null;
+    }
+
+    public async getLoggedInUsername() {
+        try {
+            const profile = await this.getUserProfile();
+            return profile.username;
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Unable to retreive user profile`, error);
+            throw error;
+        }
     }
 }

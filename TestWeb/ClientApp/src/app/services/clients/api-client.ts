@@ -2152,6 +2152,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
     audio_recording_required?: boolean;
     application?: Application;
     case_type?: string | undefined;
+    created_by?: string | undefined;
     custom_case_name_prefix?: string | undefined;
     endpoints?: number;
     questionnaire_not_required?: boolean;
@@ -2173,6 +2174,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
             this.audio_recording_required = _data['audio_recording_required'];
             this.application = _data['application'];
             this.case_type = _data['case_type'];
+            this.created_by = _data['created_by'];
             this.custom_case_name_prefix = _data['custom_case_name_prefix'];
             this.endpoints = _data['endpoints'];
             this.questionnaire_not_required = _data['questionnaire_not_required'];
@@ -2198,6 +2200,7 @@ export class CreateHearingRequest implements ICreateHearingRequest {
         data['audio_recording_required'] = this.audio_recording_required;
         data['application'] = this.application;
         data['case_type'] = this.case_type;
+        data['created_by'] = this.created_by;
         data['custom_case_name_prefix'] = this.custom_case_name_prefix;
         data['endpoints'] = this.endpoints;
         data['questionnaire_not_required'] = this.questionnaire_not_required;
@@ -2216,6 +2219,7 @@ export interface ICreateHearingRequest {
     audio_recording_required?: boolean;
     application?: Application;
     case_type?: string | undefined;
+    created_by?: string | undefined;
     custom_case_name_prefix?: string | undefined;
     endpoints?: number;
     questionnaire_not_required?: boolean;

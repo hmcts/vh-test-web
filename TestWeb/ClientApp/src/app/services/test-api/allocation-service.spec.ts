@@ -16,7 +16,7 @@ describe('AllocationService', () => {
         `getAllAllocationsByAllocatedBy`,
         `unallocateUsers`
     ]);
-    const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile']);
+    const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile', `getLoggedInUsername`]);
     const testData = new TestApiServiceTestData();
     const error = { error: 'not found!' };
     const hearingFormData = testData.createHearingFormData();
@@ -29,16 +29,13 @@ describe('AllocationService', () => {
     it('should call the test api to allocate users for the hearing', async () => {
         const userDetailsResponse: UserDetailsResponse[] = testData.getAllocatedUsersResponse();
         testApiService.allocateUsers.and.returnValue(Promise.resolve(userDetailsResponse));
-
-        const profile = new UserProfileResponse();
-        profile.role = 'Role';
-        profile.username = 'user@email.com';
-        profileService.getUserProfile.and.returnValue(Promise.resolve(profile));
+        const username = 'user@email.com';
+        profileService.getLoggedInUsername.and.returnValue(Promise.resolve(username));
 
         const result = await service.allocatateUsers(hearingFormData);
 
         const allocateUserModel = new AllocateUsersModel();
-        allocateUserModel.allocated_by = profile.username;
+        allocateUserModel.allocated_by = username;
         allocateUserModel.application = Application.VideoWeb;
         allocateUserModel.expiry_in_minutes = 59;
         allocateUserModel.is_prod_user = false;

@@ -56,6 +56,8 @@ describe('TestApiService', () => {
     const createHearingModel: HearingModel = {
         application: Application.AdminWeb,
         case_type: 'tax',
+        created_by: 'user@email.com',
+        custom_case_name_prefix: 'custom',
         questionnaire_not_required: true,
         test_type: TestType.Manual,
         users: null,

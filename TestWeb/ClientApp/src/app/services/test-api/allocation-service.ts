@@ -36,7 +36,7 @@ export class AllocationService {
     private async createAllocateUsersModels(hearingFormData: HearingFormData) {
         this.logger.debug(`${this.loggerPrefix} CREATING ALLOCATIONS MODEL`);
         this.allocateUsersModel = new AllocateUsersModel();
-        const username = await this.getLoggedInUserUsername();
+        const username = await this.profileService.getLoggedInUsername();
         this.allocateUsersModel.allocated_by = username;
         const expiryInMinutes = this.calculateExpiryInMinutes(
             hearingFormData.hearingDate,
@@ -103,21 +103,11 @@ export class AllocationService {
     private async createAllocateUserModel(allocationFormData: AllocationFormData) {
         this.logger.debug(`${this.loggerPrefix} CREATING ALLOCATION MODEL`);
         this.allocateUserModel = new AllocateUserModel();
-        const username = await this.getLoggedInUserUsername();
+        const username = await this.profileService.getLoggedInUsername();
         this.allocateUserModel.allocated_by = username;
         this.allocateUserModel.expiry_in_minutes = allocationFormData.expiry_in_minutes;
         this.allocateUserModel.test_type = allocationFormData.testType;
         this.allocateUserModel.user_type = allocationFormData.userType;
-    }
-
-    private async getLoggedInUserUsername() {
-        try {
-            const profile = await this.profileService.getUserProfile();
-            return profile.username;
-        } catch (error) {
-            this.logger.error(`${this.loggerPrefix} Unable to retreive user profile`, error);
-            throw error;
-        }
     }
 
     private async sendAllocationRequest() {
@@ -133,7 +123,7 @@ export class AllocationService {
     }
 
     async getAllAllocationsByUsername(): Promise<AllocatedUserModel[]> {
-        const loggedInUsername = await this.getLoggedInUserUsername();
+        const loggedInUsername = await this.profileService.getLoggedInUsername();
         await this.sendGetAllAllocationsRequest(loggedInUsername);
         return this.allAllocatedByUsers;
     }
@@ -168,7 +158,7 @@ export class AllocationService {
     }
 
     async unallocateAllAllocatedUsers(): Promise<void> {
-        const loggedInUsername = await this.getLoggedInUserUsername();
+        const loggedInUsername = await this.profileService.getLoggedInUsername();
         await this.sendGetAllAllocationsRequest(loggedInUsername);
         const usernames = [];
         for (const allocatedUser of this.allAllocatedByUsers) {

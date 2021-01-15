@@ -40,6 +40,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     buttonAction = 'Book & Confirm';
     $subscriptions: Subscription[] = [];
     testTypeDropdown: FormControl;
+    customCaseNamePrefix: FormControl;
     questionnaireNotRequiredCheckBox: FormControl;
     audioRecordingRequiredCheckBox: FormControl;
     reuseUsersCheckBox: FormControl;
@@ -154,6 +155,10 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
     private setHearingFormData(): HearingFormData {
         const data = new HearingFormData();
         data.audioRecordingRequired = this.audioRecordingRequiredCheckBox.value;
+        if (this.customCaseName.value !== null) {
+            const caseName: string = this.customCaseName.value;
+            data.customCaseNamePrefix = caseName.trim();
+        }
         const hearingDate = new Date(this.form.value.hearingDate);
         hearingDate.setHours(this.form.value.hearingStartTimeHour, this.form.value.hearingStartTimeMinute);
         data.hearingDate = hearingDate;
@@ -184,6 +189,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         startTimeHour = (date.getHours() < 10 ? '0' : '') + date.getHours();
         startTimeMinute = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
+        this.customCaseNamePrefix = new FormControl();
         this.testTypeDropdown = new FormControl(this.defaultTestType);
         this.questionnaireNotRequiredCheckBox = new FormControl(this.defaultQuestionnaireNotRequired);
         this.audioRecordingRequiredCheckBox = new FormControl(this.defaultAudioRecordingRequired);
@@ -196,6 +202,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         this.reuseUsersCheckBox = new FormControl(this.defaultReuseUsers);
 
         this.form = this.fb.group({
+            customCaseNamePrefix: this.customCaseNamePrefix,
             testTypeDropdown: this.testTypeDropdown,
             hearingDate: [hearingDateParsed, Validators.required],
             hearingStartTimeHour: [startTimeHour, [Validators.required, Validators.min(0), Validators.max(23)]],
@@ -214,6 +221,10 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
 
     private addMinutes(date: Date, minutes: number) {
         return new Date(date.getTime() + minutes * 60000);
+    }
+
+    get customCaseName() {
+        return this.form.get('customCaseNamePrefix');
     }
 
     get testType() {

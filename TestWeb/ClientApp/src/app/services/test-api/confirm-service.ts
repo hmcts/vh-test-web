@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { UserData } from 'src/app/common/models/data/user-data';
 import { UserModel } from 'src/app/common/models/user.model';
+import { ProfileService } from '../api/profile-service';
 import { ConferenceDetailsResponse, HearingDetailsResponse, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { TestApiService } from './test-api-service';
@@ -13,26 +14,16 @@ export class ConfirmService {
     private readonly loggerPrefix: string = '[ConfirmService] -';
     private confirmModel: ConfirmHearingModel;
 
-    constructor(private logger: Logger, private testApiService: TestApiService) {}
+    constructor(private logger: Logger, private testApiService: TestApiService, private profileService: ProfileService) {}
 
     async ConfirmHearing(hearing: HearingDetailsResponse, allocatedUsers: UserModel[]): Promise<ConferenceDetailsResponse> {
-        this.createConfirmModel(allocatedUsers);
+        await this.createConfirmModel(allocatedUsers);
         return await this.sendConfirmRequest(hearing);
     }
 
-    private createConfirmModel(allocatedUsers: UserModel[]) {
+    private async createConfirmModel(allocatedUsers: UserModel[]) {
         this.logger.debug(`${this.loggerPrefix} CREATING CONFIRM MODEL`);
-        let updatedBy = null;
-        allocatedUsers.forEach(user => {
-            if (user.user_type === UserType.VideoHearingsOfficer) {
-                updatedBy = user.username;
-            }
-        });
-
-        if (updatedBy == null) {
-            updatedBy = UserData.UpdatedBy;
-        }
-
+        const updatedBy = await this.profileService.getLoggedInUsername();
         this.confirmModel = new ConfirmHearingModel(updatedBy);
     }
 
