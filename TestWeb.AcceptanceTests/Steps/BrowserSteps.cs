@@ -79,11 +79,12 @@ namespace TestWeb.AcceptanceTests.Steps
             return _random.NextDouble() * maximum;
         }
 
-        [When(@"the user attempts to logout")]
+        [Then(@"the user is able to logout")]
         public void WhenTheUserAttemptsToLogout()
         {
             _browser.ClickLink(CommonPages.SignOutLink);
             _browser.ClickLink(CommonPages.SignInLink);
+            ThenTheUserShouldBeNavigatedToSignInScreen();
         }
 
         [Then(@"the user should be navigated to sign in screen")]

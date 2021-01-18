@@ -23,6 +23,13 @@ namespace TestWeb.AcceptanceTests.Hooks
             _objectContainer = objectContainer;
         }
 
+        [BeforeTestRun(Order = (int)HooksSequence.CleanUpDriverInstances)]
+        [AfterTestRun(Order = (int)HooksSequence.CleanUpDriverInstances)]
+        public static void KillAnyLocalProcesses()
+        {
+            DriverManager.KillAnyLocalDriverProcesses();
+        }
+        
         [BeforeScenario(Order = (int)HooksSequence.InitialiseBrowserHooks)]
         public void InitialiseBrowserContainer()
         {
@@ -33,7 +40,6 @@ namespace TestWeb.AcceptanceTests.Hooks
         [BeforeScenario(Order = (int) HooksSequence.ConfigureDriverHooks)]
         public void ConfigureDriver(TestContext context, ScenarioContext scenario)
         {
-            DriverManager.KillAnyLocalDriverProcesses();
             context.Config.TestSettings.TargetBrowser = DriverManager.GetTargetBrowser(NUnit.Framework.TestContext.Parameters["TargetBrowser"]);
             context.Config.TestSettings.TargetBrowserVersion = NUnit.Framework.TestContext.Parameters["TargetBrowserVersion"];
             context.Config.TestSettings.TargetDevice = DriverManager.GetTargetDevice(NUnit.Framework.TestContext.Parameters["TargetDevice"]);
@@ -81,7 +87,7 @@ namespace TestWeb.AcceptanceTests.Hooks
                 SignOut();
         }
 
-        public bool SignOutLinkIsPresent()
+        private bool SignOutLinkIsPresent()
         {
             try
             {
@@ -122,7 +128,6 @@ namespace TestWeb.AcceptanceTests.Hooks
         public void TearDownBrowser()
         {
             _browser?.BrowserTearDown();
-            DriverManager.KillAnyLocalDriverProcesses();
         }
     }
 }

@@ -14,12 +14,14 @@ namespace TestWeb.AcceptanceTests.Steps
     {
         private readonly UserBrowser _browser;
         private readonly TestContext _c;
+        private readonly BrowserSteps _browserSteps;
         private const int JudgesCount = 1;
 
-        public SummarySteps(UserBrowser browser, TestContext testContext)
+        public SummarySteps(UserBrowser browser, TestContext testContext, BrowserSteps browserSteps)
         {
             _browser = browser;
             _c = testContext;
+            _browserSteps = browserSteps;
         }
 
         [Then(@"the summary page displays the new hearing details")]
@@ -51,10 +53,11 @@ namespace TestWeb.AcceptanceTests.Steps
             }
         }
 
-        [When(@"the user returns to the Create Hearings page")]
+        [Then(@"the user can return to the Create Hearings page")]
         public void ProgressToNextPage()
         {
             _browser.ClickLink(SummaryPage.BackLink);
+            _browserSteps.ThenTheUserIsOnThePage("create hearings");
         }
     }
 }

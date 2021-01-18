@@ -8,8 +8,7 @@ Scenario: Test Web User Login
 	Given a new browser is open for a Tester user
 	When the user logs in with valid credentials
 	Then the user is on the Create Hearings page
-	When the user attempts to logout
-	Then the user should be navigated to sign in screen
+	And the user is able to logout
 
 @VIH-6627
 Scenario: Judge User Login Denied
