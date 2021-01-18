@@ -6,6 +6,7 @@ using AcceptanceTests.Common.Test.Steps;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using TestWeb.AcceptanceTests.Helpers;
+using TestWeb.AcceptanceTests.Hooks;
 using TestWeb.AcceptanceTests.Pages;
 
 namespace TestWeb.AcceptanceTests.Steps
@@ -16,14 +17,30 @@ namespace TestWeb.AcceptanceTests.Steps
         private readonly UserBrowser _browser;
         private readonly TestContext _c;
         private readonly CommonSharedSteps _commonSharedSteps;
+        private readonly ProgressionSteps _progressionSteps;
 
-        public AllocateUsersSteps(UserBrowser browser, TestContext testContext, CommonSharedSteps commonSharedSteps)
+        public AllocateUsersSteps(UserBrowser browser, TestContext testContext, CommonSharedSteps commonSharedSteps, ProgressionSteps progressionSteps)
         {
             _browser = browser;
             _c = testContext;
             _commonSharedSteps = commonSharedSteps;
+            _progressionSteps = progressionSteps;
         }
 
+        [Given(@"the user has allocated an individual user")]
+        public void GivenTheUserHasAllocatedAnIndividualUser()
+        {
+            _progressionSteps.GivenTheUserHasProgressedToTheAllocateUsersPage();
+            WhenTheUserAllocatesAnIndividualUser();
+        }
+
+        [Given(@"the user has allocated two individual users")]
+        public void GivenTheUserHasAllocatedTwoIndividualUsers()
+        {
+            GivenTheUserHasAllocatedAnIndividualUser();
+            WhenTheUserAllocatesAnIndividualUser();
+        }
+        
         [When(@"the user allocates an individual user")]
         [When(@"the user allocates another individual user")]
         public void WhenTheUserAllocatesAnIndividualUser()
@@ -32,6 +49,8 @@ namespace TestWeb.AcceptanceTests.Steps
             SelectTestType("Manual");
             SelectExpiry(0, 0, 1);
             ClickAllocate();
+            ThenTheAllocatedUsernameAndPasswordAreDisplayed();
+            DismissThePopup();
         }
 
         private void SelectUserType(string userType)
@@ -73,8 +92,6 @@ namespace TestWeb.AcceptanceTests.Steps
         [When(@"the user unallocates the user")]
         public void WhenTheUserUnallocatesTheUser()
         {
-            DismissThePopup();
-            ClickRefresh();
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.UnallocateButton(_c.Test.AllocateUsername)).Displayed.Should().BeTrue();
             _browser.Click(AllocateUsersPage.UnallocateButton(_c.Test.AllocateUsername));
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.CompletedTitle).Displayed.Should().BeTrue();
@@ -86,14 +103,14 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Driver.WaitUntilElementNotVisible(AllocateUsersPage.CloseButton);
         }
 
-        private void ClickRefresh()
-        {
-            _browser.Refresh();
-            _browser.Driver.WaitUntilVisible(AllocateUsersPage.RefreshButton).Displayed.Should().BeTrue();
-            _browser.Click(AllocateUsersPage.RefreshButton);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            _browser.Driver.WaitUntilVisible(AllocateUsersPage.ExpiresAt(_c.Test.AllocateUsername)).Text.Trim().Should().NotBeNullOrEmpty();
-        }
+        // private void ClickRefresh()
+        // {
+        //     _browser.Refresh();
+        //     _browser.Driver.WaitUntilVisible(AllocateUsersPage.RefreshButton).Displayed.Should().BeTrue();
+        //     _browser.Click(AllocateUsersPage.RefreshButton);
+        //     Thread.Sleep(TimeSpan.FromSeconds(1));
+        //     _browser.Driver.WaitUntilVisible(AllocateUsersPage.ExpiresAt(_c.Test.AllocateUsername)).Text.Trim().Should().NotBeNullOrEmpty();
+        // }
 
         [Then(@"the user is no longer allocated")]
         public void ThenTheUserIsNoLongerAllocated()
@@ -105,8 +122,6 @@ namespace TestWeb.AcceptanceTests.Steps
         [When(@"the user resets the users password")]
         public void WhenTheUserResetsTheUsersPassword()
         {
-            DismissThePopup();
-            ClickRefresh();
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.ResetButton(_c.Test.AllocateUsername)).Displayed.Should().BeTrue();
             _browser.Click(AllocateUsersPage.ResetButton(_c.Test.AllocateUsername));
             _browser.Driver.WaitUntilVisible(AllocateUsersPage.CompletedTitle).Displayed.Should().BeTrue();

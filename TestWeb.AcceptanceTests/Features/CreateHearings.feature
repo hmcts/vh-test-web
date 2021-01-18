@@ -9,22 +9,29 @@ Scenario: Create hearing
 	When the user creates 2 hearings with 1 endpoint
 	Then the confirmation dialog shows hearings were created
 	And the summary page displays the new hearing details
-	When the user returns to the Create Hearings page
-	Then the user is on the create hearings page
+	And the user can return to the Create Hearings page
 
 @VIH-6690
-Scenario Outline: Cannot create hearings in the past
+Scenario: Cannot create hearings in the past
 	Given the user has progressed to the Create Hearings page
 	When the date is set to a past date
 	Then an error appears stating the hearing time must be in the future
+
+@VIH-6690
+Scenario: Cannot create hearings with date that exceeds limit
+	Given the user has progressed to the Create Hearings page
 	When the date is set to a date that exceeds the limit
 	Then an error appears stating the hearing date must be within a limit
 
 @VIH-6690
-Scenario: Numbers of participants
+Scenario: Cannot create hearing with too many participants
 	Given the user has progressed to the Create Hearings page
 	When the user attempts to exceed the allowed participants
 	Then errors should appear to state that the numbers are too high
+
+@VIH-6690
+Scenario: Cannot create hearing with no participants
+	Given the user has progressed to the Create Hearings page
 	When the user attempts to not add any individuals or representatives
 	Then an error message appears stating that there are no individuals or representatives
 
