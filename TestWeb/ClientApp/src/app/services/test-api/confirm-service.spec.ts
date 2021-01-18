@@ -2,6 +2,7 @@ import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model
 import { UserData } from 'src/app/common/models/data/user-data';
 import { UserModel } from 'src/app/common/models/user.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { ProfileService } from '../api/profile-service';
 import { Application, TestType, UpdateBookingStatus, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { ConfirmService } from './confirm-service';
@@ -10,6 +11,7 @@ import { TestApiService } from './test-api-service';
 describe('ConfirmService', () => {
     let service: ConfirmService;
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
+    const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile', `getLoggedInUsername`]);
     const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['confirmHearing']);
 
     const allocatedUsers: UserModel[] = [];
@@ -29,16 +31,19 @@ describe('ConfirmService', () => {
     const hearing = new TestApiServiceTestData().getHearingDetails();
 
     beforeEach(() => {
-        service = new ConfirmService(logger, testApiService);
+        service = new ConfirmService(logger, testApiService, profileService);
     });
 
     it('should call the test api to confirm a hearing', async () => {
         const conferenceDetailsResponse = new TestApiServiceTestData().getConference();
         testApiService.confirmHearing.and.returnValue(Promise.resolve(conferenceDetailsResponse));
 
+        const username = 'test_web_created_by@hmcts.net';
+        profileService.getLoggedInUsername.and.returnValue(Promise.resolve(username));
+
         const result = await service.ConfirmHearing(hearing, allocatedUsers);
 
-        const confirmHearingModel = new ConfirmHearingModel(UserData.UpdatedBy);
+        const confirmHearingModel = new ConfirmHearingModel(username);
         confirmHearingModel.cancel_reason = null;
         confirmHearingModel.status = UpdateBookingStatus.Created;
 

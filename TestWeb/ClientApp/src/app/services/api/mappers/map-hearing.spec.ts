@@ -24,6 +24,8 @@ describe('MapHearing', () => {
         const hearingModel: HearingModel = {
             application: Application.AdminWeb,
             case_type: 'case type name',
+            created_by: 'user@email.com',
+            custom_case_name_prefix: 'automation test',
             questionnaire_not_required: true,
             test_type: TestType.Manual,
             users: users,
@@ -36,6 +38,7 @@ describe('MapHearing', () => {
         const request = MapHearing.map(hearingModel);
         expect(request.application).toBe(hearingModel.application);
         expect(request.case_type).toBe(hearingModel.case_type);
+        expect(request.custom_case_name_prefix).toBe(hearingModel.custom_case_name_prefix);
         expect(request.questionnaire_not_required).toBe(hearingModel.questionnaire_not_required);
         expect(request.test_type).toBe(hearingModel.test_type);
         expect(request.users[0].username).toBe(hearingModel.users[0].username);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.Driver.Helpers;
@@ -18,6 +19,7 @@ namespace TestWeb.AcceptanceTests.Steps
         private readonly TestContext _c;
         private readonly CommonSharedSteps _commonSharedSteps;
         private int _numberOfHearings = 1;
+        private const string _customName = "Automation";
 
         public CreateHearingsSteps(UserBrowser browser, TestContext testContext, CommonSharedSteps commonSharedSteps)
         {
@@ -157,5 +159,17 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingTimeExceedsMaxError).Displayed.Should().BeTrue();
         }
 
+        [When(@"the user creates a hearing with a custom name")]
+        public void WhenTheUserCreatesAHearingWithACustomName()
+        {
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.CustomCaseNameTextfield).SendKeys(_customName);
+            ClickBook();
+        }
+
+        [Then(@"the custom name is visible on the hearing name")]
+        public void ThenTheCustomNameIsVisibleOnTheHearingName()
+        {
+            _c.Test.CaseNames.Single().Should().StartWith(_customName);
+        }
     }
 }

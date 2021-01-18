@@ -7,6 +7,7 @@ export class HearingFormData {
 
     application: Application | undefined;
     audioRecordingRequired?: boolean;
+    customCaseNamePrefix: string | undefined;
     hearingDate: string | number | Date;
     hearingStartTimeHour: number | undefined;
     hearingStartTimeMinute: number | undefined;
