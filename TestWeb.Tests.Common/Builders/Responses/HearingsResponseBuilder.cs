@@ -38,7 +38,6 @@ namespace TestWeb.Tests.Common.Builders.Responses
                 Hearing_venue_name = request.Venue,
                 Id = Guid.NewGuid(),
                 Other_information = HearingsData.OTHER_INFORMATION,
-                Participants = new List<ParticipantResponse>(),
                 Status = HearingsData.HEARING_STATUS,
                 Questionnaire_not_required = request.Questionnaire_not_required,
                 Scheduled_date_time = request.Scheduled_date_time,
@@ -46,6 +45,33 @@ namespace TestWeb.Tests.Common.Builders.Responses
                 Updated_by = HearingsData.UPDATED_BY,
                 Updated_date = DateTime.UtcNow
             };
+            SetTheParticipants(request.Users);
+        }
+
+        private void SetTheParticipants(IEnumerable<User> users)
+        {
+            _response.Participants = new List<ParticipantResponse>();
+            foreach (var user in users)
+            {
+                _response.Participants.Add(new ParticipantResponse()
+                {
+                    AdditionalProperties = new Dictionary<string, object>(),
+                    Case_role_name = user.User_type.ToString(),
+                    Contact_email = user.Contact_email,
+                    Display_name = user.Display_name,
+                    First_name = user.First_name,
+                    Hearing_role_name = user.User_type.ToString(),
+                    Id = user.Id,
+                    Last_name = user.Last_name,
+                    Middle_names = string.Empty,
+                    Organisation = string.Empty,
+                    Representee = string.Empty,
+                    Telephone_number = string.Empty,
+                    Title = string.Empty,
+                    User_role_name = user.User_type.ToString(),
+                    Username = user.Username
+                });
+            }
         }
 
         public HearingDetailsResponse Build()

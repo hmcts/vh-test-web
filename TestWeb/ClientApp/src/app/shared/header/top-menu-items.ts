@@ -2,6 +2,11 @@ import { PageUrls } from '../page-url.constants';
 
 export const TopMenuItems = [
     {
+        url: PageUrls.Home,
+        name: 'Home',
+        active: false
+    },
+    {
         url: PageUrls.CreateHearings,
         name: 'Create Hearings',
         active: false

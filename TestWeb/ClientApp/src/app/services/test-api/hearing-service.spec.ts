@@ -9,7 +9,7 @@ import { TestApiService } from './test-api-service';
 describe('HearingService', () => {
     let service: HearingService;
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
-    const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['createHearing']);
+    const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['createHearing', `getAllHearingsByCreatedBy`]);
     const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile', `getLoggedInUsername`]);
     const testData = new TestApiServiceTestData();
 
@@ -49,6 +49,29 @@ describe('HearingService', () => {
         const hearingFormData = testData.createHearingFormData();
         const allocatedUsers = testData.getAllocatedUserModel();
         await expectAsync(service.CreateHearing(hearingFormData, allocatedUsers)).toBeRejected(error.error);
+        expect(logger.error).toHaveBeenCalled();
+    });
+
+    it('should call the test api to get all hearings', async () => {
+        const responses = [];
+        const hearingResponse = testData.getHearingResponse();
+        responses.push(hearingResponse);
+        testApiService.getAllHearingsByCreatedBy.and.returnValue(Promise.resolve(responses));
+
+        const username = 'user@email.com';
+        profileService.getLoggedInUsername.and.returnValue(Promise.resolve(username));
+
+        const result = await service.GetAllHearings();
+
+        expect(testApiService.getAllHearingsByCreatedBy).toHaveBeenCalled();
+        expect(result).not.toBeNull();
+        expect(result).toBe(responses);
+    });
+
+    it('should throw an error if test api to get all hearings fails', async () => {
+        const error = { error: 'not found!' };
+        testApiService.getAllHearingsByCreatedBy.and.callFake(() => Promise.reject(error));
+        await expectAsync(service.GetAllHearings()).toBeRejected(error.error);
         expect(logger.error).toHaveBeenCalled();
     });
 });

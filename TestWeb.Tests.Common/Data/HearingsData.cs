@@ -14,6 +14,7 @@ namespace TestWeb.Tests.Common.Data
         public const string HEARING_ROOM_NAME = "Room 1";
         public const BookingStatus HEARING_STATUS = BookingStatus.Booked;
         public const string HEARING_TYPE_NAME = "Application to Set Judgment Aside";
+        public const int LIMIT = 2000;
         public const string OTHER_INFORMATION = "Other information";
         public const bool QUESTIONNAIRE_NOT_REQUIRED = true;
         public const int SCHEDULED_DURATION = 45;

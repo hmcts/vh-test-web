@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading;
-using AcceptanceTests.Common.Driver.Drivers;
+﻿using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.Driver.Helpers;
 using AcceptanceTests.Common.Test.Steps;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using TestWeb.AcceptanceTests.Helpers;
-using TestWeb.AcceptanceTests.Hooks;
 using TestWeb.AcceptanceTests.Pages;
 
 namespace TestWeb.AcceptanceTests.Steps

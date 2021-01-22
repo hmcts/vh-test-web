@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 import { DeletedResponse } from 'src/app/services/clients/api-client';
 import { Logger } from 'src/app/services/logging/logger-base';
+import { DeleteService } from 'src/app/services/test-api/delete-service';
 import { TestApiService } from 'src/app/services/test-api/test-api-service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DeleteHearingComponent } from './delete-hearing.component';
@@ -13,6 +14,7 @@ describe('DeleteHearingComponent', () => {
 
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['deleteHearings']);
+    const deleteServiceSpy = jasmine.createSpyObj<DeleteService>('DeleteService', ['deleteHearing']);
 
     const caseName = 'test case name';
     const deletedResponse = new DeletedResponse();
@@ -27,7 +29,8 @@ describe('DeleteHearingComponent', () => {
             imports: [SharedModule],
             providers: [
                 { provide: Logger, useValue: logger },
-                { provide: TestApiService, useValue: testApiService }
+                { provide: TestApiService, useValue: testApiService },
+                { provide: DeleteService, useValue: deleteServiceSpy }
             ],
             declarations: [DeleteHearingComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -106,7 +109,9 @@ describe('DeleteHearingComponent', () => {
 
     it('should throw an error if test api to delete hearing fails', async () => {
         const error = { error: 'not found!' };
-        testApiService.deleteHearings.and.callFake(() => Promise.reject(error));
+        deleteServiceSpy.deleteHearing.and.callFake(() => Promise.reject(error));
+        component.caseNameTextfield.setValue(caseName);
+        fixture.detectChanges();
         await expectAsync(component.deleteHearings()).toBeRejected(error.error);
         expect(logger.error).toHaveBeenCalled();
     });

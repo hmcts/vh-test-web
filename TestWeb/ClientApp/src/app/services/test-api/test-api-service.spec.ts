@@ -41,7 +41,8 @@ describe('TestApiService', () => {
         'allocatedUsers',
         `getConferencesForToday`,
         `getConferenceByHearingRefId`,
-        `createVideoEvent`
+        `createVideoEvent`,
+        `getAllHearingsByCreatedBy`
     ]);
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
 
@@ -52,19 +53,6 @@ describe('TestApiService', () => {
         is_prod_user: false,
         test_type: TestType.Manual,
         usertypes: [UserType.Individual, UserType.Representative]
-    };
-    const createHearingModel: HearingModel = {
-        application: Application.AdminWeb,
-        case_type: 'tax',
-        created_by: 'user@email.com',
-        custom_case_name_prefix: 'custom',
-        questionnaire_not_required: true,
-        test_type: TestType.Manual,
-        users: null,
-        venue: 'court',
-        audio_recording_required: false,
-        scheduled_date_time: new Date(),
-        endpoints: 0
     };
     const deleteHearingsModel: DeleteModel = { case_name: 'test case name', limit: 1000 };
 
@@ -230,5 +218,16 @@ describe('TestApiService', () => {
         const event = testData.createEventModel();
         await service.sendEvent(event);
         expect(apiClient.createVideoEvent).toHaveBeenCalled();
+    });
+
+    it('should call the get all hearing by created by test api endpoint', async () => {
+        const responses = [];
+        const hearingResponse = testData.getHearingResponse();
+        responses.push(hearingResponse);
+        apiClient.getAllHearingsByCreatedBy.and.returnValue(of(responses));
+        const username = 'user@123.com';
+        const result = await service.getAllHearingsByCreatedBy(username);
+        expect(apiClient.getAllHearingsByCreatedBy).toHaveBeenCalled();
+        expect(result).toBe(responses);
     });
 });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import { UserModel } from 'src/app/common/models/user.model';
 import { ProfileService } from '../api/profile-service';
-import { HearingDetailsResponse } from '../clients/api-client';
+import { HearingDetailsResponse, HearingResponse } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { HearingFormData } from './models/hearing-form-data';
 import { TestApiService } from './test-api-service';
@@ -64,6 +64,25 @@ export class HearingService {
             return hearingResponse;
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to create hearing.`, error, { payload: this.hearingModel });
+            throw error;
+        }
+    }
+
+    async GetAllHearings(): Promise<HearingResponse[]> {
+        const createdBy = await this.profileService.getLoggedInUsername();
+        return await this.sendGetAllHearingsRequest(createdBy);
+    }
+
+    private async sendGetAllHearingsRequest(createdBy: string) {
+        this.logger.debug(`${this.loggerPrefix} SENDING GET ALL HEARINGS REQUEST`);
+        try {
+            const hearingsResponse = await this.testApiService.getAllHearingsByCreatedBy(createdBy);
+            this.logger.debug(`${this.loggerPrefix} HEARINGS RETRIEVED.`);
+            this.logger.debug(`${this.loggerPrefix} Hearing Response  ${hearingsResponse}.`, { payload: hearingsResponse });
+            this.logger.debug(`${this.loggerPrefix} ${hearingsResponse.length} hearing(s) found`);
+            return hearingsResponse;
+        } catch (error) {
+            this.logger.error(`${this.loggerPrefix} Failed to retreive hearings.`, error);
             throw error;
         }
     }

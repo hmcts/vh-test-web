@@ -10,6 +10,7 @@ import {
     EndpointResponse,
     EventType,
     HearingDetailsResponse,
+    HearingResponse,
     ParticipantDetailsResponse,
     ParticipantResponse,
     ParticipantState,
@@ -271,5 +272,13 @@ export class TestApiServiceTestData {
                 return participant.id;
             }
         }
+    }
+
+    getHearingResponse(): HearingResponse {
+        const response = new HearingResponse();
+        response.id = '234';
+        response.case_name = 'case_name';
+        response.scheduled_date = new Date();
+        return response;
     }
 }

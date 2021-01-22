@@ -7,7 +7,7 @@
 Scenario: Test Web User Login
 	Given a new browser is open for a Tester user
 	When the user logs in with valid credentials
-	Then the user is on the Create Hearings page
+	Then the user is on the Home page
 	And the user is able to logout
 
 @VIH-6627

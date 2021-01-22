@@ -26,7 +26,7 @@ namespace TestWeb.UnitTests.Controllers.Conferences
         [Test]
         public async Task Should_get_conference_by_id()
         {
-            var hearing = new CreateHearingBuilder().Build();
+            var hearing = new CreateHearingRequestBuilder().Build();
             var hearingResponse = new HearingsResponseBuilder(hearing).Build();
             var conferenceDetailsResponse = new ConferenceDetailsResponseBuilder(hearingResponse).Build();
             var conferenceResponse = new ConferenceResponseBuilder(conferenceDetailsResponse).Build();

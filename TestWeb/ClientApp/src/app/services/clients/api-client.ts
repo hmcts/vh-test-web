@@ -1079,6 +1079,93 @@ export class ApiClient {
     }
 
     /**
+     * Get all hearings by createdBy
+     * @param createdBy The user that created the hearing
+     * @return Success
+     */
+    getAllHearingsByCreatedBy(createdBy: string | null): Observable<HearingResponse[]> {
+        let url_ = this.baseUrl + '/hearings/hearings/{createdBy}';
+        if (createdBy === undefined || createdBy === null) throw new Error("The parameter 'createdBy' must be defined.");
+        url_ = url_.replace('{createdBy}', encodeURIComponent('' + createdBy));
+        url_ = url_.replace(/[?&]$/, '');
+
+        let options_: any = {
+            observe: 'response',
+            responseType: 'blob',
+            headers: new HttpHeaders({
+                Accept: 'application/json'
+            })
+        };
+
+        return this.http
+            .request('get', url_, options_)
+            .pipe(
+                _observableMergeMap((response_: any) => {
+                    return this.processGetAllHearingsByCreatedBy(response_);
+                })
+            )
+            .pipe(
+                _observableCatch((response_: any) => {
+                    if (response_ instanceof HttpResponseBase) {
+                        try {
+                            return this.processGetAllHearingsByCreatedBy(<any>response_);
+                        } catch (e) {
+                            return <Observable<HearingResponse[]>>(<any>_observableThrow(e));
+                        }
+                    } else return <Observable<HearingResponse[]>>(<any>_observableThrow(response_));
+                })
+            );
+    }
+
+    protected processGetAllHearingsByCreatedBy(response: HttpResponseBase): Observable<HearingResponse[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    let result200: any = null;
+                    let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                    if (Array.isArray(resultData200)) {
+                        result200 = [] as any;
+                        for (let item of resultData200) result200!.push(HearingResponse.fromJS(item));
+                    }
+                    return _observableOf(result200);
+                })
+            );
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    let result400: any = null;
+                    let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                    result400 = ProblemDetails.fromJS(resultData400);
+                    return throwException('Bad Request', status, _responseText, _headers, result400);
+                })
+            );
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    return throwException('Unauthorized', status, _responseText, _headers);
+                })
+            );
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(
+                _observableMergeMap(_responseText => {
+                    return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+                })
+            );
+        }
+        return _observableOf<HearingResponse[]>(<any>null);
+    }
+
+    /**
      * Reset user password
      * @param body (optional) Details of the user to reset
      * @return Success
@@ -2982,6 +3069,49 @@ export class DeletedResponse implements IDeletedResponse {
 
 export interface IDeletedResponse {
     number_of_deleted_hearings?: number;
+}
+
+export class HearingResponse implements IHearingResponse {
+    id?: string;
+    case_name?: string | undefined;
+    scheduled_date?: Date;
+
+    constructor(data?: IHearingResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.case_name = _data['case_name'];
+            this.scheduled_date = _data['scheduled_date'] ? new Date(_data['scheduled_date'].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): HearingResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new HearingResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['case_name'] = this.case_name;
+        data['scheduled_date'] = this.scheduled_date ? this.scheduled_date.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IHearingResponse {
+    id?: string;
+    case_name?: string | undefined;
+    scheduled_date?: Date;
 }
 
 export class ResetUserPasswordRequest implements IResetUserPasswordRequest {

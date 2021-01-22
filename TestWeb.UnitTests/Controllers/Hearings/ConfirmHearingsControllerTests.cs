@@ -27,7 +27,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
         public async Task Should_confirm_hearing()
         {
             var hearingId = Guid.NewGuid();
-            var hearing = new CreateHearingBuilder().Build();
+            var hearing = new CreateHearingRequestBuilder().Build();
             var hearingResponse = new HearingsResponseBuilder(hearing).Build();
             var request = new ConfirmHearingBuilder().Build();
             var conferenceResponse = new ConferenceDetailsResponseBuilder(hearingResponse).Build();

@@ -29,6 +29,7 @@ namespace TestWeb.AcceptanceTests.Steps
         public void GivenTheUserHasProgressedToTheCreateHearingsPage()
         {
             _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
+            _browser.ClickLink(HeaderPage.CreateHearingsLink);
             _loginSteps.ProgressToNextPage();
         }
 
@@ -37,7 +38,19 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
             _loginSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.CreateHearingsLink);
             _createHearingsSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.DeleteHearingsLink);
+        }
+
+        [Given(@"the user has progressed to the Home page with a hearing")]
+        public void GivenTheUserHasProgressedToTheHomePageWithAHearing()
+        {
+            _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
+            _loginSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.CreateHearingsLink);
+            _createHearingsSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.HomeLink);
         }
 
         [Given(@"the user has progressed to the Delete Hearings page")]
@@ -54,6 +67,7 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
             _loginSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.CreateHearingsLink);
             _createHearingsSteps.ProgressToNextPage();
             _browser.ClickLink(HeaderPage.EventsLink);
         }

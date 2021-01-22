@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestWeb.Contracts.Responses;
+using TestWeb.Mappings;
 using TestWeb.TestApi.Client;
 
 namespace TestWeb.Controllers
@@ -95,6 +99,33 @@ namespace TestWeb.Controllers
             catch (TestApiException e)
             {
                 _logger.LogError(e, "Unable to delete hearing and/or conference");
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///    Get all hearings by createdBy
+        /// </summary>
+        /// <param name="createdBy">The user that created the hearing</param>
+        /// <returns>Hearings CreatedBy the user</returns>
+        [HttpGet("hearings/{createdBy}", Name = nameof(GetAllHearingsByCreatedByAsync))]
+        [ProducesResponseType(typeof(List<HearingResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetAllHearingsByCreatedByAsync(string createdBy)
+        {
+            _logger.LogDebug($"GetAllHearingsByCreatedByAsync {createdBy}");
+
+            try
+            {
+                var allHearingsResponse = await _testApiClient.HearingsAllAsync();
+                _logger.LogDebug($"Retrieved {allHearingsResponse.Count} hearings in total.");
+                var hearings = (from hearing in allHearingsResponse where hearing.Created_by.ToLower().Equals(createdBy.ToLower()) select HearingResponseMapper.Map(hearing)).ToList();
+                _logger.LogDebug($"Filtered down to {hearings.Count} hearings in total created by '{createdBy}'.");
+                return Ok(hearings);
+            }
+            catch (TestApiException e)
+            {
+                _logger.LogError(e, $"Unable to fetch hearings");
                 return StatusCode(e.StatusCode, e.Response);
             }
         }

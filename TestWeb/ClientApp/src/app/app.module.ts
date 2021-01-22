@@ -23,6 +23,7 @@ import { Config } from './common/models/config';
 import { SummaryComponent } from './hearings/summary/summary.component';
 import { EventsComponent } from './events/events.component';
 import { AllocateUsersComponent } from './allocate-users/allocate-users/allocate-users.component';
+import { HomeComponent } from './home/home.component';
 
 export let ENVIRONMENT_CONFIG: Config = new Config();
 
@@ -35,7 +36,15 @@ export function getSettings(configService: ConfigService) {
 }
 
 @NgModule({
-    declarations: [AppComponent, CreateHearingComponent, SummaryComponent, DeleteHearingComponent, EventsComponent, AllocateUsersComponent],
+    declarations: [
+        AppComponent,
+        CreateHearingComponent,
+        SummaryComponent,
+        DeleteHearingComponent,
+        EventsComponent,
+        AllocateUsersComponent,
+        HomeComponent
+    ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,

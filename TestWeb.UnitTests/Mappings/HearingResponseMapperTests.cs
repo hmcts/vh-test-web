@@ -6,18 +6,17 @@ using TestWeb.Tests.Common.Builders.Responses;
 
 namespace TestWeb.UnitTests.Mappings
 {
-    public class ConferenceResponseMapperTests
+    public class HearingResponseMapperTests
     {
         [Test]
         public void Should_map_all_properties()
         {
             var hearing = new CreateHearingRequestBuilder().Build();
             var hearingResponse = new HearingsResponseBuilder(hearing).Build();
-            var conferenceDetailsResponse = new ConferenceDetailsResponseBuilder(hearingResponse).Build();
-            var conferenceResponse = new ConferenceResponseBuilder(conferenceDetailsResponse).Build();
+            var bookingsResponse = new BookingsHearingResponseBuilder(hearingResponse).Build();
 
-            var response = ConferenceResponseMapper.Map(conferenceDetailsResponse);
-            response.Should().BeEquivalentTo(conferenceResponse, options => options.ExcludingMissingMembers());
+            var response = HearingResponseMapper.Map(bookingsResponse);
+            response.Should().BeEquivalentTo(bookingsResponse, options => options.ExcludingMissingMembers());
         }
     }
 }
