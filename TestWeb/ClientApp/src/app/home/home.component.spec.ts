@@ -85,7 +85,6 @@ describe('HomeComponent', () => {
 
     it('should throw an error if call to test api to unallocate a user fails', async () => {
         allocationServiceSpy.unallocateUser.and.callFake(() => Promise.reject(error));
-        const username = '123@user.com';
         await expectAsync(component.unallocateUser(username)).toBeResolved();
         expect(loggerSpy.error).toHaveBeenCalled();
     });
