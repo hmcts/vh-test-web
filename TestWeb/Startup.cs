@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using TestWeb.Common.Configuration;
-using TestWeb.Common.Security.HashGen;
 using TestWeb.Extensions;
 
 namespace TestWeb
@@ -46,9 +45,6 @@ namespace TestWeb
             });
 
             services.Configure<HearingServicesConfiguration>(options => Configuration.Bind("VhServices", options));
-            
-            var customTokenSettings = Configuration.GetSection("KinlyConfiguration").Get<KinlyConfiguration>();
-            services.AddSingleton(customTokenSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +76,6 @@ namespace TestWeb
             app.UseRouting();
             app.UseAuthorization();
             app.UseAuthentication();
-            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

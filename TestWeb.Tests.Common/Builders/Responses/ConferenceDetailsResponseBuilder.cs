@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Converters;
 using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
 
@@ -25,11 +26,39 @@ namespace TestWeb.Tests.Common.Builders.Responses
                 Hearing_venue_name = hearing.Hearing_venue_name,
                 Id = Guid.NewGuid(),
                 Meeting_room = new MeetingRoomResponse(),
-                Participants = new List<ParticipantDetailsResponse>(),
                 Scheduled_date_time = hearing.Scheduled_date_time,
                 Scheduled_duration = hearing.Scheduled_duration,
                 Started_date_time = null
             };
+            AddParticipants(hearing);
+        }
+
+        private void AddParticipants(HearingDetailsResponse hearing)
+        {
+            _response.Participants = new List<ParticipantDetailsResponse>();
+
+            foreach (var participant in hearing.Participants)
+            {
+                Enum.TryParse(participant.User_role_name, out UserRole role);
+                var response = new ParticipantDetailsResponse()
+                {
+                    Case_type_group = participant.User_role_name,
+                    Contact_email = participant.Contact_email,
+                    Contact_telephone = participant.Telephone_number,
+                    Current_status = ParticipantState.NotSignedIn,
+                    Display_name = participant.Display_name,
+                    First_name = participant.First_name,
+                    Hearing_role = participant.User_role_name,
+                    Id = participant.Id,
+                    Last_name = participant.Last_name,
+                    Name = participant.Display_name,
+                    Ref_id = participant.Id,
+                    Representee = participant.Representee,
+                    User_role = role,
+                    Username = participant.Username
+                };
+                _response.Participants.Add(response);
+            }
         }
 
         public ConferenceDetailsResponse Build()

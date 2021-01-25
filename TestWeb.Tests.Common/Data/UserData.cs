@@ -9,6 +9,7 @@
         public static string INDIVIDUAL = "Individual";
         public static string JUDGE = "Judge";
         public static string LAST_NAME = "Test";
+        public static string NEW_PASSWORD = "Password";
         public static int NUMBER = 1;
         public static string REPRESENTATIVE = "Representative";
         public static string USERNAME_STEM = "@test.com";

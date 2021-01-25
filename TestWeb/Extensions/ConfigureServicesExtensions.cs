@@ -13,7 +13,6 @@ using Newtonsoft.Json.Serialization;
 using TestWeb.Common;
 using TestWeb.Common.Configuration;
 using TestWeb.Common.Security;
-using TestWeb.Common.Security.HashGen;
 using TestWeb.Contracts.Responses;
 using TestWeb.Swagger;
 using TestWeb.TestApi.Client;
@@ -70,8 +69,6 @@ namespace TestWeb.Extensions
             services.AddSingleton<ITelemetryInitializer, RequestVhTelemetry>();
             services.AddTransient<TestApiTokenHandler>();
             services.AddScoped<ITokenProvider, TokenProvider>();
-            services.AddScoped<ICustomJwtTokenProvider, CustomJwtTokenProvider>();
-            services.AddScoped<IHashGenerator, HashGenerator>();
             services.AddScoped<AzureAdConfiguration>();
             services.AddScoped<HearingServicesConfiguration>();
 
