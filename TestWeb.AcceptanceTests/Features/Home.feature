@@ -1,5 +1,7 @@
 ﻿Feature: Home
-	Simple calculator for adding two numbers
+	In order to quickly view my data
+	As a tester
+	I want to see which hearings I have created or users I have allocated
 
 @VIH-7017
 Scenario: Home page view hearings and allocations

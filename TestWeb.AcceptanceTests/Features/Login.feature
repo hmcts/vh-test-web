@@ -1,5 +1,5 @@
 ﻿Feature: Login
-	In order to access to test api
+	In order to access to test web
 	As a registered VH service user
 	I want to only have access if I am authorised to do so
 
