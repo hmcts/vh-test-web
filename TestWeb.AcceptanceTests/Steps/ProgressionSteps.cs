@@ -26,16 +26,16 @@ namespace TestWeb.AcceptanceTests.Steps
         public void GivenTheUserHasProgressedToTheCreateHearingsPage()
         {
             _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
-            _browser.ClickLink(HeaderPage.CreateHearingsLink);
             _loginSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.CreateHearingsLink);
         }
 
         [Given(@"the user has progressed to the Summary page")]
         public void GivenTheUserHasProgressedToTheSummaryPage()
         {
             _browserSteps.GivenANewBrowserIsOpenForAUser(UserType.Tester.ToString());
-            _browser.ClickLink(HeaderPage.CreateHearingsLink);
             _loginSteps.ProgressToNextPage();
+            _browser.ClickLink(HeaderPage.CreateHearingsLink);
             _createHearingsSteps.ProgressToNextPage();
         }
 
