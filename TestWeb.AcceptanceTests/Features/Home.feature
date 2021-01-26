@@ -20,3 +20,9 @@ Scenario: Home page unallocate a user
 	Given the user has progressed to the Home page with a hearing
 	When the user unallocates a user
 	Then the user is unallocated
+
+@VIH-7017
+Scenario: Home page reset a user password
+	Given the user has progressed to the Home page with a hearing
+	When the user resets a users password
+	Then the new password details are displayed

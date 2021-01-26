@@ -14,9 +14,9 @@
       },
       "NUnit": {
         "type": "Direct",
-        "requested": "[3.12.0, )",
-        "resolved": "3.12.0",
-        "contentHash": "3oJTrcUcT9wmweBUwgUf0f1XIYy6RZq2ziV+RM95HMKAJGsHPN2i3MKK1dAPvDPMRLz799Llj4eyu/STB9Q7OA==",
+        "requested": "[3.13.0, )",
+        "resolved": "3.13.0",
+        "contentHash": "G+BOONgJKtNtprjGQ54l0m+Vq2VFCMh/H6ljuHfqrRlX6YkNy0GjMd5Nn0NpJidGpRd4gAOJsBqNuxr7Kgc/5g==",
         "dependencies": {
           "NETStandard.Library": "2.0.0"
         }
@@ -38,6 +38,17 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
+      "Selenium.Axe": {
+        "type": "Direct",
+        "requested": "[2.0.1, )",
+        "resolved": "2.0.1",
+        "contentHash": "3cJaJVsItmUaK+eGFXNrSUmATypT4hE37fvC6daFaLjOmKc7zhoVO9kBGcKZAu+7Xhaxl/5OSNQb/ustjYjEEQ==",
+        "dependencies": {
+          "HtmlAgilityPack": "1.11.28",
+          "Newtonsoft.Json": "12.0.3",
+          "Selenium.WebDriver": "3.141.0"
+        }
+      },
       "Selenium.Firefox.WebDriver": {
         "type": "Direct",
         "requested": "[0.27.0, )",
@@ -55,15 +66,15 @@
       },
       "Selenium.WebDriver.ChromeDriver": {
         "type": "Direct",
-        "requested": "[87.0.4280.8800, )",
-        "resolved": "87.0.4280.8800",
-        "contentHash": "7bgZ2QNhYFofxDdlGVfUVgNJ6B785u/UeoFjEzB7O2EiggPitosPqqB/TG0KpJwvqgQTs+nNJus3rn9yNMHa1A=="
+        "requested": "[88.0.4324.9600, )",
+        "resolved": "88.0.4324.9600",
+        "contentHash": "tFYi/cACBE+lq+aQMMCFDCZChkq7jQHm3yNh040r2WeuI+WBg3MDna9o+8x6d+inxdbCXDABnifqKb4CynRQLQ=="
       },
       "SpecFlow": {
         "type": "Direct",
-        "requested": "[3.5.14, )",
-        "resolved": "3.5.14",
-        "contentHash": "UDq949dJw/Sp8XUdDuNqh6QSvl1Z7DwzAk2r77+O/vqYRgXLGrusH17U/5WP3l5UHMm1lylg+HqVQqqzXDEWew==",
+        "requested": "[3.6.23, )",
+        "resolved": "3.6.23",
+        "contentHash": "gJJnagVXe+P5Ysx3ndfxuar4x5edR9OSogR+LSfzJvGYH03ujWTEyfFq2vLQaqpc8uabfFrvc2bQfw/ukGm3mA==",
         "dependencies": {
           "BoDi": "1.4.1",
           "Cucumber.Messages": "[6.0.1, 7.0.0)",
@@ -76,13 +87,13 @@
       },
       "SpecFlow.NUnit": {
         "type": "Direct",
-        "requested": "[3.5.14, )",
-        "resolved": "3.5.14",
-        "contentHash": "GJURIff1i/1IkXbFHHTHlDuRrggum4fpElVwAOexQvY+7ND1i7Pn156F3++mZI4MY7Zg2pG355FFd4efAtEW8w==",
+        "requested": "[3.6.23, )",
+        "resolved": "3.6.23",
+        "contentHash": "R0hHReaOhVHq1vqBBivLQPndiYLwbWq0tWsCzdhI6L2D4rYELeazq6NK8VGdtzpf+b5mahtFvC2xFhbe/uIRjg==",
         "dependencies": {
           "NUnit": "3.11.0",
-          "SpecFlow": "[3.5.14]",
-          "SpecFlow.Tools.MsBuild.Generation": "[3.5.14]"
+          "SpecFlow": "[3.6.23]",
+          "SpecFlow.Tools.MsBuild.Generation": "[3.6.23]"
         }
       },
       "Appium.WebDriver": {
@@ -198,6 +209,11 @@
         "dependencies": {
           "NETStandard.Library": "1.6.1"
         }
+      },
+      "HtmlAgilityPack": {
+        "type": "Transitive",
+        "resolved": "1.11.28",
+        "contentHash": "aclp8f2p+xeNNR02qfMu2r4K49sNWE13VDHiLpv9SoKBDIwwy62HQIMnT+oeuyFquQRzwSGD3vUWUmtOT+eNzQ=="
       },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
@@ -987,10 +1003,10 @@
       },
       "SpecFlow.Tools.MsBuild.Generation": {
         "type": "Transitive",
-        "resolved": "3.5.14",
-        "contentHash": "TSXF1F+z5DRLAZ3yVly7AuvBWOLI/E+qgYjHMJOfxMidSm3Me1C+SgRcD0FAXYBIjDGYtlXd3FBv72rT7lXnaQ==",
+        "resolved": "3.6.23",
+        "contentHash": "MPmeTco83xRx+JpFmSCtpTD32+38vEh4jgi/fYy0B3luGxcwUB6LO0WcdFf853dWiaa5x9un+n/DKcNK7AFAoQ==",
         "dependencies": {
-          "SpecFlow": "[3.5.14]"
+          "SpecFlow": "[3.6.23]"
         }
       },
       "Swashbuckle.AspNetCore": {

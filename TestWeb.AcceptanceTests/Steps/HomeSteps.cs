@@ -72,5 +72,21 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             return _browser.Driver.WaitUntilVisible(HomePage.FirstManualAllocatedUser).Text.Trim();
         }
+
+        [When(@"the user resets a users password")]
+        public void WhenTheUserResetsAUsersPassword()
+        {
+            _browser.Driver.WaitUntilElementsVisible(HomePage.ManualAllocatedUsers).Count.Should().BeGreaterThan(0);
+            _username = GetTheFirstAllocatedUsername();
+            _browser.Click(HomePage.ResetPasswordButton(_username));
+        }
+
+        [Then(@"the new password details are displayed")]
+        public void ThenTheNewPasswordDetailsAreDisplayed()
+        {
+            _browser.Driver.WaitUntilVisible(HomePage.ResetTitle).Displayed.Should().BeTrue();
+            _browser.Driver.WaitUntilVisible(HomePage.ResetUsername).Text.Trim().Should().Be(_username);
+            _browser.Driver.WaitUntilVisible(HomePage.NewPassword).Text.Trim().Length.Should().BeGreaterThan(0);
+        }
     }
 }
