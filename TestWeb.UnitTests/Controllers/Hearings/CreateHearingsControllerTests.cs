@@ -21,7 +21,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
         public CreateHearingsControllerTests()
         {
             _loggerMock = new Mock<ILogger<HearingsController>>();
-            _request = new CreateHearingBuilder().Build();
+            _request = new CreateHearingRequestBuilder().Build();
         }
 
         [Test]

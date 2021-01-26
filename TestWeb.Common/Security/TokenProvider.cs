@@ -7,7 +7,6 @@ namespace TestWeb.Common.Security
 {
     public interface ITokenProvider
     {
-        string GetClientAccessToken(string clientId, string clientSecret, string clientResource);
         AuthenticationResult GetAuthorisationResult(string clientId, string clientSecret, string clientResource);
     }
 

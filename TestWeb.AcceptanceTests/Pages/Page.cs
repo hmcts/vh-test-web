@@ -15,6 +15,7 @@ namespace TestWeb.AcceptanceTests.Pages
         }
 
         public static readonly Page Login = new Page("Login", "login.microsoftonline.com");
+        public static readonly Page Home = new Page("Home", "home");
         public static readonly Page CreateHearings = new Page("Create Hearings", "create-hearings");
         public static readonly Page DeleteHearings = new Page("Delete Hearings", "delete-hearings");
         public static readonly Page Events = new Page("Events", "events");
@@ -44,6 +45,7 @@ namespace TestWeb.AcceptanceTests.Pages
             get
             {
                 yield return Login;
+                yield return Home;
                 yield return CreateHearings;
                 yield return DeleteHearings;
                 yield return Events;

@@ -1,5 +1,5 @@
 ﻿Feature: Login
-	In order to access to test api
+	In order to access to test web
 	As a registered VH service user
 	I want to only have access if I am authorised to do so
 
@@ -7,7 +7,7 @@
 Scenario: Test Web User Login
 	Given a new browser is open for a Tester user
 	When the user logs in with valid credentials
-	Then the user is on the Create Hearings page
+	Then the user is on the Home page
 	And the user is able to logout
 
 @VIH-6627

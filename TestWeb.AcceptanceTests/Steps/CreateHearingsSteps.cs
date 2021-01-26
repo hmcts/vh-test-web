@@ -35,7 +35,6 @@ namespace TestWeb.AcceptanceTests.Steps
             GetTheHearingNames();
             ClickContinue();
             _c.Test.CaseNames.Should().NotBeNullOrEmpty();
-            _browser.ClickLink(HeaderPage.DeleteHearingsLink);
         }
 
         [When(@"the user creates (.*) hearing with (.*) endpoints")]

@@ -44,15 +44,13 @@
     </div>
 
     <div class="govuk-grid-column-one-half">
-      <div id="results-hint" class="govuk-hint">
-        <h4 class="govuk-heading-s">Results</h4>
-      </div>
+      <label class="govuk-label govuk-!-width-full extra-bottom-margin" for="resultsTextfield"> Results </label>
       <textarea
         class="govuk-textarea textarea-small-text"
         id="resultsTextfield"
         name="resultsTextfield"
         rows="3"
-        aria-describedby="results-hint"
+        aria-describedby="results-title"
         [value]="resultsOutput"
         disabled>
       </textarea>

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using TestWeb.Contracts.Responses;
 using TestWeb.Controllers;
-using TestWeb.Tests.Common.Builders;
 using TestWeb.Tests.Common.Builders.Models;
 
 namespace TestWeb.UnitTests.Controllers.Config
@@ -24,6 +23,7 @@ namespace TestWeb.UnitTests.Controllers.Config
             var clientSettings = (ClientSettingsResponse)actionResult.Value;
 
             clientSettings.AppInsightsInstrumentationKey.Should().Be(azureSettings.ApplicationInsights.InstrumentationKey);
+            clientSettings.Authority.Should().Be(azureSettings.Authority);
             clientSettings.ClientId.Should().Be(azureSettings.ClientId);
             clientSettings.TenantId.Should().Be(azureSettings.TenantId);
             clientSettings.PostLogoutRedirectUri.Should().Be(azureSettings.PostLogoutRedirectUri);

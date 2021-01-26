@@ -6,11 +6,12 @@ import { EventsComponent } from './events/events.component';
 import { CreateHearingComponent } from './hearings/create-hearing/create-hearing.component';
 import { DeleteHearingComponent } from './hearings/delete-hearing/delete-hearing.component';
 import { SummaryComponent } from './hearings/summary/summary.component';
+import { HomeComponent } from './home/home.component';
 import { PageUrls } from './shared/page-url.constants';
 
 export const routes: Routes = [
-    { path: '', redirectTo: `${PageUrls.CreateHearings}`, pathMatch: 'full' },
-    { path: PageUrls.Home, redirectTo: `${PageUrls.CreateHearings}`, pathMatch: 'full' },
+    { path: '', redirectTo: `${PageUrls.Home}`, pathMatch: 'full' },
+    { path: `${PageUrls.Home}`, component: HomeComponent },
     { path: `${PageUrls.CreateHearings}`, component: CreateHearingComponent },
     { path: `${PageUrls.Summary}`, component: SummaryComponent },
     { path: `${PageUrls.DeleteHearings}`, component: DeleteHearingComponent },

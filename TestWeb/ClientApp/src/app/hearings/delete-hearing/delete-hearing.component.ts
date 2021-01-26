@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DeleteModel } from '../../common/models/delete-model';
+import { DeleteService } from 'src/app/services/test-api/delete-service';
 import { DeletedResponse } from '../../services/clients/api-client';
 import { Logger } from '../../services/logging/logger-base';
-import { TestApiService } from '../../services/test-api/test-api-service';
 
 @Component({
     selector: 'app-delete-hearing',
@@ -12,7 +11,6 @@ import { TestApiService } from '../../services/test-api/test-api-service';
     styleUrls: ['./delete-hearing.component.css']
 })
 export class DeleteHearingComponent implements OnInit, OnDestroy {
-    private deleteModel: DeleteModel;
     private deleteResponse: DeletedResponse;
     private readonly loggerPrefix: string = '[Delete Hearing(s)] -';
     form: FormGroup;
@@ -27,7 +25,7 @@ export class DeleteHearingComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private logger: Logger,
-        private testApiService: TestApiService,
+        private deleteService: DeleteService,
         private spinnerService: NgxSpinnerService
     ) {}
 
@@ -52,7 +50,6 @@ export class DeleteHearingComponent implements OnInit, OnDestroy {
         this.logger.debug(`${this.loggerPrefix} Deleting hearings with case name '${this.caseName.value}'`);
         this.spinnerService.show();
         this.deleting = true;
-        this.createDeleteModel();
         await this.sendDeleteRequest();
         this.outputResults();
         this.spinnerService.hide();
@@ -60,15 +57,10 @@ export class DeleteHearingComponent implements OnInit, OnDestroy {
         this.deleting = false;
     }
 
-    private createDeleteModel() {
-        this.deleteModel = new DeleteModel();
-        this.deleteModel.case_name = this.caseName.value;
-    }
-
     private async sendDeleteRequest() {
         this.logger.debug(`${this.loggerPrefix} SENDING HEARING REQUEST`);
         try {
-            this.deleteResponse = await this.testApiService.deleteHearings(this.deleteModel);
+            this.deleteResponse = await this.deleteService.deleteHearing(this.caseName.value);
             this.logger.debug(`${this.loggerPrefix} HEARINGS DELETED.`);
             this.logger.debug(`${this.loggerPrefix} Delete Response  ${this.deleteResponse}.`, { payload: this.deleteResponse });
         } catch (error) {

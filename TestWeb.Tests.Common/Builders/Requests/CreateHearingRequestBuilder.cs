@@ -6,11 +6,11 @@ using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Requests
 {
-    public class CreateHearingBuilder
+    public class CreateHearingRequestBuilder
     {
         private readonly CreateHearingRequest _request;
 
-        public CreateHearingBuilder()
+        public CreateHearingRequestBuilder()
         {
             var judge = new UserBuilder().Judge().Build();
             var individual = new UserBuilder().Individual().Build();

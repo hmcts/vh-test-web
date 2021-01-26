@@ -18,6 +18,7 @@ import {
     ConferenceResponse,
     DeletedResponse,
     HearingDetailsResponse,
+    HearingResponse,
     ResetUserPasswordRequest,
     UnallocateUsersRequest,
     UpdateUserResponse,
@@ -106,5 +107,10 @@ export class TestApiService {
         const eventRequest = MapEvent.map(eventModel);
         this.logger.debug(`${this.loggerPrefix} Mapped event model to request:`, { payload: eventRequest });
         return this.apiClient.createVideoEvent(eventRequest).toPromise();
+    }
+
+    getAllHearingsByCreatedBy(createdBy: string): Promise<HearingResponse[]> {
+        this.logger.debug(`${this.loggerPrefix} Getting hearings with createdBy ${createdBy}`);
+        return this.apiClient.getAllHearingsByCreatedBy(createdBy).toPromise();
     }
 }

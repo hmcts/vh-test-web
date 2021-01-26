@@ -12,14 +12,13 @@ import { PageUrls } from 'src/app/shared/page-url.constants';
 import { Constants } from '../../common/constants';
 import { TestType } from '../../services/clients/api-client';
 import { Logger } from '../../services/logging/logger-base';
-import { HearingBaseComponentDirective } from '../hearing-base/hearing-base-component';
 
 @Component({
     selector: 'app-create-hearing',
     templateUrl: './create-hearing.component.html',
     styleUrls: ['./create-hearing.component.css']
 })
-export class CreateHearingComponent extends HearingBaseComponentDirective implements OnInit, OnDestroy {
+export class CreateHearingComponent implements OnInit, OnDestroy {
     protected readonly loggerPrefix: string = '[Create Hearing(s)] -';
     testTypes: TestType[] = [Constants.TestTypes.Demo, Constants.TestTypes.ITHC, Constants.TestTypes.Manual];
     numberOfHearingsOptions: number[] = [1, 2, 3, 4];
@@ -73,7 +72,6 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         private createService: CreateService,
         private spinnerService: NgxSpinnerService
     ) {
-        super(router, logger);
         this.displayProgressPopup = false;
     }
 
@@ -307,11 +305,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         const todayDate = new Date(new Date().setHours(0, 0, 0, 0));
         const realDate = new Date(new Date(this.hearingDate.value).setHours(0, 0, 0, 0));
         const todayHours = new Date().getHours();
-        this.isStartMinutesInPast = false;
-        this.isStartHoursInPast =
-            realDate.toString() === todayDate.toString() &&
-            this.hearingStartTimeHour.value < todayHours &&
-            (this.hearingStartTimeHour.dirty || this.hearingStartTimeHour.touched);
+        this.isStartHoursInPast = realDate.toString() === todayDate.toString() && this.hearingStartTimeHour.value < todayHours;
     }
 
     startMinutesInPast() {
@@ -322,8 +316,7 @@ export class CreateHearingComponent extends HearingBaseComponentDirective implem
         this.isStartMinutesInPast =
             realDate.toString() === todayDate.toString() &&
             this.hearingStartTimeHour.value === todayHours &&
-            this.hearingStartTimeMinute.value <= todayMinutes &&
-            (this.hearingStartTimeMinute.dirty || this.hearingStartTimeMinute.touched);
+            this.hearingStartTimeMinute.value <= todayMinutes;
     }
 
     get hearingStartTimeMinuteInvalid() {

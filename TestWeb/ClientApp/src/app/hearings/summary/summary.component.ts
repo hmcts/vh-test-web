@@ -5,14 +5,13 @@ import { Logger } from 'src/app/services/logging/logger-base';
 import { Summary } from 'src/app/services/test-api/models/summary';
 import { SummeriesService } from 'src/app/services/test-api/summeries-service';
 import { PageUrls } from 'src/app/shared/page-url.constants';
-import { HearingBaseComponentDirective } from '../hearing-base/hearing-base-component';
 
 @Component({
     selector: 'app-summary',
     templateUrl: './summary.component.html',
     styleUrls: ['./summary.component.css']
 })
-export class SummaryComponent extends HearingBaseComponentDirective implements OnInit {
+export class SummaryComponent implements OnInit {
     protected readonly loggerPrefix: string = '[Summary] -';
     tooltip: string;
     summeries: Summary[];
@@ -23,7 +22,6 @@ export class SummaryComponent extends HearingBaseComponentDirective implements O
         private clipboardService: ClipboardService,
         summeriesService: SummeriesService
     ) {
-        super(router, logger);
         this.summeries = summeriesService.getSummaries();
     }
 

@@ -10,6 +10,7 @@ import {
     EndpointResponse,
     EventType,
     HearingDetailsResponse,
+    HearingResponse,
     ParticipantDetailsResponse,
     ParticipantResponse,
     ParticipantState,
@@ -20,6 +21,8 @@ import {
 } from 'src/app/services/clients/api-client';
 import { AllocationFormData } from 'src/app/services/test-api/models/allocation-form-data';
 import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-data';
+import { Summary } from 'src/app/services/test-api/models/summary';
+import Dictionary from 'src/app/shared/helpers/dictionary';
 
 export class TestApiServiceTestData {
     createEventModel(): EventModel {
@@ -271,5 +274,26 @@ export class TestApiServiceTestData {
                 return participant.id;
             }
         }
+    }
+
+    getHearingResponse(): HearingResponse {
+        const response = new HearingResponse();
+        response.id = '234';
+        response.case_name = 'case_name';
+        response.scheduled_date = new Date();
+        return response;
+    }
+
+    getUserPasswords(): Dictionary<string> {
+        const passwords = new Dictionary<string>();
+        passwords.add('test.user@email.net', 'password');
+        return passwords;
+    }
+
+    getSummary(): Summary {
+        const conference = this.getConference();
+        const passwords = this.getUserPasswords();
+        const summary = new Summary(conference, passwords);
+        return summary;
     }
 }

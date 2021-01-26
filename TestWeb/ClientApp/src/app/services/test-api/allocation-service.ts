@@ -132,7 +132,7 @@ export class AllocationService {
         this.logger.debug(`${this.loggerPrefix} SENDING GET ALL ALLOCATIONS REQUEST`);
         try {
             const allocationDetailResponse = await this.testApiService.getAllAllocationsByAllocatedBy(loggedInUsername);
-            this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse.length} allocated users found`);
+            this.logger.debug(`${this.loggerPrefix} ${allocationDetailResponse.length} allocated user(s) found`);
             this.allAllocatedByUsers = MapAllocatedResponseToAllocatedModel.map(allocationDetailResponse);
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to allocate user.`, error, { payload: this.allocateUserModel });
