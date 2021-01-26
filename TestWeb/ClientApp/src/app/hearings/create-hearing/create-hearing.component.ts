@@ -305,11 +305,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         const todayDate = new Date(new Date().setHours(0, 0, 0, 0));
         const realDate = new Date(new Date(this.hearingDate.value).setHours(0, 0, 0, 0));
         const todayHours = new Date().getHours();
-        this.isStartMinutesInPast = false;
-        this.isStartHoursInPast =
-            realDate.toString() === todayDate.toString() &&
-            this.hearingStartTimeHour.value < todayHours &&
-            (this.hearingStartTimeHour.dirty || this.hearingStartTimeHour.touched);
+        this.isStartHoursInPast = realDate.toString() === todayDate.toString() && this.hearingStartTimeHour.value < todayHours;
     }
 
     startMinutesInPast() {
@@ -320,8 +316,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         this.isStartMinutesInPast =
             realDate.toString() === todayDate.toString() &&
             this.hearingStartTimeHour.value === todayHours &&
-            this.hearingStartTimeMinute.value <= todayMinutes &&
-            (this.hearingStartTimeMinute.dirty || this.hearingStartTimeMinute.touched);
+            this.hearingStartTimeMinute.value <= todayMinutes;
     }
 
     get hearingStartTimeMinuteInvalid() {

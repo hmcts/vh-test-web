@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Logger } from 'src/app/services/logging/logger-base';
 import { CreateService } from 'src/app/services/test-api/create-service';
 import { Summary } from 'src/app/services/test-api/models/summary';
+import Dictionary from 'src/app/shared/helpers/dictionary';
 import { PageUrls } from 'src/app/shared/page-url.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
@@ -59,8 +60,10 @@ describe('CreateHearingComponent', () => {
     });
 
     it('should create a hearing', () => {
-        const summary: Summary[] = [];
-        createServiceSpy.createHearings.and.returnValue(Promise.resolve(summary));
+        const summaries: Summary[] = [];
+        const summary = testData.getSummary();
+        summaries.push(summary);
+        createServiceSpy.createHearings.and.returnValue(Promise.resolve(summaries));
 
         component.ngOnInit();
 
@@ -91,5 +94,76 @@ describe('CreateHearingComponent', () => {
         hearingFormData.customCaseNamePrefix = null;
         component.createHearings(hearingFormData);
         expect(createServiceSpy.createHearings).toHaveBeenCalledWith(hearingFormData);
+    });
+
+    it('should permit custom name if set', async () => {
+        const summary: Summary[] = [];
+        createServiceSpy.createHearings.and.returnValue(Promise.resolve(summary));
+        component.ngOnInit();
+        const hearingFormData = testData.createHearingFormData();
+        component.customCaseNamePrefix.setValue(hearingFormData.customCaseNamePrefix);
+        fixture.detectChanges();
+        await component.displayConfirmationDialog();
+        expect(component.customCaseNamePrefix.value).toBe(hearingFormData.customCaseNamePrefix);
+    });
+
+    it('should declare if start hour is in the past', () => {
+        component.hearingDate.setValue(new Date().setDate(new Date().getDate() + 1));
+        component.hearingStartTimeHour.setValue('24');
+        component.hearingStartTimeMinute.setValue('60');
+        component.startHoursInPast();
+        expect(component.isStartHoursInPast).toBeFalsy();
+
+        component.hearingDate.setValue(new Date().setDate(new Date().getDate()));
+        component.hearingStartTimeHour.setValue('-1');
+        component.hearingStartTimeMinute.setValue('-1');
+        component.startHoursInPast();
+        expect(component.isStartHoursInPast).toBeTruthy();
+    });
+
+    it('should declare if start minute is in the past', () => {
+        component.hearingDate.setValue(new Date().setDate(new Date().getDate() + 1));
+        component.hearingStartTimeHour.setValue('24');
+        component.hearingStartTimeMinute.setValue('60');
+        component.startMinutesInPast();
+        expect(component.isStartMinutesInPast).toBeFalsy();
+
+        component.hearingDate.setValue(new Date().setDate(new Date().getDate()));
+        component.hearingStartTimeHour.setValue(new Date().getHours());
+        component.hearingStartTimeMinute.setValue('-1');
+        component.startMinutesInPast();
+        expect(component.isStartMinutesInPast).toBeTruthy();
+    });
+
+    it('should display summaries if they exist', () => {
+        component.summeries = [];
+        expect(component.summeriesToDisplay()).toBeFalsy();
+        const conference = testData.getConference();
+        const passwords = new Dictionary<string>();
+        const summary = new Summary(conference, passwords);
+        component.summeries.push(summary);
+        expect(component.summeriesToDisplay()).toBeTruthy();
+    });
+
+    it('should display errors if they exist', () => {
+        component.errors = [];
+        expect(component.errorsToDisplay()).toBeFalsy();
+        component.errors.push('new error');
+        expect(component.errorsToDisplay()).toBeTruthy();
+    });
+
+    it('should register if there are multiple hearings', () => {
+        component.errors = [];
+        expect(component.multipleHearings()).toBeFalsy();
+        component.quantityDropdown.setValue('2');
+        expect(component.multipleHearings()).toBeTruthy();
+    });
+
+    it('should reset oast time on blur', () => {
+        component.isStartHoursInPast = true;
+        component.isStartMinutesInPast = true;
+        component.resetPastTimeOnBlur();
+        expect(component.isStartHoursInPast).toBeFalsy();
+        expect(component.isStartMinutesInPast).toBeFalsy();
     });
 });

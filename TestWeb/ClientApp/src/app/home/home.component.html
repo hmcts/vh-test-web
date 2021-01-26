@@ -57,8 +57,9 @@
       <table class="govuk-table"  aria-describedby="currentAllocationsTitle">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Username</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-half">Username</th>
             <th scope="col" class="govuk-table__header govuk-!-width-one-third">Expires At</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-third">Reset</th>
             <th scope="col" class="govuk-table__header govuk-!-width-one-third">Unallocate</th>
           </tr>
         </thead>
@@ -66,6 +67,18 @@
           <tr *ngFor="let allocation of allocations;" id="{{allocation.id}}" class="govuk-table__row">
             <td id="{{allocation.username}}-username" class="govuk-table__cell">{{allocation.username}}</td>
             <td id="{{allocation.username}}-expiry-at" class="govuk-table__cell">{{allocation.expires_at.toLocaleString()}}</td>
+            <td class="govuk-table__cell">
+              <button
+                id="{{allocation.username}}-reset-button"
+                class="govuk-button no-bottom-margin govuk-button--secondary"
+                type="button"
+                data-module="govuk-button"
+                aria-label="Reset the user password"
+                (click)="resetPassword(allocation.username)"
+              >
+                Reset
+              </button>
+            </td>
             <td class="govuk-table__cell">
               <button
                 id="{{allocation.username}}-unallocate-button"
@@ -86,12 +99,36 @@
 
   <div *ngIf="displayPopup" id="dialog" class="vh-popup-overlay">
     <div class="vh-popup">
-      <h1 *ngIf="errorRetrievingHearings || errorRetrievingAllocations || errorDeletingHearing || errorUnallocatingUser" id="failedTitle" class="govuk-heading-m">Failed</h1>
+      <h1 *ngIf="resettingPassword" id="resettingTitle" class="govuk-heading-m">Resetting user password</h1>
+      <h1 *ngIf="resetPasswordComplete" id="resetTitle" class="govuk-heading-m">Password reset</h1>
+      <h1 *ngIf="errorRetrievingHearings || errorRetrievingAllocations || errorDeletingHearing || errorResettingPassword || errorUnallocatingUser" id="failedTitle" class="govuk-heading-m">Failed</h1>
       <p *ngIf="errorRetrievingHearings" id="errorRetrievingHearingsText">An error occured whilst retrieving hearings.</p>
       <p *ngIf="errorRetrievingAllocations" id="errorRetrievingAllocationsText">An error occured whilst retrieving current allocations.</p>
+      <p *ngIf="errorResettingPassword" id="errorResettingHearingText">An error occured whilst resetting the users password</p>
       <p *ngIf="errorDeletingHearing" id="errorDeletingHearingText">An error occured whilst deleting the hearing</p>
       <p *ngIf="errorUnallocatingUser" id="errorUnallocatingUserText">An error occured whilst unallocating the user</p>
       <p *ngIf="errorRetrievingHearings || errorRetrievingAllocations || errorDeletingHearing || errorUnallocatingUser" id="errorTextDetails">{{error}}</p>
+
+      <div *ngIf="displaySummary">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Username
+            </dt>
+            <dd id='reset-username' class="govuk-summary-list__value">
+              {{ resetUsername }}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Password
+            </dt>
+            <dd id='reset-password' class="govuk-summary-list__value">
+              {{ newPassword }}
+            </dd>
+          </div>
+        </dl>
+      </div>
 
       <div class="centre-buttons">
         <button

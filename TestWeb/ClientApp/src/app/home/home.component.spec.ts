@@ -9,7 +9,8 @@ import { TestApiServiceTestData } from '../testing/mocks/testapiservice-test-dat
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { AllocatedUserModel } from '../common/models/allocated.user.model';
-import { HearingResponse } from '../services/clients/api-client';
+import { HearingResponse, UpdateUserResponse } from '../services/clients/api-client';
+import { ResetService } from '../services/test-api/reset-service';
 
 describe('HomeComponent', () => {
     let component: HomeComponent;
@@ -23,7 +24,7 @@ describe('HomeComponent', () => {
     ]);
     const hearingsServiceSpy = jasmine.createSpyObj<HearingService>('HearingService', ['GetAllHearings']);
     const deleteServiceSpy = jasmine.createSpyObj<DeleteService>('DeleteService', ['deleteHearing']);
-
+    const resetServiceSpy = jasmine.createSpyObj<ResetService>('ResetService', ['resetPassword']);
     const testData = new TestApiServiceTestData();
     const username = 'username@email.com';
     const allocatedUserModel = new AllocatedUserModel();
@@ -47,6 +48,7 @@ describe('HomeComponent', () => {
                 { provide: Logger, useValue: loggerSpy },
                 { provide: AllocationService, useValue: allocationServiceSpy },
                 { provide: HearingService, useValue: hearingsServiceSpy },
+                { provide: ResetService, useValue: resetServiceSpy },
                 { provide: DeleteService, useValue: deleteServiceSpy }
             ],
             declarations: [HomeComponent],
@@ -83,10 +85,24 @@ describe('HomeComponent', () => {
         expect(loggerSpy.error).toHaveBeenCalled();
     });
 
+    it('should throw an error if call to test api to reset passwords fails', async () => {
+        resetServiceSpy.resetPassword.and.callFake(() => Promise.reject(error));
+        await expectAsync(component.resetPassword(username)).toBeResolved();
+        expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
     it('should throw an error if call to test api to unallocate a user fails', async () => {
         allocationServiceSpy.unallocateUser.and.callFake(() => Promise.reject(error));
         await expectAsync(component.unallocateUser(username)).toBeResolved();
         expect(loggerSpy.error).toHaveBeenCalled();
+    });
+
+    it('should reset password', async () => {
+        const updateUserResponse = new UpdateUserResponse();
+        updateUserResponse.new_password = 'password';
+        resetServiceSpy.resetPassword.and.returnValue(Promise.resolve(updateUserResponse));
+        await component.resetPassword(username);
+        expect(resetServiceSpy.resetPassword).toHaveBeenCalledWith(username);
     });
 
     it('should display hearings if they exist', () => {

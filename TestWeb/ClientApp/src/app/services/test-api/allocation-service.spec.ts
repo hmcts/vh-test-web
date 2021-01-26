@@ -32,7 +32,7 @@ describe('AllocationService', () => {
         const username = 'user@email.com';
         profileService.getLoggedInUsername.and.returnValue(Promise.resolve(username));
 
-        const result = await service.allocatateUsers(hearingFormData);
+        await service.allocatateUsers(hearingFormData);
 
         const allocateUserModel = new AllocateUsersModel();
         allocateUserModel.allocated_by = username;
@@ -61,7 +61,7 @@ describe('AllocationService', () => {
         const allocationResponse = testData.getAllocationDetailsResponse();
         testApiService.allocateSingleUser.and.returnValue(Promise.resolve(allocationResponse));
 
-        const result = await service.allocateSingleUser(allocationFormData);
+        await service.allocateSingleUser(allocationFormData);
 
         const allocateUserModel = new AllocateUserModel();
         allocateUserModel.allocated_by = allocationResponse.username;
@@ -97,8 +97,7 @@ describe('AllocationService', () => {
         profile.username = allocationResponse.allocated_by;
         profileService.getUserProfile.and.returnValue(Promise.resolve(profile));
 
-        const result = await service.getAllAllocationsByUsername();
-
+        await service.getAllAllocationsByUsername();
         expect(testApiService.getAllAllocationsByAllocatedBy).toHaveBeenCalledWith(profile.username);
     });
 
@@ -114,7 +113,7 @@ describe('AllocationService', () => {
         allocationDetailsResponse.push(allocationResponse);
         testApiService.unallocateUsers.and.returnValue(Promise.resolve(allocationDetailsResponse));
 
-        const result = await service.unallocateUser(allocationResponse.username);
+        await service.unallocateUser(allocationResponse.username);
 
         const usernames = [];
         usernames.push(allocationResponse.username);
@@ -142,7 +141,7 @@ describe('AllocationService', () => {
 
         testApiService.unallocateUsers.and.returnValue(Promise.resolve(allocationDetailsResponse));
 
-        const result = await service.unallocateAllAllocatedUsers();
+        await service.unallocateAllAllocatedUsers();
 
         const usernames = [];
         usernames.push(allocationResponse.username);

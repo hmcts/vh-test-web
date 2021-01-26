@@ -26,6 +26,7 @@ export class DeleteService {
             return response;
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to delete hearings.`, error);
+            throw error;
         }
     }
 }
