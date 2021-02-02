@@ -77,6 +77,12 @@
         "resolved": "1.2.3",
         "contentHash": "Nug3rO+7Kl5/SBAadzSMAVgqDlfGjJZ0GenQrLywJ84XGKO0uRqkunz5Wyl0SDwcR71bAATXvSdbdzPrYRYKGw=="
       },
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+        "type": "Direct",
+        "requested": "[1.10.9, )",
+        "resolved": "1.10.9",
+        "contentHash": "Sug+YeP9YYigFnUdvPCUJjBz7cc2VVR7UBZkIRwPWmVR/HmIM5HbcpX940s4BM3xgL3QHGp3qN7AqkcZ/MjZEw=="
+      },
       "Newtonsoft.Json": {
         "type": "Direct",
         "requested": "[12.0.3, )",

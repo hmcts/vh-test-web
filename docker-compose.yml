@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  adminweb:
+    image: ${DOCKER_REGISTRY-}testweb:latest
+    build:
+      context: .
+      dockerfile: TestWeb/Dockerfile
