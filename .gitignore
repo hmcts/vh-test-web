@@ -356,9 +356,6 @@ MigrationBackup/
 # Local environment settings files
 /TestWeb.AcceptanceTests/Configuration/Environments/
 
-# Config for NuGet
-nuget.config
-
 # Local test report files
 TESTS.xml
 jasmine-tests/
