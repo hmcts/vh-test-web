@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Configuration;
+using AcceptanceTests.Common.Exceptions;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -20,13 +21,8 @@ namespace TestWeb.AcceptanceTests.Hooks
 
         public ConfigHooks(TestContext context)
         {
-            _configRoot = ConfigurationManager.BuildConfig("a7b48686-45a2-45b2-81e6-f1f9aac606fa", GetTargetEnvironment(), RunOnSauceLabsFromLocal());
+            _configRoot = ConfigurationManager.BuildConfig("a7b48686-45a2-45b2-81e6-f1f9aac606fa", "88A6778C-7724-4470-AA7F-F603F963F670");
             context.Config = new Config();
-        }
-
-        private static string GetTargetEnvironment()
-        {
-            return NUnit.Framework.TestContext.Parameters["TargetEnvironment"] ?? "";
         }
 
         private static bool RunOnSauceLabsFromLocal()
@@ -73,8 +69,15 @@ namespace TestWeb.AcceptanceTests.Hooks
 
         private void RegisterHearingServices(TestContext context)
         {
-            context.Config.Services = Options.Create(_configRoot.GetSection("VhServices").Get<HearingServicesConfiguration>()).Value;
+            context.Config.Services = GetTargetTestEnvironment() == string.Empty ? Options.Create(_configRoot.GetSection("Services").Get<HearingServicesConfiguration>()).Value 
+                : Options.Create(_configRoot.GetSection($"Testing.{GetTargetTestEnvironment()}.Services").Get<HearingServicesConfiguration>()).Value;
+            if (context.Config.Services == null && GetTargetTestEnvironment() != string.Empty) throw new TestSecretsFileMissingException(GetTargetTestEnvironment());
             ConfigurationManager.VerifyConfigValuesSet(context.Config.Services);
+        }
+
+        private static string GetTargetTestEnvironment()
+        {
+            return NUnit.Framework.TestContext.Parameters["TargetTestEnvironment"] ?? string.Empty;
         }
 
         private void RegisterSauceLabsSettings(TestContext context)

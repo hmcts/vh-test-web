@@ -9,6 +9,7 @@ using AcceptanceTests.Common.Driver.Helpers;
 using AcceptanceTests.Common.Test.Steps;
 using FluentAssertions;
 using OpenQA.Selenium;
+using Polly;
 using TechTalk.SpecFlow;
 using TestWeb.AcceptanceTests.Helpers;
 using TestWeb.AcceptanceTests.Pages;
@@ -150,8 +151,13 @@ namespace TestWeb.AcceptanceTests.Steps
 
             for (var i = 0; i < RETRIES; i++)
             {
-                var status = _browser.Driver.WaitUntilVisible(element).Text.Trim();
+                var status = string.Empty;
 
+                Policy.Handle<StaleElementReferenceException>()
+                    .Or<NoSuchElementException>()
+                    .WaitAndRetry(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                    .Execute(() => status = _browser.Driver.WaitUntilVisible(element).Text.Trim());
+                
                 if (status.Equals(expectedStatus))
                 {
                     return true;

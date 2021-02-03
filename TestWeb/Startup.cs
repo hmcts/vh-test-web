@@ -44,7 +44,7 @@ namespace TestWeb
                 Configuration.Bind("ApplicationInsights", options.ApplicationInsights);
             });
 
-            services.Configure<HearingServicesConfiguration>(options => Configuration.Bind("VhServices", options));
+            services.Configure<HearingServicesConfiguration>(options => Configuration.Bind("Services", options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
