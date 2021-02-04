@@ -2298,8 +2298,8 @@
       },
       "VH.AcceptanceTests.Common": {
         "type": "Transitive",
-        "resolved": "1.21.4",
-        "contentHash": "uf6Yvf0SiVUQJQW6asLJnA46ltE/ZzI/JpjubHzk0tiBAmbBaqnUpR9O/ElIPqWNkkgaSvgkIET8kdmb84gjTQ==",
+        "resolved": "1.21.10",
+        "contentHash": "TI89sKiOxtGe1pLMYZ9rrzjhGRnXaEo7NFAf+KoQ7ztywFtFc0XPJTQiy4bHpAKhL2JqUJigvm8VukMpB8f2bQ==",
         "dependencies": {
           "Appium.WebDriver": "4.2.1",
           "Azure.Storage.Blobs": "12.7.0",
@@ -2394,7 +2394,7 @@
           "FluentAssertions": "5.10.3",
           "TestWeb": "1.0.0",
           "TestWeb.TestApi.Client": "1.0.0",
-          "VH.AcceptanceTests.Common": "1.21.4"
+          "VH.AcceptanceTests.Common": "1.21.10"
         }
       }
     }

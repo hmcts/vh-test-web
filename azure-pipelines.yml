@@ -42,10 +42,10 @@ parameters:
     - name: testSettings
       type: object
       default:
-          # VhServices
-          - name: VhServices:TestApiUrl
+          # Services
+          - name: Services:TestApiUrl
             value: $(test_api_url)
-          - name: VhServices:TestApiResourceId
+          - name: Services:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
 
@@ -126,11 +126,11 @@ parameters:
           - name: KinlyConfiguration:ApiSecret
             value: $(KinlyApiKey)
 
-          # VhServices
-          - name: VhServices:TestApiResourceId
+          # Services
+          - name: Services:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
-          - name: VhServices:TestApiUrl
+          - name: Services:TestApiUrl
             value: $(test_api_url)
             
           # SauceLabs
@@ -242,7 +242,7 @@ extends:
                   resourceGroup: vh-test-api-$(environment)
                   healthEndpoint: $(test_api_url)health/health
             acceptanceTestSettings:
-                - name: VhServices:TestWebUrl
+                - name: Services:TestWebUrl
                   value: $(test_web_url)
                 - ${{ each setting in parameters.testSettings }}:
                       - name: ${{ setting.name }}
