@@ -129,11 +129,11 @@ stages:
           - name: KinlyConfiguration:ApiSecret
             value: $(KinlyApiKey)
 
-          # VhServices
-          - name: VhServices:TestApiResourceId
+          # Services
+          - name: Services:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
-          - name: VhServices:TestApiUrl
+          - name: Services:TestApiUrl
             value: $(test_api_url)
 
           # Testing
@@ -155,12 +155,12 @@ stages:
             value: signalr-connection-str
             secret: true
 
-          # VhServices
-          - name: VhServices:TestWebUrl
+          # Services
+          - name: Services:TestWebUrl
             value: $(test_web_url)
-          - name: VhServices:TestApiUrl
+          - name: Services:TestApiUrl
             value: $(test_api_url)
-          - name: VhServices:TestApiResourceId
+          - name: Services:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true 
 

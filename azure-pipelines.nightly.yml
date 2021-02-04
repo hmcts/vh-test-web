@@ -150,11 +150,11 @@ stages:
           - name: KinlyConfiguration:ApiSecret
             value: $(KinlyApiKey)
 
-          # VhServices
-          - name: VhServices:TestApiResourceId
+          # Services
+          - name: Services:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
-          - name: VhServices:TestApiUrl
+          - name: Services:TestApiUrl
             value: $(test_api_url)
             
           # SauceLabs
@@ -166,16 +166,16 @@ stages:
             value: $(RealDeviceApiKey)     
 
         acceptanceTestSettings:
-          # VhServices
-          - name: VhServices:TestWebUrl
+          # Services
+          - name: Services:TestWebUrl
             slot:
               deployment:
                 value: $(test_web_url)
               active:
                 value: $(test_web_url)
-          - name: VhServices:TestApiUrl
+          - name: Services:TestApiUrl
             value: $(test_api_url)
-          - name: VhServices:TestApiResourceId
+          - name: Services:TestApiResourceId
             value: vh-test-api-identifieruris
             secret: true
 
