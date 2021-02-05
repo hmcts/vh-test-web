@@ -13,7 +13,6 @@ namespace TestWeb.Tests.Common.Builders.Responses
         {
             _response = new HearingDetailsResponse()
             {
-                AdditionalProperties = new Dictionary<string, object>(),
                 Audio_recording_required = request.Audio_recording_required,
                 Cancel_reason = null,
                 Case_type_name = request.Case_type,
@@ -21,7 +20,6 @@ namespace TestWeb.Tests.Common.Builders.Responses
                 {
                     new CaseResponse()
                     {
-                        AdditionalProperties = new Dictionary<string, object>(),
                         Is_lead_case = HearingsData.IS_LEAD_CASE,
                         Name = HearingsData.CASE_NAME,
                         Number = HearingsData.CASE_NUMBER
@@ -55,7 +53,6 @@ namespace TestWeb.Tests.Common.Builders.Responses
             {
                 _response.Participants.Add(new ParticipantResponse()
                 {
-                    AdditionalProperties = new Dictionary<string, object>(),
                     Case_role_name = user.User_type.ToString(),
                     Contact_email = user.Contact_email,
                     Display_name = user.Display_name,

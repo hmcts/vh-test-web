@@ -12,7 +12,6 @@ namespace TestWeb.Tests.Common.Builders.Requests
         {
             _request = new UpdateBookingStatusRequest()
             {
-                AdditionalProperties = new Dictionary<string, object>(),
                 Cancel_reason = null,
                 Status = UpdateBookingStatus.Created,
                 Updated_by = HearingsData.UPDATED_BY

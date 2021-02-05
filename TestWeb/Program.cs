@@ -15,8 +15,13 @@ namespace TestWeb
 
         private static IHostBuilder CreateWebHostBuilder(string[] args)
         {
+            const string mountPath = "/mnt/secrets/vh-test-web";
+
             return Host.CreateDefaultBuilder(args)
-                .AddAksKeyVaultSecretProvider()
+                .ConfigureAppConfiguration((configBuilder) =>
+                {
+                    configBuilder.AddAksKeyVaultSecretProvider(mountPath);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
@@ -29,6 +34,10 @@ namespace TestWeb
                             .AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.
                                     ApplicationInsightsLoggerProvider>
                                 ("", LogLevel.Trace);
+                    });
+                    webBuilder.ConfigureAppConfiguration(configBuilder =>
+                    {
+                        configBuilder.AddAksKeyVaultSecretProvider(mountPath);
                     });
                 });
         }
