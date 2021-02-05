@@ -11,7 +11,6 @@ namespace TestWeb.Tests.Common.Builders.Responses
         {
             _response = new BookingsHearingResponse()
             {
-                AdditionalProperties = hearingResponse.AdditionalProperties,
                 Audio_recording_required = hearingResponse.Audio_recording_required,
                 Cancel_reason = hearingResponse.Cancel_reason,
                 Case_type_name = hearingResponse.Case_type_name,
@@ -34,7 +33,7 @@ namespace TestWeb.Tests.Common.Builders.Responses
                 Questionnaire_not_required = hearingResponse.Questionnaire_not_required,
                 Scheduled_date_time = hearingResponse.Scheduled_date_time,
                 Scheduled_duration = hearingResponse.Scheduled_duration,
-                Status = hearingResponse.Status,
+                Status = hearingResponse.Status
             };
         }
 
