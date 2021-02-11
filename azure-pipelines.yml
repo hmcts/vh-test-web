@@ -181,8 +181,8 @@ resources:
 extends:
     template: stages\dotnet-package.yml@templates
     parameters:
-        coreProjectPath: TestWeb
-        nodeProjectPath: TestWeb/ClientApp
+        coreProjectPath: TestWeb/TestWeb
+        nodeProjectPath: TestWeb/TestWeb/ClientApp
         PackageApp: ${{ parameters.PackageApp }}
         PackageAcceptanceTests: ${{ parameters.PackageACTests }}
         packageManagers:
@@ -190,11 +190,11 @@ extends:
             - npm
         Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}
         testParameters:
-            coreProjectPath: TestWeb
-            nodeProjectPath: TestWeb/ClientApp
+            coreProjectPath: TestWeb/TestWeb
+            nodeProjectPath: TestWeb/TestWeb/ClientApp
             RunNode: true
-            unitTestProjectPath: TestWeb.UnitTests
-            integTestProjectPath: TestWeb.IntegrationTests
+            unitTestProjectPath: TestWeb/TestWeb.UnitTests
+            integTestProjectPath: TestWeb/TestWeb.IntegrationTests
             secrets_KeyVault: $(pr_Secret_KeyVault)
             secrets_Subscription: $(pr_Secret_Subscription)
             RunUnitTests: ${{ parameters.RunUnitTests }}
@@ -223,7 +223,7 @@ extends:
                 sonar.typescript.exclusions=**/node_modules/**,**/typings.d.ts,**/main.ts,**/environments/environment*.ts,**/*routing.module.ts,**/api-client.ts
                 sonar.coverage.exclusions= **/TestWeb.Tests.Common/**, TestWeb/Views/*, TestWeb/Pages/*, TestWeb/Program/*, TestWeb/Swagger/*, TestWeb.UnitTests/*, TestWeb.IntegrationTests/*, TestWeb.AcceptanceTests/*, **/TestWeb.Services/**, **/ClientApp/src/scripts/*.js, **/ClientApp/src/app/testing/**
                 sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
-                sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/TestWeb/ClientApp/coverage/lcov.info
+                sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/TestWeb/TestWeb/ClientApp/coverage/lcov.info
             StrykerBreak: 75
         ACTest: ${{ parameters.RunACTests }}
         releaseParameters:
