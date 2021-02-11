@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading;
 using AcceptanceTests.Common.Api.Helpers;
 using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.PageObject.Pages;
@@ -19,13 +18,11 @@ namespace TestWeb.AcceptanceTests.Steps
         private const int ALLOCATE_USERS_FOR_MINUTES = 2;
         private UserBrowser _browser;
         private readonly TestContext _c;
-        private readonly Random _random;
 
         public BrowserSteps(UserBrowser browser, TestContext testContext)
         {
             _browser = browser;
             _c = testContext;
-            _random = new Random();
         }
 
         [Given(@"a new browser is open for a (.*) user")]
@@ -61,22 +58,12 @@ namespace TestWeb.AcceptanceTests.Steps
                 User_type = userType
             };
 
-            if (_c.Config.SauceLabsConfiguration.RunningOnSauceLabs())
-            {
-                Thread.Sleep(TimeSpan.FromSeconds(GetRandomNumberForParallelExecution(10)));
-            }
-
             var response = _c.TestApi.AllocateUser(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             response.Should().NotBeNull();
             var user = RequestHelper.Deserialise<UserDetailsResponse>(response.Content);
             user.Should().NotBeNull();
             _c.CurrentUser = user;
-        }
-
-        public double GetRandomNumberForParallelExecution(int maximum)
-        {
-            return _random.NextDouble() * maximum;
         }
 
         [Then(@"the user is able to logout")]
