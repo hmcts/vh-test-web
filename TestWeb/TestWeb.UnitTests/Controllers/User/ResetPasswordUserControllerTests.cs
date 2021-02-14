@@ -68,5 +68,35 @@ namespace TestWeb.UnitTests.Controllers.User
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
         }
+
+        [Test]
+        public async Task Should_throw_exception_whilst_searching_for_user()
+        {
+            var testApiClientMock = new Mock<ITestApiClient>();
+
+            testApiClientMock
+                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
+
+            var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
+            var result = await controller.ResetPasswordAsync(_request);
+            var typedResult = (ObjectResult)result;
+            typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
+        }
+
+        [Test]
+        public async Task Should_throw_not_found_whilst_searching_for_user()
+        {
+            var testApiClientMock = new Mock<ITestApiClient>();
+
+            testApiClientMock
+                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .ThrowsAsync(ExceptionsData.NOT_FOUND_EXCEPTION);
+
+            var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
+            var result = await controller.ResetPasswordAsync(_request);
+            var typedResult = (ObjectResult)result;
+            typedResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+        }
     }
 }
