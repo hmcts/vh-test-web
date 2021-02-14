@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.10" />
+    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.16" />
   </ItemGroup>
 
   <ItemGroup>
