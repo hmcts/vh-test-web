@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Polly;
 using TestWeb.TestApi.Client;
 
 namespace TestWeb.Controllers
@@ -34,6 +36,30 @@ namespace TestWeb.Controllers
         {
             _logger.LogDebug($"ResetPasswordAsync {request.Username}");
 
+            const int POLLY_RETRIES = 5;
+
+            var policy = Policy
+                .HandleResult(false)
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            try
+            {
+                var response = await policy.ExecuteAsync(async () => await _testApiClient.AadAsync(request.Username));
+                if (response.Equals(true))
+                {
+                    _logger.LogDebug($"User '{request.Username}' successfully found in AAD");
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (TestApiException e)
+            {
+                _logger.LogError(e, $"Unable to find user {request.Username} to reset user password.");
+                return StatusCode(e.StatusCode, e.Response);
+            }
+
             try
             {
                 var response = await _testApiClient.PasswordAsync(request);
@@ -42,7 +68,7 @@ namespace TestWeb.Controllers
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to reset user password: ${request.Username}");
+                _logger.LogError(e, $"Unable to reset user password: {request.Username}");
                 return StatusCode(e.StatusCode, e.Response);
             }
         }

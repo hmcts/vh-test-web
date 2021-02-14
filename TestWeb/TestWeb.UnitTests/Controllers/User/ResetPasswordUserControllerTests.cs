@@ -14,7 +14,7 @@ namespace TestWeb.UnitTests.Controllers.User
     public class ResetPasswordUserControllerTests : ControllersTestBase
     {
         private readonly Mock<ILogger<UserController>> _loggerMock;
-        private ResetUserPasswordRequest _request;
+        private readonly ResetUserPasswordRequest _request;
 
         public ResetPasswordUserControllerTests()
         {
@@ -30,6 +30,10 @@ namespace TestWeb.UnitTests.Controllers.User
             {
                 New_password = UserData.NEW_PASSWORD
             };
+
+            client
+                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .ReturnsAsync(true);
 
             client
                 .Setup(x => x.PasswordAsync(It.IsAny<ResetUserPasswordRequest>()))
@@ -50,6 +54,11 @@ namespace TestWeb.UnitTests.Controllers.User
         public async Task Should_throw_internal_server()
         {
             var testApiClientMock = new Mock<ITestApiClient>();
+
+            testApiClientMock
+                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .ReturnsAsync(true);
+
             testApiClientMock
                 .Setup(x => x.PasswordAsync(It.IsAny<ResetUserPasswordRequest>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
