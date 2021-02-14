@@ -45,14 +45,12 @@ namespace TestWeb.Controllers
             try
             {
                 var response = await policy.ExecuteAsync(async () => await _testApiClient.AadAsync(request.Username));
-                if (response.Equals(true))
-                {
-                    _logger.LogDebug($"User '{request.Username}' successfully found in AAD");
-                }
-                else
+                if (response.Equals(false))
                 {
                     return NotFound();
                 }
+
+                _logger.LogDebug($"User '{request.Username}' successfully found in AAD");
             }
             catch (TestApiException e)
             {
