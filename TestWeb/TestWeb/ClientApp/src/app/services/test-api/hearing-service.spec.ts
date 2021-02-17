@@ -29,7 +29,7 @@ describe('HearingService', () => {
         createHearingModel.application = Application.VideoWeb;
         createHearingModel.audio_recording_required = false;
         createHearingModel.case_type = '';
-        createHearingModel.created_by = 'user@email.com';
+        createHearingModel.created_by = 'user@hmcts.net';
         createHearingModel.custom_case_name_prefix = 'custom';
         createHearingModel.questionnaire_not_required = true;
         createHearingModel.scheduled_date_time = new Date();
@@ -58,7 +58,7 @@ describe('HearingService', () => {
         responses.push(hearingResponse);
         testApiService.getAllHearingsByCreatedBy.and.returnValue(Promise.resolve(responses));
 
-        const username = 'user@email.com';
+        const username = 'user@hmcts.net';
         profileService.getLoggedInUsername.and.returnValue(Promise.resolve(username));
 
         const result = await service.GetAllHearings();

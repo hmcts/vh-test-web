@@ -9,7 +9,7 @@ describe('MapConfirmHearing', () => {
         const confirmHearingModel: ConfirmHearingModel = {
             cancel_reason: 'settled',
             status: UpdateBookingStatus.Created,
-            updated_by: 'user@email.com'
+            updated_by: 'user@hmcts.net'
         };
 
         const request = MapConfirmHearing.map(confirmHearingModel);

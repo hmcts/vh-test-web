@@ -62,7 +62,7 @@ export class TestApiServiceTestData {
         hearingModel.application = Application.VideoWeb;
         hearingModel.audio_recording_required = false;
         hearingModel.case_type = 'case type';
-        hearingModel.created_by = 'user@email.com';
+        hearingModel.created_by = 'user@hmcts.net';
         hearingModel.custom_case_name_prefix = 'custom';
         hearingModel.endpoints = 1;
         hearingModel.questionnaire_not_required = true;
@@ -91,8 +91,8 @@ export class TestApiServiceTestData {
 
     createUserModel(): UserModel {
         const userModel: UserModel = {
-            username: 'user@email.com',
-            contact_email: 'contact_email@email.com',
+            username: 'user@hmcts.net',
+            contact_email: 'contact_email@hmcts.net',
             first_name: 'first name',
             last_name: 'last name',
             display_name: 'display name',
@@ -134,7 +134,7 @@ export class TestApiServiceTestData {
         const participants = [];
         const participant = new ParticipantDetailsResponse();
         participant.case_type_group = 'casetype';
-        participant.contact_email = 'test.user@email.com';
+        participant.contact_email = 'test.user@hmcts.net';
         participant.contact_telephone = '234567890';
         participant.current_status = ParticipantState.Available;
         participant.display_name = 'firstname lastname';
@@ -156,7 +156,7 @@ export class TestApiServiceTestData {
         const userDetailsResponse: UserDetailsResponse[] = [];
         const userDetails = new UserDetailsResponse();
         userDetails.application = Application.VideoWeb;
-        userDetails.contact_email = 'test.user@email.com';
+        userDetails.contact_email = 'test.user@hmcts.net';
         userDetails.created_date = today;
         userDetails.display_name = 'firstname lastname';
         userDetails.first_name = 'firstname';
@@ -203,10 +203,10 @@ export class TestApiServiceTestData {
         const allocationDetailsResponse = new AllocationDetailsResponse();
         allocationDetailsResponse.id = '123';
         allocationDetailsResponse.user_id = '456';
-        allocationDetailsResponse.username = 'user@email.com';
+        allocationDetailsResponse.username = 'user@hmcts.net';
         allocationDetailsResponse.expires_at = new Date();
         allocationDetailsResponse.allocated = true;
-        allocationDetailsResponse.allocated_by = 'user@email.com';
+        allocationDetailsResponse.allocated_by = 'user@hmcts.net';
         return allocationDetailsResponse;
     }
 
@@ -214,7 +214,7 @@ export class TestApiServiceTestData {
         const allocatedUsers: UserModel[] = [];
         const userModel = new UserModel();
         userModel.application = Application.VideoWeb;
-        userModel.contact_email = 'test.user@email.com';
+        userModel.contact_email = 'test.user@hmcts.net';
         userModel.created_date = new Date();
         userModel.display_name = 'firstname lastname';
         userModel.first_name = 'firstname';

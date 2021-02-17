@@ -47,7 +47,7 @@ describe('TestApiService', () => {
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
 
     const allocatedUsersModel: AllocateUsersModel = {
-        allocated_by: 'user@email.com',
+        allocated_by: 'user@hmcts.net',
         application: Application.AdminWeb,
         expiry_in_minutes: 5,
         is_prod_user: false,
@@ -72,7 +72,7 @@ describe('TestApiService', () => {
         apiClient.allocateUsers.and.returnValue(of(userDetailsResponse));
 
         const allocateRequest = new AllocateUsersRequest();
-        allocateRequest.allocated_by = 'user@email.com';
+        allocateRequest.allocated_by = 'user@hmcts.net';
         allocateRequest.application = Application.AdminWeb;
         allocateRequest.expiry_in_minutes = 5;
         allocateRequest.is_prod_user = false;
@@ -138,7 +138,7 @@ describe('TestApiService', () => {
         apiClient.allocateUser.and.returnValue(of(userDetailsResponse));
 
         const allocateUserModel = new AllocateUserModel();
-        allocateUserModel.allocated_by = 'user@email.com';
+        allocateUserModel.allocated_by = 'user@hmcts.net';
         allocateUserModel.application = Application.AdminWeb;
         allocateUserModel.expiry_in_minutes = 5;
         allocateUserModel.is_prod_user = false;
@@ -165,7 +165,7 @@ describe('TestApiService', () => {
         apiClient.unallocateUsers.and.returnValue(of(allocationResponses));
 
         const usernames = [];
-        const username = 'user@email.com';
+        const username = 'user@hmcts.net';
         usernames.push(username);
         const unallocateRequest = new UnallocateUsersRequest();
         unallocateRequest.usernames.push(username);
@@ -181,7 +181,7 @@ describe('TestApiService', () => {
         allocationResponses.push(allocationResponse);
         apiClient.allocatedUsers.and.returnValue(of(allocationResponses));
 
-        const username = 'user@email.com';
+        const username = 'user@hmcts.net';
 
         const result = await service.getAllAllocationsByAllocatedBy(username);
         expect(apiClient.allocatedUsers).toHaveBeenCalledWith(username);

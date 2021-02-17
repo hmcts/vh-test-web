@@ -25,9 +25,9 @@ describe('AllocateUsersComponent', () => {
     ]);
     const resetServiceSpy = jasmine.createSpyObj<ResetService>('ResetService', ['resetPassword']);
     const testData = new TestApiServiceTestData();
-    const username = 'username@email.com';
+    const username = 'username@hmcts.net';
     const allocatedUserModel = new AllocatedUserModel();
-    allocatedUserModel.allocated_by = 'user@email.com';
+    allocatedUserModel.allocated_by = 'user@hmcts.net';
     allocatedUserModel.expires_at = new Date();
     allocatedUserModel.id = '123';
     allocatedUserModel.username = username;

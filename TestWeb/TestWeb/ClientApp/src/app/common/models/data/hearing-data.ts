@@ -1,5 +1,5 @@
 export const HearingData = {
-    CaseType: 'Civil Money Claims',
+    CaseType: 'Generic',
     DefaultDuration: 60,
     Venue: 'Birmingham Civil and Family Justice Centre'
 };
