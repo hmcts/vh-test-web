@@ -13,7 +13,7 @@ export const judgeTestProfile: UserProfileResponse = new UserProfileResponse({
 
 export const adminTestProfile: UserProfileResponse = new UserProfileResponse({
     role: Role.VideoHearingsOfficer,
-    username: 'admin@test.com'
+    username: 'admin@hmcts.net'
 });
 
 export const individualTestProfile: UserProfileResponse = new UserProfileResponse({

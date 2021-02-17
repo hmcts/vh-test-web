@@ -11,7 +11,7 @@ describe('AllocateUserMapper', () => {
         userTypes.push(UserType.Individual);
         userTypes.push(UserType.Representative);
         const allocateUsersModel: AllocateUsersModel = {
-            allocated_by: 'user@email.com',
+            allocated_by: 'user@hmcts.net',
             application: Application.AdminWeb,
             expiry_in_minutes: 10,
             is_prod_user: false,

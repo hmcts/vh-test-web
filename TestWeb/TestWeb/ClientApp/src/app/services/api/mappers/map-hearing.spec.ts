@@ -9,7 +9,7 @@ describe('MapHearing', () => {
         const users = [];
         const user = new User();
         user.application = Application.AdminWeb;
-        user.contact_email = 'test.user@email.com';
+        user.contact_email = 'test.user@hmcts.net';
         user.created_date = new Date();
         user.display_name = 'test user';
         user.first_name = 'test';
@@ -24,7 +24,7 @@ describe('MapHearing', () => {
         const hearingModel: HearingModel = {
             application: Application.AdminWeb,
             case_type: 'case type name',
-            created_by: 'user@email.com',
+            created_by: 'user@hmcts.net',
             custom_case_name_prefix: 'automation test',
             questionnaire_not_required: true,
             test_type: TestType.Manual,

@@ -62,7 +62,7 @@ describe('SummaryComponent', () => {
     it('should copy the conference id to the clipboard', () => {
         const conference = new TestApiServiceTestData().getConference();
         const userPasswords = new Dictionary<string>();
-        userPasswords.add('username@email.com', '12345');
+        userPasswords.add('username@hmcts.net', '12345');
         const summary = new Summary(conference, userPasswords);
         component.summeries.push(summary);
 

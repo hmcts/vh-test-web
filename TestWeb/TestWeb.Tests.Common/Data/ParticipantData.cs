@@ -2,6 +2,6 @@
 {
     public static class ParticipantData
     {
-        public static string USERNAME = "user@email.com";
+        public static string USERNAME = "user@hmcts.net";
     }
 }

@@ -29,7 +29,7 @@ describe('AllocationService', () => {
     it('should call the test api to allocate users for the hearing', async () => {
         const userDetailsResponse: UserDetailsResponse[] = testData.getAllocatedUsersResponse();
         testApiService.allocateUsers.and.returnValue(Promise.resolve(userDetailsResponse));
-        const username = 'user@email.com';
+        const username = 'user@hmcts.net';
         profileService.getLoggedInUsername.and.returnValue(Promise.resolve(username));
 
         await service.allocatateUsers(hearingFormData);
@@ -123,7 +123,7 @@ describe('AllocationService', () => {
 
     it('should throw an error if get unallocated users fails', async () => {
         testApiService.unallocateUsers.and.callFake(() => Promise.reject(error));
-        const username = 'user@email.com';
+        const username = 'user@hmcts.net';
         await expectAsync(service.unallocateUser(username)).toBeRejected(error.error);
         expect(logger.error).toHaveBeenCalled();
     });

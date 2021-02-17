@@ -8,7 +8,7 @@ describe('MapAllocatedResponseToUsers', () => {
         const userDetailsResponse = [];
         let userDetails = new UserDetailsResponse();
         userDetails.application = Application.AdminWeb;
-        userDetails.contact_email = 'test.user@email.com';
+        userDetails.contact_email = 'test.user@hmcts.net';
         userDetails.created_date = new Date();
         userDetails.display_name = 'test user';
         userDetails.first_name = 'test';
@@ -22,7 +22,7 @@ describe('MapAllocatedResponseToUsers', () => {
 
         userDetails = new UserDetailsResponse();
         userDetails.application = Application.AdminWeb;
-        userDetails.contact_email = 'test.user1@email.com';
+        userDetails.contact_email = 'test.user1@hmcts.net';
         userDetails.created_date = new Date();
         userDetails.display_name = 'test user1';
         userDetails.first_name = 'test';
