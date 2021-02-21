@@ -13,6 +13,7 @@ import {
     HearingResponse,
     ParticipantDetailsResponse,
     ParticipantResponse,
+    ParticipantResponse2,
     ParticipantState,
     TestType,
     UserDetailsResponse,
@@ -51,7 +52,8 @@ export class TestApiServiceTestData {
             audioRecordingRequired: false,
             scheduledDateTime: hearingDate,
             numberOfEndpoints: 0,
-            reuseUsers: false
+            reuseUsers: false,
+            witnesses: 1
         };
 
         return hearingFormData;
@@ -122,7 +124,7 @@ export class TestApiServiceTestData {
         conference.hearing_venue_name = 'court';
         conference.id = '1001';
         conference.meeting_room = null;
-        conference.participants = this.getParticipants();
+        conference.participants = this.getConferenceParticipants();
         conference.scheduled_date_time = today;
         conference.scheduled_duration = 90;
         conference.started_date_time = today;
@@ -130,7 +132,7 @@ export class TestApiServiceTestData {
         return conference;
     }
 
-    getParticipants(): ParticipantDetailsResponse[] {
+    getConferenceParticipants(): ParticipantDetailsResponse[] {
         const participants = [];
         const participant = new ParticipantDetailsResponse();
         participant.case_type_group = 'casetype';
@@ -189,7 +191,7 @@ export class TestApiServiceTestData {
         hearingDetailsResponse.hearing_venue_name = 'court 1';
         hearingDetailsResponse.id = '100';
         hearingDetailsResponse.other_information = 'other information';
-        hearingDetailsResponse.participants = this.getParticipants();
+        hearingDetailsResponse.participants = this.getHearingParticipants();
         hearingDetailsResponse.questionnaire_not_required = true;
         hearingDetailsResponse.scheduled_date_time = new Date();
         hearingDetailsResponse.scheduled_duration = 90;
@@ -197,6 +199,24 @@ export class TestApiServiceTestData {
         hearingDetailsResponse.updated_date = null;
 
         return hearingDetailsResponse;
+    }
+
+    getHearingParticipants(): ParticipantResponse2[] {
+        const participants = [];
+        const participant = new ParticipantResponse2();
+        participant.case_role_name = 'case role';
+        participant.contact_email = 'test.user@hmcts.net';
+        participant.telephone_number = '234567890';
+        participant.display_name = 'firstname lastname';
+        participant.first_name = 'first name';
+        participant.hearing_role_name = 'hearing role';
+        participant.id = '200';
+        participant.last_name = 'lastname';
+        participant.representee = '';
+        participant.user_role_name = UserRole.Individual;
+        participant.username = 'test.user@email.net';
+        participants.push(participant);
+        return participants;
     }
 
     getAllocationDetailsResponse(): AllocationDetailsResponse {

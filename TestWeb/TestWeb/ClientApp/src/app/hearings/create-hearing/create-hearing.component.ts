@@ -31,6 +31,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     private defaultRepresentatives = 0;
     private defaultObservers = 0;
     private defaultPanelMembers = 0;
+    private defaultWitnesses = 0;
     private defaultNumberOfHearings = 1;
     private defaultNumberOfEndpoints = 0;
     maxParticipants = 21;
@@ -47,6 +48,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     representativesTextfield: FormControl;
     observersTextfield: FormControl;
     panelMembersTextfield: FormControl;
+    witnessesTextfield: FormControl;
     quantityDropdown: FormControl;
     endpointsDropdown: FormControl;
     isStartHoursInPast: boolean;
@@ -172,6 +174,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         data.reuseUsers = this.reuseUsersCheckBox.value;
         data.scheduledDateTime = hearingDate;
         data.testType = this.testTypeDropdown.value;
+        data.witnesses = this.witnessesTextfield.value;
         this.logger.debug(`${this.loggerPrefix} Hearing form data:`, { payload: data });
         return data;
     }
@@ -198,6 +201,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         this.quantityDropdown = new FormControl(this.defaultNumberOfHearings);
         this.endpointsDropdown = new FormControl(this.defaultNumberOfEndpoints);
         this.reuseUsersCheckBox = new FormControl(this.defaultReuseUsers);
+        this.witnessesTextfield = new FormControl(this.defaultWitnesses);
 
         this.form = this.fb.group({
             customCaseNamePrefix: this.customCaseNamePrefix,
@@ -213,7 +217,8 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
             panelMembersTextfield: this.panelMembersTextfield,
             quantityDropdown: this.quantityDropdown,
             endpointsDropdown: this.endpointsDropdown,
-            reuseUsersCheckBox: this.reuseUsersCheckBox
+            reuseUsersCheckBox: this.reuseUsersCheckBox,
+            witnessesTextfield: this.witnessesTextfield
         });
     }
 
@@ -247,6 +252,10 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
 
     get panelMembers() {
         return this.form.get('panelMembersTextfield');
+    }
+
+    get witnesses() {
+        return this.form.get('witnessesTextfield');
     }
 
     get hearingDateInvalid() {
@@ -294,6 +303,13 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         return (
             (this.panelMembers.invalid || this.panelMembers.value > this.maxParticipants || this.panelMembers.value < 0) &&
             (this.panelMembers.dirty || this.panelMembers.touched)
+        );
+    }
+
+    get witnessesInvalid() {
+        return (
+            (this.witnesses.invalid || this.witnesses.value > this.maxParticipants || this.witnesses.value < 0) &&
+            (this.witnesses.dirty || this.witnesses.touched)
         );
     }
 

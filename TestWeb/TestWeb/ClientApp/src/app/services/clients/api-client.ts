@@ -24,7 +24,7 @@ export class ApiClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : 'https://localhost:5500';
+        this.baseUrl = baseUrl ? baseUrl : 'https://https://localhost:5500';
     }
 
     /**
@@ -305,7 +305,7 @@ export class ApiClient {
      * @param username Username of the user that has allocated users
      * @return Success
      */
-    allocatedUsers(username: string | null): Observable<AllocationDetailsResponse[]> {
+    allocatedUsers(username: string): Observable<AllocationDetailsResponse[]> {
         let url_ = this.baseUrl + '/allocations/allocatedUsers/{username}';
         if (username === undefined || username === null) throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace('{username}', encodeURIComponent('' + username));
@@ -1083,7 +1083,7 @@ export class ApiClient {
      * @param createdBy The user that created the hearing
      * @return Success
      */
-    getAllHearingsByCreatedBy(createdBy: string | null): Observable<HearingResponse[]> {
+    getAllHearingsByCreatedBy(createdBy: string): Observable<HearingResponse[]> {
         let url_ = this.baseUrl + '/hearings/hearings/{createdBy}';
         if (createdBy === undefined || createdBy === null) throw new Error("The parameter 'createdBy' must be defined.");
         url_ = url_.replace('{createdBy}', encodeURIComponent('' + createdBy));
@@ -1333,175 +1333,6 @@ export class ApiClient {
     }
 }
 
-export enum Application {
-    None = 'None',
-    AdminWeb = 'AdminWeb',
-    BookingsApi = 'BookingsApi',
-    ServiceWeb = 'ServiceWeb',
-    TestApi = 'TestApi',
-    UserApi = 'UserApi',
-    VideoApi = 'VideoApi',
-    VideoWeb = 'VideoWeb',
-    QueueSubscriber = 'QueueSubscriber',
-    TestWeb = 'TestWeb'
-}
-
-export enum TestType {
-    Automated = 'Automated',
-    Manual = 'Manual',
-    Performance = 'Performance',
-    ITHC = 'ITHC',
-    Demo = 'Demo'
-}
-
-export enum UserType {
-    None = 'None',
-    CaseAdmin = 'CaseAdmin',
-    VideoHearingsOfficer = 'VideoHearingsOfficer',
-    HearingFacilitationSupport = 'HearingFacilitationSupport',
-    Judge = 'Judge',
-    Individual = 'Individual',
-    Representative = 'Representative',
-    Observer = 'Observer',
-    PanelMember = 'PanelMember',
-    Winger = 'Winger',
-    Tester = 'Tester'
-}
-
-export class AllocateUserRequest implements IAllocateUserRequest {
-    application?: Application;
-    expiry_in_minutes?: number;
-    is_prod_user?: boolean;
-    test_type?: TestType;
-    user_type!: UserType;
-    allocated_by?: string | undefined;
-
-    constructor(data?: IAllocateUserRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.application = _data['application'];
-            this.expiry_in_minutes = _data['expiry_in_minutes'];
-            this.is_prod_user = _data['is_prod_user'];
-            this.test_type = _data['test_type'];
-            this.user_type = _data['user_type'];
-            this.allocated_by = _data['allocated_by'];
-        }
-    }
-
-    static fromJS(data: any): AllocateUserRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new AllocateUserRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['application'] = this.application;
-        data['expiry_in_minutes'] = this.expiry_in_minutes;
-        data['is_prod_user'] = this.is_prod_user;
-        data['test_type'] = this.test_type;
-        data['user_type'] = this.user_type;
-        data['allocated_by'] = this.allocated_by;
-        return data;
-    }
-}
-
-export interface IAllocateUserRequest {
-    application?: Application;
-    expiry_in_minutes?: number;
-    is_prod_user?: boolean;
-    test_type?: TestType;
-    user_type: UserType;
-    allocated_by?: string | undefined;
-}
-
-export class UserDetailsResponse implements IUserDetailsResponse {
-    id?: string;
-    username?: string | undefined;
-    contact_email?: string | undefined;
-    first_name?: string | undefined;
-    last_name?: string | undefined;
-    display_name?: string | undefined;
-    number?: number;
-    user_type?: UserType;
-    application?: Application;
-    test_type?: TestType;
-    is_prod_user?: boolean;
-    created_date?: Date;
-
-    constructor(data?: IUserDetailsResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data['id'];
-            this.username = _data['username'];
-            this.contact_email = _data['contact_email'];
-            this.first_name = _data['first_name'];
-            this.last_name = _data['last_name'];
-            this.display_name = _data['display_name'];
-            this.number = _data['number'];
-            this.user_type = _data['user_type'];
-            this.application = _data['application'];
-            this.test_type = _data['test_type'];
-            this.is_prod_user = _data['is_prod_user'];
-            this.created_date = _data['created_date'] ? new Date(_data['created_date'].toString()) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): UserDetailsResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserDetailsResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['id'] = this.id;
-        data['username'] = this.username;
-        data['contact_email'] = this.contact_email;
-        data['first_name'] = this.first_name;
-        data['last_name'] = this.last_name;
-        data['display_name'] = this.display_name;
-        data['number'] = this.number;
-        data['user_type'] = this.user_type;
-        data['application'] = this.application;
-        data['test_type'] = this.test_type;
-        data['is_prod_user'] = this.is_prod_user;
-        data['created_date'] = this.created_date ? this.created_date.toISOString() : <any>undefined;
-        return data;
-    }
-}
-
-export interface IUserDetailsResponse {
-    id?: string;
-    username?: string | undefined;
-    contact_email?: string | undefined;
-    first_name?: string | undefined;
-    last_name?: string | undefined;
-    display_name?: string | undefined;
-    number?: number;
-    user_type?: UserType;
-    application?: Application;
-    test_type?: TestType;
-    is_prod_user?: boolean;
-    created_date?: Date;
-}
-
 export class ProblemDetails implements IProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
@@ -1551,403 +1382,6 @@ export interface IProblemDetails {
     status?: number | undefined;
     detail?: string | undefined;
     instance?: string | undefined;
-}
-
-export class AllocateUsersRequest implements IAllocateUsersRequest {
-    application!: Application;
-    expiry_in_minutes?: number;
-    is_prod_user?: boolean;
-    test_type?: TestType;
-    user_types!: UserType[];
-    allocated_by?: string | undefined;
-
-    constructor(data?: IAllocateUsersRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        if (!data) {
-            this.user_types = [];
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.application = _data['application'];
-            this.expiry_in_minutes = _data['expiry_in_minutes'];
-            this.is_prod_user = _data['is_prod_user'];
-            this.test_type = _data['test_type'];
-            if (Array.isArray(_data['user_types'])) {
-                this.user_types = [] as any;
-                for (let item of _data['user_types']) this.user_types!.push(item);
-            }
-            this.allocated_by = _data['allocated_by'];
-        }
-    }
-
-    static fromJS(data: any): AllocateUsersRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new AllocateUsersRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['application'] = this.application;
-        data['expiry_in_minutes'] = this.expiry_in_minutes;
-        data['is_prod_user'] = this.is_prod_user;
-        data['test_type'] = this.test_type;
-        if (Array.isArray(this.user_types)) {
-            data['user_types'] = [];
-            for (let item of this.user_types) data['user_types'].push(item);
-        }
-        data['allocated_by'] = this.allocated_by;
-        return data;
-    }
-}
-
-export interface IAllocateUsersRequest {
-    application: Application;
-    expiry_in_minutes?: number;
-    is_prod_user?: boolean;
-    test_type?: TestType;
-    user_types: UserType[];
-    allocated_by?: string | undefined;
-}
-
-export class UnallocateUsersRequest implements IUnallocateUsersRequest {
-    usernames!: string[];
-
-    constructor(data?: IUnallocateUsersRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        if (!data) {
-            this.usernames = [];
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data['usernames'])) {
-                this.usernames = [] as any;
-                for (let item of _data['usernames']) this.usernames!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): UnallocateUsersRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new UnallocateUsersRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.usernames)) {
-            data['usernames'] = [];
-            for (let item of this.usernames) data['usernames'].push(item);
-        }
-        return data;
-    }
-}
-
-export interface IUnallocateUsersRequest {
-    usernames: string[];
-}
-
-export class AllocationDetailsResponse implements IAllocationDetailsResponse {
-    id?: string;
-    user_id?: string;
-    username?: string | undefined;
-    expires_at?: Date | undefined;
-    allocated?: boolean;
-    allocated_by?: string | undefined;
-
-    constructor(data?: IAllocationDetailsResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data['id'];
-            this.user_id = _data['user_id'];
-            this.username = _data['username'];
-            this.expires_at = _data['expires_at'] ? new Date(_data['expires_at'].toString()) : <any>undefined;
-            this.allocated = _data['allocated'];
-            this.allocated_by = _data['allocated_by'];
-        }
-    }
-
-    static fromJS(data: any): AllocationDetailsResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new AllocationDetailsResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['id'] = this.id;
-        data['user_id'] = this.user_id;
-        data['username'] = this.username;
-        data['expires_at'] = this.expires_at ? this.expires_at.toISOString() : <any>undefined;
-        data['allocated'] = this.allocated;
-        data['allocated_by'] = this.allocated_by;
-        return data;
-    }
-}
-
-export interface IAllocationDetailsResponse {
-    id?: string;
-    user_id?: string;
-    username?: string | undefined;
-    expires_at?: Date | undefined;
-    allocated?: boolean;
-    allocated_by?: string | undefined;
-}
-
-export enum EventType {
-    None = 'None',
-    Joined = 'Joined',
-    Disconnected = 'Disconnected',
-    Transfer = 'Transfer',
-    Help = 'Help',
-    Pause = 'Pause',
-    Close = 'Close',
-    Leave = 'Leave',
-    Consultation = 'Consultation',
-    MediaPermissionDenied = 'MediaPermissionDenied',
-    ParticipantJoining = 'ParticipantJoining',
-    SelfTestFailed = 'SelfTestFailed',
-    Suspend = 'Suspend',
-    VhoCall = 'VhoCall',
-    ParticipantNotSignedIn = 'ParticipantNotSignedIn',
-    Start = 'Start',
-    CountdownFinished = 'CountdownFinished',
-    EndpointJoined = 'EndpointJoined',
-    EndpointDisconnected = 'EndpointDisconnected',
-    EndpointTransfer = 'EndpointTransfer',
-    ConnectingToEventHub = 'ConnectingToEventHub',
-    SelectingMedia = 'SelectingMedia',
-    ConnectingToConference = 'ConnectingToConference'
-}
-
-export class ConferenceEventRequest implements IConferenceEventRequest {
-    event_id!: string | undefined;
-    event_type?: EventType;
-    time_stamp_utc?: Date;
-    conference_id!: string | undefined;
-    participant_id?: string | undefined;
-    transfer_from?: string | undefined;
-    transfer_to?: string | undefined;
-    reason?: string | undefined;
-    phone?: string | undefined;
-
-    constructor(data?: IConferenceEventRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.event_id = _data['event_id'];
-            this.event_type = _data['event_type'];
-            this.time_stamp_utc = _data['time_stamp_utc'] ? new Date(_data['time_stamp_utc'].toString()) : <any>undefined;
-            this.conference_id = _data['conference_id'];
-            this.participant_id = _data['participant_id'];
-            this.transfer_from = _data['transfer_from'];
-            this.transfer_to = _data['transfer_to'];
-            this.reason = _data['reason'];
-            this.phone = _data['phone'];
-        }
-    }
-
-    static fromJS(data: any): ConferenceEventRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ConferenceEventRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['event_id'] = this.event_id;
-        data['event_type'] = this.event_type;
-        data['time_stamp_utc'] = this.time_stamp_utc ? this.time_stamp_utc.toISOString() : <any>undefined;
-        data['conference_id'] = this.conference_id;
-        data['participant_id'] = this.participant_id;
-        data['transfer_from'] = this.transfer_from;
-        data['transfer_to'] = this.transfer_to;
-        data['reason'] = this.reason;
-        data['phone'] = this.phone;
-        return data;
-    }
-}
-
-export interface IConferenceEventRequest {
-    event_id: string | undefined;
-    event_type?: EventType;
-    time_stamp_utc?: Date;
-    conference_id: string | undefined;
-    participant_id?: string | undefined;
-    transfer_from?: string | undefined;
-    transfer_to?: string | undefined;
-    reason?: string | undefined;
-    phone?: string | undefined;
-}
-
-export enum ConferenceState {
-    NotStarted = 'NotStarted',
-    InSession = 'InSession',
-    Paused = 'Paused',
-    Suspended = 'Suspended',
-    Closed = 'Closed'
-}
-
-export enum ParticipantState {
-    None = 'None',
-    NotSignedIn = 'NotSignedIn',
-    Joining = 'Joining',
-    Available = 'Available',
-    InHearing = 'InHearing',
-    InConsultation = 'InConsultation',
-    Disconnected = 'Disconnected'
-}
-
-export enum UserRole {
-    None = 'None',
-    CaseAdmin = 'CaseAdmin',
-    VideoHearingsOfficer = 'VideoHearingsOfficer',
-    HearingFacilitationSupport = 'HearingFacilitationSupport',
-    Judge = 'Judge',
-    Individual = 'Individual',
-    Representative = 'Representative',
-    JudicialOfficeHolder = 'JudicialOfficeHolder'
-}
-
-export class ParticipantResponse implements IParticipantResponse {
-    display_name?: string | undefined;
-    hearing_role?: string | undefined;
-    id?: string;
-    status?: ParticipantState;
-    user_role?: UserRole;
-    username?: string | undefined;
-
-    constructor(data?: IParticipantResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.display_name = _data['display_name'];
-            this.hearing_role = _data['hearing_role'];
-            this.id = _data['id'];
-            this.status = _data['status'];
-            this.user_role = _data['user_role'];
-            this.username = _data['username'];
-        }
-    }
-
-    static fromJS(data: any): ParticipantResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new ParticipantResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['display_name'] = this.display_name;
-        data['hearing_role'] = this.hearing_role;
-        data['id'] = this.id;
-        data['status'] = this.status;
-        data['user_role'] = this.user_role;
-        data['username'] = this.username;
-        return data;
-    }
-}
-
-export interface IParticipantResponse {
-    display_name?: string | undefined;
-    hearing_role?: string | undefined;
-    id?: string;
-    status?: ParticipantState;
-    user_role?: UserRole;
-    username?: string | undefined;
-}
-
-export class ConferenceResponse implements IConferenceResponse {
-    id?: string;
-    hearing_ref_id?: string;
-    case_name?: string | undefined;
-    status?: ConferenceState;
-    participants?: ParticipantResponse[] | undefined;
-
-    constructor(data?: IConferenceResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data['id'];
-            this.hearing_ref_id = _data['hearing_ref_id'];
-            this.case_name = _data['case_name'];
-            this.status = _data['status'];
-            if (Array.isArray(_data['participants'])) {
-                this.participants = [] as any;
-                for (let item of _data['participants']) this.participants!.push(ParticipantResponse.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ConferenceResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new ConferenceResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['id'] = this.id;
-        data['hearing_ref_id'] = this.hearing_ref_id;
-        data['case_name'] = this.case_name;
-        data['status'] = this.status;
-        if (Array.isArray(this.participants)) {
-            data['participants'] = [];
-            for (let item of this.participants) data['participants'].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IConferenceResponse {
-    id?: string;
-    hearing_ref_id?: string;
-    case_name?: string | undefined;
-    status?: ConferenceState;
-    participants?: ParticipantResponse[] | undefined;
 }
 
 /** Configuration to initialise the UI application */
@@ -2025,6 +1459,239 @@ export interface IClientSettingsResponse {
     authority?: string | undefined;
 }
 
+export class ConferenceResponse implements IConferenceResponse {
+    id?: string;
+    hearing_ref_id?: string;
+    case_name?: string | undefined;
+    status?: ConferenceState;
+    participants?: ParticipantResponse[] | undefined;
+
+    constructor(data?: IConferenceResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.hearing_ref_id = _data['hearing_ref_id'];
+            this.case_name = _data['case_name'];
+            this.status = _data['status'];
+            if (Array.isArray(_data['participants'])) {
+                this.participants = [] as any;
+                for (let item of _data['participants']) this.participants!.push(ParticipantResponse.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ConferenceResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConferenceResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['hearing_ref_id'] = this.hearing_ref_id;
+        data['case_name'] = this.case_name;
+        data['status'] = this.status;
+        if (Array.isArray(this.participants)) {
+            data['participants'] = [];
+            for (let item of this.participants) data['participants'].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IConferenceResponse {
+    id?: string;
+    hearing_ref_id?: string;
+    case_name?: string | undefined;
+    status?: ConferenceState;
+    participants?: ParticipantResponse[] | undefined;
+}
+
+export class HearingResponse implements IHearingResponse {
+    id?: string;
+    case_name?: string | undefined;
+    scheduled_date?: Date;
+
+    constructor(data?: IHearingResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.case_name = _data['case_name'];
+            this.scheduled_date = _data['scheduled_date'] ? new Date(_data['scheduled_date'].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): HearingResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new HearingResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['case_name'] = this.case_name;
+        data['scheduled_date'] = this.scheduled_date ? this.scheduled_date.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IHearingResponse {
+    id?: string;
+    case_name?: string | undefined;
+    scheduled_date?: Date;
+}
+
+export class ParticipantResponse implements IParticipantResponse {
+    display_name?: string | undefined;
+    hearing_role?: string | undefined;
+    id?: string;
+    status?: ParticipantState;
+    user_role?: UserRole;
+    username?: string | undefined;
+
+    constructor(data?: IParticipantResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.display_name = _data['display_name'];
+            this.hearing_role = _data['hearing_role'];
+            this.id = _data['id'];
+            this.status = _data['status'];
+            this.user_role = _data['user_role'];
+            this.username = _data['username'];
+        }
+    }
+
+    static fromJS(data: any): ParticipantResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ParticipantResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['display_name'] = this.display_name;
+        data['hearing_role'] = this.hearing_role;
+        data['id'] = this.id;
+        data['status'] = this.status;
+        data['user_role'] = this.user_role;
+        data['username'] = this.username;
+        return data;
+    }
+}
+
+export interface IParticipantResponse {
+    display_name?: string | undefined;
+    hearing_role?: string | undefined;
+    id?: string;
+    status?: ParticipantState;
+    user_role?: UserRole;
+    username?: string | undefined;
+}
+
+export class UserProfileResponse implements IUserProfileResponse {
+    role?: string | undefined;
+    username?: string | undefined;
+
+    constructor(data?: IUserProfileResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.role = _data['role'];
+            this.username = _data['username'];
+        }
+    }
+
+    static fromJS(data: any): UserProfileResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['role'] = this.role;
+        data['username'] = this.username;
+        return data;
+    }
+}
+
+export interface IUserProfileResponse {
+    role?: string | undefined;
+    username?: string | undefined;
+}
+
+export class ApplicationVersion implements IApplicationVersion {
+    file_version?: string | undefined;
+    information_version?: string | undefined;
+
+    constructor(data?: IApplicationVersion) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.file_version = _data['file_version'];
+            this.information_version = _data['information_version'];
+        }
+    }
+
+    static fromJS(data: any): ApplicationVersion {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApplicationVersion();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['file_version'] = this.file_version;
+        data['information_version'] = this.information_version;
+        return data;
+    }
+}
+
+export interface IApplicationVersion {
+    file_version?: string | undefined;
+    information_version?: string | undefined;
+}
+
 export class HealthCheck implements IHealthCheck {
     successful?: boolean;
     error_message?: string | undefined;
@@ -2078,45 +1745,6 @@ export interface IHealthCheck {
     data?: { [key: string]: any } | undefined;
 }
 
-export class ApplicationVersion implements IApplicationVersion {
-    file_version?: string | undefined;
-    information_version?: string | undefined;
-
-    constructor(data?: IApplicationVersion) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.file_version = _data['file_version'];
-            this.information_version = _data['information_version'];
-        }
-    }
-
-    static fromJS(data: any): ApplicationVersion {
-        data = typeof data === 'object' ? data : {};
-        let result = new ApplicationVersion();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['file_version'] = this.file_version;
-        data['information_version'] = this.information_version;
-        return data;
-    }
-}
-
-export interface IApplicationVersion {
-    file_version?: string | undefined;
-    information_version?: string | undefined;
-}
-
 export class HealthCheckResponse implements IHealthCheckResponse {
     test_api_health?: HealthCheck;
     app_version?: ApplicationVersion;
@@ -2156,21 +1784,15 @@ export interface IHealthCheckResponse {
     app_version?: ApplicationVersion;
 }
 
-export class User implements IUser {
-    username?: string | undefined;
-    contact_email?: string | undefined;
-    first_name?: string | undefined;
-    last_name?: string | undefined;
-    display_name?: string | undefined;
-    number?: number;
-    test_type?: TestType;
-    user_type?: UserType;
+export class AllocateUserRequest implements IAllocateUserRequest {
     application?: Application;
+    expiry_in_minutes?: number;
     is_prod_user?: boolean;
-    created_date?: Date;
-    id?: string;
+    test_type?: TestType;
+    user_type!: UserType;
+    allocated_by?: string | undefined;
 
-    constructor(data?: IUser) {
+    constructor(data?: IAllocateUserRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -2180,59 +1802,401 @@ export class User implements IUser {
 
     init(_data?: any) {
         if (_data) {
-            this.username = _data['username'];
-            this.contact_email = _data['contact_email'];
-            this.first_name = _data['first_name'];
-            this.last_name = _data['last_name'];
-            this.display_name = _data['display_name'];
-            this.number = _data['number'];
+            this.application = _data['application'];
+            this.expiry_in_minutes = _data['expiry_in_minutes'];
+            this.is_prod_user = _data['is_prod_user'];
             this.test_type = _data['test_type'];
             this.user_type = _data['user_type'];
-            this.application = _data['application'];
-            this.is_prod_user = _data['is_prod_user'];
-            this.created_date = _data['created_date'] ? new Date(_data['created_date'].toString()) : <any>undefined;
-            this.id = _data['id'];
+            this.allocated_by = _data['allocated_by'];
         }
     }
 
-    static fromJS(data: any): User {
+    static fromJS(data: any): AllocateUserRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new User();
+        let result = new AllocateUserRequest();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data['username'] = this.username;
-        data['contact_email'] = this.contact_email;
-        data['first_name'] = this.first_name;
-        data['last_name'] = this.last_name;
-        data['display_name'] = this.display_name;
-        data['number'] = this.number;
+        data['application'] = this.application;
+        data['expiry_in_minutes'] = this.expiry_in_minutes;
+        data['is_prod_user'] = this.is_prod_user;
         data['test_type'] = this.test_type;
         data['user_type'] = this.user_type;
-        data['application'] = this.application;
-        data['is_prod_user'] = this.is_prod_user;
-        data['created_date'] = this.created_date ? this.created_date.toISOString() : <any>undefined;
-        data['id'] = this.id;
+        data['allocated_by'] = this.allocated_by;
         return data;
     }
 }
 
-export interface IUser {
-    username?: string | undefined;
-    contact_email?: string | undefined;
-    first_name?: string | undefined;
-    last_name?: string | undefined;
-    display_name?: string | undefined;
-    number?: number;
-    test_type?: TestType;
-    user_type?: UserType;
+export interface IAllocateUserRequest {
     application?: Application;
+    expiry_in_minutes?: number;
     is_prod_user?: boolean;
-    created_date?: Date;
+    test_type?: TestType;
+    user_type: UserType;
+    allocated_by?: string | undefined;
+}
+
+export class AllocateUsersRequest implements IAllocateUsersRequest {
+    application!: Application;
+    expiry_in_minutes?: number;
+    is_prod_user?: boolean;
+    test_type?: TestType;
+    user_types!: UserType[];
+    allocated_by?: string | undefined;
+
+    constructor(data?: IAllocateUsersRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.user_types = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.application = _data['application'];
+            this.expiry_in_minutes = _data['expiry_in_minutes'];
+            this.is_prod_user = _data['is_prod_user'];
+            this.test_type = _data['test_type'];
+            if (Array.isArray(_data['user_types'])) {
+                this.user_types = [] as any;
+                for (let item of _data['user_types']) this.user_types!.push(item);
+            }
+            this.allocated_by = _data['allocated_by'];
+        }
+    }
+
+    static fromJS(data: any): AllocateUsersRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new AllocateUsersRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['application'] = this.application;
+        data['expiry_in_minutes'] = this.expiry_in_minutes;
+        data['is_prod_user'] = this.is_prod_user;
+        data['test_type'] = this.test_type;
+        if (Array.isArray(this.user_types)) {
+            data['user_types'] = [];
+            for (let item of this.user_types) data['user_types'].push(item);
+        }
+        data['allocated_by'] = this.allocated_by;
+        return data;
+    }
+}
+
+export interface IAllocateUsersRequest {
+    application: Application;
+    expiry_in_minutes?: number;
+    is_prod_user?: boolean;
+    test_type?: TestType;
+    user_types: UserType[];
+    allocated_by?: string | undefined;
+}
+
+export class AllocationDetailsResponse implements IAllocationDetailsResponse {
     id?: string;
+    user_id?: string;
+    username?: string | undefined;
+    expires_at?: Date | undefined;
+    allocated?: boolean;
+    allocated_by?: string | undefined;
+
+    constructor(data?: IAllocationDetailsResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.user_id = _data['user_id'];
+            this.username = _data['username'];
+            this.expires_at = _data['expires_at'] ? new Date(_data['expires_at'].toString()) : <any>undefined;
+            this.allocated = _data['allocated'];
+            this.allocated_by = _data['allocated_by'];
+        }
+    }
+
+    static fromJS(data: any): AllocationDetailsResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new AllocationDetailsResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['user_id'] = this.user_id;
+        data['username'] = this.username;
+        data['expires_at'] = this.expires_at ? this.expires_at.toISOString() : <any>undefined;
+        data['allocated'] = this.allocated;
+        data['allocated_by'] = this.allocated_by;
+        return data;
+    }
+}
+
+export interface IAllocationDetailsResponse {
+    id?: string;
+    user_id?: string;
+    username?: string | undefined;
+    expires_at?: Date | undefined;
+    allocated?: boolean;
+    allocated_by?: string | undefined;
+}
+
+export enum Application {
+    None = 'None',
+    AdminWeb = 'AdminWeb',
+    BookingsApi = 'BookingsApi',
+    ServiceWeb = 'ServiceWeb',
+    TestApi = 'TestApi',
+    UserApi = 'UserApi',
+    VideoApi = 'VideoApi',
+    VideoWeb = 'VideoWeb',
+    QueueSubscriber = 'QueueSubscriber',
+    TestWeb = 'TestWeb'
+}
+
+export enum BookingStatus {
+    Booked = 'Booked',
+    Created = 'Created',
+    Cancelled = 'Cancelled',
+    Failed = 'Failed'
+}
+
+export class CaseResponse implements ICaseResponse {
+    number?: string | undefined;
+    name?: string | undefined;
+    is_lead_case?: boolean;
+
+    constructor(data?: ICaseResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data['number'];
+            this.name = _data['name'];
+            this.is_lead_case = _data['is_lead_case'];
+        }
+    }
+
+    static fromJS(data: any): CaseResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new CaseResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['number'] = this.number;
+        data['name'] = this.name;
+        data['is_lead_case'] = this.is_lead_case;
+        return data;
+    }
+}
+
+export interface ICaseResponse {
+    number?: string | undefined;
+    name?: string | undefined;
+    is_lead_case?: boolean;
+}
+
+export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
+    id?: string;
+    hearing_id?: string;
+    scheduled_date_time?: Date;
+    started_date_time?: Date | undefined;
+    closed_date_time?: Date | undefined;
+    case_type?: string | undefined;
+    case_number?: string | undefined;
+    case_name?: string | undefined;
+    scheduled_duration?: number;
+    current_status?: ConferenceState;
+    participants?: ParticipantDetailsResponse[] | undefined;
+    endpoints?: EndpointResponse[] | undefined;
+    meeting_room?: MeetingRoomResponse;
+    hearing_venue_name?: string | undefined;
+    audio_recording_required?: boolean;
+
+    constructor(data?: IConferenceDetailsResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.hearing_id = _data['hearing_id'];
+            this.scheduled_date_time = _data['scheduled_date_time'] ? new Date(_data['scheduled_date_time'].toString()) : <any>undefined;
+            this.started_date_time = _data['started_date_time'] ? new Date(_data['started_date_time'].toString()) : <any>undefined;
+            this.closed_date_time = _data['closed_date_time'] ? new Date(_data['closed_date_time'].toString()) : <any>undefined;
+            this.case_type = _data['case_type'];
+            this.case_number = _data['case_number'];
+            this.case_name = _data['case_name'];
+            this.scheduled_duration = _data['scheduled_duration'];
+            this.current_status = _data['current_status'];
+            if (Array.isArray(_data['participants'])) {
+                this.participants = [] as any;
+                for (let item of _data['participants']) this.participants!.push(ParticipantDetailsResponse.fromJS(item));
+            }
+            if (Array.isArray(_data['endpoints'])) {
+                this.endpoints = [] as any;
+                for (let item of _data['endpoints']) this.endpoints!.push(EndpointResponse.fromJS(item));
+            }
+            this.meeting_room = _data['meeting_room'] ? MeetingRoomResponse.fromJS(_data['meeting_room']) : <any>undefined;
+            this.hearing_venue_name = _data['hearing_venue_name'];
+            this.audio_recording_required = _data['audio_recording_required'];
+        }
+    }
+
+    static fromJS(data: any): ConferenceDetailsResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConferenceDetailsResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['hearing_id'] = this.hearing_id;
+        data['scheduled_date_time'] = this.scheduled_date_time ? this.scheduled_date_time.toISOString() : <any>undefined;
+        data['started_date_time'] = this.started_date_time ? this.started_date_time.toISOString() : <any>undefined;
+        data['closed_date_time'] = this.closed_date_time ? this.closed_date_time.toISOString() : <any>undefined;
+        data['case_type'] = this.case_type;
+        data['case_number'] = this.case_number;
+        data['case_name'] = this.case_name;
+        data['scheduled_duration'] = this.scheduled_duration;
+        data['current_status'] = this.current_status;
+        if (Array.isArray(this.participants)) {
+            data['participants'] = [];
+            for (let item of this.participants) data['participants'].push(item.toJSON());
+        }
+        if (Array.isArray(this.endpoints)) {
+            data['endpoints'] = [];
+            for (let item of this.endpoints) data['endpoints'].push(item.toJSON());
+        }
+        data['meeting_room'] = this.meeting_room ? this.meeting_room.toJSON() : <any>undefined;
+        data['hearing_venue_name'] = this.hearing_venue_name;
+        data['audio_recording_required'] = this.audio_recording_required;
+        return data;
+    }
+}
+
+export interface IConferenceDetailsResponse {
+    id?: string;
+    hearing_id?: string;
+    scheduled_date_time?: Date;
+    started_date_time?: Date | undefined;
+    closed_date_time?: Date | undefined;
+    case_type?: string | undefined;
+    case_number?: string | undefined;
+    case_name?: string | undefined;
+    scheduled_duration?: number;
+    current_status?: ConferenceState;
+    participants?: ParticipantDetailsResponse[] | undefined;
+    endpoints?: EndpointResponse[] | undefined;
+    meeting_room?: MeetingRoomResponse;
+    hearing_venue_name?: string | undefined;
+    audio_recording_required?: boolean;
+}
+
+export class ConferenceEventRequest implements IConferenceEventRequest {
+    event_id?: string | undefined;
+    event_type?: EventType;
+    time_stamp_utc?: Date;
+    conference_id?: string | undefined;
+    participant_id?: string | undefined;
+    transfer_from?: string | undefined;
+    transfer_to?: string | undefined;
+    reason?: string | undefined;
+    phone?: string | undefined;
+
+    constructor(data?: IConferenceEventRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.event_id = _data['event_id'];
+            this.event_type = _data['event_type'];
+            this.time_stamp_utc = _data['time_stamp_utc'] ? new Date(_data['time_stamp_utc'].toString()) : <any>undefined;
+            this.conference_id = _data['conference_id'];
+            this.participant_id = _data['participant_id'];
+            this.transfer_from = _data['transfer_from'];
+            this.transfer_to = _data['transfer_to'];
+            this.reason = _data['reason'];
+            this.phone = _data['phone'];
+        }
+    }
+
+    static fromJS(data: any): ConferenceEventRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConferenceEventRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['event_id'] = this.event_id;
+        data['event_type'] = this.event_type;
+        data['time_stamp_utc'] = this.time_stamp_utc ? this.time_stamp_utc.toISOString() : <any>undefined;
+        data['conference_id'] = this.conference_id;
+        data['participant_id'] = this.participant_id;
+        data['transfer_from'] = this.transfer_from;
+        data['transfer_to'] = this.transfer_to;
+        data['reason'] = this.reason;
+        data['phone'] = this.phone;
+        return data;
+    }
+}
+
+export interface IConferenceEventRequest {
+    event_id?: string | undefined;
+    event_type?: EventType;
+    time_stamp_utc?: Date;
+    conference_id?: string | undefined;
+    participant_id?: string | undefined;
+    transfer_from?: string | undefined;
+    transfer_to?: string | undefined;
+    reason?: string | undefined;
+    phone?: string | undefined;
+}
+
+export enum ConferenceState {
+    NotStarted = 'NotStarted',
+    InSession = 'InSession',
+    Paused = 'Paused',
+    Suspended = 'Suspended',
+    Closed = 'Closed'
 }
 
 export class CreateHearingRequest implements ICreateHearingRequest {
@@ -2316,12 +2280,10 @@ export interface ICreateHearingRequest {
     venue?: string | undefined;
 }
 
-export class CaseResponse implements ICaseResponse {
-    number?: string | undefined;
-    name?: string | undefined;
-    is_lead_case?: boolean;
+export class DeletedResponse implements IDeletedResponse {
+    number_of_deleted_hearings?: number;
 
-    constructor(data?: ICaseResponse) {
+    constructor(data?: IDeletedResponse) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -2331,51 +2293,76 @@ export class CaseResponse implements ICaseResponse {
 
     init(_data?: any) {
         if (_data) {
-            this.number = _data['number'];
-            this.name = _data['name'];
-            this.is_lead_case = _data['is_lead_case'];
+            this.number_of_deleted_hearings = _data['number_of_deleted_hearings'];
         }
     }
 
-    static fromJS(data: any): CaseResponse {
+    static fromJS(data: any): DeletedResponse {
         data = typeof data === 'object' ? data : {};
-        let result = new CaseResponse();
+        let result = new DeletedResponse();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data['number'] = this.number;
-        data['name'] = this.name;
-        data['is_lead_case'] = this.is_lead_case;
+        data['number_of_deleted_hearings'] = this.number_of_deleted_hearings;
         return data;
     }
 }
 
-export interface ICaseResponse {
-    number?: string | undefined;
-    name?: string | undefined;
-    is_lead_case?: boolean;
+export interface IDeletedResponse {
+    number_of_deleted_hearings?: number;
 }
 
-export class ParticipantResponse2 implements IParticipantResponse2 {
+export class DeleteTestHearingDataRequest implements IDeleteTestHearingDataRequest {
+    partial_hearing_case_name?: string | undefined;
+    limit?: number | undefined;
+
+    constructor(data?: IDeleteTestHearingDataRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.partial_hearing_case_name = _data['partial_hearing_case_name'];
+            this.limit = _data['limit'];
+        }
+    }
+
+    static fromJS(data: any): DeleteTestHearingDataRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeleteTestHearingDataRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['partial_hearing_case_name'] = this.partial_hearing_case_name;
+        data['limit'] = this.limit;
+        return data;
+    }
+}
+
+export interface IDeleteTestHearingDataRequest {
+    partial_hearing_case_name?: string | undefined;
+    limit?: number | undefined;
+}
+
+export class EndpointResponse implements IEndpointResponse {
     id?: string;
     display_name?: string | undefined;
-    case_role_name?: string | undefined;
-    hearing_role_name?: string | undefined;
-    user_role_name?: string | undefined;
-    title?: string | undefined;
-    first_name?: string | undefined;
-    middle_names?: string | undefined;
-    last_name?: string | undefined;
-    contact_email?: string | undefined;
-    telephone_number?: string | undefined;
-    username?: string | undefined;
-    organisation?: string | undefined;
-    representee?: string | undefined;
+    sip_address?: string | undefined;
+    pin?: string | undefined;
+    status?: EndpointState;
+    defence_advocate?: string | undefined;
 
-    constructor(data?: IParticipantResponse2) {
+    constructor(data?: IEndpointResponse) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -2387,24 +2374,16 @@ export class ParticipantResponse2 implements IParticipantResponse2 {
         if (_data) {
             this.id = _data['id'];
             this.display_name = _data['display_name'];
-            this.case_role_name = _data['case_role_name'];
-            this.hearing_role_name = _data['hearing_role_name'];
-            this.user_role_name = _data['user_role_name'];
-            this.title = _data['title'];
-            this.first_name = _data['first_name'];
-            this.middle_names = _data['middle_names'];
-            this.last_name = _data['last_name'];
-            this.contact_email = _data['contact_email'];
-            this.telephone_number = _data['telephone_number'];
-            this.username = _data['username'];
-            this.organisation = _data['organisation'];
-            this.representee = _data['representee'];
+            this.sip_address = _data['sip_address'];
+            this.pin = _data['pin'];
+            this.status = _data['status'];
+            this.defence_advocate = _data['defence_advocate'];
         }
     }
 
-    static fromJS(data: any): ParticipantResponse2 {
+    static fromJS(data: any): EndpointResponse {
         data = typeof data === 'object' ? data : {};
-        let result = new ParticipantResponse2();
+        let result = new EndpointResponse();
         result.init(data);
         return result;
     }
@@ -2413,44 +2392,21 @@ export class ParticipantResponse2 implements IParticipantResponse2 {
         data = typeof data === 'object' ? data : {};
         data['id'] = this.id;
         data['display_name'] = this.display_name;
-        data['case_role_name'] = this.case_role_name;
-        data['hearing_role_name'] = this.hearing_role_name;
-        data['user_role_name'] = this.user_role_name;
-        data['title'] = this.title;
-        data['first_name'] = this.first_name;
-        data['middle_names'] = this.middle_names;
-        data['last_name'] = this.last_name;
-        data['contact_email'] = this.contact_email;
-        data['telephone_number'] = this.telephone_number;
-        data['username'] = this.username;
-        data['organisation'] = this.organisation;
-        data['representee'] = this.representee;
+        data['sip_address'] = this.sip_address;
+        data['pin'] = this.pin;
+        data['status'] = this.status;
+        data['defence_advocate'] = this.defence_advocate;
         return data;
     }
 }
 
-export interface IParticipantResponse2 {
+export interface IEndpointResponse {
     id?: string;
     display_name?: string | undefined;
-    case_role_name?: string | undefined;
-    hearing_role_name?: string | undefined;
-    user_role_name?: string | undefined;
-    title?: string | undefined;
-    first_name?: string | undefined;
-    middle_names?: string | undefined;
-    last_name?: string | undefined;
-    contact_email?: string | undefined;
-    telephone_number?: string | undefined;
-    username?: string | undefined;
-    organisation?: string | undefined;
-    representee?: string | undefined;
-}
-
-export enum BookingStatus {
-    Booked = 'Booked',
-    Created = 'Created',
-    Cancelled = 'Cancelled',
-    Failed = 'Failed'
+    sip_address?: string | undefined;
+    pin?: string | undefined;
+    status?: EndpointState;
+    defence_advocate?: string | undefined;
 }
 
 export class EndpointResponse2 implements IEndpointResponse2 {
@@ -2502,6 +2458,39 @@ export interface IEndpointResponse2 {
     sip?: string | undefined;
     pin?: string | undefined;
     defence_advocate_id?: string | undefined;
+}
+
+export enum EndpointState {
+    NotYetJoined = 'NotYetJoined',
+    Connected = 'Connected',
+    Disconnected = 'Disconnected',
+    InConsultation = 'InConsultation'
+}
+
+export enum EventType {
+    None = 'None',
+    Joined = 'Joined',
+    Disconnected = 'Disconnected',
+    Transfer = 'Transfer',
+    Help = 'Help',
+    Pause = 'Pause',
+    Close = 'Close',
+    Leave = 'Leave',
+    Consultation = 'Consultation',
+    MediaPermissionDenied = 'MediaPermissionDenied',
+    ParticipantJoining = 'ParticipantJoining',
+    SelfTestFailed = 'SelfTestFailed',
+    Suspend = 'Suspend',
+    VhoCall = 'VhoCall',
+    ParticipantNotSignedIn = 'ParticipantNotSignedIn',
+    Start = 'Start',
+    CountdownFinished = 'CountdownFinished',
+    EndpointJoined = 'EndpointJoined',
+    EndpointDisconnected = 'EndpointDisconnected',
+    EndpointTransfer = 'EndpointTransfer',
+    ConnectingToEventHub = 'ConnectingToEventHub',
+    SelectingMedia = 'SelectingMedia',
+    ConnectingToConference = 'ConnectingToConference'
 }
 
 export class HearingDetailsResponse implements IHearingDetailsResponse {
@@ -2641,18 +2630,12 @@ export interface IHearingDetailsResponse {
     group_id?: string | undefined;
 }
 
-export enum UpdateBookingStatus {
-    Created = 'Created',
-    Cancelled = 'Cancelled',
-    Failed = 'Failed'
-}
+export class LinkedParticipantResponse implements ILinkedParticipantResponse {
+    participant_id?: string;
+    linked_id?: string;
+    type?: LinkedParticipantType;
 
-export class UpdateBookingStatusRequest implements IUpdateBookingStatusRequest {
-    updated_by?: string | undefined;
-    status?: UpdateBookingStatus;
-    cancel_reason?: string | undefined;
-
-    constructor(data?: IUpdateBookingStatusRequest) {
+    constructor(data?: ILinkedParticipantResponse) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -2662,51 +2645,39 @@ export class UpdateBookingStatusRequest implements IUpdateBookingStatusRequest {
 
     init(_data?: any) {
         if (_data) {
-            this.updated_by = _data['updated_by'];
-            this.status = _data['status'];
-            this.cancel_reason = _data['cancel_reason'];
+            this.participant_id = _data['participant_id'];
+            this.linked_id = _data['linked_id'];
+            this.type = _data['type'];
         }
     }
 
-    static fromJS(data: any): UpdateBookingStatusRequest {
+    static fromJS(data: any): LinkedParticipantResponse {
         data = typeof data === 'object' ? data : {};
-        let result = new UpdateBookingStatusRequest();
+        let result = new LinkedParticipantResponse();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data['updated_by'] = this.updated_by;
-        data['status'] = this.status;
-        data['cancel_reason'] = this.cancel_reason;
+        data['participant_id'] = this.participant_id;
+        data['linked_id'] = this.linked_id;
+        data['type'] = this.type;
         return data;
     }
 }
 
-export interface IUpdateBookingStatusRequest {
-    updated_by?: string | undefined;
-    status?: UpdateBookingStatus;
-    cancel_reason?: string | undefined;
+export interface ILinkedParticipantResponse {
+    participant_id?: string;
+    linked_id?: string;
+    type?: LinkedParticipantType;
 }
 
-export class ParticipantDetailsResponse implements IParticipantDetailsResponse {
-    id?: string;
-    ref_id?: string;
-    name?: string | undefined;
-    first_name?: string | undefined;
-    last_name?: string | undefined;
-    contact_email?: string | undefined;
-    contact_telephone?: string | undefined;
-    display_name?: string | undefined;
-    username?: string | undefined;
-    user_role?: UserRole;
-    case_type_group?: string | undefined;
-    hearing_role?: string | undefined;
-    representee?: string | undefined;
-    current_status?: ParticipantState;
+export class LinkedParticipantResponse2 implements ILinkedParticipantResponse2 {
+    linked_id?: string;
+    type?: LinkedParticipantType2;
 
-    constructor(data?: IParticipantDetailsResponse) {
+    constructor(data?: ILinkedParticipantResponse2) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -2716,127 +2687,37 @@ export class ParticipantDetailsResponse implements IParticipantDetailsResponse {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data['id'];
-            this.ref_id = _data['ref_id'];
-            this.name = _data['name'];
-            this.first_name = _data['first_name'];
-            this.last_name = _data['last_name'];
-            this.contact_email = _data['contact_email'];
-            this.contact_telephone = _data['contact_telephone'];
-            this.display_name = _data['display_name'];
-            this.username = _data['username'];
-            this.user_role = _data['user_role'];
-            this.case_type_group = _data['case_type_group'];
-            this.hearing_role = _data['hearing_role'];
-            this.representee = _data['representee'];
-            this.current_status = _data['current_status'];
+            this.linked_id = _data['linked_id'];
+            this.type = _data['type'];
         }
     }
 
-    static fromJS(data: any): ParticipantDetailsResponse {
+    static fromJS(data: any): LinkedParticipantResponse2 {
         data = typeof data === 'object' ? data : {};
-        let result = new ParticipantDetailsResponse();
+        let result = new LinkedParticipantResponse2();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data['id'] = this.id;
-        data['ref_id'] = this.ref_id;
-        data['name'] = this.name;
-        data['first_name'] = this.first_name;
-        data['last_name'] = this.last_name;
-        data['contact_email'] = this.contact_email;
-        data['contact_telephone'] = this.contact_telephone;
-        data['display_name'] = this.display_name;
-        data['username'] = this.username;
-        data['user_role'] = this.user_role;
-        data['case_type_group'] = this.case_type_group;
-        data['hearing_role'] = this.hearing_role;
-        data['representee'] = this.representee;
-        data['current_status'] = this.current_status;
+        data['linked_id'] = this.linked_id;
+        data['type'] = this.type;
         return data;
     }
 }
 
-export interface IParticipantDetailsResponse {
-    id?: string;
-    ref_id?: string;
-    name?: string | undefined;
-    first_name?: string | undefined;
-    last_name?: string | undefined;
-    contact_email?: string | undefined;
-    contact_telephone?: string | undefined;
-    display_name?: string | undefined;
-    username?: string | undefined;
-    user_role?: UserRole;
-    case_type_group?: string | undefined;
-    hearing_role?: string | undefined;
-    representee?: string | undefined;
-    current_status?: ParticipantState;
+export interface ILinkedParticipantResponse2 {
+    linked_id?: string;
+    type?: LinkedParticipantType2;
 }
 
-export enum EndpointState {
-    NotYetJoined = 'NotYetJoined',
-    Connected = 'Connected',
-    Disconnected = 'Disconnected',
-    InConsultation = 'InConsultation'
+export enum LinkedParticipantType {
+    Interpreter = 'Interpreter'
 }
 
-export class EndpointResponse implements IEndpointResponse {
-    id?: string;
-    display_name?: string | undefined;
-    sip_address?: string | undefined;
-    pin?: string | undefined;
-    status?: EndpointState;
-    defence_advocate?: string | undefined;
-
-    constructor(data?: IEndpointResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data['id'];
-            this.display_name = _data['display_name'];
-            this.sip_address = _data['sip_address'];
-            this.pin = _data['pin'];
-            this.status = _data['status'];
-            this.defence_advocate = _data['defence_advocate'];
-        }
-    }
-
-    static fromJS(data: any): EndpointResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new EndpointResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['id'] = this.id;
-        data['display_name'] = this.display_name;
-        data['sip_address'] = this.sip_address;
-        data['pin'] = this.pin;
-        data['status'] = this.status;
-        data['defence_advocate'] = this.defence_advocate;
-        return data;
-    }
-}
-
-export interface IEndpointResponse {
-    id?: string;
-    display_name?: string | undefined;
-    sip_address?: string | undefined;
-    pin?: string | undefined;
-    status?: EndpointState;
-    defence_advocate?: string | undefined;
+export enum LinkedParticipantType2 {
+    Interpreter = 'Interpreter'
 }
 
 export class MeetingRoomResponse implements IMeetingRoomResponse {
@@ -2894,24 +2775,25 @@ export interface IMeetingRoomResponse {
     telephone_conference_id?: string | undefined;
 }
 
-export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
+export class ParticipantDetailsResponse implements IParticipantDetailsResponse {
     id?: string;
-    hearing_id?: string;
-    scheduled_date_time?: Date;
-    started_date_time?: Date | undefined;
-    closed_date_time?: Date | undefined;
-    case_type?: string | undefined;
-    case_number?: string | undefined;
-    case_name?: string | undefined;
-    scheduled_duration?: number;
-    current_status?: ConferenceState;
-    participants?: ParticipantDetailsResponse[] | undefined;
-    endpoints?: EndpointResponse[] | undefined;
-    meeting_room?: MeetingRoomResponse;
-    hearing_venue_name?: string | undefined;
-    audio_recording_required?: boolean;
+    ref_id?: string;
+    name?: string | undefined;
+    first_name?: string | undefined;
+    last_name?: string | undefined;
+    contact_email?: string | undefined;
+    contact_telephone?: string | undefined;
+    display_name?: string | undefined;
+    username?: string | undefined;
+    user_role?: UserRole;
+    case_type_group?: string | undefined;
+    hearing_role?: string | undefined;
+    representee?: string | undefined;
+    current_status?: ParticipantState;
+    current_room?: RoomResponse;
+    linked_participants?: LinkedParticipantResponse[] | undefined;
 
-    constructor(data?: IConferenceDetailsResponse) {
+    constructor(data?: IParticipantDetailsResponse) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -2922,32 +2804,30 @@ export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data['id'];
-            this.hearing_id = _data['hearing_id'];
-            this.scheduled_date_time = _data['scheduled_date_time'] ? new Date(_data['scheduled_date_time'].toString()) : <any>undefined;
-            this.started_date_time = _data['started_date_time'] ? new Date(_data['started_date_time'].toString()) : <any>undefined;
-            this.closed_date_time = _data['closed_date_time'] ? new Date(_data['closed_date_time'].toString()) : <any>undefined;
-            this.case_type = _data['case_type'];
-            this.case_number = _data['case_number'];
-            this.case_name = _data['case_name'];
-            this.scheduled_duration = _data['scheduled_duration'];
+            this.ref_id = _data['ref_id'];
+            this.name = _data['name'];
+            this.first_name = _data['first_name'];
+            this.last_name = _data['last_name'];
+            this.contact_email = _data['contact_email'];
+            this.contact_telephone = _data['contact_telephone'];
+            this.display_name = _data['display_name'];
+            this.username = _data['username'];
+            this.user_role = _data['user_role'];
+            this.case_type_group = _data['case_type_group'];
+            this.hearing_role = _data['hearing_role'];
+            this.representee = _data['representee'];
             this.current_status = _data['current_status'];
-            if (Array.isArray(_data['participants'])) {
-                this.participants = [] as any;
-                for (let item of _data['participants']) this.participants!.push(ParticipantDetailsResponse.fromJS(item));
+            this.current_room = _data['current_room'] ? RoomResponse.fromJS(_data['current_room']) : <any>undefined;
+            if (Array.isArray(_data['linked_participants'])) {
+                this.linked_participants = [] as any;
+                for (let item of _data['linked_participants']) this.linked_participants!.push(LinkedParticipantResponse.fromJS(item));
             }
-            if (Array.isArray(_data['endpoints'])) {
-                this.endpoints = [] as any;
-                for (let item of _data['endpoints']) this.endpoints!.push(EndpointResponse.fromJS(item));
-            }
-            this.meeting_room = _data['meeting_room'] ? MeetingRoomResponse.fromJS(_data['meeting_room']) : <any>undefined;
-            this.hearing_venue_name = _data['hearing_venue_name'];
-            this.audio_recording_required = _data['audio_recording_required'];
         }
     }
 
-    static fromJS(data: any): ConferenceDetailsResponse {
+    static fromJS(data: any): ParticipantDetailsResponse {
         data = typeof data === 'object' ? data : {};
-        let result = new ConferenceDetailsResponse();
+        let result = new ParticipantDetailsResponse();
         result.init(data);
         return result;
     }
@@ -2955,128 +2835,65 @@ export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data['id'] = this.id;
-        data['hearing_id'] = this.hearing_id;
-        data['scheduled_date_time'] = this.scheduled_date_time ? this.scheduled_date_time.toISOString() : <any>undefined;
-        data['started_date_time'] = this.started_date_time ? this.started_date_time.toISOString() : <any>undefined;
-        data['closed_date_time'] = this.closed_date_time ? this.closed_date_time.toISOString() : <any>undefined;
-        data['case_type'] = this.case_type;
-        data['case_number'] = this.case_number;
-        data['case_name'] = this.case_name;
-        data['scheduled_duration'] = this.scheduled_duration;
+        data['ref_id'] = this.ref_id;
+        data['name'] = this.name;
+        data['first_name'] = this.first_name;
+        data['last_name'] = this.last_name;
+        data['contact_email'] = this.contact_email;
+        data['contact_telephone'] = this.contact_telephone;
+        data['display_name'] = this.display_name;
+        data['username'] = this.username;
+        data['user_role'] = this.user_role;
+        data['case_type_group'] = this.case_type_group;
+        data['hearing_role'] = this.hearing_role;
+        data['representee'] = this.representee;
         data['current_status'] = this.current_status;
-        if (Array.isArray(this.participants)) {
-            data['participants'] = [];
-            for (let item of this.participants) data['participants'].push(item.toJSON());
+        data['current_room'] = this.current_room ? this.current_room.toJSON() : <any>undefined;
+        if (Array.isArray(this.linked_participants)) {
+            data['linked_participants'] = [];
+            for (let item of this.linked_participants) data['linked_participants'].push(item.toJSON());
         }
-        if (Array.isArray(this.endpoints)) {
-            data['endpoints'] = [];
-            for (let item of this.endpoints) data['endpoints'].push(item.toJSON());
-        }
-        data['meeting_room'] = this.meeting_room ? this.meeting_room.toJSON() : <any>undefined;
-        data['hearing_venue_name'] = this.hearing_venue_name;
-        data['audio_recording_required'] = this.audio_recording_required;
         return data;
     }
 }
 
-export interface IConferenceDetailsResponse {
+export interface IParticipantDetailsResponse {
     id?: string;
-    hearing_id?: string;
-    scheduled_date_time?: Date;
-    started_date_time?: Date | undefined;
-    closed_date_time?: Date | undefined;
-    case_type?: string | undefined;
-    case_number?: string | undefined;
-    case_name?: string | undefined;
-    scheduled_duration?: number;
-    current_status?: ConferenceState;
-    participants?: ParticipantDetailsResponse[] | undefined;
-    endpoints?: EndpointResponse[] | undefined;
-    meeting_room?: MeetingRoomResponse;
-    hearing_venue_name?: string | undefined;
-    audio_recording_required?: boolean;
+    ref_id?: string;
+    name?: string | undefined;
+    first_name?: string | undefined;
+    last_name?: string | undefined;
+    contact_email?: string | undefined;
+    contact_telephone?: string | undefined;
+    display_name?: string | undefined;
+    username?: string | undefined;
+    user_role?: UserRole;
+    case_type_group?: string | undefined;
+    hearing_role?: string | undefined;
+    representee?: string | undefined;
+    current_status?: ParticipantState;
+    current_room?: RoomResponse;
+    linked_participants?: LinkedParticipantResponse[] | undefined;
 }
 
-export class DeleteTestHearingDataRequest implements IDeleteTestHearingDataRequest {
-    partial_hearing_case_name?: string | undefined;
-    limit?: number | undefined;
-
-    constructor(data?: IDeleteTestHearingDataRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.partial_hearing_case_name = _data['partial_hearing_case_name'];
-            this.limit = _data['limit'];
-        }
-    }
-
-    static fromJS(data: any): DeleteTestHearingDataRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new DeleteTestHearingDataRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['partial_hearing_case_name'] = this.partial_hearing_case_name;
-        data['limit'] = this.limit;
-        return data;
-    }
-}
-
-export interface IDeleteTestHearingDataRequest {
-    partial_hearing_case_name?: string | undefined;
-    limit?: number | undefined;
-}
-
-export class DeletedResponse implements IDeletedResponse {
-    number_of_deleted_hearings?: number;
-
-    constructor(data?: IDeletedResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.number_of_deleted_hearings = _data['number_of_deleted_hearings'];
-        }
-    }
-
-    static fromJS(data: any): DeletedResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new DeletedResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data['number_of_deleted_hearings'] = this.number_of_deleted_hearings;
-        return data;
-    }
-}
-
-export interface IDeletedResponse {
-    number_of_deleted_hearings?: number;
-}
-
-export class HearingResponse implements IHearingResponse {
+export class ParticipantResponse2 implements IParticipantResponse2 {
     id?: string;
-    case_name?: string | undefined;
-    scheduled_date?: Date;
+    display_name?: string | undefined;
+    case_role_name?: string | undefined;
+    hearing_role_name?: string | undefined;
+    user_role_name?: string | undefined;
+    title?: string | undefined;
+    first_name?: string | undefined;
+    middle_names?: string | undefined;
+    last_name?: string | undefined;
+    contact_email?: string | undefined;
+    telephone_number?: string | undefined;
+    username?: string | undefined;
+    organisation?: string | undefined;
+    representee?: string | undefined;
+    linked_participants?: LinkedParticipantResponse2[] | undefined;
 
-    constructor(data?: IHearingResponse) {
+    constructor(data?: IParticipantResponse2) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -3087,14 +2904,29 @@ export class HearingResponse implements IHearingResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data['id'];
-            this.case_name = _data['case_name'];
-            this.scheduled_date = _data['scheduled_date'] ? new Date(_data['scheduled_date'].toString()) : <any>undefined;
+            this.display_name = _data['display_name'];
+            this.case_role_name = _data['case_role_name'];
+            this.hearing_role_name = _data['hearing_role_name'];
+            this.user_role_name = _data['user_role_name'];
+            this.title = _data['title'];
+            this.first_name = _data['first_name'];
+            this.middle_names = _data['middle_names'];
+            this.last_name = _data['last_name'];
+            this.contact_email = _data['contact_email'];
+            this.telephone_number = _data['telephone_number'];
+            this.username = _data['username'];
+            this.organisation = _data['organisation'];
+            this.representee = _data['representee'];
+            if (Array.isArray(_data['linked_participants'])) {
+                this.linked_participants = [] as any;
+                for (let item of _data['linked_participants']) this.linked_participants!.push(LinkedParticipantResponse2.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): HearingResponse {
+    static fromJS(data: any): ParticipantResponse2 {
         data = typeof data === 'object' ? data : {};
-        let result = new HearingResponse();
+        let result = new ParticipantResponse2();
         result.init(data);
         return result;
     }
@@ -3102,16 +2934,53 @@ export class HearingResponse implements IHearingResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data['id'] = this.id;
-        data['case_name'] = this.case_name;
-        data['scheduled_date'] = this.scheduled_date ? this.scheduled_date.toISOString() : <any>undefined;
+        data['display_name'] = this.display_name;
+        data['case_role_name'] = this.case_role_name;
+        data['hearing_role_name'] = this.hearing_role_name;
+        data['user_role_name'] = this.user_role_name;
+        data['title'] = this.title;
+        data['first_name'] = this.first_name;
+        data['middle_names'] = this.middle_names;
+        data['last_name'] = this.last_name;
+        data['contact_email'] = this.contact_email;
+        data['telephone_number'] = this.telephone_number;
+        data['username'] = this.username;
+        data['organisation'] = this.organisation;
+        data['representee'] = this.representee;
+        if (Array.isArray(this.linked_participants)) {
+            data['linked_participants'] = [];
+            for (let item of this.linked_participants) data['linked_participants'].push(item.toJSON());
+        }
         return data;
     }
 }
 
-export interface IHearingResponse {
+export interface IParticipantResponse2 {
     id?: string;
-    case_name?: string | undefined;
-    scheduled_date?: Date;
+    display_name?: string | undefined;
+    case_role_name?: string | undefined;
+    hearing_role_name?: string | undefined;
+    user_role_name?: string | undefined;
+    title?: string | undefined;
+    first_name?: string | undefined;
+    middle_names?: string | undefined;
+    last_name?: string | undefined;
+    contact_email?: string | undefined;
+    telephone_number?: string | undefined;
+    username?: string | undefined;
+    organisation?: string | undefined;
+    representee?: string | undefined;
+    linked_participants?: LinkedParticipantResponse2[] | undefined;
+}
+
+export enum ParticipantState {
+    None = 'None',
+    NotSignedIn = 'NotSignedIn',
+    Joining = 'Joining',
+    Available = 'Available',
+    InHearing = 'InHearing',
+    InConsultation = 'InConsultation',
+    Disconnected = 'Disconnected'
 }
 
 export class ResetUserPasswordRequest implements IResetUserPasswordRequest {
@@ -3149,6 +3018,146 @@ export interface IResetUserPasswordRequest {
     username?: string | undefined;
 }
 
+export class RoomResponse implements IRoomResponse {
+    label?: string | undefined;
+    locked?: boolean;
+
+    constructor(data?: IRoomResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.label = _data['label'];
+            this.locked = _data['locked'];
+        }
+    }
+
+    static fromJS(data: any): RoomResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new RoomResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['label'] = this.label;
+        data['locked'] = this.locked;
+        return data;
+    }
+}
+
+export interface IRoomResponse {
+    label?: string | undefined;
+    locked?: boolean;
+}
+
+export enum TestType {
+    Automated = 'Automated',
+    Manual = 'Manual',
+    Performance = 'Performance',
+    ITHC = 'ITHC',
+    Demo = 'Demo'
+}
+
+export class UnallocateUsersRequest implements IUnallocateUsersRequest {
+    usernames!: string[];
+
+    constructor(data?: IUnallocateUsersRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.usernames = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data['usernames'])) {
+                this.usernames = [] as any;
+                for (let item of _data['usernames']) this.usernames!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): UnallocateUsersRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnallocateUsersRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.usernames)) {
+            data['usernames'] = [];
+            for (let item of this.usernames) data['usernames'].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IUnallocateUsersRequest {
+    usernames: string[];
+}
+
+export enum UpdateBookingStatus {
+    Created = 'Created',
+    Cancelled = 'Cancelled',
+    Failed = 'Failed'
+}
+
+export class UpdateBookingStatusRequest implements IUpdateBookingStatusRequest {
+    updated_by?: string | undefined;
+    status?: UpdateBookingStatus;
+    cancel_reason?: string | undefined;
+
+    constructor(data?: IUpdateBookingStatusRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.updated_by = _data['updated_by'];
+            this.status = _data['status'];
+            this.cancel_reason = _data['cancel_reason'];
+        }
+    }
+
+    static fromJS(data: any): UpdateBookingStatusRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateBookingStatusRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['updated_by'] = this.updated_by;
+        data['status'] = this.status;
+        data['cancel_reason'] = this.cancel_reason;
+        return data;
+    }
+}
+
+export interface IUpdateBookingStatusRequest {
+    updated_by?: string | undefined;
+    status?: UpdateBookingStatus;
+    cancel_reason?: string | undefined;
+}
+
 export class UpdateUserResponse implements IUpdateUserResponse {
     new_password?: string | undefined;
 
@@ -3184,11 +3193,21 @@ export interface IUpdateUserResponse {
     new_password?: string | undefined;
 }
 
-export class UserProfileResponse implements IUserProfileResponse {
-    role?: string | undefined;
+export class User implements IUser {
     username?: string | undefined;
+    contact_email?: string | undefined;
+    first_name?: string | undefined;
+    last_name?: string | undefined;
+    display_name?: string | undefined;
+    number?: number;
+    test_type?: TestType;
+    user_type?: UserType;
+    application?: Application;
+    is_prod_user?: boolean;
+    created_date?: Date;
+    id?: string;
 
-    constructor(data?: IUserProfileResponse) {
+    constructor(data?: IUser) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -3198,29 +3217,163 @@ export class UserProfileResponse implements IUserProfileResponse {
 
     init(_data?: any) {
         if (_data) {
-            this.role = _data['role'];
             this.username = _data['username'];
+            this.contact_email = _data['contact_email'];
+            this.first_name = _data['first_name'];
+            this.last_name = _data['last_name'];
+            this.display_name = _data['display_name'];
+            this.number = _data['number'];
+            this.test_type = _data['test_type'];
+            this.user_type = _data['user_type'];
+            this.application = _data['application'];
+            this.is_prod_user = _data['is_prod_user'];
+            this.created_date = _data['created_date'] ? new Date(_data['created_date'].toString()) : <any>undefined;
+            this.id = _data['id'];
         }
     }
 
-    static fromJS(data: any): UserProfileResponse {
+    static fromJS(data: any): User {
         data = typeof data === 'object' ? data : {};
-        let result = new UserProfileResponse();
+        let result = new User();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data['role'] = this.role;
         data['username'] = this.username;
+        data['contact_email'] = this.contact_email;
+        data['first_name'] = this.first_name;
+        data['last_name'] = this.last_name;
+        data['display_name'] = this.display_name;
+        data['number'] = this.number;
+        data['test_type'] = this.test_type;
+        data['user_type'] = this.user_type;
+        data['application'] = this.application;
+        data['is_prod_user'] = this.is_prod_user;
+        data['created_date'] = this.created_date ? this.created_date.toISOString() : <any>undefined;
+        data['id'] = this.id;
         return data;
     }
 }
 
-export interface IUserProfileResponse {
-    role?: string | undefined;
+export interface IUser {
     username?: string | undefined;
+    contact_email?: string | undefined;
+    first_name?: string | undefined;
+    last_name?: string | undefined;
+    display_name?: string | undefined;
+    number?: number;
+    test_type?: TestType;
+    user_type?: UserType;
+    application?: Application;
+    is_prod_user?: boolean;
+    created_date?: Date;
+    id?: string;
+}
+
+export class UserDetailsResponse implements IUserDetailsResponse {
+    id?: string;
+    username?: string | undefined;
+    contact_email?: string | undefined;
+    first_name?: string | undefined;
+    last_name?: string | undefined;
+    display_name?: string | undefined;
+    number?: number;
+    user_type?: UserType;
+    application?: Application;
+    test_type?: TestType;
+    is_prod_user?: boolean;
+    created_date?: Date;
+
+    constructor(data?: IUserDetailsResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.username = _data['username'];
+            this.contact_email = _data['contact_email'];
+            this.first_name = _data['first_name'];
+            this.last_name = _data['last_name'];
+            this.display_name = _data['display_name'];
+            this.number = _data['number'];
+            this.user_type = _data['user_type'];
+            this.application = _data['application'];
+            this.test_type = _data['test_type'];
+            this.is_prod_user = _data['is_prod_user'];
+            this.created_date = _data['created_date'] ? new Date(_data['created_date'].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserDetailsResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserDetailsResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['username'] = this.username;
+        data['contact_email'] = this.contact_email;
+        data['first_name'] = this.first_name;
+        data['last_name'] = this.last_name;
+        data['display_name'] = this.display_name;
+        data['number'] = this.number;
+        data['user_type'] = this.user_type;
+        data['application'] = this.application;
+        data['test_type'] = this.test_type;
+        data['is_prod_user'] = this.is_prod_user;
+        data['created_date'] = this.created_date ? this.created_date.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IUserDetailsResponse {
+    id?: string;
+    username?: string | undefined;
+    contact_email?: string | undefined;
+    first_name?: string | undefined;
+    last_name?: string | undefined;
+    display_name?: string | undefined;
+    number?: number;
+    user_type?: UserType;
+    application?: Application;
+    test_type?: TestType;
+    is_prod_user?: boolean;
+    created_date?: Date;
+}
+
+export enum UserRole {
+    None = 'None',
+    CaseAdmin = 'CaseAdmin',
+    VideoHearingsOfficer = 'VideoHearingsOfficer',
+    HearingFacilitationSupport = 'HearingFacilitationSupport',
+    Judge = 'Judge',
+    Individual = 'Individual',
+    Representative = 'Representative',
+    JudicialOfficeHolder = 'JudicialOfficeHolder'
+}
+
+export enum UserType {
+    None = 'None',
+    CaseAdmin = 'CaseAdmin',
+    VideoHearingsOfficer = 'VideoHearingsOfficer',
+    Witness = 'Witness',
+    Judge = 'Judge',
+    Individual = 'Individual',
+    Representative = 'Representative',
+    Observer = 'Observer',
+    PanelMember = 'PanelMember',
+    Winger = 'Winger',
+    Tester = 'Tester'
 }
 
 export class ApiException extends Error {

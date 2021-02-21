@@ -46,7 +46,8 @@ export class HearingService {
         Panel Members: ${hearingFormData.panelMembers}
         Number of hearings: ${hearingFormData.numberOfHearings}
         Number of endpoints ${hearingFormData.numberOfEndpoints}
-        Reuse users ${hearingFormData.reuseUsers}`);
+        Reuse users ${hearingFormData.reuseUsers}
+        Witnesses ${hearingFormData.witnesses}`);
     }
 
     private addUsersToHearingModel(allocatedUsers: UserModel[]) {

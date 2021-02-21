@@ -44,7 +44,8 @@ describe('AllocationService', () => {
             UserType.Individual,
             UserType.Representative,
             UserType.Observer,
-            UserType.PanelMember
+            UserType.PanelMember,
+            UserType.Witness
         ];
         allocateUserModel.test_type = TestType.Manual;
 
