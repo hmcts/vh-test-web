@@ -1,5 +1,4 @@
 <div class="govuk-grid-row">
-
   <ngx-spinner></ngx-spinner>
 
   <div class="govuk-grid-column-full">
@@ -7,11 +6,8 @@
   </div>
 
   <form [formGroup]="form" class="govuk-form-group">
-
     <div class="govuk-grid-column-one-half">
-
-      <div class="govuk-!-padding-bottom-4" >
-
+      <div class="govuk-!-padding-bottom-4">
         <label class="govuk-label govuk-!-width-full extra-bottom-margin" for="customCaseNamePrefix"> Custom Name (optional) </label>
         <input
           id="customCaseNamePrefix"
@@ -22,7 +18,6 @@
           formControlName="customCaseNamePrefix"
           required
         />
-
       </div>
 
       <div [ngClass]="hearingDateInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
@@ -107,8 +102,7 @@
 
       <div class="govuk-form-group">
         <label class="govuk-label govuk-!-width-full" for="testTypeDropdown"> Test type </label>
-        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="testTypeDropdown"
-        >
+        <select id="testTypeDropdown" class="govuk-select govuk-!-width-one-quarter" formControlName="testTypeDropdown">
           <option *ngFor="let testType of testTypes" [ngValue]="testType">
             {{ testType }}
           </option>
@@ -145,7 +139,16 @@
 
       <div class="govuk-!-padding-bottom-2"></div>
 
-      <div *ngIf="!hearingDateInvalid && !hearingStartTimeHourInvalid && !hearingStartTimeMinuteInvalid && !isStartHoursInPast && !isStartMinutesInPast" class="sk-top">
+      <div
+        *ngIf="
+          !hearingDateInvalid &&
+          !hearingStartTimeHourInvalid &&
+          !hearingStartTimeMinuteInvalid &&
+          !isStartHoursInPast &&
+          !isStartMinutesInPast
+        "
+        class="sk-top"
+      >
         <div class="govuk-grid-column-one-half no-left-margin">
           <button
             id="bookButton"
@@ -158,112 +161,145 @@
             {{ buttonAction }}
           </button>
         </div>
-
       </div>
     </div>
 
     <div class="govuk-grid-column-one-half">
-      <div [ngClass]="individualsInvalid || representativesInvalid || observersInvalid || panelMembersInvalid ? 'govuk-form-group--error' : 'govuk-form-group'">
+      <div
+        [ngClass]="
+          individualsInvalid || representativesInvalid || observersInvalid || panelMembersInvalid
+            ? 'govuk-form-group--error'
+            : 'govuk-form-group'
+        "
+      >
         <label class="govuk-label govuk-!-width-full" for="participants"> Participants </label>
 
         <fieldset class="govuk-fieldset" role="group">
-
           <legend></legend>
 
           <div class="govuk-form-group govuk-input__wrapper">
             <input
-                class="govuk-input govuk-input--width-2 numberInputs"
-                id="individualsTextfield"
-                name="individualsTextfield"
-                type="number"
-                placeholder="1"
-                min="1"
-                max={{maxParticipants}}
-                title="individualsTextfield"
-                formControlName="individualsTextfield"
-                aria-label="individualsTextfield"
-                aria-labelledby="individualsTextfield"
-                [required]='true'
-              />
+              class="govuk-input govuk-input--width-2 numberInputs"
+              id="individualsTextfield"
+              name="individualsTextfield"
+              type="number"
+              placeholder="1"
+              min="1"
+              max="{{ maxParticipants }}"
+              title="individualsTextfield"
+              formControlName="individualsTextfield"
+              aria-label="individualsTextfield"
+              aria-labelledby="individualsTextfield"
+              [required]="true"
+            />
             <div class="govuk-input__suffix suffixes" aria-hidden="true">Individuals</div>
           </div>
 
           <div class="govuk-form-group govuk-input__wrapper">
             <input
-                class="govuk-input govuk-input--width-2 numberInputs"
-                id="representativesTextfield"
-                name="representativesTextfield"
-                type="number"
-                placeholder="1"
-                min="1"
-                max={{maxParticipants}}
-                title="representativesTextfield"
-                formControlName="representativesTextfield"
-                aria-label="representativesTextfield"
-                aria-labelledby="representativesTextfield"
-                [required]='true'
-              />
+              class="govuk-input govuk-input--width-2 numberInputs"
+              id="representativesTextfield"
+              name="representativesTextfield"
+              type="number"
+              placeholder="1"
+              min="0"
+              max="{{ maxParticipants }}"
+              title="representativesTextfield"
+              formControlName="representativesTextfield"
+              aria-label="representativesTextfield"
+              aria-labelledby="representativesTextfield"
+              [required]="true"
+            />
             <div class="govuk-input__suffix suffixes" aria-hidden="true">Representatives</div>
           </div>
 
           <div class="govuk-form-group govuk-input__wrapper">
             <input
-                class="govuk-input govuk-input--width-2 numberInputs"
-                id="observersTextfield"
-                name="observersTextfield"
-                type="number"
-                placeholder="0"
-                min="1"
-                max={{maxParticipants}}
-                title="observersTextfield"
-                formControlName="observersTextfield"
-                aria-label="observersTextfield"
-                aria-labelledby="observersTextfield"
-                [required]='true'
-              />
+              class="govuk-input govuk-input--width-2 numberInputs"
+              id="observersTextfield"
+              name="observersTextfield"
+              type="number"
+              placeholder="0"
+              min="0"
+              max="{{ maxParticipants }}"
+              title="observersTextfield"
+              formControlName="observersTextfield"
+              aria-label="observersTextfield"
+              aria-labelledby="observersTextfield"
+              [required]="true"
+            />
             <div class="govuk-input__suffix suffixes" aria-hidden="true">Observers</div>
           </div>
 
           <div class="govuk-form-group govuk-input__wrapper">
             <input
-                class="govuk-input govuk-input--width-2 numberInputs"
-                id="panelMembersTextfield"
-                name="panelMembersTextfield"
-                type="number"
-                placeholder="0"
-                min="1"
-                max={{maxParticipants}}
-                title="panelMembersTextfield"
-                formControlName="panelMembersTextfield"
-                aria-label="panelMembersTextfield"
-                aria-labelledby="panelMembersTextfield"
-                [required]='true'
-              />
+              class="govuk-input govuk-input--width-2 numberInputs"
+              id="panelMembersTextfield"
+              name="panelMembersTextfield"
+              type="number"
+              placeholder="0"
+              min="0"
+              max="{{ maxParticipants }}"
+              title="panelMembersTextfield"
+              formControlName="panelMembersTextfield"
+              aria-label="panelMembersTextfield"
+              aria-labelledby="panelMembersTextfield"
+              [required]="true"
+            />
             <div class="govuk-input__suffix suffixes" aria-hidden="true">Panel Members</div>
           </div>
 
+          <div class="govuk-form-group govuk-input__wrapper">
+            <input
+              class="govuk-input govuk-input--width-2 numberInputs"
+              id="witnessesTextfield"
+              name="witnessesTextfield"
+              type="number"
+              placeholder="0"
+              min="0"
+              max="{{ maxParticipants }}"
+              title="witnessesTextfield"
+              formControlName="witnessesTextfield"
+              aria-label="witnessesTextfield"
+              aria-labelledby="witnessesTextfield"
+              [required]="true"
+            />
+            <div class="govuk-input__suffix suffixes" aria-hidden="true">Witnesses</div>
+          </div>
         </fieldset>
         <div *ngIf="individualsInvalid" class="alert alert-danger">
-          <span id="individualsInvalid-error" class="govuk-error-message"> Provide a value for the number of individual participants between 1 and {{maxParticipants}} </span>
+          <span id="individualsInvalid-error" class="govuk-error-message">
+            Provide a value for the number of individual participants between 1 and {{ maxParticipants }}
+          </span>
         </div>
         <div *ngIf="representativesInvalid" class="alert alert-danger">
-          <span id="representativesInvalid-error" class="govuk-error-message"> Provide a value for he number of representative participants between 0 and {{maxParticipants}} </span>
+          <span id="representativesInvalid-error" class="govuk-error-message">
+            Provide a value for the number of representative participants between 0 and {{ maxParticipants }}
+          </span>
         </div>
         <div *ngIf="observersInvalid" class="alert alert-danger">
-          <span id="observersInvalid-error" class="govuk-error-message"> Provide a value for he number of observer participants between 0 and {{maxParticipants}} </span>
+          <span id="observersInvalid-error" class="govuk-error-message">
+            Provide a value for the number of observer participants between 0 and {{ maxParticipants }}
+          </span>
         </div>
         <div *ngIf="panelMembersInvalid" class="alert alert-danger">
-          <span id="panelMembersInvalid-error" class="govuk-error-message"> Provide a value for he number of panel member participants between 0 and {{maxParticipants}} </span>
+          <span id="panelMembersInvalid-error" class="govuk-error-message">
+            Provide a value for the number of panel member participants between 0 and {{ maxParticipants }}
+          </span>
+        </div>
+        <div *ngIf="witnessesInvalid" class="alert alert-danger">
+          <span id="witnessesInvalid-error" class="govuk-error-message">
+            Provide a value for the number of witness participants between 0 and {{ maxParticipants }}
+          </span>
         </div>
         <div *ngIf="noIndividualsOrReps" class="alert alert-danger">
           <span id="noIndividualsOrReps-error" class="govuk-error-message"> Please add at least 1 individual or representative </span>
         </div>
-
       </div>
 
       <div class="govuk-form-group">
         <label class="govuk-label govuk-!-width-full" for="endpointsDropdown"> Endpoints </label>
-        <select id="endpointsDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="endpointsDropdown">
+        <select id="endpointsDropdown" class="govuk-select govuk-!-width-one-quarter" formControlName="endpointsDropdown">
           <option *ngFor="let number of numberOfEndpointsOptions" [ngValue]="number">
             {{ number }}
           </option>
@@ -272,7 +308,7 @@
 
       <div class="govuk-form-group">
         <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
-        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter"  formControlName="quantityDropdown">
+        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter" formControlName="quantityDropdown">
           <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
             {{ number }}
           </option>
@@ -292,32 +328,25 @@
           <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Re-use same users </label>
         </div>
       </div>
-
     </div>
-
   </form>
 
   <div *ngIf="displayProgressPopup" id="progressDialog" class="vh-popup-overlay">
     <div class="vh-popup">
-
       <h1 *ngIf="!finishedCreatingHearings" id="inProgressTitle" class="govuk-heading-m">Creating hearings</h1>
       <h1 *ngIf="finishedCreatingHearings && !errorsOccured" id="completeTitle" class="govuk-heading-m">Hearings created</h1>
       <h1 *ngIf="errorsOccured" id="completeTitle" class="govuk-heading-m">Failed to create hearings</h1>
 
       <div *ngIf="!summeriesToDisplay() && !errorsOccured">
-        <p id='progressText' class="govuk-body govuk-!-margin-bottom-9">
-          Please wait whilst the hearings are created.
-        </p>
+        <p id="progressText" class="govuk-body govuk-!-margin-bottom-9">Please wait whilst the hearings are created.</p>
       </div>
 
       <div *ngIf="summeriesToDisplay()">
         <dl *ngFor="let caseName of caseNames; index as i" class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Hearing {{ i+1 }}
-            </dt>
-            <dd id='hearing-{{i}}' class="govuk-summary-list__value">
-              {{caseName}}
+            <dt class="govuk-summary-list__key">Hearing {{ i + 1 }}</dt>
+            <dd id="hearing-{{ i }}" class="govuk-summary-list__value">
+              {{ caseName }}
             </dd>
           </div>
         </dl>
@@ -326,11 +355,9 @@
       <div *ngIf="errorsToDisplay()">
         <dl *ngFor="let error of errors; index as i" class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Error {{ i+1 }}
-            </dt>
-            <dd id='hearing-{{i}}' class="govuk-summary-list__value">
-              {{error}}
+            <dt class="govuk-summary-list__key">Error {{ i + 1 }}</dt>
+            <dd id="hearing-{{ i }}" class="govuk-summary-list__value">
+              {{ error }}
             </dd>
           </div>
         </dl>
@@ -361,7 +388,6 @@
           Close
         </button>
       </div>
-
     </div>
   </div>
 </div>

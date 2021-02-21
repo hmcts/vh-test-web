@@ -21,4 +21,5 @@ export class HearingFormData {
     reuseUsers: boolean;
     scheduledDateTime: Date | undefined;
     testType: TestType | undefined;
+    witnesses: number | undefined;
 }

@@ -50,6 +50,7 @@ export class AllocationService {
         this.addUserTypesToModel(hearingFormData.representatives, UserType.Representative);
         this.addUserTypesToModel(hearingFormData.observers, UserType.Observer);
         this.addUserTypesToModel(hearingFormData.panelMembers, UserType.PanelMember);
+        this.addUserTypesToModel(hearingFormData.witnesses, UserType.Witness);
         this.logger.debug(
             `${this.loggerPrefix} ${this.allocateUsersModel.usertypes.length} have been added the allocation request in total`
         );

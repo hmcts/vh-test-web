@@ -36,7 +36,8 @@ export class AllocateUsersComponent implements OnInit {
         UserType.PanelMember,
         UserType.Representative,
         UserType.VideoHearingsOfficer,
-        UserType.Winger
+        UserType.Winger,
+        UserType.Witness
     ];
     allocations: AllocatedUserModel[] = [];
     allocatedUser: UserModel;
