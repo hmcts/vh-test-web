@@ -41,6 +41,7 @@ export class HearingService {
         Questionnaire not required: ${hearingFormData.questionnaireNotRequired}
         Audio recording required: ${hearingFormData.audioRecordingRequired}
         Individuals: ${hearingFormData.individuals}
+        Interpreters: ${hearingFormData.interpreters}
         Representatives: ${hearingFormData.representatives}
         Observers: ${hearingFormData.observers}
         Panel Members: ${hearingFormData.panelMembers}

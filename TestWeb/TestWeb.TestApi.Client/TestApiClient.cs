@@ -4473,6 +4473,9 @@ namespace TestWeb.TestApi.Client
         [System.Runtime.Serialization.EnumMember(Value = @"Tester")]
         Tester = 10,
     
+        [System.Runtime.Serialization.EnumMember(Value = @"Interpreter")]
+        Interpreter = 11,
+    
     }
     
     /// <summary>Allocate a single user request model</summary>

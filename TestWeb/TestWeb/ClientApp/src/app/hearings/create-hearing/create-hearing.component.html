@@ -137,7 +137,28 @@
         </div>
       </div>
 
-      <div class="govuk-!-padding-bottom-2"></div>
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
+        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter" formControlName="quantityDropdown">
+          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="multipleHearings()" class="govuk-form-group">
+        <div class="govuk-checkboxes__item">
+          <input
+            class="govuk-checkboxes__input"
+            id="reuseUsersCheckBox"
+            name="reuseUsersCheckBox"
+            type="checkbox"
+            [checked]="defaultReuseUsers"
+            formControlName="reuseUsersCheckBox"
+          />
+          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Re-use same users </label>
+        </div>
+      </div>
 
       <div
         *ngIf="
@@ -156,7 +177,7 @@
             data-module="govuk-button"
             (click)="displayConfirmationDialog()"
             alt="Book hearing and view hearing details"
-            [disabled]="bookingsSaving"
+            [disabled]="bookingsSaving || disableBookButton()"
           >
             {{ buttonAction }}
           </button>
@@ -198,19 +219,19 @@
           <div class="govuk-form-group govuk-input__wrapper">
             <input
               class="govuk-input govuk-input--width-2 numberInputs"
-              id="representativesTextfield"
-              name="representativesTextfield"
+              id="interpretersTextfield"
+              name="interpretersTextfield"
               type="number"
-              placeholder="1"
+              placeholder="0"
               min="0"
               max="{{ maxParticipants }}"
-              title="representativesTextfield"
-              formControlName="representativesTextfield"
-              aria-label="representativesTextfield"
-              aria-labelledby="representativesTextfield"
+              title="interpretersTextfield"
+              formControlName="interpretersTextfield"
+              aria-label="interpretersTextfield"
+              aria-labelledby="interpretersTextfield"
               [required]="true"
             />
-            <div class="govuk-input__suffix suffixes" aria-hidden="true">Representatives</div>
+            <div class="govuk-input__suffix suffixes" aria-hidden="true">Interpreters</div>
           </div>
 
           <div class="govuk-form-group govuk-input__wrapper">
@@ -252,6 +273,24 @@
           <div class="govuk-form-group govuk-input__wrapper">
             <input
               class="govuk-input govuk-input--width-2 numberInputs"
+              id="representativesTextfield"
+              name="representativesTextfield"
+              type="number"
+              placeholder="1"
+              min="0"
+              max="{{ maxParticipants }}"
+              title="representativesTextfield"
+              formControlName="representativesTextfield"
+              aria-label="representativesTextfield"
+              aria-labelledby="representativesTextfield"
+              [required]="true"
+            />
+            <div class="govuk-input__suffix suffixes" aria-hidden="true">Representatives</div>
+          </div>
+
+          <div class="govuk-form-group govuk-input__wrapper">
+            <input
+              class="govuk-input govuk-input--width-2 numberInputs"
               id="witnessesTextfield"
               name="witnessesTextfield"
               type="number"
@@ -270,6 +309,11 @@
         <div *ngIf="individualsInvalid" class="alert alert-danger">
           <span id="individualsInvalid-error" class="govuk-error-message">
             Provide a value for the number of individual participants between 1 and {{ maxParticipants }}
+          </span>
+        </div>
+        <div *ngIf="interpretersInvalid" class="alert alert-danger">
+          <span id="interpretersInvalid-error" class="govuk-error-message">
+            Provide a value for the number of interpreter participants between 0 and {{ maxParticipants }}
           </span>
         </div>
         <div *ngIf="representativesInvalid" class="alert alert-danger">
@@ -304,29 +348,6 @@
             {{ number }}
           </option>
         </select>
-      </div>
-
-      <div class="govuk-form-group">
-        <label class="govuk-label govuk-!-width-full" for="quantityDropdown"> Number of hearings </label>
-        <select id="quantityDropdown" class="govuk-select govuk-!-width-one-quarter" formControlName="quantityDropdown">
-          <option *ngFor="let number of numberOfHearingsOptions" [ngValue]="number">
-            {{ number }}
-          </option>
-        </select>
-      </div>
-
-      <div *ngIf="multipleHearings()" class="govuk-form-group">
-        <div class="govuk-checkboxes__item">
-          <input
-            class="govuk-checkboxes__input"
-            id="reuseUsersCheckBox"
-            name="reuseUsersCheckBox"
-            type="checkbox"
-            [checked]="defaultReuseUsers"
-            formControlName="reuseUsersCheckBox"
-          />
-          <label class="govuk-label govuk-checkboxes__label" for="audioRecordingRequiredCheckBox"> Re-use same users </label>
-        </div>
       </div>
     </div>
   </form>
