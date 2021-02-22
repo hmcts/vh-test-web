@@ -31,6 +31,7 @@ export class AllocateUsersComponent implements OnInit {
     userTypes: string[] = [
         UserType.CaseAdmin,
         UserType.Individual,
+        UserType.Interpreter,
         UserType.Judge,
         UserType.Observer,
         UserType.PanelMember,

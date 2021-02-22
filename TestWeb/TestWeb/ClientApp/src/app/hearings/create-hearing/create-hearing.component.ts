@@ -28,6 +28,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     defaultAudioRecordingRequired = false;
     defaultReuseUsers = true;
     private defaultIndividuals = 1;
+    private defaultInterpreters = 0;
     private defaultRepresentatives = 0;
     private defaultObservers = 0;
     private defaultPanelMembers = 0;
@@ -45,6 +46,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     audioRecordingRequiredCheckBox: FormControl;
     reuseUsersCheckBox: FormControl;
     individualsTextfield: FormControl;
+    interpretersTextfield: FormControl;
     representativesTextfield: FormControl;
     observersTextfield: FormControl;
     panelMembersTextfield: FormControl;
@@ -164,13 +166,14 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         data.hearingDate = hearingDate;
         data.hearingStartTimeHour = this.form.value.hearingStartTimeHour;
         data.hearingStartTimeMinute = this.form.value.hearingStartTimeMinute;
-        data.individuals = this.individuals.value;
+        data.individuals = this.individualsTextfield.value;
+        data.interpreters = this.interpretersTextfield.value;
         data.numberOfHearings = this.quantityDropdown.value;
         data.numberOfEndpoints = this.endpointsDropdown.value;
-        data.observers = this.observers.value;
-        data.panelMembers = this.panelMembers.value;
+        data.observers = this.observersTextfield.value;
+        data.panelMembers = this.panelMembersTextfield.value;
         data.questionnaireNotRequired = this.questionnaireNotRequiredCheckBox.value;
-        data.representatives = this.representatives.value;
+        data.representatives = this.representativesTextfield.value;
         data.reuseUsers = this.reuseUsersCheckBox.value;
         data.scheduledDateTime = hearingDate;
         data.testType = this.testTypeDropdown.value;
@@ -195,6 +198,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         this.questionnaireNotRequiredCheckBox = new FormControl(this.defaultQuestionnaireNotRequired);
         this.audioRecordingRequiredCheckBox = new FormControl(this.defaultAudioRecordingRequired);
         this.individualsTextfield = new FormControl(this.defaultIndividuals);
+        this.interpretersTextfield = new FormControl(this.defaultInterpreters);
         this.representativesTextfield = new FormControl(this.defaultRepresentatives);
         this.observersTextfield = new FormControl(this.defaultObservers);
         this.panelMembersTextfield = new FormControl(this.defaultPanelMembers);
@@ -212,6 +216,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
             questionnaireNotRequiredCheckBox: this.questionnaireNotRequiredCheckBox,
             audioRecordingRequiredCheckBox: this.audioRecordingRequiredCheckBox,
             individualsTextfield: this.individualsTextfield,
+            interpretersTextfield: this.interpretersTextfield,
             representativesTextfield: this.representativesTextfield,
             observersTextfield: this.observersTextfield,
             panelMembersTextfield: this.panelMembersTextfield,
@@ -238,26 +243,6 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         return this.form.get('hearingStartTimeMinute');
     }
 
-    get individuals() {
-        return this.form.get('individualsTextfield');
-    }
-
-    get representatives() {
-        return this.form.get('representativesTextfield');
-    }
-
-    get observers() {
-        return this.form.get('observersTextfield');
-    }
-
-    get panelMembers() {
-        return this.form.get('panelMembersTextfield');
-    }
-
-    get witnesses() {
-        return this.form.get('witnessesTextfield');
-    }
-
     get hearingDateInvalid() {
         const todayDate = new Date(new Date().setHours(0, 0, 0, 0));
         return (
@@ -279,42 +264,31 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     }
 
     get individualsInvalid() {
-        return (
-            (this.individuals.invalid || this.individuals.value > this.maxParticipants || this.individuals.value < 0) &&
-            (this.individuals.dirty || this.individuals.touched)
-        );
+        return this.individualsTextfield.value > this.maxParticipants || this.individualsTextfield.value < 0;
+    }
+
+    get interpretersInvalid() {
+        return this.interpretersTextfield.value > this.maxParticipants || this.interpretersTextfield.value.value < 0;
     }
 
     get representativesInvalid() {
-        return (
-            (this.representatives.invalid || this.representatives.value > this.maxParticipants || this.representatives.value < 0) &&
-            (this.representatives.dirty || this.representatives.touched)
-        );
+        return this.representativesTextfield.value > this.maxParticipants || this.representativesTextfield.value < 0;
     }
 
     get observersInvalid() {
-        return (
-            (this.observers.invalid || this.observers.value > this.maxParticipants || this.observers.value < 0) &&
-            (this.observers.dirty || this.observers.touched)
-        );
+        return this.observersTextfield.value > this.maxParticipants || this.observersTextfield.value < 0;
     }
 
     get panelMembersInvalid() {
-        return (
-            (this.panelMembers.invalid || this.panelMembers.value > this.maxParticipants || this.panelMembers.value < 0) &&
-            (this.panelMembers.dirty || this.panelMembers.touched)
-        );
+        return this.panelMembersTextfield.value > this.maxParticipants || this.panelMembersTextfield.value < 0;
     }
 
     get witnessesInvalid() {
-        return (
-            (this.witnesses.invalid || this.witnesses.value > this.maxParticipants || this.witnesses.value < 0) &&
-            (this.witnesses.dirty || this.witnesses.touched)
-        );
+        return this.witnessesTextfield.value > this.maxParticipants || this.witnessesTextfield.value < 0;
     }
 
     get noIndividualsOrReps() {
-        return this.individuals.value + this.representatives.value === 0;
+        return this.individualsTextfield.value + this.representativesTextfield.value === 0;
     }
 
     startHoursInPast() {
@@ -337,6 +311,22 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
 
     get hearingStartTimeMinuteInvalid() {
         return this.hearingStartTimeMinute.invalid && (this.hearingStartTimeMinute.dirty || this.hearingStartTimeMinute.touched);
+    }
+
+    disableBookButton() {
+        return (
+            this.hearingDateInvalid ||
+            this.hearingDateExceedsMax ||
+            this.hearingStartTimeHourInvalid ||
+            this.hearingStartTimeMinuteInvalid ||
+            this.individualsInvalid ||
+            this.interpretersInvalid ||
+            this.representativesInvalid ||
+            this.observersInvalid ||
+            this.panelMembersInvalid ||
+            this.witnessesInvalid ||
+            this.noIndividualsOrReps
+        );
     }
 
     resetPastTimeOnBlur() {

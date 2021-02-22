@@ -43,6 +43,7 @@ export class TestApiServiceTestData {
             hearingStartTimeHour: hearingDate.getHours(),
             hearingStartTimeMinute: hearingDate.getMinutes(),
             individuals: 1,
+            interpreters: 1,
             numberOfHearings: 1,
             observers: 1,
             panelMembers: 1,
@@ -148,7 +149,7 @@ export class TestApiServiceTestData {
         participant.ref_id = 'referenceid';
         participant.representee = '';
         participant.user_role = UserRole.Individual;
-        participant.username = 'test.user@email.net';
+        participant.username = 'test.username@hmcts.net';
         participants.push(participant);
         return participants;
     }
@@ -168,7 +169,7 @@ export class TestApiServiceTestData {
         userDetails.number = 10;
         userDetails.test_type = TestType.Manual;
         userDetails.user_type = UserType.Individual;
-        userDetails.username = 'test.user@email.net';
+        userDetails.username = 'test.username@hmcts.net';
         userDetailsResponse.push(userDetails);
 
         return userDetailsResponse;
@@ -214,7 +215,7 @@ export class TestApiServiceTestData {
         participant.last_name = 'lastname';
         participant.representee = '';
         participant.user_role_name = UserRole.Individual;
-        participant.username = 'test.user@email.net';
+        participant.username = 'test.user@hmcts.net';
         participants.push(participant);
         return participants;
     }
@@ -243,7 +244,7 @@ export class TestApiServiceTestData {
         userModel.number = 100;
         userModel.test_type = TestType.Manual;
         userModel.user_type = UserType.Individual;
-        userModel.username = 'test.user@email.net';
+        userModel.username = 'test.user@hmcts.net';
         allocatedUsers.push(userModel);
 
         return allocatedUsers;
@@ -273,7 +274,7 @@ export class TestApiServiceTestData {
         individual.id = '456';
         individual.status = ParticipantState.NotSignedIn;
         individual.user_role = UserRole.Individual;
-        individual.username = 'individial@mail.net';
+        individual.username = 'individial@hmcts.net';
         participants.push(individual);
 
         response.participants = participants;
@@ -306,7 +307,7 @@ export class TestApiServiceTestData {
 
     getUserPasswords(): Dictionary<string> {
         const passwords = new Dictionary<string>();
-        passwords.add('test.user@email.net', 'password');
+        passwords.add('test.user@hmcts.net', 'password');
         return passwords;
     }
 

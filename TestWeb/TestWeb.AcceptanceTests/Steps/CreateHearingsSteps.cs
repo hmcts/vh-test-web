@@ -30,7 +30,7 @@ namespace TestWeb.AcceptanceTests.Steps
 
         public void ProgressToNextPage()
         {
-            SetTheParticipants(DefaultData.Individuals, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers);
+            SetTheParticipants(DefaultData.Individuals, DefaultData.Interpreters, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers, DefaultData.Witnesses);
             ClickBook();
             GetTheHearingNames();
             ClickContinue();
@@ -47,7 +47,7 @@ namespace TestWeb.AcceptanceTests.Steps
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfHearingsDropdown, numberOfHearings.ToString());
             _browser.Driver.WaitForListToBePopulated(CreateHearingPage.NumberOfEndpointsDropdown);
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfEndpointsDropdown, numberOfEndpoints.ToString());
-            SetTheParticipants(DefaultData.Individuals, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers);
+            SetTheParticipants(DefaultData.Individuals, DefaultData.Interpreters, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers, DefaultData.Witnesses);
             ClickBook();
         }
 
@@ -61,16 +61,20 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Click(CreateHearingPage.ContinueButton);
         }
 
-        private void SetTheParticipants(int individuals, int representatives, int observers, int panelMembers)
+        private void SetTheParticipants(int individuals, int interpreters, int representatives, int observers, int panelMembers, int wintesses)
         {
             _browser.Clear(CreateHearingPage.IndividualsTextfield);
             _browser.Driver.WaitUntilVisible(CreateHearingPage.IndividualsTextfield).SendKeys(individuals.ToString());
+            _browser.Clear(CreateHearingPage.InterpretersTextfield);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.InterpretersTextfield).SendKeys(interpreters.ToString());
             _browser.Clear(CreateHearingPage.RepresentativesTextfield);
             _browser.Driver.WaitUntilVisible(CreateHearingPage.RepresentativesTextfield).SendKeys(representatives.ToString());
             _browser.Clear(CreateHearingPage.ObserversTextfield);
             _browser.Driver.WaitUntilVisible(CreateHearingPage.ObserversTextfield).SendKeys(observers.ToString());
             _browser.Clear(CreateHearingPage.PanelMembersTextfield);
             _browser.Driver.WaitUntilVisible(CreateHearingPage.PanelMembersTextfield).SendKeys(panelMembers.ToString());
+            _browser.Clear(CreateHearingPage.WitnessesTextfield);
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.WitnessesTextfield).SendKeys(wintesses.ToString());
             Thread.Sleep(TimeSpan.FromSeconds(1));
         }
 
@@ -120,7 +124,7 @@ namespace TestWeb.AcceptanceTests.Steps
         public void WhenTheUserAttemptsToExceedTheAllowedParticipants()
         {
             const int ABOVE_THE_MAX = 22;
-            SetTheParticipants(ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX);
+            SetTheParticipants(ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX, ABOVE_THE_MAX);
         }
 
         [Then(@"errors should appear to state that the numbers are too high")]
@@ -135,7 +139,7 @@ namespace TestWeb.AcceptanceTests.Steps
         [When(@"the user attempts to not add any individuals or representatives")]
         public void WhenTheUserAttemptsToNotAddAnyIndividualsOrRepresentatives()
         {
-            SetTheParticipants(0, 0, 1, 1);
+            SetTheParticipants(0, 1, 0, 1, 1, 1);
         }
 
         [Then(@"an error message appears stating that there are no individuals or representatives")]

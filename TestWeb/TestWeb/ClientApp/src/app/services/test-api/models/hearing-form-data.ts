@@ -12,6 +12,7 @@ export class HearingFormData {
     hearingStartTimeHour: number | undefined;
     hearingStartTimeMinute: number | undefined;
     individuals: number | undefined;
+    interpreters: number | undefined;
     numberOfHearings: number | undefined;
     numberOfEndpoints: number | undefined;
     observers: number | undefined;

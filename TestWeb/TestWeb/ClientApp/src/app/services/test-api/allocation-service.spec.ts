@@ -42,6 +42,7 @@ describe('AllocationService', () => {
         allocateUserModel.usertypes = [
             UserType.Judge,
             UserType.Individual,
+            UserType.Interpreter,
             UserType.Representative,
             UserType.Observer,
             UserType.PanelMember,

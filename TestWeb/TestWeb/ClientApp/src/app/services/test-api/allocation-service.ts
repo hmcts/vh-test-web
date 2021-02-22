@@ -47,6 +47,7 @@ export class AllocationService {
         this.allocateUsersModel.test_type = hearingFormData.testType;
         this.addUserTypesToModel(1, UserType.Judge);
         this.addUserTypesToModel(hearingFormData.individuals, UserType.Individual);
+        this.addUserTypesToModel(hearingFormData.interpreters, UserType.Interpreter);
         this.addUserTypesToModel(hearingFormData.representatives, UserType.Representative);
         this.addUserTypesToModel(hearingFormData.observers, UserType.Observer);
         this.addUserTypesToModel(hearingFormData.panelMembers, UserType.PanelMember);

@@ -3373,7 +3373,8 @@ export enum UserType {
     Observer = 'Observer',
     PanelMember = 'PanelMember',
     Winger = 'Winger',
-    Tester = 'Tester'
+    Tester = 'Tester',
+    Interpreter = 'Interpreter'
 }
 
 export class ApiException extends Error {
