@@ -1,5 +1,4 @@
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
-import { UserData } from 'src/app/common/models/data/user-data';
 import { UserModel } from 'src/app/common/models/user.model';
 import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
 import { ProfileService } from '../api/profile-service';
