@@ -30,5 +30,6 @@ namespace TestWeb.AcceptanceTests.Pages
         public static readonly By InvalidObserversError = By.Id("observersInvalid-error");
         public static readonly By InvalidPanelMembersError = By.Id("panelMembersInvalid-error");
         public static readonly By InvalidNumberOfIndividualsAndRepsError = By.Id("noIndividualsOrReps-error");
+        public static readonly By MoreInterpretersThanIndividualsError = By.Id("moreInterpretersThanIndividuals-error");
     }
 }

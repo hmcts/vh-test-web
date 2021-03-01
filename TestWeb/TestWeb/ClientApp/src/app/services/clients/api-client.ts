@@ -2021,6 +2021,55 @@ export interface ICaseResponse {
     is_lead_case?: boolean;
 }
 
+export class CivilianRoomResponse implements ICivilianRoomResponse {
+    id?: number;
+    label?: string | undefined;
+    participants?: string[] | undefined;
+
+    constructor(data?: ICivilianRoomResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data['id'];
+            this.label = _data['label'];
+            if (Array.isArray(_data['participants'])) {
+                this.participants = [] as any;
+                for (let item of _data['participants']) this.participants!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): CivilianRoomResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new CivilianRoomResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data['id'] = this.id;
+        data['label'] = this.label;
+        if (Array.isArray(this.participants)) {
+            data['participants'] = [];
+            for (let item of this.participants) data['participants'].push(item);
+        }
+        return data;
+    }
+}
+
+export interface ICivilianRoomResponse {
+    id?: number;
+    label?: string | undefined;
+    participants?: string[] | undefined;
+}
+
 export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
     id?: string;
     hearing_id?: string;
@@ -2037,6 +2086,7 @@ export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
     meeting_room?: MeetingRoomResponse;
     hearing_venue_name?: string | undefined;
     audio_recording_required?: boolean;
+    civilian_rooms?: CivilianRoomResponse[] | undefined;
 
     constructor(data?: IConferenceDetailsResponse) {
         if (data) {
@@ -2069,6 +2119,10 @@ export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
             this.meeting_room = _data['meeting_room'] ? MeetingRoomResponse.fromJS(_data['meeting_room']) : <any>undefined;
             this.hearing_venue_name = _data['hearing_venue_name'];
             this.audio_recording_required = _data['audio_recording_required'];
+            if (Array.isArray(_data['civilian_rooms'])) {
+                this.civilian_rooms = [] as any;
+                for (let item of _data['civilian_rooms']) this.civilian_rooms!.push(CivilianRoomResponse.fromJS(item));
+            }
         }
     }
 
@@ -2102,6 +2156,10 @@ export class ConferenceDetailsResponse implements IConferenceDetailsResponse {
         data['meeting_room'] = this.meeting_room ? this.meeting_room.toJSON() : <any>undefined;
         data['hearing_venue_name'] = this.hearing_venue_name;
         data['audio_recording_required'] = this.audio_recording_required;
+        if (Array.isArray(this.civilian_rooms)) {
+            data['civilian_rooms'] = [];
+            for (let item of this.civilian_rooms) data['civilian_rooms'].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -2122,6 +2180,7 @@ export interface IConferenceDetailsResponse {
     meeting_room?: MeetingRoomResponse;
     hearing_venue_name?: string | undefined;
     audio_recording_required?: boolean;
+    civilian_rooms?: CivilianRoomResponse[] | undefined;
 }
 
 export class ConferenceEventRequest implements IConferenceEventRequest {
@@ -2130,6 +2189,7 @@ export class ConferenceEventRequest implements IConferenceEventRequest {
     time_stamp_utc?: Date;
     conference_id?: string | undefined;
     participant_id?: string | undefined;
+    participant_room_id?: string | undefined;
     transfer_from?: string | undefined;
     transfer_to?: string | undefined;
     reason?: string | undefined;
@@ -2150,6 +2210,7 @@ export class ConferenceEventRequest implements IConferenceEventRequest {
             this.time_stamp_utc = _data['time_stamp_utc'] ? new Date(_data['time_stamp_utc'].toString()) : <any>undefined;
             this.conference_id = _data['conference_id'];
             this.participant_id = _data['participant_id'];
+            this.participant_room_id = _data['participant_room_id'];
             this.transfer_from = _data['transfer_from'];
             this.transfer_to = _data['transfer_to'];
             this.reason = _data['reason'];
@@ -2171,6 +2232,7 @@ export class ConferenceEventRequest implements IConferenceEventRequest {
         data['time_stamp_utc'] = this.time_stamp_utc ? this.time_stamp_utc.toISOString() : <any>undefined;
         data['conference_id'] = this.conference_id;
         data['participant_id'] = this.participant_id;
+        data['participant_room_id'] = this.participant_room_id;
         data['transfer_from'] = this.transfer_from;
         data['transfer_to'] = this.transfer_to;
         data['reason'] = this.reason;
@@ -2185,6 +2247,7 @@ export interface IConferenceEventRequest {
     time_stamp_utc?: Date;
     conference_id?: string | undefined;
     participant_id?: string | undefined;
+    participant_room_id?: string | undefined;
     transfer_from?: string | undefined;
     transfer_to?: string | undefined;
     reason?: string | undefined;
@@ -2361,6 +2424,7 @@ export class EndpointResponse implements IEndpointResponse {
     pin?: string | undefined;
     status?: EndpointState;
     defence_advocate?: string | undefined;
+    current_room?: RoomResponse;
 
     constructor(data?: IEndpointResponse) {
         if (data) {
@@ -2378,6 +2442,7 @@ export class EndpointResponse implements IEndpointResponse {
             this.pin = _data['pin'];
             this.status = _data['status'];
             this.defence_advocate = _data['defence_advocate'];
+            this.current_room = _data['current_room'] ? RoomResponse.fromJS(_data['current_room']) : <any>undefined;
         }
     }
 
@@ -2396,6 +2461,7 @@ export class EndpointResponse implements IEndpointResponse {
         data['pin'] = this.pin;
         data['status'] = this.status;
         data['defence_advocate'] = this.defence_advocate;
+        data['current_room'] = this.current_room ? this.current_room.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -2407,6 +2473,7 @@ export interface IEndpointResponse {
     pin?: string | undefined;
     status?: EndpointState;
     defence_advocate?: string | undefined;
+    current_room?: RoomResponse;
 }
 
 export class EndpointResponse2 implements IEndpointResponse2 {
