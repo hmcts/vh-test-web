@@ -41,3 +41,9 @@ Scenario: Create hearing with a custom case name
 	When the user creates a hearing with a custom name
 	Then the confirmation dialog shows hearings were created
 	And the custom name is visible on the hearing name
+
+@VIH-6690
+Scenario: Cannot create hearing with more interpreters than individuals
+	Given the user has progressed to the Create Hearings page
+	When the user attempts to add more interpreters than individuals
+	Then an error message appears stating that there are more interpreters than individuals

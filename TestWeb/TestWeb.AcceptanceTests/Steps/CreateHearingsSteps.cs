@@ -174,5 +174,17 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             _c.Test.CaseNames.Single().Should().StartWith(_customName);
         }
+
+        [When(@"the user attempts to add more interpreters than individuals")]
+        public void WhenTheUserAttemptsToAddMoreInterpretersThanIndividuals()
+        {
+            SetTheParticipants(0, 1, 1, 0, 0, 0);
+        }
+
+        [Then(@"an error message appears stating that there are more interpreters than individuals")]
+        public void ThenAnErrorMessageAppearsStatingThatThereAreMoreInterpretersThanIndividuals()
+        {
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.MoreInterpretersThanIndividualsError).Displayed.Should().BeTrue();
+        }
     }
 }

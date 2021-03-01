@@ -339,6 +339,11 @@
         <div *ngIf="noIndividualsOrReps" class="alert alert-danger">
           <span id="noIndividualsOrReps-error" class="govuk-error-message"> Please add at least 1 individual or representative </span>
         </div>
+        <div *ngIf="moreInterpretersThanIndividuals" class="alert alert-danger">
+          <span id="moreInterpretersThanIndividuals-error" class="govuk-error-message">
+            Please ensure there are less interpreters than individuals
+          </span>
+        </div>
       </div>
 
       <div class="govuk-form-group">

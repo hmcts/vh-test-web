@@ -291,6 +291,10 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         return this.individualsTextfield.value + this.representativesTextfield.value === 0;
     }
 
+    get moreInterpretersThanIndividuals() {
+        return this.interpretersTextfield.value > this.individualsTextfield.value;
+    }
+
     startHoursInPast() {
         const todayDate = new Date(new Date().setHours(0, 0, 0, 0));
         const realDate = new Date(new Date(this.hearingDate.value).setHours(0, 0, 0, 0));
@@ -325,7 +329,8 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
             this.observersInvalid ||
             this.panelMembersInvalid ||
             this.witnessesInvalid ||
-            this.noIndividualsOrReps
+            this.noIndividualsOrReps ||
+            this.moreInterpretersThanIndividuals
         );
     }
 
