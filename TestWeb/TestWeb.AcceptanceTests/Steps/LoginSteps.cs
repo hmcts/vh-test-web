@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using AcceptanceTests.Common.Driver.Drivers;
+﻿using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.Driver.Helpers;
 using AcceptanceTests.Common.PageObject.Pages;
 using AcceptanceTests.Common.Test.Steps;
 using TechTalk.SpecFlow;
 using TestWeb.AcceptanceTests.Helpers;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.AcceptanceTests.Steps
 {
