@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using AcceptanceTests.Common.Driver.Drivers;
@@ -153,7 +154,7 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             const int DAYS_LIMIT = 30 + 1;
             _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).Clear();
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).SendKeys(DateTime.Now.AddDays(DAYS_LIMIT).ToShortDateString());
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).SendKeys(DateTime.Now.AddDays(DAYS_LIMIT).ToString(new CultureInfo("en-GB").DateTimeFormat.ShortDatePattern));
         }
 
         [Then(@"an error appears stating the hearing date must be within a limit")]
