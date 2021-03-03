@@ -62,7 +62,7 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Click(CreateHearingPage.ContinueButton);
         }
 
-        private void SetTheParticipants(int individuals, int interpreters, int representatives, int observers, int panelMembers, int wintesses)
+        private void SetTheParticipants(int individuals, int interpreters, int representatives, int observers, int panelMembers, int witnesses)
         {
             _browser.Clear(CreateHearingPage.IndividualsTextfield);
             _browser.Driver.WaitUntilVisible(CreateHearingPage.IndividualsTextfield).SendKeys(individuals.ToString());
@@ -75,7 +75,7 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Clear(CreateHearingPage.PanelMembersTextfield);
             _browser.Driver.WaitUntilVisible(CreateHearingPage.PanelMembersTextfield).SendKeys(panelMembers.ToString());
             _browser.Clear(CreateHearingPage.WitnessesTextfield);
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.WitnessesTextfield).SendKeys(wintesses.ToString());
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.WitnessesTextfield).SendKeys(witnesses.ToString());
             Thread.Sleep(TimeSpan.FromSeconds(1));
         }
 
@@ -154,7 +154,7 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             const int DAYS_LIMIT = 30 + 1;
             _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).Clear();
-            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).SendKeys(DateTime.Now.AddDays(DAYS_LIMIT).ToString(new CultureInfo("en-GB").DateTimeFormat.ShortDatePattern));
+            _browser.Driver.WaitUntilVisible(CreateHearingPage.HearingDate).SendKeys(DateTime.Now.AddDays(DAYS_LIMIT).ToString(DateFormats.LocalDateFormat(_c.Config.SauceLabsConfiguration.RunningOnSauceLabs())));
         }
 
         [Then(@"an error appears stating the hearing date must be within a limit")]
