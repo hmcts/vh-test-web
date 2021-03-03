@@ -13,6 +13,7 @@ describe('EventService', () => {
     eventModel.conference_id = '123';
     eventModel.event_type = EventType.None;
     eventModel.participant_id = '789';
+    eventModel.participant_room_id = '';
 
     beforeEach(() => {
         service = new EventsService(logger, testApiService);
@@ -30,6 +31,7 @@ describe('EventService', () => {
         const result = await service.createParticipantEvent(
             eventModel.conference_id,
             eventModel.participant_id,
+            eventModel.participant_room_id,
             eventModel.event_type,
             eventModel.transfer_from,
             eventModel.transfer_to

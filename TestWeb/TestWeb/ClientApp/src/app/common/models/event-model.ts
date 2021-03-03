@@ -16,6 +16,7 @@ export class EventModel {
     'time_stamp_utc': Date | undefined;
     'conference_id': string | undefined;
     'participant_id': string | undefined;
+    'participant_room_id': string | undefined;
     'transfer_from': string | undefined;
     'transfer_to': string | undefined;
     'reason': string | undefined;

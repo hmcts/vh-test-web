@@ -78,10 +78,13 @@ describe('EventsComponent', () => {
         const eventType = EventType.Joined;
         const transferFrom = 'WaitingRoom';
         const transferTo = 'WaitingRoom';
+        const participantRoomId = '123';
         const judgeId = testData.getJudgeId(component.conference.participants);
         fixture.detectChanges();
         component.form.addControl(`participant-event-type-dropdown-${judgeId}`, new FormControl(eventType));
         component.form.get(`participant-event-type-dropdown-${judgeId}`).setValue(eventType);
+        component.form.addControl(`participant-room-id-textfield-${judgeId}`, new FormControl());
+        component.form.get(`participant-room-id-textfield-${judgeId}`).setValue(participantRoomId);
         component.form.addControl(`participant-transfer-from-textfield-${judgeId}`, new FormControl(transferFrom));
         component.form.get(`participant-transfer-from-textfield-${judgeId}`).setValue(transferFrom);
         component.form.addControl(`participant-transfer-to-textfield-${judgeId}`, new FormControl(transferTo));
@@ -90,6 +93,7 @@ describe('EventsComponent', () => {
         expect(eventsServiceSpy.createParticipantEvent).toHaveBeenCalledWith(
             component.conference.id,
             judgeId,
+            participantRoomId,
             eventType,
             transferFrom,
             transferTo
@@ -146,6 +150,20 @@ describe('EventsComponent', () => {
         expect(component.participantDropdownHasValue(participant_id)).toBeFalsy();
         component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.ParticipantJoining);
         expect(component.participantDropdownHasValue(participant_id)).toBeTruthy();
+    });
+
+    it('should determine if a participant events that would trigger participant room id to appear have been selected', () => {
+        const participant_id = '123';
+        component.form.addControl(`participant-event-type-dropdown-${participant_id}`, new FormControl(EventType.None));
+        expect(component.roomIdEventsSelected(participant_id)).toBeFalsy();
+        component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.Disconnected);
+        expect(component.roomIdEventsSelected(participant_id)).toBeTruthy();
+        component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.Joined);
+        expect(component.roomIdEventsSelected(participant_id)).toBeTruthy();
+        component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.Transfer);
+        expect(component.roomIdEventsSelected(participant_id)).toBeTruthy();
+        component.form.get(`participant-event-type-dropdown-${participant_id}`).setValue(EventType.MediaPermissionDenied);
+        expect(component.roomIdEventsSelected(participant_id)).toBeFalsy();
     });
 
     it('should determine if a participant transfer has been selected', () => {
