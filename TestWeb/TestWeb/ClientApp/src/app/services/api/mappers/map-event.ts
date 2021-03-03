@@ -8,6 +8,7 @@ export class MapEvent {
         request.event_id = model.event_id;
         request.event_type = model.event_type;
         request.participant_id = model.participant_id;
+        request.participant_room_id = model.participant_room_id;
         request.phone = model.phone;
         request.reason = model.reason;
         request.time_stamp_utc = model.time_stamp_utc;

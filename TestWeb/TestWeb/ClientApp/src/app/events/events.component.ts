@@ -192,8 +192,20 @@ export class EventsComponent implements OnInit {
                 transferFrom = this.getTransferFromValue(participant_id);
                 transferTo = this.getTransferToValue(participant_id);
             }
+            let participantRoomId = '';
+            if (this.roomIdEventsSelected) {
+                participantRoomId = this.getParticipantRoomIdValue(participant_id);
+            }
+
             const eventType = this.getParticipantDropdownValue(participant_id);
-            return await this.eventsService.createParticipantEvent(this.conference.id, participant_id, eventType, transferFrom, transferTo);
+            return await this.eventsService.createParticipantEvent(
+                this.conference.id,
+                participant_id,
+                participantRoomId,
+                eventType,
+                transferFrom,
+                transferTo
+            );
         } catch (error) {
             this.logger.error(`${this.loggerPrefix} Failed to send event.`, error);
             this.errorSendingEvent = true;
@@ -226,6 +238,7 @@ export class EventsComponent implements OnInit {
     private addParticipantEventDropdownsToForm() {
         for (const participant of this.conference.participants) {
             this.form.addControl(`participant-event-type-dropdown-${participant.id}`, new FormControl(this.defaultEventType));
+            this.form.addControl(`participant-room-id-textfield-${participant.id}`, new FormControl());
             this.form.addControl(
                 `participant-transfer-from-textfield-${participant.id}`,
                 new FormControl(this.defaultTransferFromRoomType)
@@ -237,6 +250,7 @@ export class EventsComponent implements OnInit {
     private removeParticipantEventDropdownsFromForm() {
         for (const participant of this.conference.participants) {
             this.form.removeControl(`participant-event-type-dropdown-${participant.id}`);
+            this.form.removeControl(`participant-room-id-textfield-${participant.id}`);
             this.form.removeControl(`participant-transfer-from-textfield-${participant.id}`);
             this.form.removeControl(`participant-transfer-to-textfield-${participant.id}`);
         }
@@ -264,8 +278,23 @@ export class EventsComponent implements OnInit {
         return false;
     }
 
+    roomIdEventsSelected(participant_id: string) {
+        if (
+            this.getParticipantDropdownValue(participant_id) === EventType.Joined ||
+            this.getParticipantDropdownValue(participant_id) === EventType.Disconnected ||
+            this.getParticipantDropdownValue(participant_id) === EventType.Transfer
+        ) {
+            return true;
+        }
+        return false;
+    }
+
     private getParticipantDropdownValue(participant_id: string) {
         return this.form.get(`participant-event-type-dropdown-${participant_id}`).value;
+    }
+
+    private getParticipantRoomIdValue(participant_id: string) {
+        return this.form.get(`participant-room-id-textfield-${participant_id}`).value;
     }
 
     private getTransferFromValue(participant_id: string) {

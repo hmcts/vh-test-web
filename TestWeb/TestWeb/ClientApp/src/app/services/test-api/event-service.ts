@@ -25,6 +25,7 @@ export class EventsService {
     async createParticipantEvent(
         conferenceId: string,
         participantId: string,
+        participantRoomId: string,
         eventType: EventType,
         transferFrom: string,
         transferTo: string
@@ -34,6 +35,7 @@ export class EventsService {
         this.eventModel.conference_id = conferenceId;
         this.eventModel.event_type = eventType;
         this.eventModel.participant_id = participantId;
+        this.eventModel.participant_room_id = participantRoomId;
         this.eventModel.transfer_from = transferFrom;
         this.eventModel.transfer_to = transferTo;
         return await this.sendEventRequest();
