@@ -18,6 +18,7 @@ namespace TestWeb
         }
 
         public IConfiguration Configuration { get; }
+        public Settings Settings { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -45,6 +46,7 @@ namespace TestWeb
             });
 
             services.Configure<HearingServicesConfiguration>(options => Configuration.Bind("Services", options));
+            Settings = Configuration.Get<Settings>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,8 +66,11 @@ namespace TestWeb
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
-                app.UseHttpsRedirection();
+                if (!Settings.DisableHttpsRedirection)
+                {
+                    app.UseHsts();
+                    app.UseHttpsRedirection();
+                }
             }
 
             if (!env.IsDevelopment())
