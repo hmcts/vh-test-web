@@ -1,8 +1,8 @@
 ﻿using AcceptanceTests.Common.Api.Hearings;
 using AcceptanceTests.Common.Data.Time;
 using AcceptanceTests.Common.Driver.Drivers;
+using TestApi.Contract.Responses;
 using TestWeb.AcceptanceTests.Data;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Configuration;
 
 namespace TestWeb.AcceptanceTests.Helpers

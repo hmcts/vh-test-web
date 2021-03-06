@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestWeb.Tests.Common.Builders.Responses
 {
@@ -13,23 +14,23 @@ namespace TestWeb.Tests.Common.Builders.Responses
 
             var judge = new ParticipantSummaryResponse()
             {
-                Display_name = UserData.DISPLAY_NAME,
-                First_name = UserData.FIRST_NAME,
+                DisplayName = UserData.DISPLAY_NAME,
+                FirstName = UserData.FIRST_NAME,
                 Id = Guid.NewGuid(),
-                Last_name = UserData.LAST_NAME,
+                LastName = UserData.LAST_NAME,
                 Representee = string.Empty,
-                User_role = UserRole.Judge,
+                UserRole = UserRole.Judge,
                 Username = UserData.USERNAME
             };
 
             var individual = new ParticipantSummaryResponse()
             {
-                Display_name = UserData.DISPLAY_NAME,
-                First_name = UserData.FIRST_NAME,
+                DisplayName = UserData.DISPLAY_NAME,
+                FirstName = UserData.FIRST_NAME,
                 Id = Guid.NewGuid(),
-                Last_name = UserData.LAST_NAME,
+                LastName = UserData.LAST_NAME,
                 Representee = string.Empty,
-                User_role = UserRole.Individual,
+                UserRole = UserRole.Individual,
                 Username = UserData.USERNAME
             };
 
@@ -41,16 +42,16 @@ namespace TestWeb.Tests.Common.Builders.Responses
             {
                 new ConferenceForAdminResponse()
                 {
-                    Case_name = HearingsData.CASE_NAME,
-                    Case_number = HearingsData.CASE_NUMBER,
-                    Case_type = HearingsData.CASE_TYPE,
-                    Closed_date_time = null,
-                    Hearing_venue_name = HearingsData.VENUE,
+                    CaseName = HearingsData.CASE_NAME,
+                    CaseNumber = HearingsData.CASE_NUMBER,
+                    CaseType = HearingsData.CASE_TYPE,
+                    ClosedDateTime = null,
+                    HearingVenueName = HearingsData.VENUE,
                     Id = Guid.NewGuid(),
                     Participants = participants,
-                    Scheduled_date_time = DateTime.UtcNow,
-                    Scheduled_duration = HearingsData.SCHEDULED_DURATION,
-                    Started_date_time = null
+                    ScheduledDateTime = DateTime.UtcNow,
+                    ScheduledDuration = HearingsData.SCHEDULED_DURATION,
+                    StartedDateTime = null
                 }
             };
         }

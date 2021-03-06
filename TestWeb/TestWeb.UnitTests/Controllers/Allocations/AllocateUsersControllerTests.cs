@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
+using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Builders.Responses;
 using TestWeb.Tests.Common.Data;
@@ -37,7 +39,7 @@ namespace TestWeb.UnitTests.Controllers.Allocations
 
             var client = new Mock<ITestApiClient>();
             client
-                .Setup(x => x.AllocateUsersAsync(It.IsAny<AllocateUsersRequest>()))
+                .Setup(x => x.AllocateMultipleUsersAsync(It.IsAny<AllocateUsersRequest>()))
                 .ReturnsAsync(response);
 
             var controller = new AllocationController(client.Object, _loggerMock.Object);
@@ -56,7 +58,7 @@ namespace TestWeb.UnitTests.Controllers.Allocations
         {
             var client = new Mock<ITestApiClient>();
             client
-                .Setup(x => x.AllocateUsersAsync(It.IsAny<AllocateUsersRequest>()))
+                .Setup(x => x.AllocateMultipleUsersAsync(It.IsAny<AllocateUsersRequest>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new AllocationController(client.Object, _loggerMock.Object);

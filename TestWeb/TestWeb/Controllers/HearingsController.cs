@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Client;
+using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 using TestWeb.Contracts.Responses;
 using TestWeb.Mappings;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Responses;
 
 namespace TestWeb.Controllers
 {
@@ -40,7 +45,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                var response = await _testApiClient.HearingsAsync(request);
+                var response = await _testApiClient.CreateHearingAsync(request);
                 _logger.LogDebug($"New Hearing Created with id {response.Id}");
                 return Created(nameof(CreateHearingAsync), response);
             }
@@ -92,7 +97,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                var response = await _testApiClient.RemoveTestDataAsync(request);
+                var response = await _testApiClient.DeleteTestDataByPartialCaseTextAsync(request);
                 _logger.LogDebug($"{response} hearings deleted");
                 return Ok(response);
             }
@@ -117,9 +122,9 @@ namespace TestWeb.Controllers
 
             try
             {
-                var allHearingsResponse = await _testApiClient.HearingsAllAsync();
+                var allHearingsResponse = await _testApiClient.GetAllHearingsAsync();
                 _logger.LogDebug($"Retrieved {allHearingsResponse.Count} hearings in total.");
-                var hearings = (from hearing in allHearingsResponse where hearing.Created_by.ToLower().Equals(createdBy.ToLower()) select HearingResponseMapper.Map(hearing)).ToList();
+                var hearings = (from hearing in allHearingsResponse where hearing.CreatedBy.ToLower().Equals(createdBy.ToLower()) select HearingResponseMapper.Map(hearing)).ToList();
                 _logger.LogDebug($"Filtered down to {hearings.Count} hearings in total created by '{createdBy}'.");
                 return Ok(hearings);
             }

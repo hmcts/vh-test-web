@@ -13,7 +13,8 @@ using Polly;
 using TechTalk.SpecFlow;
 using TestWeb.AcceptanceTests.Helpers;
 using TestWeb.AcceptanceTests.Pages;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestWeb.AcceptanceTests.Steps
 {
@@ -100,7 +101,7 @@ namespace TestWeb.AcceptanceTests.Steps
 
         private void VerifyHearingDetails()
         {
-            _browser.Driver.WaitUntilVisible(EventsPage.HearingIdText).Text.Trim().Should().Be(_c.Test.Conference.Hearing_id.ToString());
+            _browser.Driver.WaitUntilVisible(EventsPage.HearingIdText).Text.Trim().Should().Be(_c.Test.Conference.HearingId.ToString());
             _browser.Driver.WaitUntilVisible(EventsPage.ConferenceIdText).Text.Trim().Should().Be(_c.Test.Conference.Id.ToString());
             _browser.Driver.WaitUntilVisible(EventsPage.ConferenceStatus).Text.Trim().Should().Be(_conferenceState.ToString());
         }
@@ -109,11 +110,11 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             foreach (var participant in _c.Test.Conference.Participants)
             {
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantDisplayName(participant.Id)).Text.Trim().Should().Be(participant.Display_name);
+                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantDisplayName(participant.Id)).Text.Trim().Should().Be(participant.DisplayName);
                 _browser.Driver.WaitUntilVisible(EventsPage.ParticipantUsername(participant.Id)).Text.Trim().Should().Be(participant.Username);
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantUserRole(participant.Id)).Text.Trim().Should().Be(participant.User_role.ToString());
+                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantUserRole(participant.Id)).Text.Trim().Should().Be(participant.UserRole.ToString());
                 _browser.Driver.WaitUntilVisible(EventsPage.ParticipantId(participant.Id)).Text.Trim().Should().Be(participant.Id.ToString());
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantStatus(participant.Id)).Text.Trim().Should().Be(participant.Current_status.ToString());
+                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantStatus(participant.Id)).Text.Trim().Should().Be(participant.CurrentStatus.ToString());
             }
         }
 
@@ -141,7 +142,7 @@ namespace TestWeb.AcceptanceTests.Steps
 
         private Guid GetParticipantId()
         {
-            return _c.Test.Conference.Participants.First(x => x.User_role != UserRole.Judge).Id;
+            return _c.Test.Conference.Participants.First(x => x.UserRole != UserRole.Judge).Id;
         }
 
         private bool PollForStatusToUpdate(By element, string expectedStatus)

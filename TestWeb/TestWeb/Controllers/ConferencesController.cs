@@ -4,9 +4,10 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Client;
 using TestWeb.Contracts.Responses;
 using TestWeb.Mappings;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Requests;
 
 namespace TestWeb.Controllers
 {
@@ -45,7 +46,7 @@ namespace TestWeb.Controllers
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to create event: ${request.Event_type}");
+                _logger.LogError(e, $"Unable to create event: ${request.EventType}");
                 return StatusCode(e.StatusCode, e.Response);
             }
         }

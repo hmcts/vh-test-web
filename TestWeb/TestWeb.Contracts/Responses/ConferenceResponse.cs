@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Enums;
 
 namespace TestWeb.Contracts.Responses
 {

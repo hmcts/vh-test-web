@@ -4,9 +4,9 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
 using TestWeb.Controllers;
 using TestWeb.Models;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.UnitTests.Controllers.Health

@@ -1,4 +1,5 @@
-﻿using TestWeb.TestApi.Client;
+﻿using BookingsApi.Contract.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestWeb.Tests.Common.Data
 {

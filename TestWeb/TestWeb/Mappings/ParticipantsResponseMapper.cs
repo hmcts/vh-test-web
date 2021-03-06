@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Responses;
 using ParticipantResponse = TestWeb.Contracts.Responses.ParticipantResponse;
 
 namespace TestWeb.Mappings
@@ -11,11 +11,11 @@ namespace TestWeb.Mappings
         {
             return participants.Select(participant => new ParticipantResponse()
                 {
-                    Display_name = participant.Display_name,
-                    Hearing_role = participant.Hearing_role,
+                    Display_name = participant.DisplayName,
+                    Hearing_role = participant.HearingRole,
                     Id = participant.Id,
-                    Status = participant.Current_status,
-                    User_role = participant.User_role,
+                    Status = participant.CurrentStatus,
+                    User_role = participant.UserRole,
                     Username = participant.Username
                 })
                 .ToList();
@@ -25,11 +25,11 @@ namespace TestWeb.Mappings
         {
             return participants.Select(participant => new ParticipantResponse()
                 {
-                    Display_name = participant.Display_name,
-                    Hearing_role = participant.Hearing_role,
+                    Display_name = participant.DisplayName,
+                    Hearing_role = participant.HearingRole,
                     Id = participant.Id,
                     Status = participant.Status,
-                    User_role = participant.User_role,
+                    User_role = participant.UserRole,
                     Username = participant.Username
                 })
                 .ToList();

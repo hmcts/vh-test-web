@@ -6,10 +6,10 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using TechTalk.SpecFlow;
+using TestApi.Contract.Dtos;
 using TestWeb.AcceptanceTests.Data;
 using TestWeb.AcceptanceTests.Helpers;
 using TestWeb.Common.Configuration;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Configuration;
 
 namespace TestWeb.AcceptanceTests.Hooks
@@ -63,7 +63,7 @@ namespace TestWeb.AcceptanceTests.Hooks
             context.Test = new Test
             {
                 CaseNames = new List<string>(),
-                Users = new List<User>()
+                Users = new List<UserDto>()
             };
         }
 

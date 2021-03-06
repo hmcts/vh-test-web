@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TestWeb.Contracts.Responses;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Responses;
 using ParticipantResponse = TestWeb.Contracts.Responses.ParticipantResponse;
 
 namespace TestWeb.Tests.Common.Builders.Responses
@@ -27,8 +27,8 @@ namespace TestWeb.Tests.Common.Builders.Responses
             {
                 new ConferenceResponse()
                 {
-                    Case_name = _conferencesForAdminResponses.First().Case_name,
-                    HearingRefId =_conferencesForAdminResponses.First().Hearing_ref_id,
+                    Case_name = _conferencesForAdminResponses.First().CaseName,
+                    HearingRefId =_conferencesForAdminResponses.First().HearingRefId,
                     Id = _conferencesForAdminResponses.First().Id,
                     Status = _conferencesForAdminResponses.First().Status
                 }
@@ -37,12 +37,12 @@ namespace TestWeb.Tests.Common.Builders.Responses
             var participants = _conferencesForAdminResponses.First()
                 .Participants.Select(participantSummaryResponse => new ParticipantResponse()
                 {
-                    Display_name = participantSummaryResponse.Display_name,
-                    Hearing_role = participantSummaryResponse.Hearing_role,
+                    Display_name = participantSummaryResponse.DisplayName,
+                    Hearing_role = participantSummaryResponse.HearingRole,
                     Id = participantSummaryResponse.Id,
                     Status = participantSummaryResponse.Status,
                     Username = participantSummaryResponse.Username,
-                    User_role = participantSummaryResponse.User_role
+                    User_role = participantSummaryResponse.UserRole
                 })
                 .ToList();
 
@@ -55,22 +55,22 @@ namespace TestWeb.Tests.Common.Builders.Responses
         {
             var participants = _conferenceDetailsResponse.Participants.Select(participant => new ParticipantResponse()
                 {
-                    Display_name = participant.Display_name,
-                    Hearing_role = participant.Hearing_role,
+                    Display_name = participant.DisplayName,
+                    Hearing_role = participant.HearingRole,
                     Id = participant.Id,
-                    Status = participant.Current_status,
-                    User_role = participant.User_role,
+                    Status = participant.CurrentStatus,
+                    User_role = participant.UserRole,
                     Username = participant.Username
                 })
                 .ToList();
 
             return new ConferenceResponse()
             {
-                Case_name = _conferenceDetailsResponse.Case_name,
-                HearingRefId = _conferenceDetailsResponse.Hearing_id,
+                Case_name = _conferenceDetailsResponse.CaseName,
+                HearingRefId = _conferenceDetailsResponse.HearingId,
                 Id = _conferenceDetailsResponse.Id,
                 Participants = participants,
-                Status = _conferenceDetailsResponse.Current_status
+                Status = _conferenceDetailsResponse.CurrentStatus
             };
         }
     }

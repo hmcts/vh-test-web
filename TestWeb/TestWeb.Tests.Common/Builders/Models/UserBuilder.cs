@@ -1,58 +1,59 @@
 ﻿using System;
-using TestWeb.TestApi.Client;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Models
 {
     public class UserBuilder
     {
-        private readonly User _user;
+        private readonly UserDto _user;
 
         public UserBuilder()
         {
-            _user = new User()
+            _user = new UserDto
             {
                 Application = AllocationData.APPLICATION,
-                Created_date = DateTime.UtcNow,
-                First_name = UserData.FIRST_NAME,
+                CreatedDate = DateTime.UtcNow,
+                FirstName = UserData.FIRST_NAME,
                 Id = Guid.NewGuid(),
-                Is_prod_user = UserData.IS_PROD_USER,
+                IsProdUser = UserData.IS_PROD_USER,
                 Number = UserData.NUMBER,
-                Test_type = AllocationData.TEST_TYPE
+                TestType = AllocationData.TEST_TYPE
             };
         }
 
         public UserBuilder Judge()
         {
-            _user.Contact_email = $"{UserData.JUDGE}{UserData.CONTACT_EMAIL_STEM}";
-            _user.Display_name = UserData.JUDGE;
-            _user.Last_name = UserData.JUDGE;
-            _user.User_type = UserType.Judge;
+            _user.ContactEmail = $"{UserData.JUDGE}{UserData.CONTACT_EMAIL_STEM}";
+            _user.DisplayName = UserData.JUDGE;
+            _user.LastName = UserData.JUDGE;
+            _user.UserType = UserType.Judge;
             _user.Username = $"{UserData.JUDGE}{UserData.USERNAME_STEM}";
             return this;
         }
 
         public UserBuilder Individual()
         {
-            _user.Contact_email = $"{UserData.INDIVIDUAL}{UserData.CONTACT_EMAIL_STEM}";
-            _user.Display_name = UserData.INDIVIDUAL;
-            _user.Last_name = UserData.INDIVIDUAL;
-            _user.User_type = UserType.Individual;
+            _user.ContactEmail = $"{UserData.INDIVIDUAL}{UserData.CONTACT_EMAIL_STEM}";
+            _user.DisplayName = UserData.INDIVIDUAL;
+            _user.LastName = UserData.INDIVIDUAL;
+            _user.UserType = UserType.Individual;
             _user.Username = $"{UserData.INDIVIDUAL}{UserData.USERNAME_STEM}";
             return this;
         }
 
         public UserBuilder Representative()
         {
-            _user.Contact_email = $"{UserData.REPRESENTATIVE}{UserData.CONTACT_EMAIL_STEM}";
-            _user.Display_name = UserData.REPRESENTATIVE;
-            _user.Last_name = UserData.REPRESENTATIVE;
-            _user.User_type = UserType.Representative;
+            _user.ContactEmail = $"{UserData.REPRESENTATIVE}{UserData.CONTACT_EMAIL_STEM}";
+            _user.DisplayName = UserData.REPRESENTATIVE;
+            _user.LastName = UserData.REPRESENTATIVE;
+            _user.UserType = UserType.Representative;
             _user.Username = $"{UserData.REPRESENTATIVE}{UserData.USERNAME_STEM}";
             return this;
         }
 
-        public User Build()
+        public UserDto Build()
         {
             return _user;
         }

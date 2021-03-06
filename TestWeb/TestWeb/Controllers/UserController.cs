@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Polly;
-using TestWeb.TestApi.Client;
+using TestApi.Client;
+using TestApi.Contract.Requests;
+using UserApi.Contract.Responses;
 
 namespace TestWeb.Controllers
 {
@@ -44,7 +46,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                var response = await policy.ExecuteAsync(async () => await _testApiClient.AadAsync(request.Username));
+                var response = await policy.ExecuteAsync(async () => await _testApiClient.GetUserExistsInAdAsync(request.Username));
                 if (response.Equals(false))
                 {
                     return NotFound();
@@ -60,7 +62,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                var response = await _testApiClient.PasswordAsync(request);
+                var response = await _testApiClient.ResetUserPasswordAsync(request);
                 _logger.LogDebug($"User '{request.Username}' successfully reset");
                 return Ok(response);
             }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using TestApi.Client;
 using TestWeb.Models;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.Controllers
 {

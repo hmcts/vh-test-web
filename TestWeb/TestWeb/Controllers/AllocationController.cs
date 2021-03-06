@@ -3,7 +3,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TestWeb.TestApi.Client;
+using TestApi.Client;
+using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 
 namespace TestWeb.Controllers
 {
@@ -32,17 +34,17 @@ namespace TestWeb.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AllocateSingleUserAsync(AllocateUserRequest request)
         {
-            _logger.LogDebug($"AllocateSingleUserAsync {request.User_type} {request.Application}");
+            _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
 
             try
             {
-                var response = await _testApiClient.AllocateUserAsync(request);
+                var response = await _testApiClient.AllocateSingleUserAsync(request);
                 _logger.LogDebug($"User '{response.Username}' successfully allocated");
                 return Ok(response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to allocate user: ${request.User_type}");
+                _logger.LogError(e, $"Unable to allocate user: ${request.UserType}");
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -57,17 +59,17 @@ namespace TestWeb.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AllocateUsersAsync(AllocateUsersRequest request)
         {
-            _logger.LogDebug($"AllocateUsersAsync No. of UserTypes: {request.User_types.Count} Application: {request.Application}");
+            _logger.LogDebug($"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
 
             try
             {
-                var response = await _testApiClient.AllocateUsersAsync(request);
+                var response = await _testApiClient.AllocateMultipleUsersAsync(request);
                 _logger.LogDebug($"'{response.Count}' users successfully allocated");
                 return Ok(response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to allocate users: ${request.User_types}");
+                _logger.LogError(e, $"Unable to allocate users: ${request.UserTypes}");
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -110,7 +112,7 @@ namespace TestWeb.Controllers
         {
             try
             {
-                var response = await _testApiClient.AllocatedUsersAsync(username);
+                var response = await _testApiClient.GetAllocateUsersByAllocatedByAsync(username);
                 _logger.LogInformation($"Allocated to {response.Count} user(s)");
                 return Ok(response);
             }

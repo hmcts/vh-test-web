@@ -1,5 +1,5 @@
 ﻿using System;
-using TestWeb.TestApi.Client;
+using TestApi.Contract.Enums;
 
 namespace TestWeb.Tests.Common.Data
 {

@@ -10,12 +10,12 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using TestApi.Client;
 using TestWeb.Common;
 using TestWeb.Common.Configuration;
 using TestWeb.Common.Security;
 using TestWeb.Contracts.Responses;
 using TestWeb.Swagger;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.Extensions
 {

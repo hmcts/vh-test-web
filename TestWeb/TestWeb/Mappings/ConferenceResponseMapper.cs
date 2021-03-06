@@ -1,5 +1,5 @@
 ﻿using TestWeb.Contracts.Responses;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Responses;
 
 namespace TestWeb.Mappings
 {
@@ -10,10 +10,10 @@ namespace TestWeb.Mappings
             return new ConferenceResponse()
                 {
                     Id = response.Id,
-                    HearingRefId = response.Hearing_id,
-                    Case_name = response.Case_name,
+                    HearingRefId = response.HearingId,
+                    Case_name = response.CaseName,
                     Participants = ParticipantsResponseMapper.Map(response.Participants),
-                    Status = response.Current_status
+                    Status = response.CurrentStatus
                 };
         }
     }

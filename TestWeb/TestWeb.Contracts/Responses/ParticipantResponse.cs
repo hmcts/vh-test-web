@@ -1,5 +1,5 @@
 ﻿using System;
-using TestWeb.TestApi.Client;
+using VideoApi.Contract.Enums;
 
 namespace TestWeb.Contracts.Responses
 {

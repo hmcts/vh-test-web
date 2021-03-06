@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
+using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Data;
 
@@ -31,10 +33,10 @@ namespace TestWeb.UnitTests.Controllers.Hearings
 
             var deletedResponse = new DeletedResponse()
             {
-                Number_of_deleted_hearings = COUNT
+                NumberOfDeletedHearings = COUNT
             };
 
-            client.Setup(x => x.RemoveTestDataAsync(It.IsAny<DeleteTestHearingDataRequest>()))
+            client.Setup(x => x.DeleteTestDataByPartialCaseTextAsync(It.IsAny<DeleteTestHearingDataRequest>()))
                 .ReturnsAsync(deletedResponse);
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
@@ -45,14 +47,14 @@ namespace TestWeb.UnitTests.Controllers.Hearings
 
             var response = (DeletedResponse)typedResult.Value;
             response.Should().NotBeNull();
-            response.Number_of_deleted_hearings.Should().Be(COUNT);
+            response.NumberOfDeletedHearings.Should().Be(COUNT);
         }
 
         [Test]
         public async Task Should_throw_internal_server()
         {
             var client = new Mock<ITestApiClient>();
-            client.Setup(x => x.RemoveTestDataAsync(It.IsAny<DeleteTestHearingDataRequest>()))
+            client.Setup(x => x.DeleteTestDataByPartialCaseTextAsync(It.IsAny<DeleteTestHearingDataRequest>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
