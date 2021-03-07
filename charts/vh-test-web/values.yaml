@@ -38,4 +38,3 @@ java:
     SERVICES__TESTAPIRESOURCEID: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
     SERVICES__TESTAPIURL: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
     TESTING__TESTUSERNAMESTEM: "@hearings.reform.hmcts.net"
- 
