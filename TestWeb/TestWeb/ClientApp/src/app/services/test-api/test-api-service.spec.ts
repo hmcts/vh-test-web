@@ -159,16 +159,16 @@ describe('TestApiService', () => {
     });
 
     it('should call the unallocate user test api endpoint', async () => {
-        const allocationResponses = [];
+        const allocationResponses:AllocationDetailsResponse[] = [];
         const allocationResponse = new AllocationDetailsResponse();
         allocationResponses.push(allocationResponse);
         apiClient.unallocateUsers.and.returnValue(of(allocationResponses));
 
-        const usernames = [];
+        const usernames:string[] = [];
         const username = 'user@hmcts.net';
         usernames.push(username);
         const unallocateRequest = new UnallocateUsersRequest();
-        unallocateRequest.usernames.push(username);
+        unallocateRequest.usernames = usernames;
 
         const result = await service.unallocateUsers(usernames);
         expect(apiClient.unallocateUsers).toHaveBeenCalledWith(unallocateRequest);

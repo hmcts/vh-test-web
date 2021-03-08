@@ -204,7 +204,7 @@ export class TestApiServiceTestData {
 
     getHearingParticipants(): ParticipantResponse2[] {
         const participants = [];
-        const participant = new ParticipantResponse2();
+        const participant = new ParticipantResponse();
         participant.case_role_name = 'case role';
         participant.contact_email = 'test.user@hmcts.net';
         participant.telephone_number = '234567890';
@@ -259,7 +259,7 @@ export class TestApiServiceTestData {
 
         const participants = [];
 
-        const judge = new ParticipantResponse();
+        const judge = new ParticipantResponse2();
         judge.display_name = 'judge';
         judge.hearing_role = 'judge';
         judge.id = '123';
@@ -268,7 +268,7 @@ export class TestApiServiceTestData {
         judge.username = 'judge@mail.net';
         participants.push(judge);
 
-        const individual = new ParticipantResponse();
+        const individual = new ParticipantResponse2();
         individual.display_name = 'individual';
         individual.hearing_role = 'Individual';
         individual.id = '456';
@@ -289,7 +289,7 @@ export class TestApiServiceTestData {
         return conferences;
     }
 
-    getJudgeId(participants: ParticipantResponse[]) {
+    getJudgeId(participants: ParticipantResponse2[]) {
         for (const participant of participants) {
             if (participant.user_role === UserRole.Judge) {
                 return participant.id;
