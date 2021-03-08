@@ -1,4 +1,4 @@
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { Logger } from '../logging/logger-base';
 import { AllocationService } from './allocation-service';
 import { ConfirmService } from './confirm-service';
@@ -16,7 +16,7 @@ describe('CreateService', () => {
     const resetService = jasmine.createSpyObj<ResetService>('ResetService', ['resetAllPasswords']);
     const summaryService = jasmine.createSpyObj<SummeriesService>('SummaryService', ['setSummaries']);
 
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
 
     beforeEach(() => {
         service = new CreateService(logger, allocationService, hearingService, confirmService, resetService, summaryService);

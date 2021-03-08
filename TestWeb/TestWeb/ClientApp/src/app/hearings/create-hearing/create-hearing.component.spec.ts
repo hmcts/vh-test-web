@@ -8,7 +8,7 @@ import { Summary } from 'src/app/services/test-api/models/summary';
 import Dictionary from 'src/app/shared/helpers/dictionary';
 import { PageUrls } from 'src/app/shared/page-url.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { CreateHearingComponent } from './create-hearing.component';
 
 describe('CreateHearingComponent', () => {
@@ -18,7 +18,7 @@ describe('CreateHearingComponent', () => {
     const loggerSpy = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const createServiceSpy = jasmine.createSpyObj<CreateService>('CreateService', ['createHearings']);
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({

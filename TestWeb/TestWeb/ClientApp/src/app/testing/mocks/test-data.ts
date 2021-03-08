@@ -25,7 +25,7 @@ import { HearingFormData } from 'src/app/services/test-api/models/hearing-form-d
 import { Summary } from 'src/app/services/test-api/models/summary';
 import Dictionary from 'src/app/shared/helpers/dictionary';
 
-export class TestApiServiceTestData {
+export class TestData {
     createEventModel(): EventModel {
         const event = new EventModel();
         event.conference_id = '123';
@@ -36,7 +36,7 @@ export class TestApiServiceTestData {
 
     createHearingFormData(): HearingFormData {
         const hearingDate = new Date();
-        const hearingFormData: HearingFormData = {
+        return {
             application: Application.VideoWeb,
             customCaseNamePrefix: 'custom',
             hearingDate: hearingDate,
@@ -56,8 +56,6 @@ export class TestApiServiceTestData {
             reuseUsers: false,
             witnesses: 1
         };
-
-        return hearingFormData;
     }
 
     createHearingModel(): HearingModel {
@@ -77,13 +75,12 @@ export class TestApiServiceTestData {
     }
 
     createAllocationFormData(): AllocationFormData {
-        const allocationFormData: AllocationFormData = {
+        return {
             application: Application.VideoWeb,
             expiry_in_minutes: 1,
             userType: UserType.Individual,
             testType: TestType.Manual
         };
-        return allocationFormData;
     }
 
     createUsers(): UserModel[] {
@@ -93,7 +90,7 @@ export class TestApiServiceTestData {
     }
 
     createUserModel(): UserModel {
-        const userModel: UserModel = {
+        return {
             username: 'user@hmcts.net',
             contact_email: 'contact_email@hmcts.net',
             first_name: 'first name',
@@ -105,7 +102,6 @@ export class TestApiServiceTestData {
             application: Application.VideoWeb,
             is_prod_user: false
         };
-        return userModel;
     }
 
     getConference(): ConferenceDetailsResponse {
@@ -314,7 +310,6 @@ export class TestApiServiceTestData {
     getSummary(): Summary {
         const conference = this.getConference();
         const passwords = this.getUserPasswords();
-        const summary = new Summary(conference, passwords);
-        return summary;
+        return new Summary(conference, passwords);
     }
 }

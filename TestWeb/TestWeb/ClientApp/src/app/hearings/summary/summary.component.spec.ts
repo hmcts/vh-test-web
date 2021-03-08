@@ -5,7 +5,7 @@ import { Logger } from 'src/app/services/logging/logger-base';
 import { Summary } from 'src/app/services/test-api/models/summary';
 import Dictionary from 'src/app/shared/helpers/dictionary';
 import { PageUrls } from 'src/app/shared/page-url.constants';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 
 import { SummaryComponent } from './summary.component';
 
@@ -60,7 +60,7 @@ describe('SummaryComponent', () => {
     });
 
     it('should copy the conference id to the clipboard', () => {
-        const conference = new TestApiServiceTestData().getConference();
+        const conference = new TestData().getConference();
         const userPasswords = new Dictionary<string>();
         userPasswords.add('username@hmcts.net', '12345');
         const summary = new Summary(conference, userPasswords);

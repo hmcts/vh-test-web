@@ -2252,8 +2252,8 @@
       },
       "TestApi.Client": {
         "type": "Transitive",
-        "resolved": "1.24.9-pullrequest0083-0018",
-        "contentHash": "d7LgjVD1QYA9Uay+b91nuTJwLPQL1tjMdq/7nQKZulOsznuoCHrWvyYsHu9u+L+bJF8la1Qucbg3ioJXV4Y+HQ==",
+        "resolved": "1.24.9",
+        "contentHash": "tuprdSa0IextmvSVacqSs1+f58fNcIW6T3SeCvgzV9gcIv0ho6GJGdh7b4ng5uxsLw+M0+gr0KOtz4GIjzdBVg==",
         "dependencies": {
           "BookingsApi.Client": "1.24.17",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
@@ -2359,7 +2359,7 @@
           "Swashbuckle.AspNetCore.Annotations": "6.0.5",
           "Swashbuckle.AspNetCore.Newtonsoft": "6.0.5",
           "Swashbuckle.AspNetCore.Swagger": "6.0.5",
-          "TestApi.Client": "1.24.9-pullrequest0083-0018",
+          "TestApi.Client": "1.24.9",
           "TestWeb.Common": "1.0.0",
           "TestWeb.Contracts": "1.0.0",
           "VH.Core.Configuration": "0.1.12"
@@ -2380,14 +2380,14 @@
       "testweb.contracts": {
         "type": "Project",
         "dependencies": {
-          "TestApi.Client": "1.24.9-pullrequest0083-0018"
+          "TestApi.Client": "1.24.9"
         }
       },
       "testweb.tests.common": {
         "type": "Project",
         "dependencies": {
           "FluentAssertions": "5.10.3",
-          "TestApi.Client": "1.24.9-pullrequest0083-0018",
+          "TestApi.Client": "1.24.9",
           "TestWeb": "1.0.0",
           "VH.AcceptanceTests.Common": "1.21.16"
         }
