@@ -4,7 +4,7 @@ import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { DeleteModel } from 'src/app/common/models/delete-model';
 import { HearingModel } from 'src/app/common/models/hearing.model';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import {
     AllocateUserRequest,
     AllocateUsersRequest,
@@ -28,7 +28,7 @@ import { TestApiService } from './test-api-service';
 
 describe('TestApiService', () => {
     let service: TestApiService;
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
 
     const apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', [
         'allocateUsers',

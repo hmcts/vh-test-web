@@ -1,5 +1,5 @@
 import { HearingModel } from 'src/app/common/models/hearing.model';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { ProfileService } from '../api/profile-service';
 import { Application, TestType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
@@ -11,7 +11,7 @@ describe('HearingService', () => {
     const logger = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const testApiService = jasmine.createSpyObj<TestApiService>('TestApiService', ['createHearing', `getAllHearingsByCreatedBy`]);
     const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile', `getLoggedInUsername`]);
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
 
     beforeAll(() => {
         service = new HearingService(logger, testApiService, profileService);

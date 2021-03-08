@@ -7,7 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AllocateUsersComponent } from './allocate-users.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AllocatedUserModel } from 'src/app/common/models/allocated.user.model';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { UserModel } from 'src/app/common/models/user.model';
 import { Application, TestType, UpdateUserResponse, UserType } from 'src/app/services/clients/api-client';
 import { AllocationFormData } from 'src/app/services/test-api/models/allocation-form-data';
@@ -24,7 +24,7 @@ describe('AllocateUsersComponent', () => {
         'unallocateAllAllocatedUsers'
     ]);
     const resetServiceSpy = jasmine.createSpyObj<ResetService>('ResetService', ['resetPassword']);
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
     const username = 'username@hmcts.net';
     const allocatedUserModel = new AllocatedUserModel();
     allocatedUserModel.allocated_by = 'user@hmcts.net';

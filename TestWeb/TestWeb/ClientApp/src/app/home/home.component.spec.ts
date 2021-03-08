@@ -5,7 +5,7 @@ import { AllocationService } from '../services/test-api/allocation-service';
 import { DeleteService } from '../services/test-api/delete-service';
 import { HearingService } from '../services/test-api/hearing-service';
 import { SharedModule } from '../shared/shared.module';
-import { TestApiServiceTestData } from '../testing/mocks/testapiservice-test-data';
+import { TestData } from '../testing/mocks/test-data';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { AllocatedUserModel } from '../common/models/allocated.user.model';
@@ -25,7 +25,7 @@ describe('HomeComponent', () => {
     const hearingsServiceSpy = jasmine.createSpyObj<HearingService>('HearingService', ['GetAllHearings']);
     const deleteServiceSpy = jasmine.createSpyObj<DeleteService>('DeleteService', ['deleteHearing']);
     const resetServiceSpy = jasmine.createSpyObj<ResetService>('ResetService', ['resetPassword']);
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
     const username = 'username@hmcts.net';
     const allocatedUserModel = new AllocatedUserModel();
     allocatedUserModel.allocated_by = 'user@hmcts.net';

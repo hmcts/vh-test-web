@@ -1,4 +1,4 @@
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { ConferenceResponse } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
 import { ConferenceService } from './conference-service';
@@ -11,7 +11,7 @@ describe('ConferenceService', () => {
         'getConferencesForToday',
         'getConferencesByHearingRefId'
     ]);
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
 
     beforeAll(() => {
         service = new ConferenceService(logger, testApiService);

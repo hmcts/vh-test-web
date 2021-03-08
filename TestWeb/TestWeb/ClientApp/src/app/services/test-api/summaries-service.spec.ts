@@ -1,5 +1,5 @@
 import Dictionary from 'src/app/shared/helpers/dictionary';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { Summary } from './models/summary';
 import { SummeriesService } from './summeries-service';
 
@@ -10,7 +10,7 @@ describe('SummeriesService', () => {
     beforeEach(() => {
         service = new SummeriesService();
 
-        const conferenceDetailsResponse = new TestApiServiceTestData().getConference();
+        const conferenceDetailsResponse = new TestData().getConference();
         const userPasswords = new Dictionary<string>();
         userPasswords.add('name', 'password');
 

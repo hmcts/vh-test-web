@@ -6,14 +6,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EventsComponent } from './events.component';
 import { EventsService } from '../services/test-api/event-service';
 import { EventType } from '../services/clients/api-client';
-import { TestApiServiceTestData } from '../testing/mocks/testapiservice-test-data';
+import { TestData } from '../testing/mocks/test-data';
 import { ConferenceService } from '../services/test-api/conference-service';
 import { FormControl } from '@angular/forms';
 
 describe('EventsComponent', () => {
     let component: EventsComponent;
     let fixture: ComponentFixture<EventsComponent>;
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
     const loggerSpy = jasmine.createSpyObj<Logger>('Logger', ['debug', 'info', 'warn', 'event', 'error']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const eventsServiceSpy = jasmine.createSpyObj<EventsService>('EventsService', ['createHearingEvent', 'createParticipantEvent']);

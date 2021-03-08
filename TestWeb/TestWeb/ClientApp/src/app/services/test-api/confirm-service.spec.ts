@@ -1,6 +1,6 @@
 import { ConfirmHearingModel } from 'src/app/common/models/confirm.hearing.model';
 import { UserModel } from 'src/app/common/models/user.model';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { ProfileService } from '../api/profile-service';
 import { Application, TestType, UpdateBookingStatus, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
@@ -27,14 +27,14 @@ describe('ConfirmService', () => {
     userModel.user_type = UserType.Individual;
     userModel.username = 'test.user@email.net';
     allocatedUsers.push(userModel);
-    const hearing = new TestApiServiceTestData().getHearingDetails();
+    const hearing = new TestData().getHearingDetails();
 
     beforeEach(() => {
         service = new ConfirmService(logger, testApiService, profileService);
     });
 
     it('should call the test api to confirm a hearing', async () => {
-        const conferenceDetailsResponse = new TestApiServiceTestData().getConference();
+        const conferenceDetailsResponse = new TestData().getConference();
         testApiService.confirmHearing.and.returnValue(Promise.resolve(conferenceDetailsResponse));
 
         const username = 'test_web_created_by@hmcts.net';

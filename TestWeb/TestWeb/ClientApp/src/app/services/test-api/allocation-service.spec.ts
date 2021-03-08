@@ -1,6 +1,6 @@
 import { AllocateUserModel } from 'src/app/common/models/allocate.user.model';
 import { AllocateUsersModel } from 'src/app/common/models/allocate.users.model';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { ProfileService } from '../api/profile-service';
 import { Application, TestType, UserDetailsResponse, UserProfileResponse, UserType } from '../clients/api-client';
 import { Logger } from '../logging/logger-base';
@@ -17,7 +17,7 @@ describe('AllocationService', () => {
         `unallocateUsers`
     ]);
     const profileService = jasmine.createSpyObj<ProfileService>('ProfileService', ['getUserProfile', `getLoggedInUsername`]);
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
     const error = { error: 'not found!' };
     const hearingFormData = testData.createHearingFormData();
     const allocationFormData = testData.createAllocationFormData();

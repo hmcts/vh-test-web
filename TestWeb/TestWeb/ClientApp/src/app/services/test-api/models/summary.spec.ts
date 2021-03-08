@@ -1,9 +1,9 @@
 import Dictionary from 'src/app/shared/helpers/dictionary';
-import { TestApiServiceTestData } from 'src/app/testing/mocks/testapiservice-test-data';
+import { TestData } from 'src/app/testing/mocks/test-data';
 import { Summary } from './summary';
 
 describe('Summary', () => {
-    const testData = new TestApiServiceTestData();
+    const testData = new TestData();
     const conference = testData.getConference();
     const password = '123456';
     const userPasswords = new Dictionary<string>();
