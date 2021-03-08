@@ -17,7 +17,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TestApi.Client" Version="1.24.8-pullrequest0083-0015" />
+    <PackageReference Include="TestApi.Client" Version="1.24.9-pullrequest0083-0018" />
   </ItemGroup>
 
 </Project>

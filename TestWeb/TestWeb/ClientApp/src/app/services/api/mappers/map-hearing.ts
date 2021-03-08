@@ -1,6 +1,6 @@
 import { HearingModel } from 'src/app/common/models/hearing.model';
 import { UserModel } from 'src/app/common/models/user.model';
-import { CreateHearingRequest, TestType, User } from '../../clients/api-client';
+import { CreateHearingRequest, TestType, UserDto } from '../../clients/api-client';
 
 export class MapHearing {
     public static map(model: HearingModel): CreateHearingRequest {
@@ -19,10 +19,10 @@ export class MapHearing {
         return request;
     }
 
-    private static mapUser(userModels: UserModel[]): User[] {
+    private static mapUser(userModels: UserModel[]): UserDto[] {
         const users = [];
         userModels.forEach(userModel => {
-            const user = new User();
+            const user = new UserDto();
             user.application = userModel.application;
             user.contact_email = userModel.contact_email;
             user.created_date = userModel.created_date;

@@ -70,7 +70,7 @@ export class Summary {
         });
         this.endpoints.forEach(endpoint => {
             text = text + `${endpoint.display_name}\n`;
-            text = text + `${endpoint.sip_address}\n`;
+            text = text + `${endpoint.sip}\n`;
             text = text + `${endpoint.pin}\n`;
             text = text + `\n`;
         });

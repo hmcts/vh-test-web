@@ -3,8 +3,6 @@ import { Application, TestType, UserType } from '../../clients/api-client';
 import { MapAllocateUsers } from './map-allocate-users';
 
 describe('AllocateUserMapper', () => {
-    const mapper = new MapAllocateUsers();
-
     it('should map the AllocateUsersModel to the AllocateUsersRequest', () => {
         const userTypes = [];
         userTypes.push(UserType.Judge);

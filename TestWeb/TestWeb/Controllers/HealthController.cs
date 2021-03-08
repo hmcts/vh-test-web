@@ -38,7 +38,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                await _testApiClient.CheckServiceHealthAsync();
+                await _testApiClient.CheckApiHealthAsync();
                 response.TestApiHealth.Successful = true;
             }
             catch (Exception ex)

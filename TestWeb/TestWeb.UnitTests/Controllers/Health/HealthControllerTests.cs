@@ -60,7 +60,7 @@ namespace TestWeb.UnitTests.Controllers.Health
             var testApiClientMock = new Mock<ITestApiClient>();
 
             testApiClientMock
-                .Setup(x => x.CheckServiceHealthAsync())
+                .Setup(x => x.CheckApiHealthAsync())
                 .ThrowsAsync(ExceptionsData.EXCEPTION);
 
             var controller = new HealthController(testApiClientMock.Object);
