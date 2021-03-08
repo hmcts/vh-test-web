@@ -71,7 +71,6 @@ namespace TestWeb.Extensions
             services.AddScoped<ITokenProvider, TokenProvider>();
             services.AddScoped<AzureAdConfiguration>();
             services.AddScoped<HearingServicesConfiguration>();
-            services.AddScoped<ITestApiClient, TestApiClient>();
 
             var container = services.BuildServiceProvider();
             var servicesConfiguration = container.GetService<IOptions<HearingServicesConfiguration>>().Value;
