@@ -7,11 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="TestApi.Client" Version="1.24.9-pullrequest0083-0018" />
     <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.16" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TestWeb.TestApi.Client\TestWeb.TestApi.Client.csproj" />
     <ProjectReference Include="..\TestWeb\TestWeb.csproj" />
   </ItemGroup>
 

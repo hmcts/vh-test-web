@@ -56,6 +56,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="TestApi.Client" Version="1.24.9-pullrequest0083-0018" />
     <PackageReference Include="VH.Core.Configuration" Version="0.1.12" />
 
   </ItemGroup>
@@ -70,7 +71,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TestWeb.Common\TestWeb.Common.csproj" />
     <ProjectReference Include="..\TestWeb.Contracts\TestWeb.Contracts.csproj" />
-    <ProjectReference Include="..\TestWeb.TestApi.Client\TestWeb.TestApi.Client.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

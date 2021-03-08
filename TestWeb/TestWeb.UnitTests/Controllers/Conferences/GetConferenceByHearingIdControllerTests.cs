@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
 using TestWeb.Contracts.Responses;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Builders.Responses;
 

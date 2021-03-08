@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
+using TestApi.Contract.Requests;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
+using UserApi.Contract.Responses;
 
 namespace TestWeb.UnitTests.Controllers.User
 {
@@ -28,15 +30,15 @@ namespace TestWeb.UnitTests.Controllers.User
             var client = new Mock<ITestApiClient>();
             var response = new UpdateUserResponse
             {
-                New_password = UserData.NEW_PASSWORD
+                NewPassword = UserData.NEW_PASSWORD
             };
 
             client
-                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .Setup(x => x.GetUserExistsInAdAsync(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
             client
-                .Setup(x => x.PasswordAsync(It.IsAny<ResetUserPasswordRequest>()))
+                .Setup(x => x.ResetUserPasswordAsync(It.IsAny<ResetUserPasswordRequest>()))
                 .ReturnsAsync(response);
 
             var controller = new UserController(client.Object, _loggerMock.Object);
@@ -56,11 +58,11 @@ namespace TestWeb.UnitTests.Controllers.User
             var testApiClientMock = new Mock<ITestApiClient>();
 
             testApiClientMock
-                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .Setup(x => x.GetUserExistsInAdAsync(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
             testApiClientMock
-                .Setup(x => x.PasswordAsync(It.IsAny<ResetUserPasswordRequest>()))
+                .Setup(x => x.ResetUserPasswordAsync(It.IsAny<ResetUserPasswordRequest>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
@@ -75,7 +77,7 @@ namespace TestWeb.UnitTests.Controllers.User
             var testApiClientMock = new Mock<ITestApiClient>();
 
             testApiClientMock
-                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .Setup(x => x.GetUserExistsInAdAsync(It.IsAny<string>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
@@ -90,7 +92,7 @@ namespace TestWeb.UnitTests.Controllers.User
             var testApiClientMock = new Mock<ITestApiClient>();
 
             testApiClientMock
-                .Setup(x => x.AadAsync(It.IsAny<string>()))
+                .Setup(x => x.GetUserExistsInAdAsync(It.IsAny<string>()))
                 .ThrowsAsync(ExceptionsData.NOT_FOUND_EXCEPTION);
 
             var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);

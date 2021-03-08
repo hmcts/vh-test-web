@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
+using VideoApi.Contract.Requests;
 
 namespace TestWeb.UnitTests.Controllers.Conferences
 {
@@ -24,15 +25,15 @@ namespace TestWeb.UnitTests.Controllers.Conferences
             _controller = new ConferencesController(_testApiClientMock.Object, _loggerMock.Object);
             _request = new ConferenceEventRequest()
             {
-                Conference_id = Guid.NewGuid().ToString(),
-                Event_id = Guid.NewGuid().ToString(),
-                Event_type = EventsData.EVENT_TYPE,
-                Participant_id = Guid.NewGuid().ToString(),
+                ConferenceId = Guid.NewGuid().ToString(),
+                EventId = Guid.NewGuid().ToString(),
+                EventType = EventsData.EVENT_TYPE,
+                ParticipantId = Guid.NewGuid().ToString(),
                 Phone = EventsData.PHONE,
                 Reason = EventsData.REASON,
-                Time_stamp_utc = DateTime.UtcNow,
-                Transfer_from = EventsData.TRANSFER_FROM,
-                Transfer_to = EventsData.TRANSFER_TO
+                TimeStampUtc = DateTime.UtcNow,
+                TransferFrom = EventsData.TRANSFER_FROM,
+                TransferTo = EventsData.TRANSFER_TO
             };
         }
 

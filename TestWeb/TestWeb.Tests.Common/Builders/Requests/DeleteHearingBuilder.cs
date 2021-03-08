@@ -1,4 +1,4 @@
-﻿using TestWeb.TestApi.Client;
+﻿using TestApi.Contract.Requests;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Requests
@@ -12,7 +12,7 @@ namespace TestWeb.Tests.Common.Builders.Requests
             _request = new DeleteTestHearingDataRequest()
             {
                 Limit = DeleteData.LIMIT,
-                Partial_hearing_case_name = DeleteData.PARTIAL_HEARING_CASE_NAME
+                PartialHearingCaseName = DeleteData.PARTIAL_HEARING_CASE_NAME
             };
         }
         public DeleteTestHearingDataRequest Build()

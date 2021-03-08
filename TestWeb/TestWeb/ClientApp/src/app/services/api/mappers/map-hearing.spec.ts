@@ -1,13 +1,11 @@
 import { HearingModel } from 'src/app/common/models/hearing.model';
-import { Application, TestType, User, UserType } from '../../clients/api-client';
+import { Application, TestType, UserDto, UserType } from '../../clients/api-client';
 import { MapHearing } from './map-hearing';
 
 describe('MapHearing', () => {
-    const mapper = new MapHearing();
-
     it('should map the HearingModel to the CreateHearingRequest', () => {
         const users = [];
-        const user = new User();
+        const user = new UserDto();
         user.application = Application.AdminWeb;
         user.contact_email = 'test.user@hmcts.net';
         user.created_date = new Date();

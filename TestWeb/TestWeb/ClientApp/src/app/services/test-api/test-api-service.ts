@@ -50,7 +50,7 @@ export class TestApiService {
 
     unallocateUsers(usernames: string[]): Promise<AllocationDetailsResponse[]> {
         this.logger.debug(`${this.loggerPrefix} Unallocating user by usernames ${usernames}`);
-        const unallocateRequest = new UnallocateUsersRequest();
+        const unallocateRequest = new UnallocateUsersRequest({ usernames: [] });
         for (const username of usernames) {
             unallocateRequest.usernames.push(username);
         }

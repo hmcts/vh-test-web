@@ -10,12 +10,12 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using TestApi.Client;
 using TestWeb.Common;
 using TestWeb.Common.Configuration;
 using TestWeb.Common.Security;
 using TestWeb.Contracts.Responses;
 using TestWeb.Swagger;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.Extensions
 {
@@ -76,44 +76,16 @@ namespace TestWeb.Extensions
             var servicesConfiguration = container.GetService<IOptions<HearingServicesConfiguration>>().Value;
 
             services.AddHttpClient<ITestApiClient, TestApiClient>()
-                .AddHttpMessageHandler<TestApiTokenHandler>()
-                .AddTypedClient(httpClient => BuildTestApiClient(httpClient, servicesConfiguration));
+                .AddHttpMessageHandler(() => container.GetService<TestApiTokenHandler>())
+                .AddTypedClient(httpClient =>
+                {
+                    var client = TestApiClient.GetClient(httpClient);
+                    client.BaseUrl = servicesConfiguration.TestApiUrl;
+                    client.ReadResponseAsString = true;
+                    return (ITestApiClient)client;
+                });
 
             return services;
-        }
-
-        /// <summary>
-        /// Temporary work-around until typed-client bug is restored
-        /// https://github.com/dotnet/aspnetcore/issues/13346#issuecomment-535544207
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="factory"></param>
-        /// <typeparam name="TClient"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        private static IHttpClientBuilder AddTypedClient<TClient>(this IHttpClientBuilder builder,
-            Func<HttpClient, TClient> factory)
-            where TClient : class
-        {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            builder.Services.AddTransient(s =>
-            {
-                var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(builder.Name);
-
-                return factory(httpClient);
-            });
-
-            return builder;
         }
 
         public static IServiceCollection AddJsonOptions(this IServiceCollection serviceCollection)
@@ -132,11 +104,6 @@ namespace TestWeb.Extensions
                 });
 
             return serviceCollection;
-        }
-
-        private static ITestApiClient BuildTestApiClient(HttpClient httpClient, HearingServicesConfiguration servicesConfiguration)
-        {
-            return new TestApiClient(httpClient) { BaseUrl = servicesConfiguration.TestApiUrl, ReadResponseAsString = true };
         }
     }
 }

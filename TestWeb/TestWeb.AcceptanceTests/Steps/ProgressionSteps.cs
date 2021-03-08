@@ -1,8 +1,8 @@
 ﻿using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.Driver.Helpers;
 using TechTalk.SpecFlow;
+using TestApi.Contract.Enums;
 using TestWeb.AcceptanceTests.Pages;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.AcceptanceTests.Steps
 {

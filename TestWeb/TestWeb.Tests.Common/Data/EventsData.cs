@@ -1,5 +1,5 @@
-﻿using TestWeb.Common.Enums;
-using TestWeb.TestApi.Client;
+﻿using VideoApi.Contract.Enums;
+using RoomType = TestWeb.Common.Enums.RoomType;
 
 namespace TestWeb.Tests.Common.Data
 {

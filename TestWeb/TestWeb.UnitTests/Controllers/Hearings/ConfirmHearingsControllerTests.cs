@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Requests;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Builders.Responses;
 using TestWeb.Tests.Common.Data;
+using VideoApi.Contract.Responses;
 
 namespace TestWeb.UnitTests.Controllers.Hearings
 {

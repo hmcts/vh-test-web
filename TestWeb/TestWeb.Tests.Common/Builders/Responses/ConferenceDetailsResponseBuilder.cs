@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookingsApi.Contract.Responses;
 using Newtonsoft.Json.Converters;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Data;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
+using EndpointResponse = VideoApi.Contract.Responses.EndpointResponse;
 
 namespace TestWeb.Tests.Common.Builders.Responses
 {
@@ -15,20 +18,20 @@ namespace TestWeb.Tests.Common.Builders.Responses
         {
             _response = new ConferenceDetailsResponse()
             {
-                Audio_recording_required = hearing.Audio_recording_required,
-                Case_name = hearing.Cases.First().Name,
-                Case_number = hearing.Cases.First().Number,
-                Case_type = hearing.Case_type_name,
-                Closed_date_time = null,
-                Current_status = ConferenceData.CURRENT_STATUS,
+                AudioRecordingRequired = hearing.AudioRecordingRequired,
+                CaseName = hearing.Cases.First().Name,
+                CaseNumber = hearing.Cases.First().Number,
+                CaseType = hearing.CaseTypeName,
+                ClosedDateTime = null,
+                CurrentStatus = ConferenceData.CURRENT_STATUS,
                 Endpoints = new List<EndpointResponse>(),
-                Hearing_id = hearing.Id,
-                Hearing_venue_name = hearing.Hearing_venue_name,
+                HearingId = hearing.Id,
+                HearingVenueName = hearing.HearingVenueName,
                 Id = Guid.NewGuid(),
-                Meeting_room = new MeetingRoomResponse(),
-                Scheduled_date_time = hearing.Scheduled_date_time,
-                Scheduled_duration = hearing.Scheduled_duration,
-                Started_date_time = null
+                MeetingRoom = new MeetingRoomResponse(),
+                ScheduledDateTime = hearing.ScheduledDateTime,
+                ScheduledDuration = hearing.ScheduledDuration,
+                StartedDateTime = null
             };
             AddParticipants(hearing);
         }
@@ -39,22 +42,22 @@ namespace TestWeb.Tests.Common.Builders.Responses
 
             foreach (var participant in hearing.Participants)
             {
-                Enum.TryParse(participant.User_role_name, out UserRole role);
+                Enum.TryParse(participant.UserRoleName, out UserRole role);
                 var response = new ParticipantDetailsResponse()
                 {
-                    Case_type_group = participant.User_role_name,
-                    Contact_email = participant.Contact_email,
-                    Contact_telephone = participant.Telephone_number,
-                    Current_status = ParticipantState.NotSignedIn,
-                    Display_name = participant.Display_name,
-                    First_name = participant.First_name,
-                    Hearing_role = participant.User_role_name,
+                    CaseTypeGroup = participant.UserRoleName,
+                    ContactEmail = participant.ContactEmail,
+                    ContactTelephone = participant.Title,
+                    CurrentStatus = ParticipantState.NotSignedIn,
+                    DisplayName = participant.DisplayName,
+                    FirstName = participant.FirstName,
+                    HearingRole = participant.UserRoleName,
                     Id = participant.Id,
-                    Last_name = participant.Last_name,
-                    Name = participant.Display_name,
-                    Ref_id = participant.Id,
+                    LastName = participant.LastName,
+                    Name = participant.DisplayName,
+                    RefId = participant.Id,
                     Representee = participant.Representee,
-                    User_role = role,
+                    UserRole = role,
                     Username = participant.Username
                 };
                 _response.Participants.Add(response);

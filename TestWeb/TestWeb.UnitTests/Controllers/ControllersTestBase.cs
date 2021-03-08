@@ -1,5 +1,5 @@
 ﻿using Moq;
-using TestWeb.TestApi.Client;
+using TestApi.Client;
 
 namespace TestWeb.UnitTests.Controllers
 {

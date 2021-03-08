@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using TestWeb.TestApi.Client;
+﻿using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Requests.Enums;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Requests
@@ -12,9 +12,9 @@ namespace TestWeb.Tests.Common.Builders.Requests
         {
             _request = new UpdateBookingStatusRequest()
             {
-                Cancel_reason = null,
+                CancelReason = null,
                 Status = UpdateBookingStatus.Created,
-                Updated_by = HearingsData.UPDATED_BY
+                UpdatedBy = HearingsData.UPDATED_BY
             };
         }
 

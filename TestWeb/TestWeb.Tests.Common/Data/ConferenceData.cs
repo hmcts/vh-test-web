@@ -1,4 +1,4 @@
-﻿using TestWeb.TestApi.Client;
+﻿using VideoApi.Contract.Enums;
 
 namespace TestWeb.Tests.Common.Data
 {

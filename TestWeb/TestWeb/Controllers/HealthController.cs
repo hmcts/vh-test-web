@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using TestApi.Client;
 using TestWeb.Models;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.Controllers
 {
@@ -38,7 +38,7 @@ namespace TestWeb.Controllers
 
             try
             {
-                await _testApiClient.CheckServiceHealthAsync();
+                await _testApiClient.CheckApiHealthAsync();
                 response.TestApiHealth.Successful = true;
             }
             catch (Exception ex)

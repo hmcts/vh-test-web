@@ -1,5 +1,5 @@
-﻿using TestWeb.Contracts.Responses;
-using TestWeb.TestApi.Client;
+﻿using BookingsApi.Contract.Responses;
+using TestWeb.Contracts.Responses;
 
 namespace TestWeb.Mappings
 {
@@ -9,9 +9,9 @@ namespace TestWeb.Mappings
         {
             return new HearingResponse()
             {
-                Id = response.Hearing_id,
-                Case_name = response.Hearing_name,
-                ScheduledDate = response.Scheduled_date_time
+                Id = response.HearingId,
+                Case_name = response.HearingName,
+                ScheduledDate = response.ScheduledDateTime
             };
         }
     }

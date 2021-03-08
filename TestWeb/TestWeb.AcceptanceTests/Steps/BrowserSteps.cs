@@ -5,9 +5,11 @@ using AcceptanceTests.Common.Driver.Drivers;
 using AcceptanceTests.Common.PageObject.Pages;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using TestApi.Contract.Enums;
+using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 using TestWeb.AcceptanceTests.Helpers;
 using TestWeb.AcceptanceTests.Pages;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.AcceptanceTests.Steps
 {
@@ -52,10 +54,10 @@ namespace TestWeb.AcceptanceTests.Steps
             var request = new AllocateUserRequest()
             {
                 Application = Application.TestWeb,
-                Expiry_in_minutes = ALLOCATE_USERS_FOR_MINUTES,
-                Is_prod_user = false,
-                Test_type = TestType.Automated,
-                User_type = userType
+                ExpiryInMinutes = ALLOCATE_USERS_FOR_MINUTES,
+                IsProdUser = false,
+                TestType = TestType.Automated,
+                UserType = userType
             };
 
             var response = _c.TestApi.AllocateUser(request);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using TestWeb.TestApi.Client;
+using TestApi.Contract.Enums;
+using TestApi.Contract.Requests;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Requests
@@ -13,28 +14,28 @@ namespace TestWeb.Tests.Common.Builders.Requests
             _request = new AllocateUsersRequest()
             {
                 Application = AllocationData.APPLICATION,
-                Expiry_in_minutes = AllocationData.EXPIRY_IN_MINUTES,
-                Is_prod_user = UserData.IS_PROD_USER,
-                Test_type = AllocationData.TEST_TYPE,
-                User_types = new List<UserType>()
+                ExpiryInMinutes = AllocationData.EXPIRY_IN_MINUTES,
+                IsProdUser = UserData.IS_PROD_USER,
+                TestType = AllocationData.TEST_TYPE,
+                UserTypes = new List<UserType>()
             };
         }
 
         public AllocateUsersBuilder Judge()
         {
-            _request.User_types.Add(UserType.Judge);
+            _request.UserTypes.Add(UserType.Judge);
             return this;
         }
 
         public AllocateUsersBuilder Individual()
         {
-            _request.User_types.Add(UserType.Individual);
+            _request.UserTypes.Add(UserType.Individual);
             return this;
         }
 
         public AllocateUsersBuilder Representative()
         {
-            _request.User_types.Add(UserType.Representative);
+            _request.UserTypes.Add(UserType.Representative);
             return this;
         }
 

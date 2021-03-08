@@ -1,12 +1,14 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
+using TestApi.Contract.Requests;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Builders.Responses;
 using TestWeb.Tests.Common.Data;
@@ -31,7 +33,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
             var client = new Mock<ITestApiClient>();
             var response = new HearingsResponseBuilder(_request).Build();
 
-            client.Setup(x => x.HearingsAsync(It.IsAny<CreateHearingRequest>()))
+            client.Setup(x => x.CreateHearingAsync(It.IsAny<CreateHearingRequest>()))
                 .ReturnsAsync(response);
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
@@ -50,7 +52,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
         {
             var testApiClientMock = new Mock<ITestApiClient>();
             testApiClientMock
-                .Setup(x => x.HearingsAsync(It.IsAny<CreateHearingRequest>()))
+                .Setup(x => x.CreateHearingAsync(It.IsAny<CreateHearingRequest>()))
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new HearingsController(testApiClientMock.Object, _loggerMock.Object);

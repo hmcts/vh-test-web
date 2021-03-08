@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TestApi.Client;
+using TestApi.Contract.Requests;
 using TestWeb.Contracts.Responses;
 using TestWeb.Controllers;
-using TestWeb.TestApi.Client;
 using TestWeb.Tests.Common.Builders.Requests;
 using TestWeb.Tests.Common.Builders.Responses;
 using TestWeb.Tests.Common.Data;
@@ -39,13 +41,13 @@ namespace TestWeb.UnitTests.Controllers.Hearings
             {
                 new HearingResponse()
                 {
-                    Case_name = bookingsHearingResponse.Hearing_name,
-                    Id = bookingsHearingResponse.Hearing_id,
-                    ScheduledDate = bookingsHearingResponse.Scheduled_date_time
+                    Case_name = bookingsHearingResponse.HearingName,
+                    Id = bookingsHearingResponse.HearingId,
+                    ScheduledDate = bookingsHearingResponse.ScheduledDateTime
                 }
             };
 
-            client.Setup(x => x.HearingsAllAsync())
+            client.Setup(x => x.GetAllHearingsAsync())
                 .ReturnsAsync(bookingsHearingsResponses);
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
@@ -66,7 +68,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
 
             var testApiClientMock = new Mock<ITestApiClient>();
             testApiClientMock
-                .Setup(x => x.HearingsAllAsync())
+                .Setup(x => x.GetAllHearingsAsync())
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new HearingsController(testApiClientMock.Object, _loggerMock.Object);

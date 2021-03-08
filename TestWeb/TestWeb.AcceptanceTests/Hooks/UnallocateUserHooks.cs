@@ -2,8 +2,8 @@
 using System.Net;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using TestApi.Contract.Requests;
 using TestWeb.AcceptanceTests.Helpers;
-using TestWeb.TestApi.Client;
 
 namespace TestWeb.AcceptanceTests.Hooks
 {

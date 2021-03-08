@@ -1,5 +1,5 @@
 ﻿using System;
-using TestWeb.TestApi.Client;
+using TestApi.Contract.Responses;
 using TestWeb.Tests.Common.Data;
 
 namespace TestWeb.Tests.Common.Builders.Responses
@@ -13,16 +13,16 @@ namespace TestWeb.Tests.Common.Builders.Responses
             _response = new AllocationDetailsResponse()
             {
                 Allocated = AllocationData.ALLOCATED,
-                Expires_at = AllocationData.EXPIRES_AT,
+                ExpiresAt = AllocationData.EXPIRES_AT,
                 Id = Guid.NewGuid(),
-                User_id = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
                 Username = $"{UserData.JUDGE}{UserData.USERNAME_STEM}"
             };
         }
 
         public AllocationDetailsResponseBuilder AllocatedBy(string allocatedBy)
         {
-            _response.Allocated_by = allocatedBy;
+            _response.AllocatedBy = allocatedBy;
             return this;
         }
 
