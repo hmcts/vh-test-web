@@ -13,19 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="Selenium.Axe" Version="2.0.3" />
-    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.27.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="88.0.4324.9600" />
-    <PackageReference Include="SpecFlow" Version="3.6.23" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.6.23" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TestWeb.Tests.Common\TestWeb.Tests.Common.csproj" />
   </ItemGroup>
 
@@ -33,6 +20,10 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.27" />
   </ItemGroup>
 
 </Project>
