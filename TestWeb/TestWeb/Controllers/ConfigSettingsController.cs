@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Annotations;
+using NSwag.Annotations;
 using TestWeb.Common.Configuration;
 using TestWeb.Contracts.Responses;
 using TestWeb.Mappings;
@@ -29,8 +29,8 @@ namespace TestWeb.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
+        [OpenApiOperation("GetClientConfigurationSettings")]
         [ProducesResponseType(typeof(ClientSettingsResponse), (int)HttpStatusCode.OK)]
-        [SwaggerOperation(OperationId = "GetClientConfigurationSettings")]
         public ActionResult<ClientSettingsResponse> GetClientConfigurationSettings()
         {
             var response = ClientSettingsResponseMapper.MapAppConfigurationToResponseModel(_azureAdConfiguration, _servicesConfiguration);

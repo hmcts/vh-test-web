@@ -32,13 +32,13 @@ describe('TestApiService', () => {
 
     const apiClient = jasmine.createSpyObj<ApiClient>('ApiClient', [
         'allocateUsers',
-        'hearings',
+        'createHearing',
         'confirmHearingById',
-        'password',
-        'removeTestData',
-        'allocateUser',
+        'resetPassword',
+        'deleteTestDataByPartialCaseText',
+        'allocateSingleUser',
         'unallocateUsers',
-        'allocatedUsers',
+        'getAllocatedUsers',
         `getConferencesForToday`,
         `getConferenceByHearingRefId`,
         `createVideoEvent`,
@@ -110,13 +110,13 @@ describe('TestApiService', () => {
     it('should call the password test api endpoint', async () => {
         const updateUserResponse = new UpdateUserResponse();
         updateUserResponse.new_password = 'pass';
-        apiClient.password.and.returnValue(of(updateUserResponse));
+        apiClient.resetPassword.and.returnValue(of(updateUserResponse));
 
         const resetUserPasswordRequest = new ResetUserPasswordRequest();
         resetUserPasswordRequest.username = 'test.user@email.net';
 
         const result = await service.resetUserPassword(resetUserPasswordRequest.username);
-        expect(apiClient.password).toHaveBeenCalledWith(resetUserPasswordRequest);
+        expect(apiClient.resetPassword).toHaveBeenCalledWith(resetUserPasswordRequest);
         expect(result).toBe(updateUserResponse);
     });
 
@@ -127,15 +127,15 @@ describe('TestApiService', () => {
 
         const deletedResponse = new DeletedResponse();
         deletedResponse.number_of_deleted_hearings = 1;
-        const result = apiClient.removeTestData.and.returnValue(of(deletedResponse));
+        const result = apiClient.deleteTestDataByPartialCaseText.and.returnValue(of(deletedResponse));
 
         await service.deleteHearings(deleteHearingsModel);
-        expect(apiClient.removeTestData).toHaveBeenCalledWith(deleteRequest);
+        expect(apiClient.deleteTestDataByPartialCaseText).toHaveBeenCalledWith(deleteRequest);
     });
 
     it('should call the allocate single user test api endpoint', async () => {
         const userDetailsResponse = new UserDetailsResponse();
-        apiClient.allocateUser.and.returnValue(of(userDetailsResponse));
+        apiClient.allocateSingleUser.and.returnValue(of(userDetailsResponse));
 
         const allocateUserModel = new AllocateUserModel();
         allocateUserModel.allocated_by = 'user@hmcts.net';
@@ -154,7 +154,7 @@ describe('TestApiService', () => {
         allocateUserRequest.user_type = allocateUserModel.user_type;
 
         const result = await service.allocateSingleUser(allocateUserModel);
-        expect(apiClient.allocateUser).toHaveBeenCalledWith(allocateUserRequest);
+        expect(apiClient.allocateSingleUser).toHaveBeenCalledWith(allocateUserRequest);
         expect(result).toBe(userDetailsResponse);
     });
 
@@ -179,21 +179,21 @@ describe('TestApiService', () => {
         const allocationResponses = [];
         const allocationResponse = new AllocationDetailsResponse();
         allocationResponses.push(allocationResponse);
-        apiClient.allocatedUsers.and.returnValue(of(allocationResponses));
+        apiClient.getAllocatedUsers.and.returnValue(of(allocationResponses));
 
         const username = 'user@hmcts.net';
 
         const result = await service.getAllAllocationsByAllocatedBy(username);
-        expect(apiClient.allocatedUsers).toHaveBeenCalledWith(username);
+        expect(apiClient.getAllocatedUsers).toHaveBeenCalledWith(username);
         expect(result).toBe(allocationResponses);
     });
 
     it('should call the create hearing test api endpoint', async () => {
         const hearingModel = testData.createHearingModel();
         const hearingDetailsResponse = testData.getHearingDetails();
-        apiClient.hearings.and.returnValue(of(hearingDetailsResponse));
+        apiClient.createHearing.and.returnValue(of(hearingDetailsResponse));
         const result = await service.createHearing(hearingModel);
-        expect(apiClient.hearings).toHaveBeenCalled();
+        expect(apiClient.createHearing).toHaveBeenCalled();
         expect(result).toBe(hearingDetailsResponse);
     });
 

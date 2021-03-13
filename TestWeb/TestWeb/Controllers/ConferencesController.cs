@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
 using TestApi.Client;
 using TestWeb.Contracts.Responses;
 using TestWeb.Mappings;
@@ -31,13 +32,14 @@ namespace TestWeb.Controllers
         /// </summary>
         /// <param name="request">Conference event request</param>
         /// <returns></returns>
-        [HttpPost("events", Name = nameof(CreateVideoEventAsync))]
+        [HttpPost("events", Name = nameof(CreateVideoEvent))]
+        [OpenApiOperation("CreateVideoEvent")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateVideoEventAsync(ConferenceEventRequest request)
+        public async Task<IActionResult> CreateVideoEvent(ConferenceEventRequest request)
         {
-            _logger.LogDebug($"CreateVideoEventAsync");
+            _logger.LogDebug("CreateVideoEvent");
 
             try
             {
@@ -46,7 +48,7 @@ namespace TestWeb.Controllers
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to create event: ${request.EventType}");
+                _logger.LogError(e, "Unable to create event: {eventType}", request.EventType);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -56,11 +58,12 @@ namespace TestWeb.Controllers
         /// </summary>
         /// <returns>Conferences for today</returns>
         [HttpGet("conferences", Name = nameof(GetConferencesForTodayAsync))]
+        [OpenApiOperation("GetConferencesForTodayAsync")]
         [ProducesResponseType(typeof(List<ConferenceResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayAsync()
         {
-            _logger.LogDebug($"GetConferencesForTodayAsync");
+            _logger.LogDebug("GetConferencesForTodayAsync");
 
             try
             {
@@ -70,7 +73,7 @@ namespace TestWeb.Controllers
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to fetch conferences");
+                _logger.LogError(e, "Unable to fetch conferences with error '{message}'", e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -80,13 +83,14 @@ namespace TestWeb.Controllers
         /// </summary>
         /// <param name="hearingRefId">Hearing ref Id of the conference</param>
         /// <returns>Full details of a conference</returns>
-        [HttpGet("hearings/{hearingRefId}", Name = nameof(GetConferenceByHearingRefIdAsync))]
+        [HttpGet("hearings/{hearingRefId}", Name = nameof(GetConferenceByHearingRefId))]
+        [OpenApiOperation("GetConferenceByHearingRefId")]
         [ProducesResponseType(typeof(ConferenceResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetConferenceByHearingRefIdAsync(Guid hearingRefId)
+        public async Task<IActionResult> GetConferenceByHearingRefId(Guid hearingRefId)
         {
-            _logger.LogDebug($"GetConferenceByHearingRefIdAsync {hearingRefId}");
+            _logger.LogDebug("GetConferenceByHearingRefId {hearingRefId}", hearingRefId);
 
             try
             {
@@ -96,7 +100,7 @@ namespace TestWeb.Controllers
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to fetch conference");
+                _logger.LogError(e, "Unable to fetch conference with error '{message}'", e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }

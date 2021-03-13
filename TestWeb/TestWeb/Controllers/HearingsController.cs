@@ -7,6 +7,7 @@ using BookingsApi.Contract.Requests;
 using BookingsApi.Contract.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
 using TestApi.Client;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
@@ -37,21 +38,22 @@ namespace TestWeb.Controllers
         /// <param name="request">Details on the new hearing</param>
         /// <returns>Full details of created hearing</returns>
         [HttpPost]
+        [OpenApiOperation("CreateHearing")]
         [ProducesResponseType(typeof(HearingDetailsResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateHearingAsync(CreateHearingRequest request)
+        public async Task<IActionResult> CreateHearing(CreateHearingRequest request)
         {
-            _logger.LogDebug("CreateHearingAsync");
+            _logger.LogDebug("CreateHearing");
 
             try
             {
                 var response = await _testApiClient.CreateHearingAsync(request);
                 _logger.LogDebug($"New Hearing Created with id {response.Id}");
-                return Created(nameof(CreateHearingAsync), response);
+                return Created(nameof(CreateHearing), response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, "Unable to create hearing");
+                _logger.LogError(e, "Unable to create hearing with error '{message}'", e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -62,23 +64,24 @@ namespace TestWeb.Controllers
         /// <param name="hearingId">Id of the hearing</param>
         /// <param name="request">Update the booking status details</param>
         /// <returns>Confirm a hearing</returns>
-        [HttpPatch("{hearingId}", Name = nameof(ConfirmHearingByIdAsync))]
+        [HttpPatch("{hearingId}", Name = nameof(ConfirmHearingById))]
+        [OpenApiOperation("ConfirmHearingById")]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ConfirmHearingByIdAsync(Guid hearingId, UpdateBookingStatusRequest request)
+        public async Task<IActionResult> ConfirmHearingById(Guid hearingId, UpdateBookingStatusRequest request)
         {
-            _logger.LogDebug($"ConfirmHearingByIdAsync {hearingId}");
+            _logger.LogDebug($"ConfirmHearingById {hearingId}");
 
             try
             {
                 var response = await _testApiClient.ConfirmHearingByIdAsync(hearingId, request);
-                _logger.LogDebug($"Hearing confirmed with id {response.Id}");
-                return Created(nameof(ConfirmHearingByIdAsync), response);
+                _logger.LogDebug("Hearing confirmed with id {id}", response.Id);
+                return Created(nameof(ConfirmHearingById), response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, "Unable to confirm hearing");
+                _logger.LogError(e, "Unable to confirm hearing with error '{message}'", e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -89,11 +92,12 @@ namespace TestWeb.Controllers
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         [HttpPost("removeTestData")]
+        [OpenApiOperation("DeleteTestDataByPartialCaseText")]
         [ProducesResponseType(typeof(DeletedResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
+        public async Task<IActionResult> DeleteTestDataByPartialCaseText(DeleteTestHearingDataRequest request)
         {
-            _logger.LogDebug($"DeleteHearingsByPartialCaseTextAsync");
+            _logger.LogDebug("DeleteTestDataByPartialCaseText");
 
             try
             {
@@ -103,7 +107,7 @@ namespace TestWeb.Controllers
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, "Unable to delete hearing and/or conference");
+                _logger.LogError(e, "Unable to delete hearing and/or conference with error '{message}'", e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -113,24 +117,25 @@ namespace TestWeb.Controllers
         /// </summary>
         /// <param name="createdBy">The user that created the hearing</param>
         /// <returns>Hearings CreatedBy the user</returns>
-        [HttpGet("hearings/{createdBy}", Name = nameof(GetAllHearingsByCreatedByAsync))]
+        [HttpGet("hearings/{createdBy}", Name = nameof(GetAllHearingsByCreatedBy))]
+        [OpenApiOperation("GetAllHearingsByCreatedBy")]
         [ProducesResponseType(typeof(List<HearingResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllHearingsByCreatedByAsync(string createdBy)
+        public async Task<IActionResult> GetAllHearingsByCreatedBy(string createdBy)
         {
-            _logger.LogDebug($"GetAllHearingsByCreatedByAsync {createdBy}");
+            _logger.LogDebug("GetAllHearingsByCreatedBy {createdBy}");
 
             try
             {
                 var allHearingsResponse = await _testApiClient.GetAllHearingsAsync();
-                _logger.LogDebug($"Retrieved {allHearingsResponse.Count} hearings in total.");
+                _logger.LogDebug("Retrieved {count} hearings in total.", allHearingsResponse.Count);
                 var hearings = (from hearing in allHearingsResponse where hearing.CreatedBy.ToLower().Equals(createdBy.ToLower()) select HearingResponseMapper.Map(hearing)).ToList();
-                _logger.LogDebug($"Filtered down to {hearings.Count} hearings in total created by '{createdBy}'.");
+                _logger.LogDebug("Filtered down to {count} hearings in total created by '{createdBy}'.", hearings.Count, createdBy);
                 return Ok(hearings);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to fetch hearings");
+                _logger.LogError(e, "Unable to fetch hearings with error '{message}'", e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }

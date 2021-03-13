@@ -38,7 +38,7 @@ export class TestApiService {
         this.logger.debug(`${this.loggerPrefix} Allocating user with model:`, { payload: allocateUserModel });
         const allocateRequest = MapAllocateUser.map(allocateUserModel);
         this.logger.debug(`${this.loggerPrefix} Mapped allocation model to request:`, { payload: allocateRequest });
-        return this.apiClient.allocateUser(allocateRequest).toPromise();
+        return this.apiClient.allocateSingleUser(allocateRequest).toPromise();
     }
 
     allocateUsers(allocateUsersModel: AllocateUsersModel): Promise<UserDetailsResponse[]> {
@@ -62,7 +62,7 @@ export class TestApiService {
         this.logger.debug(`${this.loggerPrefix} Creating hearing with model:`, { payload: createHearingModel });
         const hearingRequest = MapHearing.map(createHearingModel);
         this.logger.debug(`${this.loggerPrefix} Mapped hearing model to request:`, { payload: hearingRequest });
-        return this.apiClient.hearings(hearingRequest).toPromise();
+        return this.apiClient.createHearing(hearingRequest).toPromise();
     }
 
     confirmHearing(hearingId: string, confirmHearingModel: ConfirmHearingModel): Promise<ConferenceDetailsResponse> {
@@ -77,19 +77,19 @@ export class TestApiService {
         const resetRequest = new ResetUserPasswordRequest();
         resetRequest.username = username;
         this.logger.debug(`${this.loggerPrefix} Mapped reset model to request:`, { payload: resetRequest });
-        return this.apiClient.password(resetRequest).toPromise();
+        return this.apiClient.resetPassword(resetRequest).toPromise();
     }
 
     deleteHearings(deleteHearingsModel: DeleteModel): Promise<DeletedResponse> {
         this.logger.debug(`${this.loggerPrefix} Deleting hearings with model:`, { payload: deleteHearingsModel });
         const deleteRequest = MapDelete.map(deleteHearingsModel);
         this.logger.debug(`${this.loggerPrefix} Mapped delete model to request:`, { payload: deleteRequest });
-        return this.apiClient.removeTestData(deleteRequest).toPromise();
+        return this.apiClient.deleteTestDataByPartialCaseText(deleteRequest).toPromise();
     }
 
     getAllAllocationsByAllocatedBy(username: string): Promise<AllocationDetailsResponse[]> {
         this.logger.debug(`${this.loggerPrefix} Getting all allocations by username`);
-        return this.apiClient.allocatedUsers(username).toPromise();
+        return this.apiClient.getAllocatedUsers(username).toPromise();
     }
 
     getConferencesForToday(): Promise<ConferenceResponse[]> {

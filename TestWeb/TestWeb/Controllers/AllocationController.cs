@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
 using TestApi.Client;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
@@ -30,21 +31,22 @@ namespace TestWeb.Controllers
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         [HttpPatch("allocateUser")]
+        [OpenApiOperation("AllocateSingleUser")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AllocateSingleUserAsync(AllocateUserRequest request)
+        public async Task<IActionResult> AllocateSingleUser(AllocateUserRequest request)
         {
-            _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
+            _logger.LogDebug("AllocateSingleUser {userType} {application}", request.UserType, request.Application);
 
             try
             {
                 var response = await _testApiClient.AllocateSingleUserAsync(request);
-                _logger.LogDebug($"User '{response.Username}' successfully allocated");
+                _logger.LogDebug("User '{username}' successfully allocated", response.Username);
                 return Ok(response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to allocate user: ${request.UserType}");
+                _logger.LogError(e, "Unable to allocate user: {userType}", request.UserType);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -55,21 +57,22 @@ namespace TestWeb.Controllers
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         [HttpPatch("allocateUsers")]
+        [OpenApiOperation("AllocateUsers")]
         [ProducesResponseType(typeof(List<UserDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AllocateUsersAsync(AllocateUsersRequest request)
+        public async Task<IActionResult> AllocateUsers(AllocateUsersRequest request)
         {
-            _logger.LogDebug($"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
+            _logger.LogDebug("AllocateUsers No. of UserTypes: {count} Application: {application}", request.UserTypes.Count, request.Application);
 
             try
             {
                 var response = await _testApiClient.AllocateMultipleUsersAsync(request);
-                _logger.LogDebug($"'{response.Count}' users successfully allocated");
+                _logger.LogDebug("'{count}' users successfully allocated", response.Count);
                 return Ok(response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to allocate users: ${request.UserTypes}");
+                _logger.LogError(e, "Unable to allocate users: {userTypes}", request.UserTypes);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -80,22 +83,23 @@ namespace TestWeb.Controllers
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         [HttpPatch("unallocateUsers")]
+        [OpenApiOperation("UnallocateUsers")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UnallocateUsersByUsernameAsync(UnallocateUsersRequest request)
+        public async Task<IActionResult> UnallocateUsersByUsername(UnallocateUsersRequest request)
         {
-            _logger.LogDebug("UnallocateUsersByUsernameAsync");
+            _logger.LogDebug("UnallocateUsersByUsername");
 
             try
             {
                 var response = await _testApiClient.UnallocateUsersAsync(request);
-                _logger.LogInformation($"Unallocated {response.Count} user(s)");
+                _logger.LogInformation("Unallocated {count} user(s)", response.Count);
                 return Ok(response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to unallocate users: ${request.Usernames}");
+                _logger.LogError(e, "Unable to unallocate users: {usernames}", request.Usernames);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
@@ -106,19 +110,20 @@ namespace TestWeb.Controllers
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         [HttpGet("allocatedUsers/{username}")]
+        [OpenApiOperation("GetAllocatedUsers")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllocatedUsersAsync(string username)
+        public async Task<IActionResult> GetAllocatedUsers(string username)
         {
             try
             {
                 var response = await _testApiClient.GetAllocateUsersByAllocatedByAsync(username);
-                _logger.LogInformation($"Allocated to {response.Count} user(s)");
+                _logger.LogInformation("Allocated to {count} user(s)", response.Count);
                 return Ok(response);
             }
             catch (TestApiException e)
             {
-                _logger.LogError(e, $"Unable to retrieve allocated users with username: ${username}");
+                _logger.LogError(e, "Unable to retrieve allocated users with username: {username}", username);
                 return StatusCode(e.StatusCode, e.Response);
             }
         }

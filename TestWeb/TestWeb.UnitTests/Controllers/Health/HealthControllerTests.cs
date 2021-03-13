@@ -23,7 +23,7 @@ namespace TestWeb.UnitTests.Controllers.Health
         [Test]
         public async Task Should_return_ok_when_all_services_are_running()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
@@ -37,7 +37,7 @@ namespace TestWeb.UnitTests.Controllers.Health
         [Test]
         public async Task Should_return_the_application_version_from_assembly()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             var response = (HealthCheckResponse) typedResult.Value;
             response.AppVersion.FileVersion.Should().NotBeNullOrEmpty();
@@ -47,7 +47,7 @@ namespace TestWeb.UnitTests.Controllers.Health
         [Test]
         public async Task Should_return_the_bookings_api_health()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             var response = (HealthCheckResponse) typedResult.Value;
             response.TestApiHealth.Successful.Should().BeTrue();
@@ -60,12 +60,12 @@ namespace TestWeb.UnitTests.Controllers.Health
             var testApiClientMock = new Mock<ITestApiClient>();
 
             testApiClientMock
-                .Setup(x => x.CheckApiHealthAsync())
+                .Setup(x => x.CheckServiceHealthAsync())
                 .ThrowsAsync(ExceptionsData.EXCEPTION);
 
             var controller = new HealthController(testApiClientMock.Object);
 
-            var result = await controller.HealthAsync();
+            var result = await controller.Health();
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
             var response = (HealthCheckResponse)typedResult.Value;

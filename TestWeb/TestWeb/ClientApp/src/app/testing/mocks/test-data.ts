@@ -200,7 +200,7 @@ export class TestData {
 
     getHearingParticipants(): ParticipantResponse2[] {
         const participants = [];
-        const participant = new ParticipantResponse();
+        const participant = new ParticipantResponse2();
         participant.case_role_name = 'case role';
         participant.contact_email = 'test.user@hmcts.net';
         participant.telephone_number = '234567890';
@@ -255,7 +255,7 @@ export class TestData {
 
         const participants = [];
 
-        const judge = new ParticipantResponse2();
+        const judge = new ParticipantResponse();
         judge.display_name = 'judge';
         judge.hearing_role = 'judge';
         judge.id = '123';
@@ -264,7 +264,7 @@ export class TestData {
         judge.username = 'judge@mail.net';
         participants.push(judge);
 
-        const individual = new ParticipantResponse2();
+        const individual = new ParticipantResponse();
         individual.display_name = 'individual';
         individual.hearing_role = 'Individual';
         individual.id = '456';
@@ -285,7 +285,7 @@ export class TestData {
         return conferences;
     }
 
-    getJudgeId(participants: ParticipantResponse2[]) {
+    getJudgeId(participants: ParticipantResponse[]) {
         for (const participant of participants) {
             if (participant.user_role === UserRole.Judge) {
                 return participant.id;
