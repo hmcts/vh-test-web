@@ -58,7 +58,7 @@ namespace TestWeb.UnitTests.Controllers.UserProfile
             _controller = SetupControllerWithClaims();
 
             var result = _controller.GetUserProfile();
-            var typedResult = (ObjectResult)result;
+            var typedResult = (UnauthorizedResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.Unauthorized);
         }
 
