@@ -38,7 +38,7 @@ namespace TestWeb.UnitTests.Controllers.Allocations
 
             var controller = new AllocationController(client.Object, _loggerMock.Object);
 
-            var result = await controller.AllocateSingleUserAsync(_request);
+            var result = await controller.AllocateSingleUser(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
@@ -56,7 +56,7 @@ namespace TestWeb.UnitTests.Controllers.Allocations
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new AllocationController(client.Object, _loggerMock.Object);
-            var result = await controller.AllocateSingleUserAsync(_request);
+            var result = await controller.AllocateSingleUser(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }

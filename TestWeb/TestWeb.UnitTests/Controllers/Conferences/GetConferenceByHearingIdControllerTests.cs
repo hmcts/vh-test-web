@@ -38,7 +38,7 @@ namespace TestWeb.UnitTests.Controllers.Conferences
 
             var controller = new ConferencesController(testApiClientMock.Object, _loggerMock.Object);
 
-            var response = await controller.GetConferenceByHearingRefIdAsync(hearingResponse.Id);
+            var response = await controller.GetConferenceByHearingRefId(hearingResponse.Id);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -61,7 +61,7 @@ namespace TestWeb.UnitTests.Controllers.Conferences
 
             var controller = new ConferencesController(testApiClientMock.Object, _loggerMock.Object);
 
-            var response = await controller.GetConferenceByHearingRefIdAsync(hearingId);
+            var response = await controller.GetConferenceByHearingRefId(hearingId);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

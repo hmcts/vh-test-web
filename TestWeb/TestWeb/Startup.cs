@@ -23,6 +23,8 @@ namespace TestWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson();
+
             services.AddSwagger();
             services.AddJsonOptions();
             RegisterSettings(services);
@@ -54,8 +56,11 @@ namespace TestWeb
         {
             if (!env.IsProduction())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test Web API V1"); });
+                app.UseOpenApi();
+                app.UseSwaggerUi3(c =>
+                {
+                    c.DocumentTitle = "Test Web";
+                });
             }
 
             if (env.IsDevelopment())

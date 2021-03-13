@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
+using NSwag.Annotations;
 using TestApi.Client;
 using TestWeb.Models;
 
@@ -29,16 +29,16 @@ namespace TestWeb.Controllers
         /// <returns>Error if fails, otherwise OK status</returns>
         [HttpGet("health")]
         [HttpGet("liveness")]
-        [SwaggerOperation(OperationId = "CheckServiceHealth")]
+        [OpenApiOperation("CheckServiceHealth")]
         [ProducesResponseType(typeof(HealthCheckResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(HealthCheckResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> HealthAsync()
+        public async Task<IActionResult> Health()
         {
             var response = new HealthCheckResponse { AppVersion = GetApplicationVersion() };
 
             try
             {
-                await _testApiClient.CheckApiHealthAsync();
+                await _testApiClient.CheckServiceHealthAsync();
                 response.TestApiHealth.Successful = true;
             }
             catch (Exception ex)

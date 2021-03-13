@@ -2,7 +2,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
+using NSwag.Annotations;
 using TestWeb.Contracts.Responses;
 using TestWeb.Mappings;
 
@@ -25,7 +25,7 @@ namespace TestWeb.Controllers
         /// </summary>
         /// <returns>Profile for logged in user</returns>
         [HttpGet]
-        [SwaggerOperation(OperationId = "GetUserProfile")]
+        [OpenApiOperation("GetUserProfile")]
         [ProducesResponseType(typeof(UserProfileResponse), (int)HttpStatusCode.OK)]
         public IActionResult GetUserProfile()
         {
@@ -36,9 +36,8 @@ namespace TestWeb.Controllers
             }
             catch (Exception e)
             {
-                const string message = "User does not have permission";
-                _logger.LogError(e, message);
-                return Unauthorized(message);
+                _logger.LogError(e, "User does not have permission. Error: '{message}'", e.Message);
+                return Unauthorized();
             }
         }
     }

@@ -42,7 +42,7 @@ namespace TestWeb.UnitTests.Controllers.Allocations
 
             var controller = new AllocationController(client.Object, _loggerMock.Object);
 
-            var result = await controller.GetAllocatedUsersAsync(AllocationData.ALLOCATED_BY);
+            var result = await controller.GetAllocatedUsers(AllocationData.ALLOCATED_BY);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
@@ -60,7 +60,7 @@ namespace TestWeb.UnitTests.Controllers.Allocations
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new AllocationController(client.Object, _loggerMock.Object);
-            var result = await controller.GetAllocatedUsersAsync(string.Empty);
+            var result = await controller.GetAllocatedUsers(string.Empty);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }

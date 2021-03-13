@@ -43,7 +43,7 @@ namespace TestWeb.UnitTests.Controllers.User
 
             var controller = new UserController(client.Object, _loggerMock.Object);
 
-            var result = await controller.ResetPasswordAsync(_request);
+            var result = await controller.ResetPassword(_request);
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
@@ -66,7 +66,7 @@ namespace TestWeb.UnitTests.Controllers.User
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
-            var result = await controller.ResetPasswordAsync(_request);
+            var result = await controller.ResetPassword(_request);
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
         }
@@ -81,7 +81,7 @@ namespace TestWeb.UnitTests.Controllers.User
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
-            var result = await controller.ResetPasswordAsync(_request);
+            var result = await controller.ResetPassword(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
@@ -96,7 +96,7 @@ namespace TestWeb.UnitTests.Controllers.User
                 .ThrowsAsync(ExceptionsData.NOT_FOUND_EXCEPTION);
 
             var controller = new UserController(testApiClientMock.Object, _loggerMock.Object);
-            var result = await controller.ResetPasswordAsync(_request);
+            var result = await controller.ResetPassword(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
         }

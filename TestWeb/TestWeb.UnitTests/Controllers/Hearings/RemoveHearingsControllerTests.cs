@@ -41,7 +41,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
 
-            var result = await controller.DeleteTestDataByPartialCaseTextAsync(_request);
+            var result = await controller.DeleteTestDataByPartialCaseText(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
@@ -58,7 +58,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
-            var result = await controller.DeleteTestDataByPartialCaseTextAsync(_request);
+            var result = await controller.DeleteTestDataByPartialCaseText(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }

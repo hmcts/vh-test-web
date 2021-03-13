@@ -38,7 +38,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
 
             var controller = new HearingsController(client.Object, _loggerMock.Object);
 
-            var result = await controller.CreateHearingAsync(_request);
+            var result = await controller.CreateHearing(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.Created);
 
@@ -56,7 +56,7 @@ namespace TestWeb.UnitTests.Controllers.Hearings
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new HearingsController(testApiClientMock.Object, _loggerMock.Object);
-            var result = await controller.CreateHearingAsync(_request);
+            var result = await controller.CreateHearing(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }

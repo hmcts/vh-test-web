@@ -40,7 +40,7 @@ namespace TestWeb.UnitTests.Controllers.Conferences
         [Test]
         public async Task Should_create_video_event()
         {
-            var result = await _controller.CreateVideoEventAsync(_request);
+            var result = await _controller.CreateVideoEvent(_request);
             var typedResult = (NoContentResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
         }
@@ -54,7 +54,7 @@ namespace TestWeb.UnitTests.Controllers.Conferences
                 .ThrowsAsync(ExceptionsData.INTERNAL_SERVER_EXCEPTION);
 
             var controller = new ConferencesController(testApiClientMock.Object, _loggerMock.Object);
-            var result = await controller.CreateVideoEventAsync(_request);
+            var result = await controller.CreateVideoEvent(_request);
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }

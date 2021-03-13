@@ -1,65 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using TestApi.Client;
 using TestWeb.Common;
 using TestWeb.Common.Configuration;
 using TestWeb.Common.Security;
-using TestWeb.Contracts.Responses;
 using TestWeb.Swagger;
 
 namespace TestWeb.Extensions
 {
     public static class ConfigureServicesExtensions
     {
-        public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-            var contractsXmlFile = $"{typeof(ClientSettingsResponse).Assembly.GetName().Name}.xml";
-            var contractsXmlPath = Path.Combine(AppContext.BaseDirectory, contractsXmlFile);
-
-            serviceCollection.AddSwaggerGen(c =>
+            services.AddOpenApiDocument((document, serviceProvider) =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web", Version = "v1" });
-                c.IncludeXmlComments(xmlPath);
-                c.IncludeXmlComments(contractsXmlPath);
-                c.EnableAnnotations();
-                c.CustomSchemaIds(x => x.FullName);
-
-                c.AddSecurityDefinition("Bearer", //Name the security scheme
+                document.AddSecurity("JWT", Enumerable.Empty<string>(),
                     new OpenApiSecurityScheme
                     {
-                        Description = "JWT Authorization header using the Bearer scheme.",
-                        Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
-                        Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Description = "Type into the textfield: Bearer {your JWT token}.",
+                        Scheme = "bearer"
                     });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
-                    {
-                        new OpenApiSecurityScheme{
-                            Reference = new OpenApiReference{
-                                Id = "Bearer", //The name of the previously defined security scheme.
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        },new List<string>()
-                    }
-                });
-                c.OperationFilter<AuthResponsesOperationFilter>();
+                document.Title = "Test Api";
+                document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                document.OperationProcessors.Add(new AuthResponseOperationProcessor());
             });
-            serviceCollection.AddSwaggerGenNewtonsoftSupport();
-
-            return serviceCollection;
+            return services;
         }
 
         public static IServiceCollection AddCustomTypes(this IServiceCollection services)
@@ -76,14 +52,8 @@ namespace TestWeb.Extensions
             var servicesConfiguration = container.GetService<IOptions<HearingServicesConfiguration>>().Value;
 
             services.AddHttpClient<ITestApiClient, TestApiClient>()
-                .AddHttpMessageHandler(() => container.GetService<TestApiTokenHandler>())
-                .AddTypedClient(httpClient =>
-                {
-                    var client = TestApiClient.GetClient(httpClient);
-                    client.BaseUrl = servicesConfiguration.TestApiUrl;
-                    client.ReadResponseAsString = true;
-                    return (ITestApiClient)client;
-                });
+                .AddHttpMessageHandler<TestApiTokenHandler>()
+                .AddTypedClient(httpClient => BuildBookingsApiClient(httpClient, servicesConfiguration));
 
             return services;
         }
@@ -104,6 +74,12 @@ namespace TestWeb.Extensions
                 });
 
             return serviceCollection;
+        }
+
+        private static ITestApiClient BuildBookingsApiClient(HttpClient httpClient,
+            HearingServicesConfiguration serviceSettings)
+        {
+            return TestApiClient.GetClient(serviceSettings.TestApiUrl, httpClient);
         }
     }
 }
