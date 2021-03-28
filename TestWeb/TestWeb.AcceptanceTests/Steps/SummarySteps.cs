@@ -29,26 +29,26 @@ namespace TestWeb.AcceptanceTests.Steps
         {
             for (var i = 0; i < _c.Test.CaseNames.Count; i++)
             {
-                _browser.Driver.WaitUntilVisible(SummaryPage.CaseName(i)).Text.Trim().Should().Be(_c.Test.CaseNames[i]);
-                _browser.Driver.WaitUntilVisible(SummaryPage.CaseNumber(i)).Text.Trim().Should().NotBeNull();
-                _browser.Driver.WaitUntilVisible(SummaryPage.ScheduledDate(i)).Text.Trim().Should().NotBeNull();
-                _browser.Driver.WaitUntilVisible(SummaryPage.HearingId(i)).Text.Trim().Should().NotBeNull();
-                _browser.Driver.WaitUntilVisible(SummaryPage.ConferenceId(i)).Text.Trim().Should().NotBeNull();
+                _browser.TextOf(SummaryPage.CaseName(i)).Should().Be(_c.Test.CaseNames[i]);
+                _browser.TextOf(SummaryPage.CaseNumber(i)).Should().NotBeNull();
+                _browser.TextOf(SummaryPage.ScheduledDate(i)).Should().NotBeNull();
+                _browser.TextOf(SummaryPage.HearingId(i)).Should().NotBeNull();
+                _browser.TextOf(SummaryPage.ConferenceId(i)).Should().NotBeNull();
                 _browser.Driver.WaitUntilVisible(SummaryPage.CopyButton(i)).Displayed.Should().BeTrue();
 
                 const int expectedNumberOfParticipants = JudgesCount + DefaultData.Individuals + DefaultData.Representatives + DefaultData.Observers + DefaultData.PanelMembers;
 
                 for (var j = 0; j < expectedNumberOfParticipants; j++)
                 {
-                    _browser.Driver.WaitUntilVisible(SummaryPage.ParticipantUsername(i, j)).Text.Trim().Should().NotBeNull();
-                    _browser.Driver.WaitUntilVisible(SummaryPage.ParticipantPassword(i, j)).Text.Trim().Should().NotBeNull();
+                    _browser.TextOf(SummaryPage.ParticipantUsername(i, j)).Should().NotBeNull();
+                    _browser.TextOf(SummaryPage.ParticipantPassword(i, j)).Should().NotBeNull();
                 }
 
                 for (var j = 0; j < _c.Test.Endpoints; j++)
                 {
-                    _browser.Driver.WaitUntilVisible(SummaryPage.EndpointDisplayName(i, j)).Text.Trim().Should().StartWith(DefaultData.EndpointsPrefix);
-                    _browser.Driver.WaitUntilVisible(SummaryPage.EndpointSipAddress(i, j)).Text.Trim().Should().NotBeNull();
-                    _browser.Driver.WaitUntilVisible(SummaryPage.EndpointPin(i, j)).Text.Trim().Should().NotBeNull();
+                    _browser.TextOf(SummaryPage.EndpointDisplayName(i, j)).Should().StartWith(DefaultData.EndpointsPrefix);
+                    _browser.TextOf(SummaryPage.EndpointSipAddress(i, j)).Should().NotBeNull();
+                    _browser.TextOf(SummaryPage.EndpointPin(i, j)).Should().NotBeNull();
                 }
             }
         }

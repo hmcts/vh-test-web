@@ -80,10 +80,10 @@ namespace TestWeb.AcceptanceTests.Steps
         [Then(@"the reset password is displayed")]
         public void ThenTheAllocatedUsernameAndPasswordAreDisplayed()
         {
-            _browser.Driver.WaitUntilVisible(AllocateUsersPage.ResetUsername).Text.Trim().Should().NotBeNullOrEmpty();
-            _c.Test.AllocateUsername = _browser.Driver.WaitUntilVisible(AllocateUsersPage.ResetUsername).Text.Trim();
+            _browser.TextOf(AllocateUsersPage.ResetUsername).Should().NotBeNullOrEmpty();
+            _c.Test.AllocateUsername = _browser.TextOf(AllocateUsersPage.ResetUsername);
             _c.Test.AllocateUsername.Should().NotBeNullOrEmpty();
-            _browser.Driver.WaitUntilVisible(AllocateUsersPage.ResetPassword).Text.Trim().Should().NotBeNullOrEmpty();
+            _browser.TextOf(AllocateUsersPage.ResetPassword).Should().NotBeNullOrEmpty();
         }
 
         [When(@"the user unallocates the user")]
@@ -99,15 +99,6 @@ namespace TestWeb.AcceptanceTests.Steps
             _browser.Click(AllocateUsersPage.CloseButton);
             _browser.Driver.WaitUntilElementNotVisible(AllocateUsersPage.CloseButton);
         }
-
-        // private void ClickRefresh()
-        // {
-        //     _browser.Refresh();
-        //     _browser.Driver.WaitUntilVisible(AllocateUsersPage.RefreshButton).Displayed.Should().BeTrue();
-        //     _browser.Click(AllocateUsersPage.RefreshButton);
-        //     Thread.Sleep(TimeSpan.FromSeconds(1));
-        //     _browser.Driver.WaitUntilVisible(AllocateUsersPage.ExpiresAt(_c.Test.AllocateUsername)).Text.Trim().Should().NotBeNullOrEmpty();
-        // }
 
         [Then(@"the user is no longer allocated")]
         public void ThenTheUserIsNoLongerAllocated()
