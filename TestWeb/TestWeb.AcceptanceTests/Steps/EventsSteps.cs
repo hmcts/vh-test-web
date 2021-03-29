@@ -92,7 +92,7 @@ namespace TestWeb.AcceptanceTests.Steps
 
         private void GetTheConferenceDetailsById()
         {
-            var conferenceId = _browser.Driver.WaitUntilVisible(EventsPage.ConferenceIdText).Text.Trim();
+            var conferenceId = _browser.TextOf(EventsPage.ConferenceIdText);
             conferenceId.Should().NotBeNullOrEmpty();
             var response = _c.TestApi.GetConferenceByConferenceId(Guid.Parse(conferenceId));
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -101,20 +101,20 @@ namespace TestWeb.AcceptanceTests.Steps
 
         private void VerifyHearingDetails()
         {
-            _browser.Driver.WaitUntilVisible(EventsPage.HearingIdText).Text.Trim().Should().Be(_c.Test.Conference.HearingId.ToString());
-            _browser.Driver.WaitUntilVisible(EventsPage.ConferenceIdText).Text.Trim().Should().Be(_c.Test.Conference.Id.ToString());
-            _browser.Driver.WaitUntilVisible(EventsPage.ConferenceStatus).Text.Trim().Should().Be(_conferenceState.ToString());
+            _browser.TextOf(EventsPage.HearingIdText).Should().Be(_c.Test.Conference.HearingId.ToString());
+            _browser.TextOf(EventsPage.ConferenceIdText).Should().Be(_c.Test.Conference.Id.ToString());
+            _browser.TextOf(EventsPage.ConferenceStatus).Should().Be(_conferenceState.ToString());
         }
 
         private void VerifyParticipantDetails()
         {
             foreach (var participant in _c.Test.Conference.Participants)
             {
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantDisplayName(participant.Id)).Text.Trim().Should().Be(participant.DisplayName);
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantUsername(participant.Id)).Text.Trim().Should().Be(participant.Username);
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantUserRole(participant.Id)).Text.Trim().Should().Be(participant.UserRole.ToString());
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantId(participant.Id)).Text.Trim().Should().Be(participant.Id.ToString());
-                _browser.Driver.WaitUntilVisible(EventsPage.ParticipantStatus(participant.Id)).Text.Trim().Should().Be(participant.CurrentStatus.ToString());
+                _browser.TextOf(EventsPage.ParticipantDisplayName(participant.Id)).Should().Be(participant.DisplayName);
+                _browser.TextOf(EventsPage.ParticipantUsername(participant.Id)).Should().Be(participant.Username);
+                _browser.TextOf(EventsPage.ParticipantUserRole(participant.Id)).Should().Be(participant.UserRole.ToString());
+                _browser.TextOf(EventsPage.ParticipantId(participant.Id)).Should().Be(participant.Id.ToString());
+                _browser.TextOf(EventsPage.ParticipantStatus(participant.Id)).Should().Be(participant.CurrentStatus.ToString());
             }
         }
 
@@ -157,7 +157,7 @@ namespace TestWeb.AcceptanceTests.Steps
                 Policy.Handle<StaleElementReferenceException>()
                     .Or<NoSuchElementException>()
                     .WaitAndRetry(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
-                    .Execute(() => status = _browser.Driver.WaitUntilVisible(element).Text.Trim());
+                    .Execute(() => status = _browser.TextOf(element));
                 
                 if (status.Equals(expectedStatus))
                 {

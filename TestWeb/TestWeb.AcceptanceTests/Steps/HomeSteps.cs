@@ -70,7 +70,7 @@ namespace TestWeb.AcceptanceTests.Steps
 
         private string GetTheFirstAllocatedUsername()
         {
-            return _browser.Driver.WaitUntilVisible(HomePage.FirstManualAllocatedUser).Text.Trim();
+            return _browser.TextOf(HomePage.FirstManualAllocatedUser);
         }
 
         [When(@"the user resets a users password")]
@@ -85,8 +85,8 @@ namespace TestWeb.AcceptanceTests.Steps
         public void ThenTheNewPasswordDetailsAreDisplayed()
         {
             _browser.Driver.WaitUntilVisible(HomePage.ResetTitle).Displayed.Should().BeTrue();
-            _browser.Driver.WaitUntilVisible(HomePage.ResetUsername).Text.Trim().Should().Be(_username);
-            _browser.Driver.WaitUntilVisible(HomePage.NewPassword).Text.Trim().Length.Should().BeGreaterThan(0);
+            _browser.TextOf(HomePage.ResetUsername).Should().Be(_username);
+            _browser.TextOf(HomePage.NewPassword).Length.Should().BeGreaterThan(0);
         }
     }
 }
