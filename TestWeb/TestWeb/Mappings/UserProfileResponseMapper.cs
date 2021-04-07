@@ -27,7 +27,7 @@ namespace TestWeb.Mappings
                 return AppRoles.QA;
             }
 
-            throw new NotSupportedException($"Role is not supported for this application");
+            throw new UnauthorizedAccessException();
         }
     }
 }
