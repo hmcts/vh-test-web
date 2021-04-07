@@ -38,7 +38,6 @@ namespace TestWeb.AcceptanceTests.Hooks
             RegisterTestUserSecrets(context);
             RegisterHearingServices(context);
             RegisterSauceLabsSettings(context);
-            RunningAppsLocally(context);
             await GenerateBearerTokens(context);
         }
 
@@ -89,12 +88,6 @@ namespace TestWeb.AcceptanceTests.Hooks
             context.Config.SauceLabsConfiguration.AccessKey.Should().NotBeNullOrWhiteSpace();
             context.Config.SauceLabsConfiguration.Username.Should().NotBeNullOrWhiteSpace();
             context.Config.SauceLabsConfiguration.RealDeviceApiKey.Should().NotBeNullOrWhiteSpace();
-        }
-
-        private static void RunningAppsLocally(TestContext context)
-        {
-            context.Config.Services.RunningTestApiLocally = context.Config.Services.TestApiUrl.Contains("localhost");
-            context.Config.Services.RunningTestWebLocally = context.Config.Services.TestWebUrl.Contains("localhost");
         }
 
         private static async Task GenerateBearerTokens(TestContext context)

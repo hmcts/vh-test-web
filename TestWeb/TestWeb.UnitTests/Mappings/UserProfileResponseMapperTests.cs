@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using FluentAssertions;
 using NUnit.Framework;
 using TestWeb.Mappings;
@@ -25,6 +26,21 @@ namespace TestWeb.UnitTests.Mappings
             var response = UserProfileResponseMapper.MapUserToResponseModel(user);
             response.Username.Should().Be(USERNAME);
             response.Role.Should().Be(ROLE);
+        }
+
+        [Test]
+        public void Should_refuse_access_with_missing_role()
+        {
+            var USERNAME = ClaimsPrincipalBuilder.USERNAME;
+
+            var userWithoutRole = new ClaimsPrincipalBuilder()
+                .WithClaim(ClaimTypes.GivenName, UserData.FIRST_NAME)
+                .WithClaim(ClaimTypes.Surname, UserData.LAST_NAME)
+                .WithClaim("name", UserData.DISPLAY_NAME)
+                .WithUsername(USERNAME)
+                .Build();
+
+            Assert.Throws<UnauthorizedAccessException>(() => UserProfileResponseMapper.MapUserToResponseModel(userWithoutRole));
         }
     }
 }
