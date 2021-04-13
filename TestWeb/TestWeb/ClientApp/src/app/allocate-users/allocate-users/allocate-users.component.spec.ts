@@ -38,6 +38,7 @@ describe('AllocateUsersComponent', () => {
     formData.expiry_in_minutes = 1;
     formData.testType = TestType.Manual;
     formData.userType = UserType.Individual;
+    formData.is_ejud = false;
     const new_password = { new_password: 'password' };
     const updateUserResponse = new UpdateUserResponse();
     updateUserResponse.init(new_password);

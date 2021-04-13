@@ -38,6 +38,7 @@ describe('AllocationService', () => {
         allocateUserModel.allocated_by = username;
         allocateUserModel.application = Application.VideoWeb;
         allocateUserModel.expiry_in_minutes = 59;
+        allocateUserModel.is_ejud = false;
         allocateUserModel.is_prod_user = false;
         allocateUserModel.usertypes = [
             UserType.Judge,
@@ -69,6 +70,7 @@ describe('AllocationService', () => {
         allocateUserModel.allocated_by = allocationResponse.username;
         allocateUserModel.application = allocationFormData.application;
         allocateUserModel.expiry_in_minutes = allocationFormData.expiry_in_minutes;
+        allocateUserModel.is_ejud = false;
         allocateUserModel.is_prod_user = false;
         allocateUserModel.user_type = allocationFormData.userType;
         allocateUserModel.test_type = allocationFormData.testType;

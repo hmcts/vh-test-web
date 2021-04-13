@@ -50,6 +50,7 @@ describe('TestApiService', () => {
         allocated_by: 'user@hmcts.net',
         application: Application.AdminWeb,
         expiry_in_minutes: 5,
+        is_ejud: false,
         is_prod_user: false,
         test_type: TestType.Manual,
         usertypes: [UserType.Individual, UserType.Representative]
@@ -75,6 +76,7 @@ describe('TestApiService', () => {
         allocateRequest.allocated_by = 'user@hmcts.net';
         allocateRequest.application = Application.AdminWeb;
         allocateRequest.expiry_in_minutes = 5;
+        allocateRequest.is_ejud = false;
         allocateRequest.is_prod_user = false;
         allocateRequest.test_type = TestType.Manual;
         allocateRequest.user_types = [UserType.Individual, UserType.Representative];
@@ -141,6 +143,7 @@ describe('TestApiService', () => {
         allocateUserModel.allocated_by = 'user@hmcts.net';
         allocateUserModel.application = Application.AdminWeb;
         allocateUserModel.expiry_in_minutes = 5;
+        allocateUserModel.is_ejud = false;
         allocateUserModel.is_prod_user = false;
         allocateUserModel.test_type = TestType.Manual;
         allocateUserModel.user_type = UserType.Individual;
@@ -149,6 +152,7 @@ describe('TestApiService', () => {
         allocateUserRequest.allocated_by = allocateUserModel.allocated_by;
         allocateUserRequest.application = allocateUserModel.application;
         allocateUserRequest.expiry_in_minutes = allocateUserModel.expiry_in_minutes;
+        allocateUserRequest.is_ejud = false;
         allocateUserRequest.is_prod_user = allocateUserModel.is_prod_user;
         allocateUserRequest.test_type = allocateUserModel.test_type;
         allocateUserRequest.user_type = allocateUserModel.user_type;
