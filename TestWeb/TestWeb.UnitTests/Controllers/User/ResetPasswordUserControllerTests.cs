@@ -69,7 +69,7 @@ namespace TestWeb.UnitTests.Controllers.User
         }
 
         [Test]
-        public async Task Should_throw_internal_server()
+        public async Task Should_throw_internal_server_if_failure_occurs_whilst_resetting_in_aad()
         {
             var testApiClientMock = new Mock<ITestApiClient>();
 
