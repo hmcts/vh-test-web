@@ -4,12 +4,12 @@
     ".NETCoreApp,Version=v3.1": {
       "FluentValidation.AspNetCore": {
         "type": "Direct",
-        "requested": "[9.5.2, )",
-        "resolved": "9.5.2",
-        "contentHash": "u4viym3RnPBvyopMJB0bY5i6rD96FujFZbPJYzTQUjXfwpc+NA8zoq3VBBWg3hYNlcCEvZJFIG5ZXtO9AejqgA==",
+        "requested": "[10.0.2, )",
+        "resolved": "10.0.2",
+        "contentHash": "rti1uNkB+qtlyJ/R4Rft5XMnXvPP2UC72osLNoXNOZLxTElf+rg3saOMx2IVOdsX6K08MMOs4mSGRx87bXDrgw==",
         "dependencies": {
-          "FluentValidation": "9.5.2",
-          "FluentValidation.DependencyInjectionExtensions": "9.5.2"
+          "FluentValidation": "10.0.2",
+          "FluentValidation.DependencyInjectionExtensions": "10.0.2"
         }
       },
       "Microsoft.ApplicationInsights": {
@@ -142,15 +142,15 @@
       },
       "TestApi.Client": {
         "type": "Direct",
-        "requested": "[1.24.10, )",
-        "resolved": "1.24.10",
-        "contentHash": "MZRkFBI/jZNPfm6QEblHM+zloTH0Yz8R6S7yiRP0jAwjOqnOZgdAyBssjw4XIFXOkFAX0sX8tU/00VV3HtGGxQ==",
+        "requested": "[1.25.2, )",
+        "resolved": "1.25.2",
+        "contentHash": "wKSnUyBBmLkaG8SzX0NHteELDzTc6h/b1PYx85AS1BFnVygaf4Ng337p636QcHB8WIfjDSC7bvxI4z5Qigwfwg==",
         "dependencies": {
-          "BookingsApi.Client": "1.24.18",
+          "BookingsApi.Client": "1.24.26",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3",
           "UserApi.Client": "1.24.3",
-          "VideoApi.Client": "1.23.54"
+          "VideoApi.Client": "1.23.57"
         }
       },
       "VH.Core.Configuration": {
@@ -179,8 +179,8 @@
       },
       "BookingsApi.Client": {
         "type": "Transitive",
-        "resolved": "1.24.18",
-        "contentHash": "mTZxpli5KVznr/JknJA4nF420SnmY0dQlK5r08mU/ymRKwFnviaalrWl8SoTxqojmuEHkzfxXe8R/Ygc3R1wWw==",
+        "resolved": "1.24.26",
+        "contentHash": "Ify+XcJoCVPr0p8H0OSbUJCJFnfqDTM4pwVHfj1Q1XQh98xUyRQn9jCn1jfSYDmp350nz6h5bv5LPRRFU3BLTw==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -188,15 +188,15 @@
       },
       "FluentValidation": {
         "type": "Transitive",
-        "resolved": "9.5.2",
-        "contentHash": "0TepAypNoZAFmthXnDTDrG55SyKKiv4rar2TtbS5GHbTv/TYwKJBbTxHg8YWCxLgZpe8n9jImIc0tMHKDVgA1A=="
+        "resolved": "10.0.2",
+        "contentHash": "5jKQ9hhXQRobK8pmADPKEdtbo365q/dWQZtGUZYNZRL2Nd+nm1vMcKxMiFFTtg4fLX1BjkvA6QF0bfZqMKo0Ww=="
       },
       "FluentValidation.DependencyInjectionExtensions": {
         "type": "Transitive",
-        "resolved": "9.5.2",
-        "contentHash": "4gLj2yfweItyxydDVfz3FVVltNJCwwDbrpZ/Gphk08KCfWJL0no7hXsnuWUJmLuvre2Cjr1XP64LX21tf8N81w==",
+        "resolved": "10.0.2",
+        "contentHash": "Hw123xnElYQJ6s8AncCpm2s0yDdIoqqF3Pdgvcon4WnkbiNVMFDnTUhTql40bmGvP5r088yTjvJcxZ8Ptzt+mg==",
         "dependencies": {
-          "FluentValidation": "9.5.2",
+          "FluentValidation": "10.0.2",
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
       },
@@ -2170,8 +2170,8 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.23.54",
-        "contentHash": "1OLCs5UIv+A6365JlSPfhsFepwrABEAcwpsjLz/xHXUdnl1U4Xgh9tQa82lLUDT/GXaWxSJ75WeLB3B7W+Hy/g==",
+        "resolved": "1.23.57",
+        "contentHash": "dH1BLmfXkSPZpsuucK8SagffmDa074gbNTFCXWG5/G8DXMMMvUTT9H0SDIOpnUDXvNtomhuKWsFdsdFFMIFWew==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2197,7 +2197,7 @@
       "testweb.contracts": {
         "type": "Project",
         "dependencies": {
-          "TestApi.Client": "1.24.10"
+          "TestApi.Client": "1.25.2"
         }
       }
     }

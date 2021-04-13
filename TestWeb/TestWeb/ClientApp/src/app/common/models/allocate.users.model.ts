@@ -11,6 +11,7 @@ export class AllocateUsersModel {
     allocated_by: string | undefined;
     application: Application | undefined;
     expiry_in_minutes: number | undefined;
+    is_ejud: boolean;
     is_prod_user: boolean;
     test_type: TestType | undefined;
     usertypes: UserType[] | undefined;

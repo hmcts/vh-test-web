@@ -27,6 +27,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     defaultQuestionnaireNotRequired = true;
     defaultAudioRecordingRequired = false;
     defaultReuseUsers = true;
+    defaultusingEjud = false;
     private defaultIndividuals = 1;
     private defaultInterpreters = 0;
     private defaultRepresentatives = 0;
@@ -45,6 +46,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
     questionnaireNotRequiredCheckBox: FormControl;
     audioRecordingRequiredCheckBox: FormControl;
     reuseUsersCheckBox: FormControl;
+    usingEjudCheckBox: FormControl;
     individualsTextfield: FormControl;
     interpretersTextfield: FormControl;
     representativesTextfield: FormControl;
@@ -168,6 +170,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         data.hearingStartTimeMinute = this.form.value.hearingStartTimeMinute;
         data.individuals = this.individualsTextfield.value;
         data.interpreters = this.interpretersTextfield.value;
+        data.isEjud = this.usingEjudCheckBox.value;
         data.numberOfHearings = this.quantityDropdown.value;
         data.numberOfEndpoints = this.endpointsDropdown.value;
         data.observers = this.observersTextfield.value;
@@ -206,6 +209,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
         this.endpointsDropdown = new FormControl(this.defaultNumberOfEndpoints);
         this.reuseUsersCheckBox = new FormControl(this.defaultReuseUsers);
         this.witnessesTextfield = new FormControl(this.defaultWitnesses);
+        this.usingEjudCheckBox = new FormControl(this.defaultusingEjud);
 
         this.form = this.fb.group({
             customCaseNamePrefix: this.customCaseNamePrefix,
@@ -223,6 +227,7 @@ export class CreateHearingComponent implements OnInit, OnDestroy {
             quantityDropdown: this.quantityDropdown,
             endpointsDropdown: this.endpointsDropdown,
             reuseUsersCheckBox: this.reuseUsersCheckBox,
+            usingEjudCheckBox: this.usingEjudCheckBox,
             witnessesTextfield: this.witnessesTextfield
         });
     }

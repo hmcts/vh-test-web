@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSwag.Annotations;
 using Polly;
@@ -19,11 +21,13 @@ namespace TestWeb.Controllers
     {
         private readonly ITestApiClient _testApiClient;
         private readonly ILogger<UserController> _logger;
+        private readonly IConfiguration _config;
 
-        public UserController(ITestApiClient testApiClient, ILogger<UserController> logger)
+        public UserController(ITestApiClient testApiClient, ILogger<UserController> logger, IConfiguration config)
         {
             _testApiClient = testApiClient;
             _logger = logger;
+            _config = config;
         }
 
         /// <summary>
@@ -45,6 +49,11 @@ namespace TestWeb.Controllers
             var policy = Policy
                 .HandleResult(false)
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            if (request.Username.EndsWith(GetEjudDomain(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                return Ok(new UpdateUserResponse { NewPassword = GetDefaultPassword() });
+            }
 
             try
             {
@@ -73,6 +82,24 @@ namespace TestWeb.Controllers
                 _logger.LogError(e, "Unable to reset user password: {username} with error '{message}'", request.Username, e.Message);
                 return StatusCode(e.StatusCode, e.Response);
             }
+        }
+
+        private string GetEjudDomain()
+        {
+            var emailStem = _config.GetValue<string>("EjudUsernameStem");
+
+            if (string.IsNullOrEmpty(emailStem)) throw new InvalidDataException("Email stem could not be retrieved");
+
+            return emailStem;
+        }
+
+        private string GetDefaultPassword()
+        {
+            var password = _config.GetValue<string>("TestUserPassword");
+
+            if (string.IsNullOrEmpty(password)) throw new InvalidDataException("Default password could not be retrieved");
+
+            return password;
         }
     }
 }

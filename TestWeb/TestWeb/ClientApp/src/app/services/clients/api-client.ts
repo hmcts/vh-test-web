@@ -1420,7 +1420,8 @@ export enum Application {
     VideoApi = 'VideoApi',
     VideoWeb = 'VideoWeb',
     QueueSubscriber = 'QueueSubscriber',
-    TestWeb = 'TestWeb'
+    TestWeb = 'TestWeb',
+    Ejud = 'Ejud'
 }
 
 export enum TestType {
@@ -1503,6 +1504,7 @@ export class AllocateUserRequest implements IAllocateUserRequest {
     test_type?: TestType;
     user_type?: UserType;
     allocated_by?: string | undefined;
+    is_ejud?: boolean;
 
     constructor(data?: IAllocateUserRequest) {
         if (data) {
@@ -1520,6 +1522,7 @@ export class AllocateUserRequest implements IAllocateUserRequest {
             this.test_type = _data['test_type'];
             this.user_type = _data['user_type'];
             this.allocated_by = _data['allocated_by'];
+            this.is_ejud = _data['is_ejud'];
         }
     }
 
@@ -1538,6 +1541,7 @@ export class AllocateUserRequest implements IAllocateUserRequest {
         data['test_type'] = this.test_type;
         data['user_type'] = this.user_type;
         data['allocated_by'] = this.allocated_by;
+        data['is_ejud'] = this.is_ejud;
         return data;
     }
 }
@@ -1549,6 +1553,7 @@ export interface IAllocateUserRequest {
     test_type?: TestType;
     user_type?: UserType;
     allocated_by?: string | undefined;
+    is_ejud?: boolean;
 }
 
 export class AllocateUsersRequest implements IAllocateUsersRequest {
@@ -1558,6 +1563,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
     test_type?: TestType;
     user_types?: UserType[] | undefined;
     allocated_by?: string | undefined;
+    is_ejud?: boolean;
 
     constructor(data?: IAllocateUsersRequest) {
         if (data) {
@@ -1578,6 +1584,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
                 for (let item of _data['user_types']) this.user_types!.push(item);
             }
             this.allocated_by = _data['allocated_by'];
+            this.is_ejud = _data['is_ejud'];
         }
     }
 
@@ -1599,6 +1606,7 @@ export class AllocateUsersRequest implements IAllocateUsersRequest {
             for (let item of this.user_types) data['user_types'].push(item);
         }
         data['allocated_by'] = this.allocated_by;
+        data['is_ejud'] = this.is_ejud;
         return data;
     }
 }
@@ -1610,6 +1618,7 @@ export interface IAllocateUsersRequest {
     test_type?: TestType;
     user_types?: UserType[] | undefined;
     allocated_by?: string | undefined;
+    is_ejud?: boolean;
 }
 
 export class AllocationDetailsResponse implements IAllocationDetailsResponse {
@@ -1802,7 +1811,10 @@ export enum EventType {
     EndpointTransfer = 'EndpointTransfer',
     ConnectingToEventHub = 'ConnectingToEventHub',
     SelectingMedia = 'SelectingMedia',
-    ConnectingToConference = 'ConnectingToConference'
+    ConnectingToConference = 'ConnectingToConference',
+    RoomParticipantJoined = 'RoomParticipantJoined',
+    RoomParticipantDisconnected = 'RoomParticipantDisconnected',
+    RoomParticipantTransfer = 'RoomParticipantTransfer'
 }
 
 export class ConferenceResponse implements IConferenceResponse {
@@ -2870,6 +2882,7 @@ export class ParticipantDetailsResponse implements IParticipantDetailsResponse {
     representee?: string | undefined;
     current_status?: ParticipantState;
     current_room?: RoomResponse | undefined;
+    current_interpreter_room?: RoomResponse | undefined;
     linked_participants?: LinkedParticipantResponse2[] | undefined;
 
     constructor(data?: IParticipantDetailsResponse) {
@@ -2897,6 +2910,9 @@ export class ParticipantDetailsResponse implements IParticipantDetailsResponse {
             this.representee = _data['representee'];
             this.current_status = _data['current_status'];
             this.current_room = _data['current_room'] ? RoomResponse.fromJS(_data['current_room']) : <any>undefined;
+            this.current_interpreter_room = _data['current_interpreter_room']
+                ? RoomResponse.fromJS(_data['current_interpreter_room'])
+                : <any>undefined;
             if (Array.isArray(_data['linked_participants'])) {
                 this.linked_participants = [] as any;
                 for (let item of _data['linked_participants']) this.linked_participants!.push(LinkedParticipantResponse2.fromJS(item));
@@ -2928,6 +2944,7 @@ export class ParticipantDetailsResponse implements IParticipantDetailsResponse {
         data['representee'] = this.representee;
         data['current_status'] = this.current_status;
         data['current_room'] = this.current_room ? this.current_room.toJSON() : <any>undefined;
+        data['current_interpreter_room'] = this.current_interpreter_room ? this.current_interpreter_room.toJSON() : <any>undefined;
         if (Array.isArray(this.linked_participants)) {
             data['linked_participants'] = [];
             for (let item of this.linked_participants) data['linked_participants'].push(item.toJSON());
@@ -2952,6 +2969,7 @@ export interface IParticipantDetailsResponse {
     representee?: string | undefined;
     current_status?: ParticipantState;
     current_room?: RoomResponse | undefined;
+    current_interpreter_room?: RoomResponse | undefined;
     linked_participants?: LinkedParticipantResponse2[] | undefined;
 }
 

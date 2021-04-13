@@ -67,8 +67,12 @@ parameters:
           # Testing
           - name: Testing:TestUsernameStem
             value: $(Testing:TestUsernameStem)
-          - name: Testing:TestUserPassword
-            value: $(Testing:TestUserPassword)
+          - name: TestUserPassword
+            value: $(TestUserPassword)
+
+          # Ejud
+          - name: EjudUsernameStem
+            value: $(EjudUsernameStem)
 
           # Kinly
           - name: KinlyConfiguration:CallbackSecret
@@ -117,8 +121,12 @@ parameters:
           # Testing
           - name: Testing:TestUsernameStem
             value: $(Testing:TestUsernameStem)
-          - name: Testing:TestUserPassword
-            value: $(Testing:TestUserPassword)
+          - name: TestUserPassword
+            value: $(TestUserPassword)
+
+          # Ejud
+          - name: EjudUsernameStem
+            value: $(EjudUsernameStem)
 
           # Kinly
           - name: KinlyConfiguration:CallbackSecret

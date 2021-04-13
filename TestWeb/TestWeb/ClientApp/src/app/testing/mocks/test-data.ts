@@ -44,6 +44,7 @@ export class TestData {
             hearingStartTimeMinute: hearingDate.getMinutes(),
             individuals: 1,
             interpreters: 1,
+            isEjud: false,
             numberOfHearings: 1,
             observers: 1,
             panelMembers: 1,
@@ -78,6 +79,7 @@ export class TestData {
         return {
             application: Application.VideoWeb,
             expiry_in_minutes: 1,
+            is_ejud: false,
             userType: UserType.Individual,
             testType: TestType.Manual
         };

@@ -22,6 +22,8 @@ export class AllocateUsersComponent implements OnInit {
     daysTextfield: FormControl;
     hoursTextfield: FormControl;
     minutesTextfield: FormControl;
+    usingEjudCheckBox: FormControl;
+    defaultusingEjud = false;
     private defaultTestType = TestType.Manual;
     private defaultUserType = UserType.Individual;
     private defaultDays = 0;
@@ -106,12 +108,15 @@ export class AllocateUsersComponent implements OnInit {
         this.daysTextfield = new FormControl(this.defaultDays);
         this.hoursTextfield = new FormControl(this.defaultHours);
         this.minutesTextfield = new FormControl(this.defaultMinutes);
+        this.usingEjudCheckBox = new FormControl(this.defaultusingEjud);
+
         this.form = this.fb.group({
             testTypesDropdown: this.testTypesDropdown,
             userTypesDropdown: this.userTypesDropdown,
             daysTextfield: this.daysTextfield,
             hoursTextfield: this.hoursTextfield,
-            minutesTextfield: this.minutesTextfield
+            minutesTextfield: this.minutesTextfield,
+            usingEjudCheckBox: this.usingEjudCheckBox
         });
     }
 
@@ -145,6 +150,7 @@ export class AllocateUsersComponent implements OnInit {
         data.expiry_in_minutes = minutes;
         data.testType = this.testTypesDropdown.value;
         data.userType = this.userTypesDropdown.value;
+        data.is_ejud = this.usingEjudCheckBox.value;
         this.logger.debug(`${this.loggerPrefix} Allocation form data:`, { payload: data });
         return data;
     }
