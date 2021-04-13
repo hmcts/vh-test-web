@@ -13,6 +13,7 @@ export class HearingFormData {
     hearingStartTimeMinute: number | undefined;
     individuals: number | undefined;
     interpreters: number | undefined;
+    isEjud: boolean;
     numberOfHearings: number | undefined;
     numberOfEndpoints: number | undefined;
     observers: number | undefined;

@@ -58,6 +58,7 @@ namespace TestWeb.AcceptanceTests.Hooks
             context.Config.TestSettings.TargetDevice.Should().NotBeNull();
             context.Config.TestSettings.TargetOS.Should().NotBeNull();
             context.Config.TestSettings.TestUsernameStem.Should().NotBeNull();
+            context.Config.TestSettings.TestUserPassword = _configRoot.GetValue<string>("TestUserPassword");
             context.Config.TestSettings.TestUserPassword.Should().NotBeNull();
             context.Test = new Test
             {

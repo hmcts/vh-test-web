@@ -1,5 +1,4 @@
 <div class="govuk-grid-row">
-
   <ngx-spinner></ngx-spinner>
 
   <div class="govuk-grid-column-full">
@@ -7,17 +6,12 @@
   </div>
 
   <form [formGroup]="form" class="govuk-form-group">
-
     <div class="govuk-grid-column-full">
       <div class="govuk-form-group">
         <div class="govuk-grid-row govuk-!-padding-bottom-2">
           <div class="govuk-grid-column-full">
             <label class="govuk-label govuk-!-width-full" for="testTypesDropdown"> Test Type </label>
-            <select
-              id="testTypesDropdown"
-              class="govuk-select govuk-!-width-one-half"
-              formControlName="testTypesDropdown"
-            >
+            <select id="testTypesDropdown" class="govuk-select govuk-!-width-one-half" formControlName="testTypesDropdown">
               <option *ngFor="let testType of testTypes" [ngValue]="testType">
                 {{ testType }}
               </option>
@@ -28,11 +22,7 @@
         <div class="govuk-grid-row govuk-!-padding-bottom-2">
           <div class="govuk-grid-column-full">
             <label class="govuk-label govuk-!-width-full" for="userTypesDropdown"> User Type </label>
-            <select
-              id="userTypesDropdown"
-              class="govuk-select govuk-!-width-one-half"
-              formControlName="userTypesDropdown"
-            >
+            <select id="userTypesDropdown" class="govuk-select govuk-!-width-one-half" formControlName="userTypesDropdown">
               <option *ngFor="let userType of userTypes" [ngValue]="userType">
                 {{ userType }}
               </option>
@@ -45,9 +35,7 @@
             <div id="expiryFieldset" [ngClass]="timeInvalid() ? 'govuk-form-group--error' : 'govuk-form-group'">
               <fieldset class="govuk-fieldset" aria-describedby="hoursTextfield" role="group">
                 <legend class="govuk-fieldset__legend">
-                  <span class="caption-m">
-                    Allocate for
-                  </span>
+                  <span class="caption-m"> Allocate for </span>
                 </legend>
                 <div class="govuk-date-input__item">
                   <div class="govuk-form-group">
@@ -120,6 +108,20 @@
           </div>
         </div>
 
+        <div class="govuk-form-group">
+          <div class="govuk-checkboxes__item">
+            <input
+              class="govuk-checkboxes__input"
+              id="usingEjudCheckBox"
+              name="usingEjudCheckBox"
+              type="checkbox"
+              [checked]="defaultusingEjud"
+              formControlName="usingEjudCheckBox"
+            />
+            <label class="govuk-label govuk-checkboxes__label" for="usingEjudCheckBox"> Use Ejud Users </label>
+          </div>
+        </div>
+
         <div *ngIf="!timeInvalid() && !hoursInvalid() && !minutesInvalid()" class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <button
@@ -129,7 +131,7 @@
               data-module="govuk-button"
               aria-label="Allocate a user"
               (click)="allocate()"
-              (disabled)="!enableAllocateButton"
+              (disabled)="(!enableAllocateButton)"
             >
               Allocate
             </button>
@@ -140,7 +142,7 @@
               data-module="govuk-button"
               aria-label="Refresh allocations"
               (click)="getAllAllocations()"
-              (disabled)="!enableRefreshButton"
+              (disabled)="(!enableRefreshButton)"
             >
               Refresh
             </button>
@@ -151,32 +153,31 @@
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
       </div>
     </div>
 
     <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
-      <h1 id='currentAllocationsTitle' class="govuk-heading-m">Current Allocations</h1>
+      <h1 id="currentAllocationsTitle" class="govuk-heading-m">Current Allocations</h1>
 
       <div *ngIf="!allocationsToDisplay()" id="noAllocationsMessage">
         <p>You currently have no users allocated.</p>
       </div>
 
       <div *ngIf="allocationsToDisplay()">
-
         <button
-            id="unallocateAllButton"
-            class="govuk-button govuk-!-margin-right-2"
-            type="button"
-            data-module="govuk-button"
-            aria-label="Unallocate all users"
-            (click)="unallocateAllAllocatedUsers()"
-            (disabled)="!enableAllocateButton"
+          id="unallocateAllButton"
+          class="govuk-button govuk-!-margin-right-2"
+          type="button"
+          data-module="govuk-button"
+          aria-label="Unallocate all users"
+          (click)="unallocateAllAllocatedUsers()"
+          (disabled)="(!enableAllocateButton)"
         >
           Unallocate All
         </button>
 
-        <table class="govuk-table"  aria-describedby="currentAllocationsTitle">
+        <table class="govuk-table" aria-describedby="currentAllocationsTitle">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Username</th>
@@ -186,12 +187,12 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <tr *ngFor="let allocation of allocations;" id="{{allocation.id}}" class="govuk-table__row">
-              <td id="{{allocation.username}}-username" class="govuk-table__cell">{{allocation.username}}</td>
-              <td id="{{allocation.username}}-expiry-at" class="govuk-table__cell">{{allocation.expires_at.toLocaleString()}}</td>
+            <tr *ngFor="let allocation of allocations" id="{{ allocation.id }}" class="govuk-table__row">
+              <td id="{{ allocation.username }}-username" class="govuk-table__cell">{{ allocation.username }}</td>
+              <td id="{{ allocation.username }}-expiry-at" class="govuk-table__cell">{{ allocation.expires_at.toLocaleString() }}</td>
               <td class="govuk-table__cell">
                 <button
-                  id="{{allocation.username}}-reset-button"
+                  id="{{ allocation.username }}-reset-button"
                   class="govuk-button govuk-button--secondary"
                   type="button"
                   data-module="govuk-button"
@@ -203,7 +204,7 @@
               </td>
               <td class="govuk-table__cell">
                 <button
-                  id="{{allocation.username}}-unallocate-button"
+                  id="{{ allocation.username }}-unallocate-button"
                   class="govuk-button"
                   type="button"
                   data-module="govuk-button"
@@ -220,52 +221,86 @@
 
       <div *ngIf="displayPopup" id="dialog" class="vh-popup-overlay">
         <div class="vh-popup">
-
-          <h1 *ngIf="!errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword
-          && !errorUnallocatingUser && fetchingAllocations" id="fetchingTitle" class="govuk-heading-m">
-          Fetching current allocations</h1>
-          <h1 *ngIf="!errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword
-          && !errorUnallocatingUser && allocatingUsers" id="allocatingUsersTitle" class="govuk-heading-m">
-          Allocating user</h1>
-          <h1 *ngIf="!errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword
-          && !errorUnallocatingUser && resettingPasswords" id="resettingPasswordsTitle" class="govuk-heading-m">
-          Resetting passwords</h1>
-          <h1 *ngIf="!errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword
-          && !errorUnallocatingUser && unallocatingUsers" id="unallocatingUsersTitle" class="govuk-heading-m">
-          Unallocating users</h1>
-          <h1 *ngIf="!errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword
-          && !errorUnallocatingUser && enableCloseButton" id="completedTitle" class="govuk-heading-m">Completed</h1>
-          <h1 *ngIf="errorRetrievingAllocations || errorAllocatingUser || errorResettingPassword || errorUnallocatingUser" id="failedTitle" class="govuk-heading-m">Failed</h1>
-          <p *ngIf="errorRetrievingAllocations" id="errorRetrievingAllocationsText">An error occured whilst retrieving current allocations.</p>
+          <h1
+            *ngIf="
+              !errorRetrievingAllocations &&
+              !errorAllocatingUser &&
+              !errorResettingPassword &&
+              !errorUnallocatingUser &&
+              fetchingAllocations
+            "
+            id="fetchingTitle"
+            class="govuk-heading-m"
+          >
+            Fetching current allocations
+          </h1>
+          <h1
+            *ngIf="
+              !errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword && !errorUnallocatingUser && allocatingUsers
+            "
+            id="allocatingUsersTitle"
+            class="govuk-heading-m"
+          >
+            Allocating user
+          </h1>
+          <h1
+            *ngIf="
+              !errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword && !errorUnallocatingUser && resettingPasswords
+            "
+            id="resettingPasswordsTitle"
+            class="govuk-heading-m"
+          >
+            Resetting passwords
+          </h1>
+          <h1
+            *ngIf="
+              !errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword && !errorUnallocatingUser && unallocatingUsers
+            "
+            id="unallocatingUsersTitle"
+            class="govuk-heading-m"
+          >
+            Unallocating users
+          </h1>
+          <h1
+            *ngIf="
+              !errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword && !errorUnallocatingUser && enableCloseButton
+            "
+            id="completedTitle"
+            class="govuk-heading-m"
+          >
+            Completed
+          </h1>
+          <h1
+            *ngIf="errorRetrievingAllocations || errorAllocatingUser || errorResettingPassword || errorUnallocatingUser"
+            id="failedTitle"
+            class="govuk-heading-m"
+          >
+            Failed
+          </h1>
+          <p *ngIf="errorRetrievingAllocations" id="errorRetrievingAllocationsText">
+            An error occured whilst retrieving current allocations.
+          </p>
           <p *ngIf="errorAllocatingUser" id="errorAllocatingUserText">An error occured whilst allocating a user</p>
           <p *ngIf="errorResettingPassword" id="errorResettingPasswordText">An error occured whilst resetting the users password</p>
           <p *ngIf="errorUnallocatingUser" id="errorUnallocatingUserText">An error occured whilst unallocating the user</p>
-          <p *ngIf="errorRetrievingAllocations || errorResettingPassword || errorUnallocatingUser" id="errorTextDetails">{{error}}</p>
+          <p *ngIf="errorRetrievingAllocations || errorResettingPassword || errorUnallocatingUser" id="errorTextDetails">{{ error }}</p>
 
           <div *ngIf="!errorRetrievingAllocations && !errorAllocatingUser && !errorResettingPassword && !errorUnallocatingUser">
-            <p *ngIf="!enableCloseButton" id='progressText' class="govuk-body govuk-!-margin-bottom-9">
-              Please wait...
-            </p>
-            <p *ngIf="usersUnallocated" id='unallocatedText' class="govuk-body govuk-!-margin-bottom-9">
-              User(s) unallocated.
-            </p>
+            <p *ngIf="!enableCloseButton" id="progressText" class="govuk-body govuk-!-margin-bottom-9">Please wait...</p>
+            <p *ngIf="usersUnallocated" id="unallocatedText" class="govuk-body govuk-!-margin-bottom-9">User(s) unallocated.</p>
           </div>
 
           <div *ngIf="displaySummary">
             <dl class="govuk-summary-list">
               <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Username
-                </dt>
-                <dd id='reset-username' class="govuk-summary-list__value">
+                <dt class="govuk-summary-list__key">Username</dt>
+                <dd id="reset-username" class="govuk-summary-list__value">
                   {{ resetUsername }}
                 </dd>
               </div>
               <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Password
-                </dt>
-                <dd id='reset-password' class="govuk-summary-list__value">
+                <dt class="govuk-summary-list__key">Password</dt>
+                <dd id="reset-password" class="govuk-summary-list__value">
                   {{ newPassword }}
                 </dd>
               </div>

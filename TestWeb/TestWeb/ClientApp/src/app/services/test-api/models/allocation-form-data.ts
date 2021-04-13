@@ -7,6 +7,7 @@ export class AllocationFormData {
 
     application: Application | undefined;
     expiry_in_minutes: number | undefined;
+    is_ejud: boolean;
     userType: UserType | undefined;
     testType: TestType | undefined;
 }

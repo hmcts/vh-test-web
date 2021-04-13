@@ -7,6 +7,7 @@ export class MapAllocateUsers {
         request.allocated_by = model.allocated_by;
         request.application = model.application;
         request.expiry_in_minutes = model.expiry_in_minutes;
+        request.is_ejud = model.is_ejud;
         request.is_prod_user = model.is_prod_user;
         request.test_type = model.test_type;
         request.user_types = model.usertypes;

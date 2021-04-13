@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TestApi.Client" Version="1.24.10" />
+    <PackageReference Include="TestApi.Client" Version="1.25.2" />
     <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.30" />
   </ItemGroup>
 

@@ -12,6 +12,7 @@ describe('AllocateUserMapper', () => {
             allocated_by: 'user@hmcts.net',
             application: Application.AdminWeb,
             expiry_in_minutes: 10,
+            is_ejud: false,
             is_prod_user: false,
             test_type: TestType.Manual,
             usertypes: userTypes
@@ -21,6 +22,7 @@ describe('AllocateUserMapper', () => {
         expect(request.allocated_by).toBe(allocateUsersModel.allocated_by);
         expect(request.application).toBe(allocateUsersModel.application);
         expect(request.expiry_in_minutes).toBe(allocateUsersModel.expiry_in_minutes);
+        expect(request.is_ejud).toBe(allocateUsersModel.is_ejud);
         expect(request.is_prod_user).toBe(allocateUsersModel.is_prod_user);
         expect(request.test_type).toBe(allocateUsersModel.test_type);
         expect(request.user_types).toBe(allocateUsersModel.usertypes);

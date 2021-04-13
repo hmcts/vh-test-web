@@ -43,6 +43,7 @@ export class AllocationService {
             hearingFormData.hearingStartTimeHour,
             hearingFormData.hearingStartTimeMinute
         );
+        this.allocateUsersModel.is_ejud = hearingFormData.isEjud;
         this.allocateUsersModel.expiry_in_minutes = expiryInMinutes;
         this.allocateUsersModel.test_type = hearingFormData.testType;
         this.addUserTypesToModel(1, UserType.Judge);
@@ -108,6 +109,7 @@ export class AllocationService {
         const username = await this.profileService.getLoggedInUsername();
         this.allocateUserModel.allocated_by = username;
         this.allocateUserModel.expiry_in_minutes = allocationFormData.expiry_in_minutes;
+        this.allocateUserModel.is_ejud = allocationFormData.is_ejud;
         this.allocateUserModel.test_type = allocationFormData.testType;
         this.allocateUserModel.user_type = allocationFormData.userType;
     }
