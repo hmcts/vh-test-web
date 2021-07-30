@@ -2678,7 +2678,7 @@
       "testweb.tests.common": {
         "type": "Project",
         "dependencies": {
-          "TestApi.Client": "1.25.2",
+          "TestApi.Client": "1.27.0",
           "TestWeb": "1.0.0",
           "VH.AcceptanceTests.Common": "1.21.30"
         }
