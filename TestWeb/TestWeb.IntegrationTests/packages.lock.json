@@ -2672,7 +2672,7 @@
       "testweb.contracts": {
         "type": "Project",
         "dependencies": {
-          "TestApi.Client": "1.25.2"
+          "TestApi.Client": "1.27.0"
         }
       },
       "testweb.tests.common": {
