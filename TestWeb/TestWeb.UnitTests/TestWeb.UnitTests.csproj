@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.30" />
+    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.60" />
   </ItemGroup>
 
   <ItemGroup>
