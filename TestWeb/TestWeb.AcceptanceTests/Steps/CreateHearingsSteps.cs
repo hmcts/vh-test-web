@@ -50,6 +50,7 @@ namespace TestWeb.AcceptanceTests.Steps
             _commonSharedSteps.WhenTheUserSelectsTheOptionFromTheDropdown(_browser.Driver, CreateHearingPage.NumberOfEndpointsDropdown, numberOfEndpoints.ToString());
             SetTheParticipants(DefaultData.Individuals, DefaultData.Interpreters, DefaultData.Representatives, DefaultData.Observers, DefaultData.PanelMembers, DefaultData.Witnesses);
             ClickBook();
+            _browser.Driver.WaitForAngular();
         }
 
         private void ClickBook()

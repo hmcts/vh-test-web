@@ -10,9 +10,9 @@
       },
       "VH.AcceptanceTests.Common": {
         "type": "Direct",
-        "requested": "[1.21.30, )",
-        "resolved": "1.21.30",
-        "contentHash": "QUWtqdnasRSEkQYrXUv5bDU2D1Ih/a3E6IqWa+p/fGkGE9k1+XL7pGNVLjkDWhzI4YcAP2F1mAASoS/Jod4ENg==",
+        "requested": "[1.21.60, )",
+        "resolved": "1.21.60",
+        "contentHash": "awYbKWaBxzTanSHf697uDcGL7XNIyDiOwbj2qXZUwGlA5QB5uDT5CHk9tj3CrD5MUVN4ZWOZJQ1Gj5J5TW07eQ==",
         "dependencies": {
           "Appium.WebDriver": "4.3.1",
           "Azure.Storage.Blobs": "12.8.0",
@@ -41,7 +41,7 @@
           "Selenium.Firefox.WebDriver": "0.27.0",
           "Selenium.Support": "3.141.0",
           "Selenium.WebDriver": "3.141.0",
-          "Selenium.WebDriver.ChromeDriver": "89.0.4389.2300",
+          "Selenium.WebDriver.ChromeDriver": "94.0.4606.6100",
           "Selenium.WebDriver.IEDriver": "3.150.1.2",
           "Selenium.WebDriver.MicrosoftDriver": "17.17134.0",
           "SpecFlow": "3.6.23",
@@ -1406,8 +1406,8 @@
       },
       "Selenium.WebDriver.ChromeDriver": {
         "type": "Transitive",
-        "resolved": "89.0.4389.2300",
-        "contentHash": "/lnt6U3hogvJtFBP9l9Vm3F7zVBTClCANeVzcyWwyUf/uW686KEgGU+9x6sebstjd02qrmvcP42MKHTID1tq/A=="
+        "resolved": "94.0.4606.6100",
+        "contentHash": "3mk0sCbTR0bCvis1VbIR6SF8PxRXQgwHjIg1bVve0DmQqC8muxoxIYdVrb3oL42cmGqVUoAxRFN/MWDHGKWYIw=="
       },
       "Selenium.WebDriver.IEDriver": {
         "type": "Transitive",
@@ -2680,7 +2680,7 @@
         "dependencies": {
           "TestApi.Client": "1.27.0",
           "TestWeb": "1.0.0",
-          "VH.AcceptanceTests.Common": "1.21.30"
+          "VH.AcceptanceTests.Common": "1.21.60"
         }
       }
     }
