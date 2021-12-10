@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.60" />
+    <PackageReference Include="TestApi.Client" Version="1.27.1" />
+    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.21.63" />
   </ItemGroup>
 
 </Project>
