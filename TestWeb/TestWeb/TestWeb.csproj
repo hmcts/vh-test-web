@@ -17,13 +17,11 @@
     <ProjectGuid>E9155E74-4D08-4B73-831F-3A8C207754EB</ProjectGuid>
   </PropertyGroup>
 
-  <Target Name="AssemblyVersionAttributes" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)' != 'Debug' ">
     <PropertyGroup>
       <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
       <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
       <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     </PropertyGroup>
-  </Target>
 
     <PropertyGroup>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
