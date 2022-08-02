@@ -86,6 +86,11 @@ stages:
       - job: StrykerTests
         displayName: "Stryker Tests"
         steps:
+          - checkout: self
+          
+          - pwsh: |
+              Get-ChildItem "${{ variables.app_path }/${{ variables.app_path }.UnitTests" -Recurse
+
           - task: DotNetCoreCLI@2
             displayName: Restore .NET Project(s)
             inputs:
@@ -94,7 +99,7 @@ stages:
               projects: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests/*.UnitTests.csproj"
               feedsToUse: config
               nugetConfigPath: "${{ variables.app_path }}/nuget.config" 
-              
+
           - template: templates\dotnet\run-stryker.yml@azTemplates
             parameters:
               useNugetConfig: true
