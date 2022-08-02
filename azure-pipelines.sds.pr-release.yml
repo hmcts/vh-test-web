@@ -89,7 +89,7 @@ stages:
           - checkout: self
           
           - pwsh: |
-              Get-ChildItem "${{ variables.app_path }/${{ variables.app_path }.UnitTests" -Recurse
+              Get-ChildItem "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests" -Recurse
 
           - task: DotNetCoreCLI@2
             displayName: Restore .NET Project(s)
