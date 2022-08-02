@@ -2,7 +2,7 @@
 java:
   image: "sdshmctspublic.azurecr.io/vh/test-web:latest"
   applicationPort: 8080
-  replicas: 2
+  replicas: 1
   ingressHost: vh-test-web.{{ .Values.global.environment }}.platform.hmcts.net
   releaseNameOverride: vh-test-web
   readinessPath: /healthcheck/health
