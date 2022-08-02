@@ -89,16 +89,7 @@ stages:
           - checkout: self
           
           - pwsh: |
-              Get-ChildItem "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests" -Recurse
-
-          - task: DotNetCoreCLI@2
-            displayName: Restore .NET Project(s)
-            inputs:
-              command: restore
-              restoreArguments: --force-evaluate
-              projects: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests/*.UnitTests.csproj"
-              feedsToUse: config
-              nugetConfigPath: "${{ variables.app_path }}/nuget.config" 
+              Get-ChildItem "$(System.DefaultWorkingDirectory)" -Recurse
 
           - template: templates\dotnet\run-stryker.yml@azTemplates
             parameters:
