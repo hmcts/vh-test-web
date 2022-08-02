@@ -91,6 +91,7 @@ stages:
               useNugetConfig: true
               unitTestProjectPath: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests"
               nugetConfigPath: "${{ variables.app_path }}" # Temp - Change To SDS Feed When Possible.
+              gitversionConfigPath: sds-git-version-config.yml
 
 
   #####################################################
