@@ -86,11 +86,6 @@ stages:
       - job: StrykerTests
         displayName: "Stryker Tests"
         steps:
-          - checkout: self
-          
-          - pwsh: |
-              Get-ChildItem "$(System.DefaultWorkingDirectory)" -Recurse
-
           - template: templates\dotnet\run-stryker.yml@azTemplates
             parameters:
               useNugetConfig: true
