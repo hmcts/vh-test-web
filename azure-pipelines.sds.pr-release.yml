@@ -85,16 +85,7 @@ stages:
 
       - job: StrykerTests
         displayName: "Stryker Tests"
-        steps:
-          - bash: |
-              if [ -f "$assemblyInfo" ]; then
-                echo "##[warning]Removing '$assemblyInfo' Due To Stryker Constraints."
-                rm -f $assemblyInfo
-              fi
-            displayName: Prepare Stryker Tests
-            env:
-             assemblyInfo: ${{ variables.app_path }}/${{ variables.app_path }}/AssemblyInfo.cs
-              
+        steps:              
           - template: templates\dotnet\run-stryker.yml@azTemplates
             parameters:
               useNugetConfig: true
