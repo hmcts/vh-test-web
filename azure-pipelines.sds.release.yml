@@ -1,7 +1,7 @@
 name: $(Date:yyyyMMddhhmm)-$(Rev:r)
 
 trigger:
-  - 'VIH-8970'
+  - 'master'
 
 pr: none
 
@@ -70,7 +70,7 @@ stages:
               repositoryName: ${{ variables.repositoryName }}
               imageName: "${{ variables.imageName }}"
               imageTags:
-                - ${{ if eq(variables['Build.SourceBranchName'], 'VIH-8970') }}:
+                - ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
                     - "${{ variables.stagingTagName }}"
                 - ? ${{ if contains(variables['Build.SourceBranch'], 'refs/heads/release') }}
                   : - "latest"
