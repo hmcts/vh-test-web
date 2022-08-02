@@ -6,7 +6,7 @@ resources:
       type: github
       name: hmcts/azure-devops-templates
       ref: master
-      endpoint: hmcts
+      endpoint: TEST
 
 trigger: none
 
@@ -90,9 +90,9 @@ stages:
 
           - template: templates\dotnet\run-stryker.yml@azTemplates
             parameters:
+              unitTestProjectPath: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests"
               useNugetConfig: true
               nugetConfigPath: ${{ variables.app_path }} # Temp - Change To SDS Feed When Possible.
-              unitTestProjectPath: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests"
 
 
   #####################################################
