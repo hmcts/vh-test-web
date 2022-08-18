@@ -25,21 +25,26 @@ java:
       secrets:
         - azuread--clientid
         - azuread--clientsecret
-        #- kinlyconfiguration--apisecret
-        #- kinlyconfiguration--callbacksecret
+        - kinlyconfiguration--apisecret
+        - kinlyconfiguration--callbacksecret
         - saucelabs--accesskey
         - saucelabs--realdeviceapikey
         - saucelabs--username
         - testing--testusernamestem
         - testing--testuserpassword
+    vh-test-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: services--testapiresourceid
   environment:
     ASPNETCORE_URLS: http://+:8080
     AZUREAD__POSTLOGOUTREDIRECTURI: https://vh-test-web.{{ .Values.global.environment }}.platform.hmcts.net/logout
     AZUREAD__REDIRECTURI: https://vh-test-web.{{ .Values.global.environment }}.platform.hmcts.net/home
-    DISABLEHTTPSREDIRECTION: true
-    MSDEPLOY_RENAME_LOCKED_FILES: 1
-    SERVICES__TESTAPIRESOURCEID: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__TESTAPIURL: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/
+    EJUDUSERNAMESTEM: judiciarystaging.onmicrosoft.com
     Logging__LogLevel__Default: debug
-    Logging__LogLevel__System: debug
     Logging__LogLevel__Microsoft: debug
+    Logging__LogLevel__System: debug
+    SERVICES__TESTAPIURL: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/

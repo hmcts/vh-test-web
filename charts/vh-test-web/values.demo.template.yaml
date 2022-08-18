@@ -5,3 +5,6 @@ java:
   releaseNameOverride: ${RELEASE_NAME}
   ingressClass: traefik-private
   disableTraefikTls: false
+  environment:
+    AZUREAD__POSTLOGOUTREDIRECTURI: https://${SERVICE_FQDN}/logout
+    AZUREAD__REDIRECTURI: https://${SERVICE_FQDN}/home
