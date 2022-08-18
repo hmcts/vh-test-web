@@ -15,16 +15,19 @@ namespace TestWeb
 
         private static IHostBuilder CreateWebHostBuilder(string[] args)
         {
-            const string vhInfraCore = "/mnt/secrets/vh-infra-core";
-            const string vhTestWeb = "/mnt/secrets/vh-test-web";
-            const string vhTestApi = "/mnt/secrets/vh-test-api";
+            var keyVaults=new List<string> (){
+                "vh-infra-core",
+                "vh-test-api",
+                "vh-test-web"
+            };
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((configBuilder) =>
                 {
-                    configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
-                    configBuilder.AddAksKeyVaultSecretProvider(vhTestWeb);
-                    configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
+                    foreach (var keyVault in keyVaults)
+                    {
+                        configBuilder.AddAksKeyVaultSecretProvider($"/mnt/secrets/{keyVault}");
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -41,9 +44,10 @@ namespace TestWeb
                     });
                     webBuilder.ConfigureAppConfiguration(configBuilder =>
                     {
-                        configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
-                        configBuilder.AddAksKeyVaultSecretProvider(vhTestWeb);
-                        configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
+                        foreach (var keyVault in keyVaults)
+                        {
+                            configBuilder.AddAksKeyVaultSecretProvider($"/mnt/secrets/{keyVault}");
+                        }
                     });
                 });
         }
