@@ -17,12 +17,14 @@ namespace TestWeb
         {
             const string vhInfraCore = "/mnt/secrets/vh-infra-core";
             const string vhTestWeb = "/mnt/secrets/vh-test-web";
+            const string vhTestApi = "/mnt/secrets/vh-test-api";
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((configBuilder) =>
                 {
                     configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
                     configBuilder.AddAksKeyVaultSecretProvider(vhTestWeb);
+                    configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -41,6 +43,7 @@ namespace TestWeb
                     {
                         configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
                         configBuilder.AddAksKeyVaultSecretProvider(vhTestWeb);
+                        configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
                     });
                 });
         }
