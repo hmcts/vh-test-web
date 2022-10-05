@@ -1,0 +1,50 @@
+---
+java:
+  image: "sdshmctspublic.azurecr.io/vh/test-web:latest"
+  applicationPort: 8080
+  replicas: 1
+  ingressHost: vh-test-web.{{ .Values.global.environment }}.platform.hmcts.net
+  releaseNameOverride: vh-test-web
+  readinessPath: /healthcheck/health
+  livenessPath: /healthcheck/health
+  livenessDelay: 360
+  livenessPeriod: 120
+  aadIdentityName: vh-aad-identity
+  keyVaults:
+    vh-infra-core:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - applicationinsights--instrumentationkey
+        - azuread--tenantid
+    vh-test-web:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - azuread--clientid
+        - azuread--clientsecret
+        - kinlyconfiguration--apisecret
+        - kinlyconfiguration--callbacksecret
+        - saucelabs--accesskey
+        - saucelabs--realdeviceapikey
+        - saucelabs--username
+        - testing--testusernamestem
+        - testing--testuserpassword
+    vh-test-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: services--testapiresourceid
+  environment:
+    ASPNETCORE_URLS: http://+:8080
+    AZUREAD__POSTLOGOUTREDIRECTURI: https://vh-test-web.{{ .Values.global.environment }}.platform.hmcts.net/logout
+    AZUREAD__REDIRECTURI: https://vh-test-web.{{ .Values.global.environment }}.platform.hmcts.net/home
+    EJUDUSERNAMESTEM: judiciarystaging.onmicrosoft.com
+    Logging__LogLevel__Default: debug
+    Logging__LogLevel__Microsoft: debug
+    Logging__LogLevel__System: debug
+    SERVICES__TESTAPIURL: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/

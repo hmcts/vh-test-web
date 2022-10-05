@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using VH.Core.Configuration;
+using System.Collections.Generic;
 
 namespace TestWeb
 {
@@ -15,14 +16,19 @@ namespace TestWeb
 
         private static IHostBuilder CreateWebHostBuilder(string[] args)
         {
-            const string vhInfraCore = "/mnt/secrets/vh-infra-core";
-            const string vhTestWeb = "/mnt/secrets/vh-test-web";
+            var keyVaults=new List<string> (){
+                "vh-infra-core",
+                "vh-test-api",
+                "vh-test-web"
+            };
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((configBuilder) =>
                 {
-                    configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
-                    configBuilder.AddAksKeyVaultSecretProvider(vhTestWeb);
+                    foreach (var keyVault in keyVaults)
+                    {
+                        configBuilder.AddAksKeyVaultSecretProvider($"/mnt/secrets/{keyVault}");
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -39,8 +45,10 @@ namespace TestWeb
                     });
                     webBuilder.ConfigureAppConfiguration(configBuilder =>
                     {
-                        configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
-                        configBuilder.AddAksKeyVaultSecretProvider(vhTestWeb);
+                        foreach (var keyVault in keyVaults)
+                        {
+                            configBuilder.AddAksKeyVaultSecretProvider($"/mnt/secrets/{keyVault}");
+                        }
                     });
                 });
         }
