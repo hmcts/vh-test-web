@@ -45,7 +45,6 @@ stages:
         : - template: variables/production.yaml
       - ${{ else }}:
           - template: variables/staging.yaml
-
       - template: variables/shared.yaml
     jobs:
       - job: Docker_Build
