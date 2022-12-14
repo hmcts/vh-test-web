@@ -19,6 +19,9 @@ parameters:
     displayName: Pull Request Number 
     type: string
 
+pool: 
+  vmImage: ubuntu-22.04
+
 stages:
   - stage: uninstall_dev
     displayName: Uninstall Dev Helm and DNS
